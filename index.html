@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>Quiz Platform</title>
+<title>Quiz</title>
 
 <style>
 body{
   font-family: Arial;
   text-align:center;
-  background:#f5f0ff;
+  background:#f3e5f5;
   padding:20px;
 }
 
 h1{
-  color:#6b4bd1;
+  color:#6a1b9a;
 }
 
 button{
@@ -23,199 +23,295 @@ button{
   padding:12px;
   border:none;
   border-radius:15px;
-  background:#f7d9e6;
+  background:#e1bee7;
   cursor:pointer;
 }
 
 button:hover{
-  background:#f3c6da;
+  background:#ce93d8;
 }
 
-.menu-btn{
-  background:#d8ccff;
-  font-size:18px;
-}
+.correct{color:green;font-weight:bold;}
+.wrong{color:red;font-weight:bold;}
 
-.correct{
-  color:green;
-  font-weight:bold;
-}
-
-.wrong{
-  color:red;
-  font-weight:bold;
+#nextBtn{
+  display:none;
+  padding:10px 20px;
+  border:none;
+  border-radius:20px;
+  background:#8e24aa;
+  color:white;
 }
 </style>
 </head>
 
 <body>
 
-<h1>Quiz Platform</h1>
-
-<div id="menu">
-  <button class="menu-btn" onclick="start('comm')">Communication Concept</button>
-  <button class="menu-btn" onclick="start('path')">Pathology</button>
-  <button class="menu-btn" onclick="start('law')">حقوق الملكية الفكرية</button>
-</div>
+<h1>Quiz</h1>
 
 <div id="quiz"></div>
-<div id="feedback"></div>
+<div id="result"></div>
 
-<button id="next" style="display:none;" onclick="nextQ()">Next</button>
-
-<h2 id="result"></h2>
+<button id="nextBtn" onclick="nextQ()">Next</button>
 
 <script>
 
-let questions=[];
-let index=0;
-let score=0;
-
-function start(subject){
-
-  if(subject==="comm"){
-    questions=comm;
-  }
-
-  if(subject==="path"){
-    questions=path;
-  }
-
-  if(subject==="law"){
-    questions=law;
-  }
-
-  document.getElementById("menu").style.display="none";
-  index=0;
-  score=0;
-  load();
+/* الأسئلة بدون أي تعديل */
+let questions = [
+{
+q:"1- من خصائص العنصر المعنوي لحق المؤلف",
+o:[
+"أ عدم قابليته للتنازل عنه أو التعامل به",
+"ب قابليته للتنازل عنه والتعامل به",
+"ج يسقط بالتقادم",
+"د قابليته للحجز"
+],
+a:0
+},
+{
+q:"2- حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان وهذا ما أُطلق عليه بموجب اتفاقية WIPO",
+o:[
+"A المصنف أو المؤلف",
+"B المؤلف أو المبدع أو المبتكر",
+"C السلطة الأبوية",
+"D الاستغلال والتصرف"
+],
+a:1
+},
+{
+q:"3- من أشكال التنازل عن العنصر المعنوي",
+o:[
+"أ البيع، الهبة، التبرع",
+"ب المصنف أو المؤلف",
+"ج التبرع وأخذ قيمته",
+"د يسقط بالتقادم"
+],
+a:0
+},
+{
+q:"4- إذا تنازل أو باع الفرد المؤلف أو المنتج الخاص به هل ينتقل العنصر المعنوي",
+o:[
+"أ لا يستتبع تصرف المؤلف في ملكية نسخته المادية من مصنفه تنازله عن أي من حقوق المؤلف",
+"ب يستتبع تصرف المؤلف في ملكية نسخته المادية من مصنفه تنازله عن أي من حقوق المؤلف",
+"ج يتصرف المؤلف في ملكية نسخته المادية من مصنفه",
+"د البيع"
+],
+a:0
+},
+{
+q:"5- تنازل المؤلف عن حقوقه المالية أو أي جزء منها لا يستتبع ذلك",
+o:[
+"أ الحقوق المعنوية",
+"ب الهبة",
+"ج التبرع",
+"د البيع"
+],
+a:0
+},
+{
+q:"6- الحقوق اللصيقة بشخصية الإنسان ليست حقوقًا مالية إنما هي",
+o:[
+"أ فرع من الحقوق العامة للأفراد",
+"ب فرع من فروع المعرفة",
+"ج البطلان المطلق للكافة",
+"د الحق المالي وحق البيع"
+],
+a:0
+},
+{
+q:"7- الحق الذي يقبل الحجز هو",
+o:[
+"أ الحق المعنوي",
+"ب الحق المالي وهو العنصر المادي للحق الفكري",
+"ج الحق المعنوي والحق المالي معًا",
+"د الحق المعنوي"
+],
+a:1
+},
+{
+q:"8- العنصر المادي لا يخرج إلى حيز الوجود إلا",
+o:[
+"أ بالحجز المسبق على الحق المعنوي",
+"ب بالسقوط بالتقادم للحق المعنوي",
+"ج بنشر المصنف بإذن من مالكه",
+"د باطلًا"
+],
+a:2
+},
+{
+q:"9- الحق عند تقسيم الحقوق هو",
+o:[
+"أ سلطة واختصاص تمكن صاحبها من منفعة أو مصلحة",
+"ب نسبة المصنف إلى الغير",
+"ج عدم استعمال الاسم المستعار",
+"د المساس بالمصنف"
+],
+a:0
+},
+{
+q:"10- يتمتع المؤلف بالحقوق المعنوية التالية",
+o:[
+"أ منع أي تحريف أو تشويه أو أي تعديل لمصنفه",
+"ب ضرورة الإفصاح عن هويته أو أن لا يستعمل اسمًا مستعارًا",
+"ج نسبة المصنف إلى نفسه بالطريقة غير المألوفة",
+"د نسبة المصنف للغير"
+],
+a:0
+},
+{
+q:"11- للمؤلف وحده دون غيره الحق في",
+o:[
+"أ عدم إتاحة المصنف للجمهور لأول مرة من عدمه",
+"ب له مطلق الحرية في إظهار مصنفه للكافة ونشره دون أي إلزام عليه يفرض في ذلك",
+"ج إتاحة المصنف لغير الجمهور ضمن شروط قاسية",
+"د ضرورة عدم الإفصاح"
+],
+a:1
+},
+{
+q:"12- للمؤلف اختيار وتحديد الطريقة والوسيلة التي يقوم فيها بإعلان مصنفه من خلال",
+o:[
+"أ النشر والطباعة أو التصوير",
+"ب التسجيل الصوتي غير الواضح",
+"ج المرئي أو غير البث الإذاعي",
+"د للمؤلف وحده البث الإذاعي"
+],
+a:0
+},
+{
+q:"13- من حق المؤلف نسبة المصنف إلى نفسه بالطريقة المألوفة حيث يتم",
+o:[
+"أ تدوين اسم المؤلف على إنتاجه بالطريقة التي يراها مناسبة",
+"ب يجوز لورثة المؤلف أن لا ينسبوا مصنف مورثهم إلى شخص آخر",
+"ج الطلب من غير القضاء التنفيذ عن طريق التعويض",
+"د الطلب من المؤلف التنفيذ دون غيره"
+],
+a:0
+},
+{
+q:"14- هل يجوز للمؤلف أن يمتنع عن نشر مصنفه وفقًا للاتفاق",
+o:[
+"أ لا يجبر الدائن شركة النشر المؤلف أن يقبل تنفيذ العمل",
+"ب يجوز للدائن شركة النشر أن يجبر المؤلف أن لا يقبل تنفيذ العمل من شخص آخر",
+"ج لا يجوز للدائن أن يجبر المؤلف",
+"د الطلب من المؤلف التنفيذ"
+],
+a:0
+},
+{
+q:"15- يحق للمؤلف أن يبقي الرابطة بينه وبين مؤلفه مجهولة بأن",
+o:[
+"أ أن ينشره دون ذكر اسمه عليه",
+"ب نشره دون اسم مستعار معين ويجب تحديد الاسم",
+"ج الابتعاد عن التدقيق على الاسم",
+"د الترجمة للمصنف"
+],
+a:0
+},
+{
+q:"16- هل تعتبر الترجمة للمصنف تعديلًا للنص وبالتالي اعتداء",
+o:[
+"أ المنطق القانوني يقول بأنه لا تعتبر الترجمة اعتداء إذا قام المترجم بالإشارة إلى مواطن التغيير أو الحذف بالنص",
+"ب الترجمة اعتداء",
+"ج ليس واجب أخذ الإذن من المؤلف للترجمة",
+"د اعتداء يجيز للمؤلف عدم المساس بالمترجم"
+],
+a:0
+},
+{
+q:"17- إذا كان بالترجمة إساءة إلى سمعة المؤلف ومكانته فيعتبر ذلك",
+o:[
+"أ ليس اعتداء على حقوق المؤلف",
+"ب اعتداء يجيز للمؤلف رفعه عن طريق القضاء",
+"ج التغاضي عن ذلك",
+"د نسبة المصنف للمترجم"
+],
+a:1
+},
+{
+q:"18- بموجب السلطة المعنوية من حق المؤلف أن",
+o:[
+"أ يمنع أي عمل يتعلق بمصنفه فيه إضرار بشرفه أو سمعته",
+"ب ليس واجب أخذ الإذن من المؤلف",
+"ج تداول المصنف وطباعته من غير إذن المؤلف",
+"د التغاضي عن ذلك"
+],
+a:0
+},
+{
+q:"19- من حقوق المؤلف المعنوية ما يلي",
+o:[
+"أ حظر طرح مصنفه للتداول",
+"ب عدم سحب مصنفه الذي تم تداوله",
+"ج البيع",
+"د لا يحظر"
+],
+a:1
+},
+{
+q:"20- إذا لم يكن للمؤلف ورثة تباشر الحقوق على المصنف من قبل",
+o:[
+"أ القاضي",
+"ب الهبة للغير",
+"ج البيع للغير",
+"د وزارة الثقافة"
+],
+a:3
 }
 
-function load(){
+];
 
-  let q=questions[index];
+let index = 0;
+let score = 0;
+let answered = false;
 
-  document.getElementById("quiz").innerHTML=`
-    <h3>${q.q}</h3>
-    ${q.options.map((o,i)=>`
-      <button onclick="check(${i})">${o}</button>
-    `).join("")}
-  `;
+function loadQ(){
+  answered = false;
 
-  document.getElementById("feedback").innerHTML="";
-  document.getElementById("next").style.display="none";
+  let q = questions[index];
+
+  document.getElementById("quiz").innerHTML =
+  `<h3>${q.q}</h3>` +
+  q.o.map((x,i)=>
+    `<button onclick="check(${i})">${x}</button>`
+  ).join("");
+
+  document.getElementById("result").innerHTML="";
+  document.getElementById("nextBtn").style.display="none";
 }
 
 function check(i){
+  if(answered) return;
+  answered = true;
 
-  let q=questions[index];
+  let q = questions[index];
+  let buttons = document.querySelectorAll("button");
 
-  let btns=document.querySelectorAll("button");
-  btns.forEach(b=>{
-    if(b.id!=="next") b.disabled=true;
-  });
-
-  if(i===q.answer){
+  if(i === q.a){
+    buttons[i].classList.add("correct");
+    document.getElementById("result").innerHTML="Correct";
     score++;
-    document.getElementById("feedback").innerHTML=
-    "<div class='correct'>Correct 💚</div>";
-  }else{
-    document.getElementById("feedback").innerHTML=
-    "<div class='wrong'>Wrong 💔</div><div class='correct'>Correct Answer: "+q.options[q.answer]+"</div>";
+  } else {
+    buttons[i].classList.add("wrong");
+    buttons[q.a].classList.add("correct");
+    document.getElementById("result").innerHTML="Wrong";
   }
 
-  document.getElementById("next").style.display="block";
+  document.getElementById("nextBtn").style.display="block";
 }
 
 function nextQ(){
   index++;
-
-  if(index<questions.length){
-    load();
-  }else{
-    document.getElementById("quiz").innerHTML="";
-    document.getElementById("feedback").innerHTML="";
-    document.getElementById("next").style.display="none";
-
-    document.getElementById("result").innerHTML=
-    "Score: "+score+" / "+questions.length;
+  if(index < questions.length){
+    loadQ();
+  } else {
+    document.getElementById("quiz").innerHTML =
+      `<h2>Score ${score}/20</h2>`;
+    document.getElementById("nextBtn").style.display="none";
   }
 }
 
-/* ================= COMMUNICATION ================= */
-const comm=[
-{q:"Therapeutic communication is best defined as",options:["Casual talk","Professional communication","Orders","Chat"],answer:1},
-{q:"Silence helps patient to",options:["Ignore","Think","End","Shout"],answer:1},
-{q:"Clarification means",options:["Confuse","Check understanding","End","Ignore"],answer:1},
-{q:"Communication is",options:["One way","Two way","None","Written"],answer:1},
-{q:"Handover means",options:["Money","Care transfer","Food","Paper"],answer:1},
-{q:"SBAR stands for",options:["Correct model","Wrong","None","Fake"],answer:0},
-{q:"Noise affects",options:["Handover","Healing","Drugs","None"],answer:0},
-{q:"EMD role",options:["Dispatch","Surgery","Driving","None"],answer:0},
-{q:"Therapeutic focus",options:["Patient","Doctor","System","None"],answer:0},
-{q:"Good communication leads to",options:["Errors","Safety","Confusion","Delay"],answer:1},
-
-{q:"Exploring means",options:["Ignore","Deepen","Stop","End"],answer:1},
-{q:"Reflecting focuses on",options:["Feelings","Tools","Money","None"],answer:0},
-{q:"Functional touch is",options:["Clinical","Social","Hobby","None"],answer:0},
-{q:"Bad communication leads to",options:["Errors","Safety","Fast care","None"],answer:0},
-{q:"Patient interview is",options:["Important","Useless","None","Extra"],answer:0},
-{q:"Open question example",options:["How are you?","Yes/No","Age","Stop"],answer:0},
-{q:"Why questions are avoided because",options:["Accusation","Clear","Good","None"],answer:0},
-{q:"Rapport means",options:["Trust","Money","Work","None"],answer:0},
-{q:"Interview starts with",options:["Assessment","Greeting","Surgery","None"],answer:1},
-{q:"Goal of communication",options:["Understanding","Confusion","Delay","None"],answer:0}
-];
-
-/* ================= PATHOLOGY ================= */
-const path=[
-{q:"Body water %",options:["40","50","60","70"],answer:2},
-{q:"Non pitting edema",options:["Heart","Kidney","Lymph","Liver"],answer:2},
-{q:"Most thrombus",options:["Arterial","Venous","Heart","None"],answer:1},
-{q:"Shock in trauma",options:["Hypovolemic","Cardiac","Septic","None"],answer:0},
-{q:"Neoplasm is",options:["Tumor","Normal","Infection","None"],answer:0},
-{q:"Metastasis",options:["Local","Spread","Heal","None"],answer:1},
-{q:"Benign tumor",options:["Well","Bad","Fast","None"],answer:0},
-{q:"Malignant",options:["Invasive","Safe","Slow","None"],answer:0},
-{q:"Gold standard",options:["H&E","Xray","CT","MRI"],answer:0},
-{q:"Most sarcoma",options:["Lipo","Bone","Skin","None"],answer:0},
-
-{q:"Amyloidosis organ",options:["Kidney","Skin","Bone","Lung"],answer:0},
-{q:"Hyperemia exercise",options:["Yes","No","Maybe","None"],answer:0},
-{q:"Thrombus bacteria",options:["Septic","Clean","Red","None"],answer:0},
-{q:"Benign feature",options:["Capsule","Invasion","Spread","None"],answer:0},
-{q:"Carcinoma origin",options:["Epithelial","Muscle","Bone","None"],answer:0},
-{q:"Sarcoma origin",options:["Mesenchymal","Skin","Brain","None"],answer:0},
-{q:"Tumor prognosis",options:["Type","Hair","Age","None"],answer:0},
-{q:"Bleeding shock",options:["Hypovolemic","Neurogenic","All","None"],answer:0},
-{q:"Benign danger",options:["Brain","Skin","Hand","None"],answer:0},
-{q:"Diagnosis",options:["Histology","Guess","Talk","None"],answer:0}
-];
-
-/* ================= LAW ================= */
-const law=[
-{q:"حق المؤلف",options:["معنوي","مالي","بيع","شراء"],answer:0},
-{q:"WIPO meaning",options:["مبدع","شركة","دولة","لا"],answer:0},
-{q:"تنازل",options:["بيع هبة","أكل","نوم","لا"],answer:0},
-{q:"البيع ينقل",options:["لا","نعم","جزئيا","كل"],answer:0},
-{q:"الحق المعنوي",options:["لا يسقط","يسقط","يباع","يشترى"],answer:0},
-{q:"الحجز",options:["مالي","معنوي","كلا","لا"],answer:0},
-{q:"العنصر المادي",options:["نشر","حجز","بيع","لا"],answer:0},
-{q:"الحق هو",options:["سلطة","اسم","شكل","لا"],answer:0},
-{q:"التعديل ممنوع",options:["نعم","لا","أحيانا","لا"],answer:0},
-{q:"النشر للمؤلف",options:["حر","ممنوع","إجباري","لا"],answer:0},
-
-{q:"اسم المؤلف",options:["يوضع","لا","يمنع","يحذف"],answer:0},
-{q:"الترجمة",options:["بإذن","بدون","دائما","لا"],answer:0},
-{q:"الإساءة",options:["اعتداء","عادي","لا","مسموح"],answer:0},
-{q:"الحقوق",options:["معنوية","مالية","بيع","شراء"],answer:0},
-{q:"إخفاء الاسم",options:["مسموح","ممنوع","لا","أحيانا"],answer:0},
-{q:"التداول",options:["يمنع الضرر","يسمح","بيع","شراء"],answer:0},
-{q:"السمعة",options:["محمي","غير","لا","أحيانا"],answer:0},
-{q:"بدون ورثة",options:["وزارة الثقافة","بيع","هبة","لا"],answer:0},
-{q:"التصرف",options:["مقيد","حر","بيع","شراء"],answer:0},
-{q:"الحق",options:["حماية","مال","سلعة","لا"],answer:0}
-];
+loadQ();
 
 </script>
 
