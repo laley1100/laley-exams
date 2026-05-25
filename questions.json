@@ -1,0 +1,24 @@
+[
+  {
+    "subject": "Math Quiz",
+    "q_en": "What is 2 + 2?",
+    "q_ar": "ما هو 2 + 2؟",
+    "options": [
+      { "en": "3", "ar": "٣" },
+      { "en": "4", "ar": "٤" },
+      { "en": "5", "ar": "٥" }
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "Science Quiz",
+    "q_en": "Water chemical formula?",
+    "q_ar": "ما هو رمز الماء الكيميائي؟",
+    "options": [
+      { "en": "CO2", "ar": "ثاني أكسيد الكربون" },
+      { "en": "H2O", "ar": "ماء" },
+      { "en": "O2", "ar": "أكسجين" }
+    ],
+    "answer": 1
+  }
+]
