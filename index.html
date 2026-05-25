@@ -1,170 +1,239 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Quiz Platform</title>
 
 <style>
 body{
-font-family:Arial;
-text-align:center;
-background:linear-gradient(135deg,#f3e8ff,#fde2f3);
-padding:20px;
+  font-family: Arial;
+  text-align:center;
+  background:#f5f0ff;
+  padding:20px;
 }
 
 h1{
-color:#7b2cbf;
+  color:#7a4ccf;
 }
 
-.menu button{
-padding:12px;
-margin:10px;
-width:80%;
-border:none;
-border-radius:20px;
-background:#e0c3fc;
-cursor:pointer;
-font-size:16px;
+.subject-btn{
+  display:block;
+  width:80%;
+  margin:10px auto;
+  padding:15px;
+  border:none;
+  border-radius:20px;
+  background:#e8ddff;
+  cursor:pointer;
+  font-size:18px;
+  transition:0.3s;
 }
 
-.quiz button{
-padding:10px;
-margin:8px;
-width:90%;
-border:none;
-border-radius:15px;
-background:#f2d7ff;
-cursor:pointer;
+.subject-btn:hover{
+  background:#d6c7ff;
 }
 
-.correct{background:lightgreen !important;}
-.wrong{background:#ffb3b3 !important;}
+button{
+  padding:12px;
+  margin:8px auto;
+  width:80%;
+  border-radius:15px;
+  border:none;
+  display:block;
+  cursor:pointer;
+  background:#ffe6f0;
+}
+
+button:hover{
+  background:#ffd1e6;
+}
+
+.correct{color:green;font-weight:bold;}
+.wrong{color:red;font-weight:bold;}
+
+.cute{
+  background:#cdb7ff;
+  color:white;
+  border-radius:25px;
+}
 </style>
 </head>
 
 <body>
 
-<h1>Quiz Platform 💗</h1>
+<h1>Quiz Platform ♡</h1>
 
-<div class="menu" id="menu">
-<button onclick="start(0)">حقوق الملكية الفكرية 💗</button>
-<button onclick="start(1)">Communication Concept 💗</button>
-<button onclick="start(2)">Pathology 💗</button>
+<div id="menu">
+  <button class="subject-btn" onclick="selectSubject('communication')">Communication Concept</button>
+  <button class="subject-btn" onclick="selectSubject('pathology')">Pathology</button>
+  <button class="subject-btn" onclick="selectSubject('law')">حقوق الملكية الفكرية</button>
 </div>
 
-<div id="quiz" class="quiz"></div>
+<div id="quiz"></div>
+<div id="feedback"></div>
+
+<button id="nextBtn" class="cute" onclick="nextQ()" style="display:none;">Next</button>
+
+<h2 id="final"></h2>
 
 <script>
 
-/* 🎵 أصوات */
-const clickSound = new Audio("https://www.soundjay.com/buttons/sounds/button-16.mp3");
-const wrongSound = new Audio("https://www.soundjay.com/buttons/sounds/button-10.mp3");
-const correctSound = new Audio("https://www.soundjay.com/buttons/sounds/button-4.mp3");
+function playSound(){
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const osc = ctx.createOscillator();
+  osc.type="sine";
+  osc.frequency.value=600;
+  osc.connect(ctx.destination);
+  osc.start();
+  setTimeout(()=>osc.stop(),150);
+}
 
+let questions=[];
 let current=0;
 let score=0;
-let answered=false;
-let bank=[];
 
-/* ⚖️ المادة 1 حقوق الملكية (20 سؤال) */
-const rights=[
-{
-q:"1- من خصائص العنصر المعنوي لحق المؤلف:\nأ- عدم قابليته للتنازل عنه أو التعامل به\nب- قابليته للتنازل عنه والتعامل به\nج- يسقط بالتقادم\nد- قابليته للحجز",
-a:0
-},
-{
-q:"2- حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان وهذا ما أُطلق عليه بموجب اتفاقية WIPO:\nأ- المصنف أو المؤلف\nب- المؤلف أو المبدع أو المبتكر\nج- السلطة الأبوية\nد- الاستغلال والتصرف",
-a:1
-},
-{
-q:"3- من أشكال التنازل عن العنصر المعنوي:\nأ- البيع، الهبة، التبرع\nب- المصنف أو المؤلف\nج- التبرع وأخذ قيمته\nد- يسقط بالتقادم",
-a:0
-},
-{
-q:"4- إذا تنازل أو باع الفرد المؤلف أو المنتج الخاص به هل ينتقل العنصر المعنوي؟\nأ- لا\nب- نعم\nج- جزئي\nد- غير واضح",
-a:0
-},
-{
-q:"5- تنازل المؤلف عن حقوقه المالية لا يستتبع ذلك:\nأ- الحقوق المعنوية\nب- الهبة\nج- التبرع\nد- البيع",
-a:0
+function selectSubject(sub){
+  playSound();
+
+  if(sub==="communication"){
+    questions = communication;
+  }
+  if(sub==="pathology"){
+    questions = pathology;
+  }
+  if(sub==="law"){
+    questions = law;
+  }
+
+  document.getElementById("menu").style.display="none";
+  document.getElementById("final").innerHTML="";
+  current=0;
+  score=0;
+  loadQ();
 }
+
+function loadQ(){
+  const q = questions[current];
+
+  document.getElementById("quiz").innerHTML = `
+    <h3>${q.q}</h3>
+    ${q.options.map((o,i)=>`
+      <button onclick="check(${i})">${o}</button>
+    `).join("")}
+  `;
+
+  document.getElementById("feedback").innerHTML="";
+  document.getElementById("nextBtn").style.display="none";
+}
+
+function check(i){
+  const q = questions[current];
+
+  document.querySelectorAll("button").forEach(b=>{
+    if(b.id!=="nextBtn") b.disabled=true;
+  });
+
+  if(i===q.answer){
+    score++;
+    document.getElementById("feedback").innerHTML=
+    "<div class='correct'>Correct 💚</div>";
+  }else{
+    document.getElementById("feedback").innerHTML=
+    "<div class='wrong'>Wrong 💔</div><div class='correct'>Correct: "+q.options[q.answer]+"</div>";
+  }
+
+  document.getElementById("nextBtn").style.display="block";
+}
+
+function nextQ(){
+  current++;
+  if(current<questions.length){
+    loadQ();
+  }else{
+    document.getElementById("quiz").innerHTML="";
+    document.getElementById("feedback").innerHTML="";
+    document.getElementById("final").innerHTML=
+    "Score: "+score+" / "+questions.length;
+  }
+}
+
+/* =========================
+   COMMUNICATION (20)
+========================= */
+const communication = [
+{q:"Therapeutic communication is best defined as",options:["Casual conversation","Professional planned communication","Giving orders","Calming only"],answer:1},
+{q:"Shared understanding helps to",options:["Achieve goals","Waste time","Reduce care","Limit interaction"],answer:0},
+{q:"Silence allows patient to",options:["Feel ignored","Think and reflect","Stop talking","End interview"],answer:1},
+{q:"Exploring means",options:["Changing topic","Deepening discussion","Giving orders","Summarizing only"],answer:1},
+{q:"Clarification is used to",options:["Check understanding","Confuse patient","End talk","Give medicine"],answer:0},
+{q:"Example of clarification",options:["Why did you do that?","Tell me again","What do you mean?","You are wrong"],answer:2},
+{q:"Reflecting focuses on",options:["Facts only","Feelings","Doctor opinion","Paperwork"],answer:1},
+{q:"Functional touch is for",options:["Clinical care","Friendship","Greeting","Emotion"],answer:0},
+{q:"Age and language should be considered in",options:["Procedure explanation","Ignoring patient","Writing notes","Ending care"],answer:0},
+{q:"Therapeutic impasse means",options:["Good communication","Block in relationship","Fast care","No issues"],answer:1},
+{q:"Communication failure leads to",options:["Better teamwork","Adverse events","Faster care","Less work"],answer:1},
+{q:"Communication is",options:["One way","Two way","Written only","Medical only"],answer:1},
+{q:"Noise affects",options:["Handover","Healing","Medication","Xray"],answer:0},
+{q:"Handover means transfer of",options:["Money","Care responsibility","Equipment","Files"],answer:1},
+{q:"Bad effect of handover is",options:["Safety","Error increase","Clear info","Teamwork"],answer:1},
+{q:"SBAR stands for",options:["Situation Background Assessment Recommendation","Same","Wrong","None"],answer:0},
+{q:"IMIST-AMBO excludes",options:["Allergies","Injury","Financial status","Treatment"],answer:2},
+{q:"SBAR limitation",options:["Too simple","No prehospital detail","Perfect","Fast"],answer:1},
+{q:"EMD role is",options:["Drive ambulance","Give instructions","Do surgery","Billing"],answer:1},
+{q:"Communication purpose",options:["Entertainment","Coordination","Delay","Ignore"],answer:1}
 ];
 
-/* 🧠 المادة 2 Communication */
-const comm=[
-{
-q:"1- Therapeutic communication is:\nأ- casual talk\nب- professional planned act\nج- medical orders\nد- comfort talk",
-a:1
-},
-{
-q:"2- Silence allows patient to:\nأ- ignore\nب- think\nج- end talk\nد- confuse",
-a:1
-}
+/* =========================
+   PATHOLOGY (20)
+========================= */
+const pathology = [
+{q:"Water percentage in body",options:["40%","50%","60%","70%"],answer:2},
+{q:"Non-pitting edema in",options:["Cardiac","Renal","Nutritional","Lymphatic"],answer:3},
+{q:"Physiological hyperemia",options:["Inflammation","Exercise","CHF","Obstruction"],answer:1},
+{q:"Most common thrombus",options:["Arterial","Capillary","Venous","Cardiac"],answer:2},
+{q:"Pyogenic thrombus",options:["Aseptic","Red","Septic","Mixed"],answer:2},
+{q:"Bleeding shock type",options:["Cardiogenic","Distributive","Hypovolemic","Obstructive"],answer:2},
+{q:"Amyloidosis organ",options:["Liver","Spleen","Heart","Kidney"],answer:3},
+{q:"Neoplasm is",options:["Growth","Inflammation","Cancer mass","Normal tissue"],answer:2},
+{q:"Benign tumor",options:["Metastasis","Rapid growth","Well differentiated","Invasive"],answer:2},
+{q:"Metastasis means",options:["Local spread","Distant spread","Healing","Stop growth"],answer:1},
+{q:"Benign tumor feature",options:["Capsulated","Invasive","Irregular","Bleeding"],answer:0},
+{q:"Malignant surface",options:["Smooth","Ulcerative","Soft","Small"],answer:1},
+{q:"Benign harmful when",options:["Brain","Small","Capsule","Slow"],answer:0},
+{q:"Carcinoma vs sarcoma",options:["Same","Different origin","Same tissue","None"],answer:1},
+{q:"Prognosis depends on",options:["Hair","Blood type","Radiosensitivity","Age only"],answer:2},
+{q:"Most common sarcoma",options:["Fibro","Lipo","Leio","Angio"],answer:1},
+{q:"Leiomyosarcoma sign",options:["Smooth muscle","Fat cells","Blood vessels","Skin"],answer:0},
+{q:"Colonic adenoma risk",options:["Cancer","Cold","Healing","No risk"],answer:0},
+{q:"Gold standard diagnosis",options:["MRI","CT","H&E histology","Xray"],answer:2},
+{q:"Shock in trauma",options:["Hypovolemic","Septic","Neurogenic","Cardiac"],answer:0}
 ];
 
-/* 🧬 المادة 3 Pathology */
-const path=[
-{
-q:"1- Body water percentage is:\nأ- 40%\nب- 50%\nج- 60%\nد- 70%",
-a:2
-},
-{
-q:"2- Most common thrombus:\nأ- arterial\nب- venous\nج- capillary\nد- cardiac",
-a:1
-}
+/* =========================
+   LAW (20) - as provided
+========================= */
+const law = [
+{q:"من خصائص العنصر المعنوي لحق المؤلف",options:["عدم قابليته للتنازل","قابليته للتنازل","يسقط بالتقادم","قابليته للحجز"],answer:0},
+{q:"حق المؤلف لصيق بالشخصية حسب WIPO",options:["المصنف","المبدع","السلطة الأبوية","الاستغلال"],answer:1},
+{q:"من أشكال التنازل",options:["بيع هبة تبرع","مصنف","تبرع فقط","تقادم"],answer:0},
+{q:"هل ينتقل العنصر المعنوي عند البيع",options:["لا","نعم","جزئيا","بيع"],answer:0},
+{q:"تنازل مالي لا يستتبع",options:["حقوق معنوية","هبة","تبرع","بيع"],answer:0},
+{q:"الحقوق اللصيقة ليست مالية هي",options:["حقوق عامة","معرفة","بطلان","بيع"],answer:0},
+{q:"الحق الذي يقبل الحجز",options:["معنوي","مالي","كلاهما","لا شيء"],answer:1},
+{q:"العنصر المادي يظهر فقط",options:["حجز","تقادم","نشر بإذن","بطلان"],answer:2},
+{q:"الحق هو",options:["سلطة منفعة","نسبة","اسم","مساس"],answer:0},
+{q:"حقوق المؤلف المعنوية",options:["منع التشويه","إخفاء الهوية","نسبة خاطئة","غير ذلك"],answer:0},
+{q:"للمؤلف الحق في",options:["نشر بحرية","منع نشر","إجبار نشر","لا شيء"],answer:0},
+{q:"اختيار طريقة النشر",options:["طباعة","صوت مشوش","بث فقط","إذاعة فقط"],answer:0},
+{q:"نسبة المصنف تكون",options:["اسم المؤلف","غيره","تعويض","تنفيذ"],answer:0},
+{q:"هل يمكن منع النشر",options:["نعم","لا","أحيانا","غير واضح"],answer:0},
+{q:"الإخفاء يكون عبر",options:["بدون اسم","اسم إلزامي","منع","ترجمة"],answer:0},
+{q:"الترجمة تعتبر",options:["مسموحة بشروط","اعتداء","غير مهمة","إجبار"],answer:0},
+{q:"الإساءة بالترجمة",options:["ليس اعتداء","اعتداء","تجاهل","نسبة"],answer:1},
+{q:"الحق المعنوي يسمح",options:["منع الإضرار","بيع","نسخ","لا شيء"],answer:0},
+{q:"من حقوق المؤلف",options:["حظر التداول","تركه","بيع","لا شيء"],answer:0},
+{q:"بدون ورثة الحقوق تنتقل إلى",options:["وزارة الثقافة","قاضي","بيع","هبة"],answer:0}
 ];
-
-function start(i){
-clickSound.play();
-document.getElementById("menu").style.display="none";
-current=0;
-score=0;
-
-if(i===0) bank=rights;
-if(i===1) bank=comm;
-if(i===2) bank=path;
-
-show();
-}
-
-function show(){
-answered=false;
-let q=bank[current];
-
-document.getElementById("quiz").innerHTML=
-`<h2>${q.q}</h2>`+
-["A","B","C","D"].map((x,i)=>
-`<button onclick="check(${i},this)">${x}</button>`
-).join("");
-}
-
-function check(i,btn){
-if(answered) return;
-answered=true;
-
-let q=bank[current];
-let buttons=document.querySelectorAll("button");
-
-if(i===q.a){
-btn.classList.add("correct");
-correctSound.play();
-score++;
-}else{
-btn.classList.add("wrong");
-buttons[q.a].classList.add("correct");
-wrongSound.play();
-}
-
-setTimeout(()=>{
-current++;
-if(current<bank.length){
-show();
-}else{
-document.getElementById("quiz").innerHTML=
-`<h2>انتهى الاختبار 💗</h2><h3>النتيجة: ${score}/${bank.length}</h3>`;
-}
-},1000);
-}
 
 </script>
 
