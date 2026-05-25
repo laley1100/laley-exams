@@ -14,15 +14,7 @@ body {
 
 h1 {
   color: #6a0dad;
-}
-
-.subject-title {
-  font-size: 26px;
-  font-weight: bold;
-}
-
-.heart {
-  color: #ff4da6;
+  font-size: 28px;
 }
 
 .en {
@@ -71,12 +63,14 @@ button:hover {
 
 <body>
 
-<h1 class="subject-title">💜 Communication Concepts <span class="heart">♥</span></h1>
+<h1>💖 Communication Concepts</h1>
 
 <div id="quiz"></div>
 <div id="feedback"></div>
 
-<button id="nextBtn" class="cute-btn" onclick="nextQuestion()" style="display:none;">Next 💖</button>
+<button id="nextBtn" class="cute-btn" onclick="nextQuestion()" style="display:none;">
+Next 💖
+</button>
 
 <h2 id="final"></h2>
 
@@ -128,7 +122,7 @@ function checkAnswer(i){
   } else {
     document.getElementById("feedback").innerHTML =
       `<div class='wrong'>💔 Wrong</div>
-       <div class='correct'>Correct: ${q.options[q.answer].en}</div>`;
+       <div class='correct'>Correct Answer: ${q.options[q.answer].en}</div>`;
   }
 
   document.getElementById("nextBtn").style.display = "block";
@@ -145,7 +139,7 @@ function nextQuestion(){
     document.getElementById("nextBtn").style.display = "none";
 
     document.getElementById("final").innerHTML =
-      "💜 Score: " + score + " / " + questions.length;
+      "💖 Score: " + score + " / " + questions.length;
   }
 }
 
