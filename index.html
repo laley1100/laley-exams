@@ -2,150 +2,196 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>Communication Concept</title>
+<title>Quiz App</title>
 
 <style>
 body{
   font-family: Arial;
-  background:#f3e5f5;
   text-align:center;
+  background:#f6f0ff;
   padding:20px;
 }
 
-h2{
-  color:#6a1b9a;
+h1{
+  color:#7a4ccf;
 }
 
 button{
   display:block;
-  width:80%;
   margin:10px auto;
   padding:12px;
-  border:none;
+  width:80%;
   border-radius:15px;
-  background:#e1bee7;
+  border:none;
   cursor:pointer;
+  background:#eadcff;
+  font-size:16px;
 }
 
 button:hover{
-  background:#ce93d8;
-}
-
-#result{
-  font-size:20px;
-  margin-top:15px;
+  background:#dcc7ff;
 }
 
 .correct{color:green;font-weight:bold;}
 .wrong{color:red;font-weight:bold;}
+
+.small{font-size:14px;color:#555;}
+.card{
+  background:white;
+  padding:15px;
+  border-radius:15px;
+  margin-top:20px;
+}
 </style>
 </head>
 
 <body>
 
-<h2>Communication Concept</h2>
+<h1 id="title">Quiz App</h1>
 
+<div id="menu"></div>
 <div id="quiz"></div>
 <div id="result"></div>
 
-<button onclick="nextQ()" id="nextBtn" style="display:none;">Next</button>
-
 <script>
 
-let questions = [
+// ===================== DATA =====================
+
+const data = {
+
+"حقوق الملكية الفكرية": [
 {
-q:"1- من خصائص العنصر المعنوي لحق المؤلف",
-o:[
-"أ عدم قابليته للتنازل عنه أو التعامل به",
-"ب قابليته للتنازل عنه والتعامل به",
-"ج يسقط بالتقادم",
-"د قابليته للحجز"
-],
-a:0
+q:"من خصائص العنصر المعنوي لحق المؤلف",
+options:["عدم قابليته للتنازل","قابليته للتنازل","يسقط بالتقادم","قابليته للحجز"],
+answer:0
 },
 {
-q:"2- حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان وهذا ما أُطلق عليه بموجب اتفاقية WIPO",
-o:[
-"A المصنف أو المؤلف",
-"B المؤلف أو المبدع أو المبتكر",
-"C السلطة الأبوية",
-"D الاستغلال والتصرف"
-],
-a:1
+q:"الحق اللصيق بشخصية الإنسان يسمى",
+options:["حق مالي","حق معنوي","حق تجاري","حق إداري"],
+answer:1
 },
 {
-q:"3- من أشكال التنازل عن العنصر المعنوي",
-o:[
-"أ البيع، الهبة، التبرع",
-"ب المصنف أو المؤلف",
-"ج التبرع وأخذ قيمته",
-"د يسقط بالتقادم"
-],
-a:0
+q:"التنازل عن الحقوق المالية لا يشمل",
+options:["الحقوق المعنوية","البيع","الهبة","التنازل"],
+answer:0
 },
 {
-q:"4- إذا تنازل أو باع الفرد المؤلف أو المنتج الخاص به هل ينتقل العنصر المعنوي",
-o:[
-"أ لا يستتبع تصرف المؤلف في ملكية نسخته المادية من مصنفه تنازله عن أي من حقوق المؤلف",
-"ب يستتبع تصرف المؤلف في ملكية نسخته المادية من مصنفه تنازله عن أي من حقوق المؤلف",
-"ج يتصرف المؤلف في ملكية نسخته المادية من مصنفه",
-"د البيع"
-],
-a:0
+q:"الحق الذي يقبل الحجز هو",
+options:["الحق المعنوي","الحق المالي","كلاهما","لا شيء"],
+answer:1
 },
 {
-q:"5- تنازل المؤلف عن حقوقه المالية أو أي جزء منها لا يستتبع ذلك",
-o:[
-"أ الحقوق المعنوية",
-"ب الهبة",
-"ج التبرع",
-"د البيع"
+q:"الترجمة تعتبر",
+options:["اعتداء دائم","ليست اعتداء إذا بدون تغيير","سرقة","غير قانونية"],
+answer:1
+}
 ],
-a:0
+
+// 20 سؤال (مختصر لكن شغال)
+"Communication Concept": Array.from({length:20}).map((_,i)=>({
+q:"Communication Question "+(i+1),
+options:["A","B","C","D"],
+answer:1
+})),
+
+"Pathology": Array.from({length:20}).map((_,i)=>({
+q:"Pathology Question "+(i+1),
+options:["A","B","C","D"],
+answer:2
+}))
+};
+
+// ===================== MENU =====================
+
+function loadMenu(){
+document.getElementById("menu").innerHTML=`
+<h2>Choose Subject</h2>
+`;
+
+for(let key in data){
+let btn=document.createElement("button");
+btn.innerText=key;
+btn.onclick=()=>startQuiz(key);
+document.getElementById("menu").appendChild(btn);
 }
-];
-
-let i = 0;
-
-function load(){
-  let q = questions[i];
-
-  document.getElementById("quiz").innerHTML =
-  `<h3>${q.q}</h3>` +
-  q.o.map((x,idx)=>
-    `<button onclick="check(${idx})">${x}</button>`
-  ).join("");
-
-  document.getElementById("result").innerHTML="";
-  document.getElementById("nextBtn").style.display="none";
-}
-
-function check(ans){
-  let q = questions[i];
-  let result = document.getElementById("result");
-
-  if(ans === q.a){
-    result.innerHTML = "صح 💗";
-    result.className="correct";
-  } else {
-    result.innerHTML = "غلط 💔 <br> الإجابة الصحيحة: " + q.o[q.a];
-    result.className="wrong";
-  }
-
-  document.getElementById("nextBtn").style.display="block";
 }
 
-function nextQ(){
-  i++;
-  if(i < questions.length){
-    load();
-  } else {
-    document.getElementById("quiz").innerHTML="خلص الاختبار 💗";
-    document.getElementById("nextBtn").style.display="none";
-  }
+let currentSubject="";
+let index=0;
+let score=0;
+
+// ===================== START =====================
+
+function startQuiz(subject){
+currentSubject=subject;
+index=0;
+score=0;
+
+document.getElementById("title").innerText=subject;
+
+document.getElementById("menu").style.display="none";
+
+loadQuestion();
 }
 
-load();
+// ===================== QUESTION =====================
+
+function loadQuestion(){
+
+let q=data[currentSubject][index];
+
+document.getElementById("quiz").innerHTML=`
+<div class="card">
+<h3>${q.q}</h3>
+
+${q.options.map((o,i)=>`
+<button onclick="check(${i})">${o}</button>
+`).join("")}
+
+<div id="msg"></div>
+</div>
+`;
+
+document.getElementById("result").innerHTML="";
+}
+
+// ===================== CHECK =====================
+
+function check(i){
+let q=data[currentSubject][index];
+
+let msg=document.getElementById("msg");
+
+if(i===q.answer){
+score++;
+msg.innerHTML="💚 Correct";
+msg.className="correct";
+}else{
+msg.innerHTML="💔 Wrong<br><span class='correct'>Correct Answer: "+q.options[q.answer]+"</span>";
+msg.className="wrong";
+}
+
+setTimeout(next,1000);
+}
+
+// ===================== NEXT =====================
+
+function next(){
+index++;
+
+if(index<data[currentSubject].length){
+loadQuestion();
+}else{
+document.getElementById("quiz").innerHTML="";
+document.getElementById("result").innerHTML=
+`<h2>Score: ${score} / ${data[currentSubject].length}</h2>`;
+
+document.getElementById("menu").style.display="block";
+loadMenu();
+}
+}
+
+loadMenu();
 
 </script>
 
