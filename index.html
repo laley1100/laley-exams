@@ -1,1 +1,147 @@
 
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>Quiz Platform 💖</title>
+
+<style>
+body {
+  font-family: Arial;
+  text-align: center;
+  padding: 20px;
+  background: #fff0f5;
+}
+
+h1 {
+  color: #ff4da6;
+}
+
+.en {
+  font-size: 22px;
+  font-weight: bold;
+  color: #ff4da6;
+}
+
+.ar {
+  font-size: 15px;
+  color: #666;
+}
+
+button {
+  padding: 12px;
+  margin: 8px auto;
+  width: 80%;
+  border-radius: 15px;
+  border: none;
+  display: block;
+  cursor: pointer;
+  background: #ffe4ec;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #ffd1e0;
+}
+
+.cute-btn {
+  background: linear-gradient(45deg, #ff9ecb, #ffc0cb);
+  width: 200px;
+  border-radius: 30px;
+  color: white;
+  font-size: 18px;
+  box-shadow: 0 4px 10px rgba(255,105,180,0.4);
+}
+
+.correct { color: green; }
+.wrong { color: red; }
+
+</style>
+</head>
+
+<body>
+
+<h1 id="subject">💖 Quiz 💖</h1>
+
+<div id="quiz"></div>
+<div id="feedback"></div>
+
+<button id="nextBtn" class="cute-btn" onclick="nextQuestion()" style="display:none;">Next 💖</button>
+
+<h2 id="final"></h2>
+
+<script>
+
+let questions = [];
+let current = 0;
+let score = 0;
+let answered = false;
+
+fetch('questions.json')
+.then(res => res.json())
+.then(data => {
+  questions = data;
+  document.getElementById("subject").innerText = data[0].subject || "Quiz 💖";
+  loadQuestion();
+});
+
+function loadQuestion(){
+  answered = false;
+  const q = questions[current];
+
+  document.getElementById("quiz").innerHTML = `
+    <div class="en">💗 ${current+1}) ${q.q_en}</div>
+    <div class="ar">${q.q_ar}</div><br>
+
+    ${q.options.map((o,i)=>`
+      <button onclick="checkAnswer(${i})">
+        <div class="en">${o.en}</div>
+        <div class="ar">${o.ar}</div>
+      </button>
+    `).join("")}
+  `;
+
+  document.getElementById("feedback").innerHTML = "";
+  document.getElementById("nextBtn").style.display = "none";
+}
+
+function checkAnswer(i){
+  if(answered) return;
+  answered = true;
+
+  const q = questions[current];
+  document.querySelectorAll("#quiz button").forEach(b=>b.disabled=true);
+
+  if(i === q.answer){
+    score++;
+    document.getElementById("feedback").innerHTML =
+      "<div class='correct'>💚 Correct</div><div class='ar'>إجابة صحيحة</div>";
+  } else {
+    document.getElementById("feedback").innerHTML =
+      `<div class='wrong'>💔 Wrong</div>
+       <div class='correct'>${q.options[q.answer].en}</div>
+       <div class='ar'>${q.options[q.answer].ar}</div>`;
+  }
+
+  document.getElementById("nextBtn").style.display = "block";
+}
+
+function nextQuestion(){
+  current++;
+
+  if(current < questions.length){
+    loadQuestion();
+  } else {
+    document.getElementById("quiz").innerHTML = "";
+    document.getElementById("feedback").innerHTML = "";
+    document.getElementById("nextBtn").style.display = "none";
+
+    document.getElementById("final").innerHTML =
+      "💖 Score: " + score + " / " + questions.length;
+  }
+}
+
+</script>
+
+</body>
+</html>
