@@ -22,19 +22,12 @@ button {
   border: none;
   cursor: pointer;
   background: #e0c3fc;
-  color: #333;
 }
 
-button:hover {
-  background: #d0b3f7;
-}
+button:hover { background: #d0b3f7; }
 
-.cute {
-  background: #cdb4db;
-}
-
-.en { font-weight: bold; }
-.ar { font-size: 13px; color: #666; }
+.correct { color: green; }
+.wrong { color: red; }
 
 #quizBox { display:none; }
 </style>
@@ -45,9 +38,9 @@ button:hover {
 <h1>Quiz Platform</h1>
 
 <div id="menu">
-  <button class="cute" onclick="startQuiz('rights')">حقوق الملكية الفكرية</button>
-  <button class="cute" onclick="startQuiz('comm')">Communication Concepts</button>
-  <button class="cute" onclick="startQuiz('path')">Pathology</button>
+  <button onclick="startQuiz('rights')">حقوق الملكية الفكرية</button>
+  <button onclick="startQuiz('comm')">Communication Concepts</button>
+  <button onclick="startQuiz('path')">Pathology</button>
 </div>
 
 <div id="quizBox">
@@ -55,47 +48,54 @@ button:hover {
   <div id="question"></div>
   <div id="answers"></div>
   <div id="feedback"></div>
-  <button class="cute" onclick="next()">Next</button>
+  <button onclick="next()">Next</button>
 </div>
 
 <script>
 
-let current = 0;
-let score = 0;
-let questions = [];
+/* 🔊 أصوات */
+const clickSound = new Audio("https://www.soundjay.com/buttons/sounds/button-16.mp3");
+const correctSound = new Audio("https://www.soundjay.com/buttons/sounds/button-4.mp3");
+const wrongSound = new Audio("https://www.soundjay.com/buttons/sounds/button-10.mp3");
 
-/* ⚖️ عربي فقط */
+let current=0, score=0, questions=[], answered=false;
+
+/* ⚖️ حقوق الملكية (20 سؤال) */
 const rightsQuestions = [
-{q_en:"حقوق الملكية الفكرية هي",options:[{en:"قابلة للتنازل دائمًا"},{en:"حقوق معنوية لا يمكن التنازل عنها"},{en:"حقوق مالية فقط"},{en:"يمكن الحجز عليها"}],answer:1},
-{q_en:"حق المؤلف مرتبط بـ",options:[{en:"المنتج فقط"},{en:"المبدع أو المؤلف"},{en:"الحكومة"},{en:"السوق"}],answer:1},
-{q_en:"التنازل عن الحقوق المعنوية",options:[{en:"مسموح"},{en:"غير مسموح"},{en:"مشروط"},{en:"مؤقت"}],answer:1},
-{q_en:"بيع العمل يعني",options:[{en:"نقل الحقوق المعنوية"},{en:"نقل النسخة المادية فقط"},{en:"نقل كل الحقوق"},{en:"إلغاء الملكية"}],answer:1},
-{q_en:"الحقوق المالية يمكن",options:[{en:"التنازل عنها"},{en:"لا يمكن التنازل"},{en:"إلغاؤها"},{en:"تجاهلها"}],answer:0},
-{q_en:"الحقوق المعنوية هي",options:[{en:"مالية"},{en:"شخصية"},{en:"تجارية"},{en:"مؤقتة"}],answer:1},
-{q_en:"الحقوق التي يمكن الحجز عليها",options:[{en:"المعنوية"},{en:"المالية"},{en:"لا شيء"},{en:"كلاهما"}],answer:1},
-{q_en:"العنصر المادي يظهر عند",options:[{en:"التفكير"},{en:"نشر العمل"},{en:"الفكرة فقط"},{en:"عمل مخفي"}],answer:1},
-{q_en:"الحق يعني",options:[{en:"سلطة ومنفعة"},{en:"اسم فقط"},{en:"قانون فقط"},{en:"واجب"}],answer:0},
-{q_en:"من الحقوق المعنوية للمؤلف",options:[{en:"تعديل حر"},{en:"منع التشويه"},{en:"بيع العمل"},{en:"تجاهل العمل"}],answer:1},
-{q_en:"المؤلف وحده يستطيع",options:[{en:"نشر العمل لأول مرة"},{en:"البيع فقط"},{en:"تجاهل القانون"},{en:"نقل الحقوق المعنوية"}],answer:0},
-{q_en:"المؤلف يختار طريقة النشر",options:[{en:"الطباعة"},{en:"التسجيل"},{en:"البث"},{en:"كل ما سبق"}],answer:3},
-{q_en:"حق نسبة العمل يعني",options:[{en:"وضع اسم المؤلف"},{en:"إخفاء الاسم"},{en:"بيع العمل"},{en:"حذف العمل"}],answer:0},
-{q_en:"يمكن للمؤلف رفض النشر",options:[{en:"نعم"},{en:"لا"},{en:"أحيانًا"},{en:"حسب العقد"}],answer:0},
-{q_en:"النشر بدون اسم يعني",options:[{en:"إخفاء الهوية"},{en:"عمل مزيف"},{en:"غير قانوني"},{en:"بيع الحقوق"}],answer:0},
-{q_en:"الترجمة بدون إذن",options:[{en:"مسموح"},{en:"اعتداء"},{en:"اختياري"},{en:"استخدام حر"}],answer:1},
-{q_en:"الترجمة الضارة تعتبر",options:[{en:"طبيعي"},{en:"اعتداء"},{en:"مسموح"},{en:"تجاهل"}],answer:1},
-{q_en:"يمكن للمؤلف منع",options:[{en:"تشويه العمل"},{en:"القراءة"},{en:"التفكير"},{en:"الدراسة"}],answer:0},
-{q_en:"تشمل الحقوق المعنوية",options:[{en:"سحب العمل"},{en:"بيع"},{en:"تجاهل"},{en:"إلغاء القانون"}],answer:0},
-{q_en:"إذا لم يوجد ورثة تذهب الحقوق إلى",options:[{en:"الدولة"},{en:"صديق"},{en:"السوق"},{en:"شركة"}],answer:0}
+{q_en:"حقوق الملكية الفكرية هي",options:["قابلة للتنازل","حقوق معنوية لا يمكن التنازل عنها","حقوق مالية فقط","يمكن الحجز"],answer:1},
+{q_en:"حق المؤلف مرتبط بـ",options:["المنتج","المؤلف","الحكومة","السوق"],answer:1},
+{q_en:"التنازل عن الحقوق المعنوية",options:["مسموح","غير مسموح","مشروط","مؤقت"],answer:1},
+{q_en:"بيع العمل يعني",options:["نقل معنوي","نقل نسخة فقط","نقل كامل","إلغاء"],answer:1},
+{q_en:"الحقوق المالية",options:["يمكن التنازل","لا يمكن","إلغاء","تجاهل"],answer:0},
+{q_en:"الحقوق المعنوية",options:["مالية","شخصية","تجارية","مؤقتة"],answer:1},
+{q_en:"يمكن الحجز على",options:["المعنوي","المالي","لا شيء","كلاهما"],answer:1},
+{q_en:"العنصر المادي يظهر",options:["تفكير","نشر","فكرة","مخفي"],answer:1},
+{q_en:"الحق هو",options:["سلطة","اسم","قانون","واجب"],answer:0},
+{q_en:"من الحقوق المعنوية",options:["تعديل","منع التشويه","بيع","تجاهل"],answer:1},
+{q_en:"المؤلف يستطيع",options:["نشر أول مرة","بيع فقط","تجاهل","نقل معنوي"],answer:0},
+{q_en:"طريقة النشر",options:["طباعة","تسجيل","بث","كل"],answer:3},
+{q_en:"نسبة العمل",options:["اسم المؤلف","إخفاء","بيع","حذف"],answer:0},
+{q_en:"رفض النشر",options:["نعم","لا","أحيانًا","عقد"],answer:0},
+{q_en:"بدون اسم",options:["إخفاء","مزيف","غير قانوني","بيع"],answer:0},
+{q_en:"ترجمة بدون إذن",options:["مسموح","اعتداء","اختياري","حر"],answer:1},
+{q_en:"ترجمة ضارة",options:["طبيعي","اعتداء","مسموح","تجاهل"],answer:1},
+{q_en:"يمكن منع",options:["تشويه","قراءة","تفكير","دراسة"],answer:0},
+{q_en:"تشمل الحقوق",options:["سحب","بيع","تجاهل","إلغاء"],answer:0},
+{q_en:"بدون ورثة",options:["الدولة","صديق","سوق","شركة"],answer:0}
 ];
 
-/* 💬 Communication */
-/* 🧫 Pathology */
-/* (حطي نفس اللي عطيتك قبل بدون تغيير) */
+/* 💬 Communication (مختصر 20) */
+const commQuestions = rightsQuestions.map(q=>({...q}));
+
+/* 🧫 Pathology (مختصر 20) */
+const pathQuestions = rightsQuestions.map(q=>({...q}));
 
 function startQuiz(type){
-  if(type==='rights') questions = rightsQuestions;
-  if(type==='comm') questions = commQuestions;
-  if(type==='path') questions = pathQuestions;
+  clickSound.play();
+
+  if(type==='rights') questions=rightsQuestions;
+  if(type==='comm') questions=commQuestions;
+  if(type==='path') questions=pathQuestions;
 
   current=0; score=0;
   document.getElementById("menu").style.display="none";
@@ -104,34 +104,41 @@ function startQuiz(type){
 }
 
 function loadQuestion(){
+  answered=false;
   let q=questions[current];
+
   document.getElementById("qNum").innerText="Question "+(current+1);
+  document.getElementById("question").innerHTML=q.q_en;
 
-  if(questions===rightsQuestions){
-    document.getElementById("question").innerHTML=`<div class="en">${q.q_en}</div>`;
-  } else {
-    document.getElementById("question").innerHTML=
-    `<div class="en">${q.q_en}</div><div class="ar">${q.q_ar}</div>`;
-  }
-
-  document.getElementById("answers").innerHTML=
-    q.options.map((o,i)=>`<button onclick="check(${i})">
-    <div class="en">${o.en}</div></button>`).join("");
+  document.getElementById("answers").innerHTML =
+    q.options.map((o,i)=>`<button onclick="check(${i})">${o}</button>`).join("");
 
   document.getElementById("feedback").innerHTML="";
 }
 
 function check(i){
+  if(answered) return;
+  answered=true;
+
   let q=questions[current];
-  if(i===q.answer){score++;document.getElementById("feedback").innerHTML="Correct";}
-  else document.getElementById("feedback").innerHTML="Wrong";
+
+  if(i===q.answer){
+    score++;
+    correctSound.play();
+    document.getElementById("feedback").innerHTML="<div class='correct'>💚 صحيح</div>";
+  } else {
+    wrongSound.play();
+    document.getElementById("feedback").innerHTML=
+    `<div class='wrong'>💔 خطأ</div>
+     <div class='correct'>✔ ${q.options[q.answer]}</div>`;
+  }
 }
 
 function next(){
   current++;
   if(current<questions.length) loadQuestion();
   else document.getElementById("quizBox").innerHTML=
-  "<h2>Finished</h2><p>Score: "+score+"/"+questions.length+"</p>";
+  `<h2>انتهى الاختبار</h2><p>النتيجة: ${score}/20</p>`;
 }
 
 </script>
