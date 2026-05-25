@@ -1,243 +1,209 @@
-const rightsQuestions = [
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>Quiz App</title>
+
+<style>
+body{
+font-family: Arial;
+background:#f5f5f5;
+text-align:center;
+}
+
+h2{
+margin-top:20px;
+color:#333;
+}
+
+.card{
+background:white;
+padding:15px;
+margin:15px auto;
+width:90%;
+max-width:600px;
+border-radius:10px;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
+text-align:right;
+}
+
+.option{
+display:block;
+padding:10px;
+margin:5px 0;
+background:#eee;
+border-radius:8px;
+cursor:pointer;
+}
+
+.option:hover{
+background:#ddd;
+}
+
+.result{
+margin-top:10px;
+font-weight:bold;
+}
+.correct{color:green;}
+.wrong{color:red;}
+.small{font-size:12px;color:#666;}
+</style>
+</head>
+
+<body>
+
+<h2>Quiz System</h2>
+
+<div id="app"></div>
+
+<script>
+// ================== DATA ==================
+
+const subjects = [
 
 {
-q_en:"Intellectual property rights are",
-q_ar:"حقوق الملكية الفكرية هي",
+name:"حقوق الملكية الفكرية",
+questions:[
+{
+q_ar:"من خصائص العنصر المعنوي لحق المؤلف",
+q_en:"Moral rights characteristic",
 options:[
-{en:"Transferable always", ar:"قابلة للتنازل دائمًا"},
-{en:"Non-transferable moral rights", ar:"حقوق معنوية لا يمكن التنازل عنها"},
-{en:"Only financial rights", ar:"حقوق مالية فقط"},
-{en:"Can be seized", ar:"يمكن الحجز عليها"}
+"عدم قابليته للتنازل",
+"قابليته للتنازل",
+"يسقط بالتقادم",
+"قابل للحجز"
 ],
-answer:1
+answer:0
 },
-
 {
-q_en:"Copyright is related to",
 q_ar:"حق المؤلف مرتبط بـ",
+q_en:"Copyright is related to",
 options:[
-{en:"The product only", ar:"المنتج فقط"},
-{en:"The creator", ar:"المبدع أو المؤلف"},
-{en:"Government", ar:"الحكومة"},
-{en:"Market", ar:"السوق"}
+"المنتج",
+"المؤلف",
+"الحكومة",
+"السوق"
+],
+answer:1
+}
+]
+},
+
+{
+name:"Communication Concept",
+questions:[
+{
+q_ar:"Therapeutic communication is",
+q_en:"Therapeutic communication is",
+options:[
+"Casual talk",
+"Professional planned communication",
+"Giving orders",
+"Silence only"
 ],
 answer:1
 },
-
 {
-q_en:"Waiver of moral rights is",
-q_ar:"التنازل عن الحقوق المعنوية",
+q_ar:"SBAR stands for",
+q_en:"SBAR stands for",
 options:[
-{en:"Allowed", ar:"مسموح"},
-{en:"Not allowed", ar:"غير مسموح"},
-{en:"Conditional", ar:"مشروط"},
-{en:"Temporary", ar:"مؤقت"}
+"Signs Background Action Response",
+"Situation Background Assessment Recommendation",
+"Simple Basic Action Report",
+"None"
 ],
 answer:1
+}
+]
 },
 
 {
-q_en:"Selling a work means",
-q_ar:"بيع العمل يعني",
+name:"Pathology",
+questions:[
+{
+q_ar:"Percentage of body water",
+q_en:"Body water percentage",
 options:[
-{en:"Transfer moral rights", ar:"نقل الحقوق المعنوية"},
-{en:"Transfer physical copy only", ar:"نقل النسخة المادية فقط"},
-{en:"Transfer all rights", ar:"نقل كل الحقوق"},
-{en:"Cancel ownership", ar:"إلغاء الملكية"}
+"40%",
+"50%",
+"60%",
+"70%"
+],
+answer:2
+},
+{
+q_ar:"Most common thrombus",
+q_en:"Most common thrombus",
+options:[
+"Arterial",
+"Venous",
+"Capillary",
+"Cardiac"
 ],
 answer:1
-},
-
-{
-q_en:"Financial rights can be",
-q_ar:"الحقوق المالية يمكن",
-options:[
-{en:"Transferred", ar:"التنازل عنها"},
-{en:"Not transferred", ar:"لا يمكن التنازل"},
-{en:"Cancelled", ar:"إلغاؤها"},
-{en:"Ignored", ar:"تجاهلها"}
-],
-answer:0
-},
-
-{
-q_en:"Moral rights are",
-q_ar:"الحقوق المعنوية هي",
-options:[
-{en:"Financial", ar:"مالية"},
-{en:"Personal", ar:"شخصية"},
-{en:"Commercial", ar:"تجارية"},
-{en:"Temporary", ar:"مؤقتة"}
-],
-answer:1
-},
-
-{
-q_en:"Seizable rights are",
-q_ar:"الحقوق التي يمكن الحجز عليها",
-options:[
-{en:"Moral rights", ar:"المعنوية"},
-{en:"Financial rights", ar:"المالية"},
-{en:"None", ar:"لا شيء"},
-{en:"Both", ar:"كلاهما"}
-],
-answer:1
-},
-
-{
-q_en:"Material element appears when",
-q_ar:"العنصر المادي يظهر عند",
-options:[
-{en:"Thinking", ar:"التفكير"},
-{en:"Publishing work", ar:"نشر العمل"},
-{en:"Idea only", ar:"الفكرة فقط"},
-{en:"Hidden work", ar:"عمل مخفي"}
-],
-answer:1
-},
-
-{
-q_en:"Right means",
-q_ar:"الحق يعني",
-options:[
-{en:"Power and benefit", ar:"سلطة ومنفعة"},
-{en:"Name only", ar:"اسم فقط"},
-{en:"Law only", ar:"قانون فقط"},
-{en:"Duty", ar:"واجب"}
-],
-answer:0
-},
-
-{
-q_en:"Author has moral rights such as",
-q_ar:"من الحقوق المعنوية للمؤلف",
-options:[
-{en:"Modify freely", ar:"تعديل حر"},
-{en:"Prevent distortion", ar:"منع التشويه"},
-{en:"Sell work", ar:"بيع العمل"},
-{en:"Ignore work", ar:"تجاهل العمل"}
-],
-answer:1
-},
-
-{
-q_en:"Author alone can",
-q_ar:"المؤلف وحده يستطيع",
-options:[
-{en:"Publish first time", ar:"نشر العمل لأول مرة"},
-{en:"Sell without limit", ar:"البيع فقط"},
-{en:"Ignore law", ar:"تجاهل القانون"},
-{en:"Transfer moral rights", ar:"نقل الحقوق المعنوية"}
-],
-answer:0
-},
-
-{
-q_en:"Author chooses publication method",
-q_ar:"المؤلف يختار طريقة النشر",
-options:[
-{en:"Printing", ar:"الطباعة"},
-{en:"Recording", ar:"التسجيل"},
-{en:"Broadcast", ar:"البث"},
-{en:"All", ar:"كل ما سبق"}
-],
-answer:3
-},
-
-{
-q_en:"Attribution right means",
-q_ar:"حق نسبة العمل يعني",
-options:[
-{en:"Write name on work", ar:"وضع اسم المؤلف"},
-{en:"Hide name", ar:"إخفاء الاسم"},
-{en:"Sell work", ar:"بيع العمل"},
-{en:"Delete work", ar:"حذف العمل"}
-],
-answer:0
-},
-
-{
-q_en:"Author may refuse publication",
-q_ar:"يمكن للمؤلف الامتناع عن نشر مصنفه",
-options:[
-{en:"Yes", ar:"نعم"},
-{en:"No", ar:"لا"},
-{en:"Sometimes", ar:"أحيانًا"},
-{en:"Only contract", ar:"حسب العقد"}
-],
-answer:0
-},
-
-{
-q_en:"Anonymous publishing means",
-q_ar:"النشر بدون اسم يعني",
-options:[
-{en:"Hide identity", ar:"إخفاء الهوية"},
-{en:"Fake work", ar:"عمل مزيف"},
-{en:"Illegal", ar:"غير قانوني"},
-{en:"Sell rights", ar:"بيع الحقوق"}
-],
-answer:0
-},
-
-{
-q_en:"Translation without permission is",
-q_ar:"الترجمة بدون إذن",
-options:[
-{en:"Allowed", ar:"مسموح"},
-{en:"Violation", ar:"اعتداء"},
-{en:"Optional", ar:"اختياري"},
-{en:"Free use", ar:"استخدام حر"}
-],
-answer:1
-},
-
-{
-q_en:"Harmful translation is",
-q_ar:"الترجمة الضارة تعتبر",
-options:[
-{en:"Normal", ar:"طبيعي"},
-{en:"Violation", ar:"اعتداء"},
-{en:"Allowed", ar:"مسموح"},
-{en:"Ignored", ar:"تجاهل"}
-],
-answer:1
-},
-
-{
-q_en:"Author can prevent",
-q_ar:"يمكن للمؤلف منع",
-options:[
-{en:"Distortion", ar:"تشويه العمل"},
-{en:"Reading", ar:"القراءة"},
-{en:"Thinking", ar:"التفكير"},
-{en:"Study", ar:"الدراسة"}
-],
-answer:0
-},
-
-{
-q_en:"Moral rights include",
-q_ar:"تشمل الحقوق المعنوية",
-options:[
-{en:"Withdraw work", ar:"سحب العمل"},
-{en:"Sell work", ar:"بيع"},
-{en:"Ignore work", ar:"تجاهل"},
-{en:"Delete law", ar:"إلغاء القانون"}
-],
-answer:0
-},
-
-{
-q_en:"If no heirs, rights go to",
-q_ar:"إذا لم يوجد ورثة تذهب الحقوق إلى",
-options:[
-{en:"Government", ar:"الدولة"},
-{en:"Friend", ar:"صديق"},
-{en:"Market", ar:"السوق"},
-{en:"Company", ar:"شركة"}
-],
-answer:0
+}
+]
 }
 
 ];
+
+// ================== APP ==================
+
+const app = document.getElementById("app");
+
+subjects.forEach((subject,sIndex)=>{
+
+const title = document.createElement("h2");
+title.innerText = subject.name;
+app.appendChild(title);
+
+subject.questions.forEach((q,qIndex)=>{
+
+const card = document.createElement("div");
+card.className="card";
+
+card.innerHTML = `
+<div>${q.q_ar}</div>
+<div class="small">${q.q_en}</div>
+`;
+
+q.options.forEach((opt,i)=>{
+
+const btn = document.createElement("div");
+btn.className="option";
+btn.innerText = opt;
+
+btn.onclick = ()=>{
+
+let result = card.querySelector(".result");
+
+if(result) result.remove();
+
+result = document.createElement("div");
+result.className="result";
+
+if(i === q.answer){
+result.innerHTML = "✔ صح";
+result.classList.add("correct");
+}
+else{
+result.innerHTML = "❌ غلط 💔 <br> الصح: " + q.options[q.answer];
+result.classList.add("wrong");
+}
+
+card.appendChild(result);
+};
+
+card.appendChild(btn);
+});
+
+app.appendChild(card);
+
+});
+
+});
+
+</script>
+
+</body>
+</html>
