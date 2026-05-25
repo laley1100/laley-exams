@@ -26,10 +26,10 @@ button {
 
 button:hover { background: #d0b3f7; }
 
-.correct { color: green; }
-.wrong { color: red; }
-
 #quizBox { display:none; }
+
+.correct { color: green; font-weight: bold; }
+.wrong { color: red; font-weight: bold; }
 </style>
 </head>
 
@@ -54,94 +54,30 @@ button:hover { background: #d0b3f7; }
 <script>
 
 /* 🔊 أصوات */
-const clickSound = new Audio("https://www.soundjay.com/buttons/sounds/button-16.mp3");
+const selectSound = new Audio("https://www.soundjay.com/buttons/sounds/button-16.mp3");
 const correctSound = new Audio("https://www.soundjay.com/buttons/sounds/button-4.mp3");
 const wrongSound = new Audio("https://www.soundjay.com/buttons/sounds/button-10.mp3");
 
 let current=0, score=0, questions=[], answered=false;
 
-/* ⚖️ حقوق الملكية (20 سؤال) */
+/* ⚖️ حقوق الملكية (20) */
 const rightsQuestions = [
-{q_en:"حقوق الملكية الفكرية هي",options:["قابلة للتنازل","حقوق معنوية لا يمكن التنازل عنها","حقوق مالية فقط","يمكن الحجز"],answer:1},
-{q_en:"حق المؤلف مرتبط بـ",options:["المنتج","المؤلف","الحكومة","السوق"],answer:1},
-{q_en:"التنازل عن الحقوق المعنوية",options:["مسموح","غير مسموح","مشروط","مؤقت"],answer:1},
-{q_en:"بيع العمل يعني",options:["نقل معنوي","نقل نسخة فقط","نقل كامل","إلغاء"],answer:1},
-{q_en:"الحقوق المالية",options:["يمكن التنازل","لا يمكن","إلغاء","تجاهل"],answer:0},
-{q_en:"الحقوق المعنوية",options:["مالية","شخصية","تجارية","مؤقتة"],answer:1},
-{q_en:"يمكن الحجز على",options:["المعنوي","المالي","لا شيء","كلاهما"],answer:1},
-{q_en:"العنصر المادي يظهر",options:["تفكير","نشر","فكرة","مخفي"],answer:1},
-{q_en:"الحق هو",options:["سلطة","اسم","قانون","واجب"],answer:0},
-{q_en:"من الحقوق المعنوية",options:["تعديل","منع التشويه","بيع","تجاهل"],answer:1},
-{q_en:"المؤلف يستطيع",options:["نشر أول مرة","بيع فقط","تجاهل","نقل معنوي"],answer:0},
-{q_en:"طريقة النشر",options:["طباعة","تسجيل","بث","كل"],answer:3},
+{q_en:"من خصائص العنصر المعنوي",options:["لا يتنازل","يتنازل","يسقط","يحجز"],answer:0},
+{q_en:"حق المؤلف وفق WIPO",options:["مصنف","مبدع","سلطة","استغلال"],answer:1},
+{q_en:"التنازل يكون",options:["بيع وهبة","فكرة","إلغاء","تقادم"],answer:0},
+{q_en:"بيع المصنف لا ينقل",options:["الحق المعنوي","النسخة","كل شيء","لا شيء"],answer:0},
+{q_en:"الحقوق المالية",options:["تتنازل","لا تتنازل","تلغى","تنسى"],answer:0},
+{q_en:"الحقوق المعنوية",options:["شخصية","مالية","تجارية","مؤقتة"],answer:0},
+{q_en:"الحجز على",options:["مالي","معنوي","كلاهما","لا شيء"],answer:0},
+{q_en:"العنصر المادي يظهر عند",options:["النشر","التفكير","الفكرة","السر"],answer:0},
+{q_en:"الحق هو",options:["منفعة","اسم","قانون","واجب"],answer:0},
+{q_en:"من الحقوق",options:["منع التشويه","بيع","تنازل","إلغاء"],answer:0},
+{q_en:"المؤلف يستطيع",options:["نشر أول مرة","بيع","تجاهل","منع"],answer:0},
+{q_en:"طريقة النشر",options:["كلها","بث","تسجيل","مخفي"],answer:0},
 {q_en:"نسبة العمل",options:["اسم المؤلف","إخفاء","بيع","حذف"],answer:0},
 {q_en:"رفض النشر",options:["نعم","لا","أحيانًا","عقد"],answer:0},
-{q_en:"بدون اسم",options:["إخفاء","مزيف","غير قانوني","بيع"],answer:0},
-{q_en:"ترجمة بدون إذن",options:["مسموح","اعتداء","اختياري","حر"],answer:1},
-{q_en:"ترجمة ضارة",options:["طبيعي","اعتداء","مسموح","تجاهل"],answer:1},
-{q_en:"يمكن منع",options:["تشويه","قراءة","تفكير","دراسة"],answer:0},
-{q_en:"تشمل الحقوق",options:["سحب","بيع","تجاهل","إلغاء"],answer:0},
-{q_en:"بدون ورثة",options:["الدولة","صديق","سوق","شركة"],answer:0}
-];
-
-/* 💬 Communication (مختصر 20) */
-const commQuestions = rightsQuestions.map(q=>({...q}));
-
-/* 🧫 Pathology (مختصر 20) */
-const pathQuestions = rightsQuestions.map(q=>({...q}));
-
-function startQuiz(type){
-  clickSound.play();
-
-  if(type==='rights') questions=rightsQuestions;
-  if(type==='comm') questions=commQuestions;
-  if(type==='path') questions=pathQuestions;
-
-  current=0; score=0;
-  document.getElementById("menu").style.display="none";
-  document.getElementById("quizBox").style.display="block";
-  loadQuestion();
-}
-
-function loadQuestion(){
-  answered=false;
-  let q=questions[current];
-
-  document.getElementById("qNum").innerText="Question "+(current+1);
-  document.getElementById("question").innerHTML=q.q_en;
-
-  document.getElementById("answers").innerHTML =
-    q.options.map((o,i)=>`<button onclick="check(${i})">${o}</button>`).join("");
-
-  document.getElementById("feedback").innerHTML="";
-}
-
-function check(i){
-  if(answered) return;
-  answered=true;
-
-  let q=questions[current];
-
-  if(i===q.answer){
-    score++;
-    correctSound.play();
-    document.getElementById("feedback").innerHTML="<div class='correct'>💚 صحيح</div>";
-  } else {
-    wrongSound.play();
-    document.getElementById("feedback").innerHTML=
-    `<div class='wrong'>💔 خطأ</div>
-     <div class='correct'>✔ ${q.options[q.answer]}</div>`;
-  }
-}
-
-function next(){
-  current++;
-  if(current<questions.length) loadQuestion();
-  else document.getElementById("quizBox").innerHTML=
-  `<h2>انتهى الاختبار</h2><p>النتيجة: ${score}/20</p>`;
-}
-
-</script>
-
-</body>
-</html>
+{q_en:"بدون اسم",options:["إخفاء","مزيف","بيع","قانوني"],answer:0},
+{q_en:"ترجمة بدون إذن",options:["اعتداء","مسموح","حر","اختياري"],answer:0},
+{q_en:"إساءة الترجمة",options:["اعتداء","عادي","بيع","تجاهل"],answer:0},
+{q_en:"يمكن منع",options:["تشويه","قراءة","فهم","تعلم"],answer:0},
+{q_en:"تشمل
