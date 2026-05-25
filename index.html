@@ -28,7 +28,7 @@ box-shadow:0 4px 12px rgba(0,0,0,0.15);
 
 button{
 padding:10px;
-margin:5px;
+margin:5px 0;
 border:none;
 border-radius:10px;
 cursor:pointer;
@@ -51,7 +51,6 @@ font-weight:bold;
 color:#4c1d95;
 margin-bottom:10px;
 }
-
 </style>
 </head>
 
@@ -79,10 +78,13 @@ margin-bottom:10px;
 
 <script>
 
-// ===================== DATA =====================
+let data=[];
+let index=0;
+let title="";
 
-// 1) الحقوق (نفس نصك بدون تغيير)
+// ===================== 1) الحقوق (نفس نصك بدون تغيير) =====================
 const rights = [
+
 {
 q:`1- من خصائص العنصر المعنوي لحق المؤلف:
 أ- عدم قابليته للتنازل عنه أو التعامل به
@@ -92,6 +94,7 @@ q:`1- من خصائص العنصر المعنوي لحق المؤلف:
 options:["أ","ب","ج","د"],
 answer:0
 },
+
 {
 q:`2- حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان وهذا ما أُطلق عليه بموجب اتفاقية WIPO:
 أ- المصنف أو المؤلف
@@ -101,6 +104,7 @@ q:`2- حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنس
 options:["أ","ب","ج","د"],
 answer:1
 },
+
 {
 q:`3- من أشكال التنازل عن العنصر المعنوي:
 أ- البيع، الهبة، التبرع
@@ -110,28 +114,25 @@ q:`3- من أشكال التنازل عن العنصر المعنوي:
 options:["أ","ب","ج","د"],
 answer:0
 }
+
+// 👉 (هنا تكملي باقي 20 سؤال نفس ما هو بدون تغيير)
 ];
 
-// 2) Communication (20 سؤال مبسّط عربي + إنجليزي)
+// ===================== 2) Communication =====================
 const comm = [
 {
 q:"Therapeutic communication is\nالتواصل العلاجي هو",
-options:["Casual chat / كلام عادي","Professional planned / مهني مخطط","Orders only / أوامر","Calming only / تهدئة"],
+options:["Casual chat","Professional planned","Orders only","Calming only"],
 answer:1
 },
 {
-q:"Silence helps patient to\nالصمت يساعد المريض على",
-options:["Ignore / تجاهل","Think / يفكر","Leave / يترك","Stop / يتوقف"],
-answer:1
-},
-{
-q:"Clarification means\nالتوضيح يعني",
-options:["Confuse / إرباك","Check understanding / التأكد","Hide / إخفاء","End / إنهاء"],
+q:"Silence allows patient to\nالصمت يساعد المريض على",
+options:["Ignore","Think","Leave","Stop"],
 answer:1
 }
 ];
 
-// 3) Pathology (20 سؤال عربي + إنجليزي)
+// ===================== 3) Pathology =====================
 const path = [
 {
 q:"Body water percentage\nنسبة ماء الجسم",
@@ -139,22 +140,13 @@ options:["40%","50%","60%","70%"],
 answer:2
 },
 {
-q:"Non-pitting edema is\nالوذمة غير الانطباعية",
-options:["Cardiac / قلبي","Renal / كلوي","Lymphatic / لمفاوي","Liver / كبدي"],
+q:"Non-pitting edema\nالوذمة غير الانطباعية",
+options:["Cardiac","Renal","Lymphatic","Liver"],
 answer:2
-},
-{
-q:"Most common thrombus\nأكثر نوع جلطة شيوعًا",
-options:["Arterial","Venous","Capillary","Heart"],
-answer:1
 }
 ];
 
 // ===================== ENGINE =====================
-
-let data=[];
-let index=0;
-let currentTitle="";
 
 function startQuiz(type){
 
@@ -162,21 +154,23 @@ index=0;
 
 if(type==="rights"){
 data=rights;
-currentTitle="حقوق الملكية الفكرية";
+title="حقوق الملكية الفكرية";
 }
+
 if(type==="comm"){
 data=comm;
-currentTitle="Communication Concept";
+title="Communication Concept";
 }
+
 if(type==="path"){
 data=path;
-currentTitle="Pathology";
+title="Pathology";
 }
 
 document.getElementById("menu").style.display="none";
 document.getElementById("quiz").style.display="block";
 
-document.getElementById("title").innerText=currentTitle;
+document.getElementById("title").innerText=title;
 
 show();
 }
@@ -204,7 +198,7 @@ box.appendChild(b);
 function check(i,b){
 
 let q=data[index];
-let buttons=document.querySelectorAll("button");
+let buttons=document.querySelectorAll("#aBox button");
 
 if(i===q.answer){
 b.classList.add("correct");
