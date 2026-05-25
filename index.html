@@ -2,17 +2,17 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>Quiz Platform 💜</title>
+<title>Quiz Platform</title>
 
 <style>
 body {
   font-family: Arial;
   text-align: center;
   padding: 20px;
-  background: linear-gradient(135deg, #f8e8ff, #ffe6f0);
+  background: linear-gradient(135deg, #f3e8ff, #fde2f3);
 }
 
-h1 { color: #6a0dad; }
+h1 { color: #7b2cbf; }
 
 button {
   padding: 12px;
@@ -21,15 +21,16 @@ button {
   border-radius: 15px;
   border: none;
   cursor: pointer;
-  background: #e9d8ff;
+  background: #e0c3fc;
+  color: #333;
 }
 
-button:hover { background: #d6b3ff; }
+button:hover {
+  background: #d0b3f7;
+}
 
 .cute {
-  background: #7b2cbf;
-  color: white;
-  border-radius: 25px;
+  background: #cdb4db;
 }
 
 .en { font-weight: bold; }
@@ -41,12 +42,12 @@ button:hover { background: #d6b3ff; }
 
 <body>
 
-<h1>💜 Quiz Platform</h1>
+<h1>Quiz Platform</h1>
 
 <div id="menu">
-  <button class="cute" onclick="startQuiz('rights')">⚖️ حقوق الملكية</button>
-  <button class="cute" onclick="startQuiz('comm')">💬 Communication</button>
-  <button class="cute" onclick="startQuiz('path')">🧫 Pathology</button>
+  <button class="cute" onclick="startQuiz('rights')">حقوق الملكية الفكرية</button>
+  <button class="cute" onclick="startQuiz('comm')">Communication Concepts</button>
+  <button class="cute" onclick="startQuiz('path')">Pathology</button>
 </div>
 
 <div id="quizBox">
@@ -54,7 +55,7 @@ button:hover { background: #d6b3ff; }
   <div id="question"></div>
   <div id="answers"></div>
   <div id="feedback"></div>
-  <button class="cute" onclick="next()">Next 💜</button>
+  <button class="cute" onclick="next()">Next</button>
 </div>
 
 <script>
@@ -65,130 +66,32 @@ let questions = [];
 
 /* ⚖️ عربي فقط */
 const rightsQuestions = [
-{q_en:"حقوق الملكية الفكرية هي",q_ar:"حقوق الملكية الفكرية هي",
-options:[{en:"قابلة للتنازل دائمًا",ar:"قابلة للتنازل دائمًا"},
-{en:"حقوق معنوية لا يمكن التنازل عنها",ar:"حقوق معنوية لا يمكن التنازل عنها"},
-{en:"حقوق مالية فقط",ar:"حقوق مالية فقط"},
-{en:"يمكن الحجز عليها",ar:"يمكن الحجز عليها"}],answer:1},
-
-{q_en:"حق المؤلف مرتبط بـ",q_ar:"حق المؤلف مرتبط بـ",
-options:[{en:"المنتج فقط",ar:"المنتج فقط"},
-{en:"المبدع أو المؤلف",ar:"المبدع أو المؤلف"},
-{en:"الحكومة",ar:"الحكومة"},
-{en:"السوق",ar:"السوق"}],answer:1},
-
-{q_en:"التنازل عن الحقوق المعنوية",q_ar:"التنازل عن الحقوق المعنوية",
-options:[{en:"مسموح",ar:"مسموح"},
-{en:"غير مسموح",ar:"غير مسموح"},
-{en:"مشروط",ar:"مشروط"},
-{en:"مؤقت",ar:"مؤقت"}],answer:1},
-
-{q_en:"بيع العمل يعني",q_ar:"بيع العمل يعني",
-options:[{en:"نقل الحقوق المعنوية",ar:"نقل الحقوق المعنوية"},
-{en:"نقل النسخة المادية فقط",ar:"نقل النسخة المادية فقط"},
-{en:"نقل كل الحقوق",ar:"نقل كل الحقوق"},
-{en:"إلغاء الملكية",ar:"إلغاء الملكية"}],answer:1},
-
-{q_en:"الحقوق المالية يمكن",q_ar:"الحقوق المالية يمكن",
-options:[{en:"التنازل عنها",ar:"التنازل عنها"},
-{en:"لا يمكن التنازل",ar:"لا يمكن التنازل"},
-{en:"إلغاؤها",ar:"إلغاؤها"},
-{en:"تجاهلها",ar:"تجاهلها"}],answer:0},
-
-{q_en:"الحقوق المعنوية هي",q_ar:"الحقوق المعنوية هي",
-options:[{en:"مالية",ar:"مالية"},
-{en:"شخصية",ar:"شخصية"},
-{en:"تجارية",ar:"تجارية"},
-{en:"مؤقتة",ar:"مؤقتة"}],answer:1},
-
-{q_en:"الحقوق التي يمكن الحجز عليها",q_ar:"الحقوق التي يمكن الحجز عليها",
-options:[{en:"المعنوية",ar:"المعنوية"},
-{en:"المالية",ar:"المالية"},
-{en:"لا شيء",ar:"لا شيء"},
-{en:"كلاهما",ar:"كلاهما"}],answer:1},
-
-{q_en:"العنصر المادي يظهر عند",q_ar:"العنصر المادي يظهر عند",
-options:[{en:"التفكير",ar:"التفكير"},
-{en:"نشر العمل",ar:"نشر العمل"},
-{en:"الفكرة فقط",ar:"الفكرة فقط"},
-{en:"عمل مخفي",ar:"عمل مخفي"}],answer:1},
-
-{q_en:"الحق يعني",q_ar:"الحق يعني",
-options:[{en:"سلطة ومنفعة",ar:"سلطة ومنفعة"},
-{en:"اسم فقط",ar:"اسم فقط"},
-{en:"قانون فقط",ar:"قانون فقط"},
-{en:"واجب",ar:"واجب"}],answer:0},
-
-{q_en:"من الحقوق المعنوية للمؤلف",q_ar:"من الحقوق المعنوية للمؤلف",
-options:[{en:"تعديل حر",ar:"تعديل حر"},
-{en:"منع التشويه",ar:"منع التشويه"},
-{en:"بيع العمل",ar:"بيع العمل"},
-{en:"تجاهل العمل",ar:"تجاهل العمل"}],answer:1},
-
-{q_en:"المؤلف وحده يستطيع",q_ar:"المؤلف وحده يستطيع",
-options:[{en:"نشر العمل لأول مرة",ar:"نشر العمل لأول مرة"},
-{en:"البيع فقط",ar:"البيع فقط"},
-{en:"تجاهل القانون",ar:"تجاهل القانون"},
-{en:"نقل الحقوق المعنوية",ar:"نقل الحقوق المعنوية"}],answer:0},
-
-{q_en:"المؤلف يختار طريقة النشر",q_ar:"المؤلف يختار طريقة النشر",
-options:[{en:"الطباعة",ar:"الطباعة"},
-{en:"التسجيل",ar:"التسجيل"},
-{en:"البث",ar:"البث"},
-{en:"كل ما سبق",ar:"كل ما سبق"}],answer:3},
-
-{q_en:"حق نسبة العمل يعني",q_ar:"حق نسبة العمل يعني",
-options:[{en:"وضع اسم المؤلف",ar:"وضع اسم المؤلف"},
-{en:"إخفاء الاسم",ar:"إخفاء الاسم"},
-{en:"بيع العمل",ar:"بيع العمل"},
-{en:"حذف العمل",ar:"حذف العمل"}],answer:0},
-
-{q_en:"يمكن للمؤلف رفض النشر",q_ar:"يمكن للمؤلف رفض النشر",
-options:[{en:"نعم",ar:"نعم"},
-{en:"لا",ar:"لا"},
-{en:"أحيانًا",ar:"أحيانًا"},
-{en:"حسب العقد",ar:"حسب العقد"}],answer:0},
-
-{q_en:"النشر بدون اسم يعني",q_ar:"النشر بدون اسم يعني",
-options:[{en:"إخفاء الهوية",ar:"إخفاء الهوية"},
-{en:"عمل مزيف",ar:"عمل مزيف"},
-{en:"غير قانوني",ar:"غير قانوني"},
-{en:"بيع الحقوق",ar:"بيع الحقوق"}],answer:0},
-
-{q_en:"الترجمة بدون إذن",q_ar:"الترجمة بدون إذن",
-options:[{en:"مسموح",ar:"مسموح"},
-{en:"اعتداء",ar:"اعتداء"},
-{en:"اختياري",ar:"اختياري"},
-{en:"استخدام حر",ar:"استخدام حر"}],answer:1},
-
-{q_en:"الترجمة الضارة تعتبر",q_ar:"الترجمة الضارة تعتبر",
-options:[{en:"طبيعي",ar:"طبيعي"},
-{en:"اعتداء",ar:"اعتداء"},
-{en:"مسموح",ar:"مسموح"},
-{en:"تجاهل",ar:"تجاهل"}],answer:1},
-
-{q_en:"يمكن للمؤلف منع",q_ar:"يمكن للمؤلف منع",
-options:[{en:"تشويه العمل",ar:"تشويه العمل"},
-{en:"القراءة",ar:"القراءة"},
-{en:"التفكير",ar:"التفكير"},
-{en:"الدراسة",ar:"الدراسة"}],answer:0},
-
-{q_en:"تشمل الحقوق المعنوية",q_ar:"تشمل الحقوق المعنوية",
-options:[{en:"سحب العمل",ar:"سحب العمل"},
-{en:"بيع",ar:"بيع"},
-{en:"تجاهل",ar:"تجاهل"},
-{en:"إلغاء القانون",ar:"إلغاء القانون"}],answer:0},
-
-{q_en:"إذا لم يوجد ورثة تذهب الحقوق إلى",q_ar:"إذا لم يوجد ورثة تذهب الحقوق إلى",
-options:[{en:"الدولة",ar:"الدولة"},
-{en:"صديق",ar:"صديق"},
-{en:"السوق",ar:"السوق"},
-{en:"شركة",ar:"شركة"}],answer:0}
+{q_en:"حقوق الملكية الفكرية هي",options:[{en:"قابلة للتنازل دائمًا"},{en:"حقوق معنوية لا يمكن التنازل عنها"},{en:"حقوق مالية فقط"},{en:"يمكن الحجز عليها"}],answer:1},
+{q_en:"حق المؤلف مرتبط بـ",options:[{en:"المنتج فقط"},{en:"المبدع أو المؤلف"},{en:"الحكومة"},{en:"السوق"}],answer:1},
+{q_en:"التنازل عن الحقوق المعنوية",options:[{en:"مسموح"},{en:"غير مسموح"},{en:"مشروط"},{en:"مؤقت"}],answer:1},
+{q_en:"بيع العمل يعني",options:[{en:"نقل الحقوق المعنوية"},{en:"نقل النسخة المادية فقط"},{en:"نقل كل الحقوق"},{en:"إلغاء الملكية"}],answer:1},
+{q_en:"الحقوق المالية يمكن",options:[{en:"التنازل عنها"},{en:"لا يمكن التنازل"},{en:"إلغاؤها"},{en:"تجاهلها"}],answer:0},
+{q_en:"الحقوق المعنوية هي",options:[{en:"مالية"},{en:"شخصية"},{en:"تجارية"},{en:"مؤقتة"}],answer:1},
+{q_en:"الحقوق التي يمكن الحجز عليها",options:[{en:"المعنوية"},{en:"المالية"},{en:"لا شيء"},{en:"كلاهما"}],answer:1},
+{q_en:"العنصر المادي يظهر عند",options:[{en:"التفكير"},{en:"نشر العمل"},{en:"الفكرة فقط"},{en:"عمل مخفي"}],answer:1},
+{q_en:"الحق يعني",options:[{en:"سلطة ومنفعة"},{en:"اسم فقط"},{en:"قانون فقط"},{en:"واجب"}],answer:0},
+{q_en:"من الحقوق المعنوية للمؤلف",options:[{en:"تعديل حر"},{en:"منع التشويه"},{en:"بيع العمل"},{en:"تجاهل العمل"}],answer:1},
+{q_en:"المؤلف وحده يستطيع",options:[{en:"نشر العمل لأول مرة"},{en:"البيع فقط"},{en:"تجاهل القانون"},{en:"نقل الحقوق المعنوية"}],answer:0},
+{q_en:"المؤلف يختار طريقة النشر",options:[{en:"الطباعة"},{en:"التسجيل"},{en:"البث"},{en:"كل ما سبق"}],answer:3},
+{q_en:"حق نسبة العمل يعني",options:[{en:"وضع اسم المؤلف"},{en:"إخفاء الاسم"},{en:"بيع العمل"},{en:"حذف العمل"}],answer:0},
+{q_en:"يمكن للمؤلف رفض النشر",options:[{en:"نعم"},{en:"لا"},{en:"أحيانًا"},{en:"حسب العقد"}],answer:0},
+{q_en:"النشر بدون اسم يعني",options:[{en:"إخفاء الهوية"},{en:"عمل مزيف"},{en:"غير قانوني"},{en:"بيع الحقوق"}],answer:0},
+{q_en:"الترجمة بدون إذن",options:[{en:"مسموح"},{en:"اعتداء"},{en:"اختياري"},{en:"استخدام حر"}],answer:1},
+{q_en:"الترجمة الضارة تعتبر",options:[{en:"طبيعي"},{en:"اعتداء"},{en:"مسموح"},{en:"تجاهل"}],answer:1},
+{q_en:"يمكن للمؤلف منع",options:[{en:"تشويه العمل"},{en:"القراءة"},{en:"التفكير"},{en:"الدراسة"}],answer:0},
+{q_en:"تشمل الحقوق المعنوية",options:[{en:"سحب العمل"},{en:"بيع"},{en:"تجاهل"},{en:"إلغاء القانون"}],answer:0},
+{q_en:"إذا لم يوجد ورثة تذهب الحقوق إلى",options:[{en:"الدولة"},{en:"صديق"},{en:"السوق"},{en:"شركة"}],answer:0}
 ];
 
-/* 💬 Communication و 🧫 Pathology موجودة عندك مسبقًا — خليهـم مثل ماهم */
+/* 💬 Communication */
+/* 🧫 Pathology */
+/* (حطي نفس اللي عطيتك قبل بدون تغيير) */
 
-/* الربط */
 function startQuiz(type){
   if(type==='rights') questions = rightsQuestions;
   if(type==='comm') questions = commQuestions;
@@ -203,25 +106,32 @@ function startQuiz(type){
 function loadQuestion(){
   let q=questions[current];
   document.getElementById("qNum").innerText="Question "+(current+1);
-  document.getElementById("question").innerHTML=
+
+  if(questions===rightsQuestions){
+    document.getElementById("question").innerHTML=`<div class="en">${q.q_en}</div>`;
+  } else {
+    document.getElementById("question").innerHTML=
     `<div class="en">${q.q_en}</div><div class="ar">${q.q_ar}</div>`;
+  }
+
   document.getElementById("answers").innerHTML=
     q.options.map((o,i)=>`<button onclick="check(${i})">
-    <div class="en">${o.en}</div><div class="ar">${o.ar}</div></button>`).join("");
+    <div class="en">${o.en}</div></button>`).join("");
+
   document.getElementById("feedback").innerHTML="";
 }
 
 function check(i){
   let q=questions[current];
-  document.getElementById("feedback").innerHTML =
-    i===q.answer ? "💚 Correct" : "💔 Wrong";
+  if(i===q.answer){score++;document.getElementById("feedback").innerHTML="Correct";}
+  else document.getElementById("feedback").innerHTML="Wrong";
 }
 
 function next(){
   current++;
   if(current<questions.length) loadQuestion();
   else document.getElementById("quizBox").innerHTML=
-  "<h2>💜 Finished</h2><p>Score: "+score+"/"+questions.length+"</p>";
+  "<h2>Finished</h2><p>Score: "+score+"/"+questions.length+"</p>";
 }
 
 </script>
