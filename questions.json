@@ -5,107 +5,57 @@
     "q_ar": "ما هو الاتصال؟",
     "options": [
       { "en": "Sharing information", "ar": "تبادل المعلومات" },
+      { "en": "Cooking food", "ar": "طبخ الطعام" },
       { "en": "Sleeping", "ar": "النوم" },
-      { "en": "Cooking", "ar": "الطبخ" }
+      { "en": "Running", "ar": "الجري" }
     ],
     "answer": 0
   },
   {
     "subject": "Communication Concepts",
-    "q_en": "What are the main types of communication?",
-    "q_ar": "ما هي أنواع الاتصال الرئيسية؟",
+    "q_en": "Which are types of communication?",
+    "q_ar": "ما هي أنواع الاتصال؟",
     "options": [
-      { "en": "Verbal and Non-verbal", "ar": "لفظي وغير لفظي" },
-      { "en": "Math and Science", "ar": "رياضيات وعلوم" },
-      { "en": "Food and Water", "ar": "طعام وماء" }
+      { "en": "Verbal & Non-verbal", "ar": "لفظي وغير لفظي" },
+      { "en": "Hot & Cold", "ar": "حار وبارد" },
+      { "en": "Fast & Slow", "ar": "سريع وبطيء" },
+      { "en": "Big & Small", "ar": "كبير وصغير" }
     ],
     "answer": 0
   },
   {
     "subject": "Communication Concepts",
-    "q_en": "What is verbal communication?",
-    "q_ar": "ما هو الاتصال اللفظي؟",
+    "q_en": "Verbal communication uses:",
+    "q_ar": "الاتصال اللفظي يستخدم:",
     "options": [
-      { "en": "Using words", "ar": "استخدام الكلمات" },
-      { "en": "Body gestures", "ar": "إشارات الجسد" },
+      { "en": "Words", "ar": "كلمات" },
+      { "en": "Gestures", "ar": "إيماءات" },
+      { "en": "Facial expressions", "ar": "تعبيرات الوجه" },
       { "en": "Silence", "ar": "الصمت" }
     ],
     "answer": 0
   },
   {
     "subject": "Communication Concepts",
-    "q_en": "What is non-verbal communication?",
-    "q_ar": "ما هو الاتصال غير اللفظي؟",
+    "q_en": "Non-verbal communication includes:",
+    "q_ar": "الاتصال غير اللفظي يشمل:",
     "options": [
       { "en": "Body language", "ar": "لغة الجسد" },
       { "en": "Speaking", "ar": "التحدث" },
-      { "en": "Writing only", "ar": "الكتابة فقط" }
+      { "en": "Writing", "ar": "الكتابة" },
+      { "en": "Reading", "ar": "القراءة" }
     ],
     "answer": 0
   },
   {
     "subject": "Communication Concepts",
-    "q_en": "Which is an example of non-verbal communication?",
-    "q_ar": "أي مثال على الاتصال غير اللفظي؟",
-    "options": [
-      { "en": "Smiling", "ar": "الابتسامة" },
-      { "en": "Talking", "ar": "التحدث" },
-      { "en": "Writing", "ar": "الكتابة" }
-    ],
-    "answer": 0
-  },
-  {
-    "subject": "Communication Concepts",
-    "q_en": "Who is the sender?",
-    "q_ar": "من هو المرسل؟",
+    "q_en": "Sender is:",
+    "q_ar": "المرسل هو:",
     "options": [
       { "en": "Who sends message", "ar": "من يرسل الرسالة" },
       { "en": "Who receives message", "ar": "من يستقبل الرسالة" },
-      { "en": "Noise", "ar": "ضوضاء" }
-    ],
-    "answer": 0
-  },
-  {
-    "subject": "Communication Concepts",
-    "q_en": "Who is the receiver?",
-    "q_ar": "من هو المستقبل؟",
-    "options": [
-      { "en": "Who receives message", "ar": "من يستقبل الرسالة" },
-      { "en": "Who sends message", "ar": "من يرسل الرسالة" },
+      { "en": "Noise", "ar": "ضوضاء" },
       { "en": "Channel", "ar": "قناة" }
-    ],
-    "answer": 0
-  },
-  {
-    "subject": "Communication Concepts",
-    "q_en": "What is a message?",
-    "q_ar": "ما هي الرسالة؟",
-    "options": [
-      { "en": "Information sent", "ar": "المعلومة المرسلة" },
-      { "en": "Noise", "ar": "ضوضاء" },
-      { "en": "Signal device", "ar": "جهاز إشارة" }
-    ],
-    "answer": 0
-  },
-  {
-    "subject": "Communication Concepts",
-    "q_en": "What is feedback?",
-    "q_ar": "ما هو التغذية الراجعة؟",
-    "options": [
-      { "en": "Response from receiver", "ar": "رد المستقبل" },
-      { "en": "Noise", "ar": "ضوضاء" },
-      { "en": "Sender", "ar": "مرسل" }
-    ],
-    "answer": 0
-  },
-  {
-    "subject": "Communication Concepts",
-    "q_en": "What is noise?",
-    "q_ar": "ما هي الضوضاء؟",
-    "options": [
-      { "en": "Anything that disturbs communication", "ar": "أي شيء يعيق الاتصال" },
-      { "en": "Clear message", "ar": "رسالة واضحة" },
-      { "en": "Feedback", "ar": "تغذية راجعة" }
     ],
     "answer": 0
   }
