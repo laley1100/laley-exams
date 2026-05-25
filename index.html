@@ -12,134 +12,164 @@ body {
   background: linear-gradient(135deg, #f8e8ff, #ffe6f0);
 }
 
-h1 {
-  color: #6a0dad;
-  font-size: 28px;
-}
-
-.en {
-  font-size: 20px;
-  font-weight: bold;
-  color: #4b0082;
-}
-
-.ar {
-  font-size: 13px;
-  color: #666;
-}
+h1 { color: #6a0dad; }
 
 button {
   padding: 12px;
-  margin: 8px auto;
+  margin: 10px;
   width: 80%;
   border-radius: 15px;
   border: none;
-  display: block;
   cursor: pointer;
   background: #e9d8ff;
-  transition: 0.3s;
 }
 
-button:hover {
-  background: #d6b3ff;
-}
+button:hover { background: #d6b3ff; }
 
-.cute-btn {
+.cute {
   background: #7b2cbf;
-  width: 200px;
-  border-radius: 30px;
   color: white;
-  font-size: 18px;
+  border-radius: 25px;
 }
 
-.correct { color: green; }
-.wrong { color: red; }
+.en { font-weight: bold; }
+.ar { font-size: 13px; color: #666; }
 
-.small-ar {
-  font-size: 12px;
-}
+#quizBox { display:none; }
 </style>
 </head>
 
 <body>
 
-<h1>💖 Communication Concepts</h1>
+<h1>💖 Quiz Platform</h1>
 
-<div id="quiz"></div>
-<div id="feedback"></div>
+<!-- MENU -->
+<div id="menu">
 
-<button id="nextBtn" class="cute-btn" onclick="nextQuestion()" style="display:none;">
-Next 💖
-</button>
+  <button class="cute" onclick="startQuiz('rights')">⚖️ حقوق ملكية</button>
+  <button class="cute" onclick="startQuiz('comm')">💬 Communication Concepts</button>
+  <button class="cute" onclick="startQuiz('path')">🧫 Pathology</button>
 
-<h2 id="final"></h2>
+</div>
+
+<!-- QUIZ -->
+<div id="quizBox">
+  <h2 id="qNum"></h2>
+  <div id="question"></div>
+  <div id="answers"></div>
+  <div id="feedback"></div>
+
+  <button class="cute" onclick="next()">Next 💖</button>
+</div>
 
 <script>
 
-let questions = [];
 let current = 0;
 let score = 0;
-let answered = false;
+let questions = [];
 
-fetch('questions.json')
-.then(res => res.json())
-.then(data => {
-  questions = data;
+/* 💜 1) حقوق ملكية */
+const rightsQuestions = [
+  {
+    q_en: "What is intellectual property?",
+    q_ar: "ما هي الملكية الفكرية؟",
+    options: [
+      {en:"Creations of mind", ar:"إبداعات العقل"},
+      {en:"Physical objects", ar:"أشياء مادية"},
+      {en:"Buildings", ar:"مباني"},
+      {en:"Tools", ar:"أدوات"}
+    ],
+    answer:0
+  }
+  // 👈 نكمل 20 لاحقًا
+];
+
+/* 💬 2) Communication */
+const commQuestions = [
+  {
+    q_en: "Communication is:",
+    q_ar: "الاتصال هو:",
+    options: [
+      {en:"Two-way process", ar:"عملية ثنائية"},
+      {en:"One-way", ar:"اتجاه واحد"},
+      {en:"Random", ar:"عشوائي"},
+      {en:"None", ar:"لا شيء"}
+    ],
+    answer:0
+  }
+  // 👈 نكمل 20
+];
+
+/* 🧫 3) Pathology */
+const pathQuestions = [
+  {
+    q_en: "Pathology studies:",
+    q_ar: "علم الأمراض يدرس:",
+    options: [
+      {en:"Diseases", ar:"الأمراض"},
+      {en:"Cars", ar:"سيارات"},
+      {en:"Food", ar:"طعام"},
+      {en:"Books", ar:"كتب"}
+    ],
+    answer:0
+  }
+  // 👈 نكمل 20
+];
+
+function startQuiz(type){
+
+  if(type === 'rights') questions = rightsQuestions;
+  if(type === 'comm') questions = commQuestions;
+  if(type === 'path') questions = pathQuestions;
+
+  current = 0;
+  score = 0;
+
+  document.getElementById("menu").style.display = "none";
+  document.getElementById("quizBox").style.display = "block";
+
   loadQuestion();
-});
-
-function loadQuestion(){
-  answered = false;
-  const q = questions[current];
-
-  document.getElementById("quiz").innerHTML = `
-    <div class="en">${current+1}) ${q.q_en}</div>
-    <div class="ar small-ar">${q.q_ar}</div><br>
-
-    ${q.options.map((o,i)=>`
-      <button onclick="checkAnswer(${i})">
-        <div class="en">${o.en}</div>
-        <div class="ar small-ar">${o.ar}</div>
-      </button>
-    `).join("")}
-  `;
-
-  document.getElementById("feedback").innerHTML = "";
-  document.getElementById("nextBtn").style.display = "none";
 }
 
-function checkAnswer(i){
-  if(answered) return;
-  answered = true;
+function loadQuestion(){
+  let q = questions[current];
 
-  const q = questions[current];
-  document.querySelectorAll("#quiz button").forEach(b=>b.disabled=true);
+  document.getElementById("qNum").innerText = "Question " + (current+1);
+
+  document.getElementById("question").innerHTML =
+    `<div class="en">${q.q_en}</div>
+     <div class="ar">${q.q_ar}</div>`;
+
+  document.getElementById("answers").innerHTML =
+    q.options.map((o,i)=>
+      `<button onclick="check(${i})">
+        <div class="en">${o.en}</div>
+        <div class="ar">${o.ar}</div>
+      </button>`
+    ).join("");
+
+  document.getElementById("feedback").innerHTML = "";
+}
+
+function check(i){
+  let q = questions[current];
 
   if(i === q.answer){
     score++;
-    document.getElementById("feedback").innerHTML =
-      "<div class='correct'>💚 Correct</div><div class='ar small-ar'>إجابة صحيحة</div>";
+    document.getElementById("feedback").innerHTML = "💚 Correct";
   } else {
-    document.getElementById("feedback").innerHTML =
-      `<div class='wrong'>💔 Wrong</div>
-       <div class='correct'>Correct Answer: ${q.options[q.answer].en}</div>`;
+    document.getElementById("feedback").innerHTML = "💔 Wrong";
   }
-
-  document.getElementById("nextBtn").style.display = "block";
 }
 
-function nextQuestion(){
+function next(){
   current++;
 
   if(current < questions.length){
     loadQuestion();
   } else {
-    document.getElementById("quiz").innerHTML = "";
-    document.getElementById("feedback").innerHTML = "";
-    document.getElementById("nextBtn").style.display = "none";
-
-    document.getElementById("final").innerHTML =
-      "💖 Score: " + score + " / " + questions.length;
+    document.getElementById("quizBox").innerHTML =
+      "<h2>💖 Finished!</h2><p>Score: "+score+" / "+questions.length+"</p>";
   }
 }
 
