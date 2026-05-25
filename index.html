@@ -1,30 +1,29 @@
-
 <!DOCTYPE html>
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>Quiz Platform 💖</title>
+<title>Quiz Platform</title>
 
 <style>
 body {
   font-family: Arial;
   text-align: center;
   padding: 20px;
-  background: #fff0f5;
+  background: #f3e8ff; /* بنفسجي فاتح */
 }
 
 h1 {
-  color: #ff4da6;
+  color: #6a0dad;
 }
 
 .en {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: bold;
-  color: #ff4da6;
+  color: #4b0082;
 }
 
 .ar {
-  font-size: 15px;
+  font-size: 13px;
   color: #666;
 }
 
@@ -36,21 +35,20 @@ button {
   border: none;
   display: block;
   cursor: pointer;
-  background: #ffe4ec;
+  background: #e6d6ff;
   transition: 0.3s;
 }
 
 button:hover {
-  background: #ffd1e0;
+  background: #d6bfff;
 }
 
 .cute-btn {
-  background: linear-gradient(45deg, #ff9ecb, #ffc0cb);
+  background: #7b2cbf;
   width: 200px;
   border-radius: 30px;
   color: white;
   font-size: 18px;
-  box-shadow: 0 4px 10px rgba(255,105,180,0.4);
 }
 
 .correct { color: green; }
@@ -61,12 +59,12 @@ button:hover {
 
 <body>
 
-<h1 id="subject">💖 Quiz 💖</h1>
+<h1 id="subject">Quiz 💜</h1>
 
 <div id="quiz"></div>
 <div id="feedback"></div>
 
-<button id="nextBtn" class="cute-btn" onclick="nextQuestion()" style="display:none;">Next 💖</button>
+<button id="nextBtn" class="cute-btn" onclick="nextQuestion()" style="display:none;">Next</button>
 
 <h2 id="final"></h2>
 
@@ -81,7 +79,7 @@ fetch('questions.json')
 .then(res => res.json())
 .then(data => {
   questions = data;
-  document.getElementById("subject").innerText = data[0].subject || "Quiz 💖";
+  document.getElementById("subject").innerText = data[0].subject;
   loadQuestion();
 });
 
@@ -90,7 +88,7 @@ function loadQuestion(){
   const q = questions[current];
 
   document.getElementById("quiz").innerHTML = `
-    <div class="en">💗 ${current+1}) ${q.q_en}</div>
+    <div class="en">${current+1}) ${q.q_en}</div>
     <div class="ar">${q.q_ar}</div><br>
 
     ${q.options.map((o,i)=>`
@@ -115,12 +113,11 @@ function checkAnswer(i){
   if(i === q.answer){
     score++;
     document.getElementById("feedback").innerHTML =
-      "<div class='correct'>💚 Correct</div><div class='ar'>إجابة صحيحة</div>";
+      "<div class='correct'>Correct 💚</div><div class='ar'>إجابة صحيحة</div>";
   } else {
     document.getElementById("feedback").innerHTML =
-      `<div class='wrong'>💔 Wrong</div>
-       <div class='correct'>${q.options[q.answer].en}</div>
-       <div class='ar'>${q.options[q.answer].ar}</div>`;
+      `<div class='wrong'>Wrong 💔</div>
+       <div class='correct'>Correct Answer: ${q.options[q.answer].en}</div>`;
   }
 
   document.getElementById("nextBtn").style.display = "block";
@@ -137,7 +134,7 @@ function nextQuestion(){
     document.getElementById("nextBtn").style.display = "none";
 
     document.getElementById("final").innerHTML =
-      "💖 Score: " + score + " / " + questions.length;
+      "Score: " + score + " / " + questions.length;
   }
 }
 
