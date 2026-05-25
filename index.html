@@ -7,18 +7,31 @@
 <style>
 body{
 font-family: Arial;
-direction: rtl;
-background:#f7f7ff;
+background:#f5f5ff;
 text-align:center;
+direction:rtl;
+}
+
+.subject-btn{
+display:block;
+margin:10px auto;
+padding:12px;
+width:270px;
+border:none;
+border-radius:12px;
+background:#e6ccff;
+cursor:pointer;
+font-size:16px;
 }
 
 .card{
 background:white;
 padding:20px;
 margin:20px auto;
-width:80%;
+width:85%;
 border-radius:15px;
 box-shadow:0 0 10px rgba(0,0,0,0.1);
+white-space:pre-line;
 }
 
 .option{
@@ -39,119 +52,163 @@ cursor:pointer;
 
 <body>
 
-<div id="quiz"></div>
+<h2>اختار المادة</h2>
+
+<div id="menu">
+
+<button class="subject-btn" onclick="start('ip')">حقوق الملكية الفكرية</button>
+<button class="subject-btn" onclick="start('comm')">Communication Concepts</button>
+<button class="subject-btn" onclick="start('path')">Pathology</button>
+
+</div>
+
+<div id="quiz" class="hidden"></div>
 
 <script>
 
-const questions = [
+const data = {
 
-{
-q:`1- من خصائص العنصر المعنوي لحق المؤلف:
+/* =========================
+   1) IP (ARABIC ONLY - NO CHANGE)
+========================= */
+ip:{
+title:"حقوق الملكية الفكرية",
+q:[
+`1- من خصائص العنصر المعنوي لحق المؤلف:
 أ- عدم قابليته للتنازل عنه أو التعامل به
 ب- قابليته للتنازل عنه والتعامل به
 ج- يسقط بالتقادم
 د- قابليته للحجز`,
-a:["أ- عدم قابليته للتنازل عنه أو التعامل به","ب- قابليته للتنازل عنه والتعامل به","ج- يسقط بالتقادم","د- قابليته للحجز"],
-correct:0
-},
 
-{
-q:`2- حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان وهذا ما أُطلق عليه بموجب اتفاقية WIPO:
+`2- حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان وهذا ما أُطلق عليه بموجب اتفاقية WIPO:
 أ- المصنف أو المؤلف
 ب- المؤلف أو المبدع أو المبتكر
 ج- السلطة الأبوية
-د- الاستغلال والتصرف`,
-a:["أ- المصنف أو المؤلف","ب- المؤلف أو المبدع أو المبتكر","ج- السلطة الأبوية","د- الاستغلال والتصرف"],
-correct:1
+د- الاستغلال والتصرف`
+],
+a:[
+["أ- عدم قابليته للتنازل عنه أو التعامل به","ب- قابليته للتنازل عنه والتعامل به","ج- يسقط بالتقادم","د- قابليته للحجز"],
+["أ- المصنف أو المؤلف","ب- المؤلف أو المبدع أو المبتكر","ج- السلطة الأبوية","د- الاستغلال والتصرف"]
+],
+c:[0,1]
 },
 
-{
-q:`3- من أشكال التنازل عن العنصر المعنوي:
-أ- البيع، الهبة، التبرع
-ب- المصنف أو المؤلف
-ج- التبرع وأخذ قيمته
-د- يسقط بالتقادم`,
-a:["أ- البيع، الهبة، التبرع","ب- المصنف أو المؤلف","ج- التبرع وأخذ قيمته","د- يسقط بالتقادم"],
-correct:0
+/* =========================
+   2) COMMUNICATION (AR + EN)
+========================= */
+comm:{
+title:"Communication Concepts / مفاهيم الاتصال",
+q:[
+`1) Therapeutic communication is best defined as
+التواصل العلاجي يُعرّف بأنه
+A. Casual conversation / حديث عشوائي
+B. Planned professional act / تواصل مهني مخطط
+C. Instructions only / تعليمات فقط
+D. Talking to calm / للتطمين فقط`,
+
+`2) Shared understanding helps to
+الفهم المشترك يساعد على
+A. Achieve goals / تحقيق الأهداف
+B. Reduce documentation / تقليل التوثيق
+C. Save time / توفير الوقت
+D. Limit interaction / تقليل التواصل`
+],
+a:[
+["A","B","C","D"],
+["A","B","C","D"]
+],
+c:[1,0]
 },
 
-{
-q:`4- إذا تنازل أو باع الفرد المؤلف أو المنتج الخاص به هل ينتقل العنصر المعنوي؟
-أ- لا يستتبع تصرف المؤلف في ملكية نسخته المادية من مصنفه تنازله عن أي من حقوق المؤلف
-ب- يستتبع تصرف المؤلف في ملكية نسخته المادية من مصنفه تنازله عن أي من حقوق المؤلف
-ج- يتصرف المؤلف في ملكية نسخته المادية من مصنفه
-د- البيع`,
-a:["أ- لا يستتبع تصرف المؤلف في ملكية نسخته المادية من مصنفه تنازله عن أي من حقوق المؤلف","ب- يستتبع تصرف المؤلف في ملكية نسخته المادية من مصنفه تنازله عن أي من حقوق المؤلف","ج- يتصرف المؤلف في ملكية نسخته المادية من مصنفه","د- البيع"],
-correct:0
-},
+/* =========================
+   3) PATHOLOGY (AR + EN)
+========================= */
+path:{
+title:"Pathology / علم الأمراض",
+q:[
+`1) Edema means
+الوذمة تعني
+A. Swelling / تورم
+B. Blood / دم
+C. Pain / ألم
+D. Fracture / كسر`,
 
-{
-q:`5- تنازل المؤلف عن حقوقه المالية أو أي جزء منها لا يستتبع ذلك:
-أ- الحقوق المعنوية
-ب- الهبة
-ج- التبرع
-د- البيع`,
-a:["أ- الحقوق المعنوية","ب- الهبة","ج- التبرع","د- البيع"],
-correct:0
-},
-
-{
-q:`6- الحقوق اللصيقة بشخصية الإنسان ليست حقوقًا مالية إنما هي:
-أ- فرع من الحقوق العامة للأفراد
-ب- فرع من فروع المعرفة
-ج- البطلان المطلق للكافة
-د- الحق المالي وحق البيع`,
-a:["أ- فرع من الحقوق العامة للأفراد","ب- فرع من فروع المعرفة","ج- البطلان المطلق للكافة","د- الحق المالي وحق البيع"],
-correct:0
+`2) Thrombus is
+الخثرة هي
+A. Tumor / ورم
+B. Clot / جلطة
+C. Infection / التهاب
+D. Wound / جرح`
+],
+a:[
+["A","B","C","D"],
+["A","B","C","D"]
+],
+c:[0,1]
 }
 
-];
+};
 
-let index=0;
+let subject=null;
+let i=0;
+
+function start(x){
+subject=x;
+i=0;
+
+document.getElementById("menu").classList.add("hidden");
+document.getElementById("quiz").classList.remove("hidden");
+
+show();
+}
 
 function show(){
-let q=questions[index];
 
-let html=`<div class="card">
-<h3>${q.q}</h3>`;
+let q=data[subject].q[i];
+let a=data[subject].a[i];
+let c=data[subject].c[i];
 
-q.a.forEach((opt,i)=>{
-html+=`<div class="option" onclick="check(${i})">${opt}</div>`;
-});
-
-html+=`<p id="res"></p></div>`;
-
-document.getElementById("quiz").innerHTML=html;
+document.getElementById("quiz").innerHTML=`
+<div class="card">
+<h3>${data[subject].title}</h3>
+<pre>${q}</pre>
+<div>
+${a.map((x,idx)=>`
+<div class="option" onclick="check(${idx})">${x}</div>
+`).join("")}
+</div>
+<p id="res"></p>
+</div>`;
 }
 
-function check(i){
-let q=questions[index];
-let res=document.getElementById("res");
+function check(x){
 
+let c=data[subject].c[i];
 let opts=document.querySelectorAll(".option");
 
 opts.forEach(o=>o.style.pointerEvents="none");
 
-if(i===q.correct){
-opts[i].classList.add("correct");
+let res=document.getElementById("res");
+
+if(x===c){
+opts[x].classList.add("correct");
 res.innerHTML="✔ صح 💖";
 }else{
-opts[i].classList.add("wrong");
-opts[q.correct].classList.add("correct");
+opts[x].classList.add("wrong");
+opts[c].classList.add("correct");
 res.innerHTML="✖ غلط 💔";
 }
 
 setTimeout(()=>{
-index++;
-if(index<questions.length){
+i++;
+if(i<data[subject].q.length){
 show();
 }else{
-document.getElementById("quiz").innerHTML="<h2>انتهى الاختبار 💖</h2>";
+document.getElementById("quiz").innerHTML="خلصت 💖";
 }
 },1200);
-}
 
-show();
+}
 
 </script>
 
