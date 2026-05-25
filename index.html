@@ -1,218 +1,270 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Quiz System</title>
+<title>Quiz App</title>
 
 <style>
 body{
 font-family: Arial;
-background:#f4f4f4;
-text-align:center;
+background: linear-gradient(135deg,#f7c6ff,#cdb4ff);
+margin:0;
+padding:0;
 }
 
-h2{
-margin-top:20px;
-color:#222;
-}
-
-.sub{
-font-size:12px;
-color:#777;
-margin-top:-10px;
-margin-bottom:10px;
+.container{
+max-width:800px;
+margin:auto;
+padding:20px;
 }
 
 .card{
 background:white;
-padding:15px;
-margin:15px auto;
-width:90%;
-max-width:600px;
+padding:20px;
+border-radius:15px;
+margin-top:20px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+button{
+padding:10px 15px;
+margin:5px;
+border:none;
 border-radius:10px;
-box-shadow:0 2px 10px rgba(0,0,0,0.1);
-text-align:right;
+cursor:pointer;
+background:#a855f7;
+color:white;
+}
+
+button:hover{
+background:#9333ea;
 }
 
 .option{
 display:block;
-padding:10px;
-margin:5px 0;
-background:#eee;
-border-radius:8px;
-cursor:pointer;
+width:100%;
+text-align:left;
+background:#f3f3f3;
+color:black;
 }
 
-.option:hover{
-background:#ddd;
+.option.correct{
+background:#b7f7c1 !important;
 }
 
-.correct{color:green;font-weight:bold;}
-.wrong{color:red;font-weight:bold;}
-.small{font-size:12px;color:#666;}
+.option.wrong{
+background:#ffb3c1 !important;
+}
+
+.title{
+font-size:22px;
+font-weight:bold;
+color:#4c1d95;
+}
+
+.heart{
+font-size:20px;
+margin-left:10px;
+}
 </style>
 </head>
 
 <body>
 
-<div id="app"></div>
+<div class="container">
+
+<!-- MENU -->
+<div id="menu" class="card">
+<h2>اختاري المادة</h2>
+<button onclick="startQuiz('communication')">Communication Concept</button>
+<button onclick="startQuiz('pathology')">Pathology</button>
+<button onclick="startQuiz('rights')">حقوق الملكية الفكرية</button>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" class="card" style="display:none;">
+<h2 id="subjectTitle"></h2>
+<div id="questionBox"></div>
+<div id="optionsBox"></div>
+<button onclick="nextQuestion()">التالي</button>
+</div>
+
+</div>
 
 <script>
 
-// ================= DATA =================
+// ===================== QUESTIONS =====================
 
-const subjects = [
-
+// Communication (EN + AR)
+const communication = [
 {
-name:"حقوق الملكية الفكرية",
-sub:"Intellectual Property Rights",
-questions:[
-{
-q_ar:"من خصائص العنصر المعنوي لحق المؤلف",
-q_en:"Moral rights characteristic",
+q_en:"Therapeutic communication is best defined as",
+q_ar:"التواصل العلاجي يُعرّف بأنه",
 options:[
-"عدم قابليته للتنازل",
-"قابليته للتنازل",
-"يسقط بالتقادم",
-"قابل للحجز"
+{en:"Casual conversation", ar:"حديث عادي"},
+{en:"Professional planned communication", ar:"تواصل مهني مخطط"},
+{en:"Medical orders only", ar:"أوامر طبية فقط"},
+{en:"Calming patient only", ar:"تهدئة المريض فقط"}
+],
+answer:1
+},
+{
+q_en:"Shared understanding helps to",
+q_ar:"الفهم المشترك يساعد على",
+options:[
+{en:"Achieve goals", ar:"تحقيق الأهداف"},
+{en:"Reduce work", ar:"تقليل العمل"},
+{en:"Save time only", ar:"توفير الوقت فقط"},
+{en:"Limit interaction", ar:"تقليل التفاعل"}
 ],
 answer:0
 },
 {
-q_ar:"حق المؤلف مرتبط بـ",
-q_en:"Copyright is related to",
+q_en:"Silence in communication allows patient to",
+q_ar:"الصمت في التواصل يسمح للمريض أن",
 options:[
-"المنتج",
-"المؤلف",
-"الحكومة",
-"السوق"
+{en:"Feel ignored", ar:"يشعر بالإهمال"},
+{en:"Think and reflect", ar:"يفكر ويتأمل"},
+{en:"Lose interest", ar:"يفقد الاهتمام"},
+{en:"Stop talking", ar:"يتوقف عن الكلام"}
 ],
 answer:1
 }
-]
-},
+];
 
+// Pathology (EN + AR)
+const pathology = [
 {
-name:"Communication Concept",
-sub:"مفهوم التواصل العلاجي",
-questions:[
-{
-q_ar:"Therapeutic communication is",
-q_en:"Therapeutic communication is",
+q_en:"Percentage of body water",
+q_ar:"نسبة ماء الجسم",
 options:[
-"Casual talk",
-"Professional planned communication",
-"Giving orders",
-"Silence only"
-],
-answer:1
-},
-{
-q_ar:"SBAR stands for",
-q_en:"SBAR stands for",
-options:[
-"Signs Background Action Response",
-"Situation Background Assessment Recommendation",
-"Simple Basic Action Report",
-"None"
-],
-answer:1
-}
-]
-},
-
-{
-name:"Pathology",
-sub:"علم الأمراض",
-questions:[
-{
-q_ar:"Percentage of body water",
-q_en:"Body water percentage",
-options:[
-"40%",
-"50%",
-"60%",
-"70%"
+{en:"40%", ar:"40%"},
+{en:"50%", ar:"50%"},
+{en:"60%", ar:"60%"},
+{en:"70%", ar:"70%"}
 ],
 answer:2
 },
 {
-q_ar:"Most common thrombus",
-q_en:"Most common thrombus",
+q_en:"Non-pitting edema occurs in",
+q_ar:"الوذمة غير الانطباعية تحدث في",
 options:[
-"Arterial",
-"Venous",
-"Capillary",
-"Cardiac"
+{en:"Cardiac", ar:"قلبي"},
+{en:"Renal", ar:"كلوي"},
+{en:"Nutritional", ar:"تغذوي"},
+{en:"Lymphatic", ar:"لمفاوي"}
 ],
-answer:1
+answer:3
 }
-]
-}
-
 ];
 
-// ================= APP =================
+// Intellectual Property (AR ONLY - EXACT TEXT)
+const rights = [
 
-const app = document.getElementById("app");
+{
+q:"1- من خصائص العنصر المعنوي لحق المؤلف:\nأ- عدم قابليته للتنازل عنه أو التعامل به\nب- قابليته للتنازل عنه والتعامل به\nج- يسقط بالتقادم\nد- قابليته للحجز",
+options:["أ","ب","ج","د"],
+answer:0
+},
+{
+q:"2- حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان وهذا ما أُطلق عليه بموجب اتفاقية WIPO:\nأ- المصنف أو المؤلف\nب- المؤلف أو المبدع أو المبتكر\nج- السلطة الأبوية\nد- الاستغلال والتصرف",
+options:["أ","ب","ج","د"],
+answer:1
+},
+{
+q:"3- من أشكال التنازل عن العنصر المعنوي:\nأ- البيع، الهبة، التبرع\nب- المصنف أو المؤلف\nج- التبرع وأخذ قيمته\nد- يسقط بالتقادم",
+options:["أ","ب","ج","د"],
+answer:0
+}
+];
 
-subjects.forEach(subject=>{
+// ===================== ENGINE =====================
 
-const title = document.createElement("h2");
-title.innerText = subject.name;
+let current = 0;
+let questions = [];
+let subject = "";
 
-const sub = document.createElement("div");
-sub.className="sub";
-sub.innerText = subject.sub;
+function startQuiz(type){
 
-app.appendChild(title);
-app.appendChild(sub);
+current = 0;
 
-subject.questions.forEach(q=>{
+if(type==="communication"){
+questions = communication;
+subject = "Communication Concept";
+}
+if(type==="pathology"){
+questions = pathology;
+subject = "Pathology";
+}
+if(type==="rights"){
+questions = rights;
+subject = "حقوق الملكية الفكرية";
+}
 
-const card = document.createElement("div");
-card.className="card";
+document.getElementById("menu").style.display="none";
+document.getElementById("quiz").style.display="block";
 
-card.innerHTML = `
-<div>${q.q_ar}</div>
-<div class="small">${q.q_en}</div>
-`;
+document.getElementById("subjectTitle").innerText = subject;
+
+showQuestion();
+}
+
+function showQuestion(){
+
+let q = questions[current];
+let box = document.getElementById("questionBox");
+let optBox = document.getElementById("optionsBox");
+
+optBox.innerHTML="";
+
+box.innerHTML = `<p>${q.q_en ? q.q_en + "<br><small>"+q.q_ar+"</small>" : q.q}</p>`;
 
 q.options.forEach((opt,i)=>{
 
-const btn = document.createElement("div");
-btn.className="option";
-btn.innerText = opt;
+let btn = document.createElement("button");
+btn.classList.add("option");
 
-btn.onclick = ()=>{
-
-let old = card.querySelector(".result");
-if(old) old.remove();
-
-const res = document.createElement("div");
-res.className="result";
-
-if(i === q.answer){
-res.innerHTML = "✔ صح";
-res.className="correct";
+if(opt.en){
+btn.innerHTML = opt.en + "<br><small>" + opt.ar + "</small>";
 }else{
-res.innerHTML = "❌ غلط 💔 <br> الصح: " + q.options[q.answer];
-res.className="wrong";
+btn.innerHTML = opt;
 }
 
-card.appendChild(res);
-};
+btn.onclick = ()=>checkAnswer(i,btn);
 
-card.appendChild(btn);
+optBox.appendChild(btn);
 });
 
-app.appendChild(card);
+}
 
-});
+function checkAnswer(i,btn){
 
-});
+let q = questions[current];
+let buttons = document.querySelectorAll(".option");
+
+if(i === q.answer){
+btn.style.background="#b7f7c1";
+btn.innerHTML += " 💖";
+}else{
+btn.style.background="#ffb3c1";
+btn.innerHTML += " 💔";
+
+// show correct
+buttons[q.answer].style.background="#b7f7c1";
+buttons[q.answer].innerHTML += " ✔";
+}
+}
+
+function nextQuestion(){
+current++;
+if(current < questions.length){
+showQuestion();
+}else{
+alert("انتهى الاختبار 💖");
+location.reload();
+}
+}
 
 </script>
-
 </body>
 </html>
