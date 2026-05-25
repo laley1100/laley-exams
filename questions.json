@@ -6,13 +6,13 @@
       { "en": "Casual conversation", "ar": "حديث عادي" },
       { "en": "Professional planned communication", "ar": "اتصال مهني مخطط" },
       { "en": "Giving orders only", "ar": "إعطاء أوامر فقط" },
-      { "en": "Talking to calm patient", "ar": "التحدث لتهدئة المريض فقط" }
+      { "en": "Talking to calm patient", "ar": "التحدث لتهدئة المريض" }
     ],
     "answer": 1
   },
   {
-    "q_en": "Shared understanding of information helps to",
-    "q_ar": "الفهم المشترك للمعلومات يساعد على",
+    "q_en": "Shared understanding helps to",
+    "q_ar": "الفهم المشترك يساعد على",
     "options": [
       { "en": "Achieve patient goals", "ar": "تحقيق أهداف المريض" },
       { "en": "Reduce paperwork", "ar": "تقليل الأوراق" },
@@ -22,7 +22,7 @@
     "answer": 0
   },
   {
-    "q_en": "Using silence allows the patient to",
+    "q_en": "Silence in communication allows the patient to",
     "q_ar": "استخدام الصمت يسمح للمريض بـ",
     "options": [
       { "en": "Feel ignored", "ar": "الشعور بالتجاهل" },
@@ -34,7 +34,7 @@
   },
   {
     "q_en": "Exploring means",
-    "q_ar": "التعمق في الموضوع يعني",
+    "q_ar": "التعمق يعني",
     "options": [
       { "en": "Changing topic", "ar": "تغيير الموضوع" },
       { "en": "Going deeper into issue", "ar": "التعمق في الموضوع" },
@@ -49,8 +49,68 @@
     "options": [
       { "en": "Check understanding", "ar": "التأكد من الفهم" },
       { "en": "Confuse patient", "ar": "إرباك المريض" },
-      { "en": "End conversation", "ar": "إنهاء الحديث" },
+      { "en": "End communication", "ar": "إنهاء الاتصال" },
       { "en": "Give medication", "ar": "إعطاء دواء" }
+    ],
+    "answer": 0
+  },
+
+  {
+    "q_en": "Reflecting focuses on",
+    "q_ar": "الانعكاس يركز على",
+    "options": [
+      { "en": "Patient feelings", "ar": "مشاعر المريض" },
+      { "en": "Equipment", "ar": "الأجهزة" },
+      { "en": "Reports only", "ar": "التقارير فقط" },
+      { "en": "Time only", "ar": "الوقت فقط" }
+    ],
+    "answer": 0
+  },
+
+  {
+    "q_en": "Functional touch is used for",
+    "q_ar": "اللمس المهني يستخدم لـ",
+    "options": [
+      { "en": "Clinical care", "ar": "الرعاية الطبية" },
+      { "en": "Friendship", "ar": "الصداقة" },
+      { "en": "Greeting", "ar": "التحية" },
+      { "en": "Entertainment", "ar": "الترفيه" }
+    ],
+    "answer": 0
+  },
+
+  {
+    "q_en": "Communication is",
+    "q_ar": "الاتصال هو",
+    "options": [
+      { "en": "One-way process", "ar": "عملية باتجاه واحد" },
+      { "en": "Two-way process", "ar": "عملية ثنائية الاتجاه" },
+      { "en": "Random process", "ar": "عملية عشوائية" },
+      { "en": "No process", "ar": "ليس عملية" }
+    ],
+    "answer": 1
+  },
+
+  {
+    "q_en": "Noise in communication is",
+    "q_ar": "الضوضاء في الاتصال هي",
+    "options": [
+      { "en": "Clear message", "ar": "رسالة واضحة" },
+      { "en": "Anything that disturbs communication", "ar": "أي شيء يعيق الاتصال" },
+      { "en": "Feedback", "ar": "تغذية راجعة" },
+      { "en": "Sender", "ar": "المرسل" }
+    ],
+    "answer": 1
+  },
+
+  {
+    "q_en": "Patient handover means",
+    "q_ar": "تسليم المريض يعني",
+    "options": [
+      { "en": "Transfer of responsibility", "ar": "نقل المسؤولية" },
+      { "en": "Selling equipment", "ar": "بيع المعدات" },
+      { "en": "Writing reports only", "ar": "كتابة التقارير فقط" },
+      { "en": "Ignoring patient", "ar": "تجاهل المريض" }
     ],
     "answer": 0
   }
