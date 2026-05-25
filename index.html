@@ -7,217 +7,151 @@
 <style>
 body{
 font-family: Arial;
-background: linear-gradient(135deg,#f8c8ff,#d9c8ff);
-margin:0;
-padding:0;
-}
-
-.container{
-max-width:800px;
-margin:auto;
-padding:20px;
+direction: rtl;
+background:#f7f7ff;
+text-align:center;
 }
 
 .card{
 background:white;
 padding:20px;
+margin:20px auto;
+width:80%;
 border-radius:15px;
-margin-top:20px;
-box-shadow:0 4px 12px rgba(0,0,0,0.15);
+box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
-button{
+.option{
+display:block;
 padding:10px;
-margin:5px 0;
-border:none;
+margin:8px;
+background:#eee;
 border-radius:10px;
 cursor:pointer;
-background:#c084fc;
-color:white;
-width:100%;
-text-align:left;
 }
 
-button:hover{
-background:#a855f7;
-}
+.correct{background:#b6f7c1;}
+.wrong{background:#ffb3b3;}
 
-.correct{
-background:#b7f7c1 !important;
-}
-
-.wrong{
-background:#ffb3c1 !important;
-}
-
-.title{
-font-size:20px;
-font-weight:bold;
-color:#4c1d95;
-margin-bottom:10px;
-}
-
-.heart{
-font-size:18px;
-margin-left:6px;
-}
+.hidden{display:none;}
 </style>
 </head>
 
 <body>
 
-<div class="container">
-
-<!-- MENU -->
-<div id="menu" class="card">
-<h2>اختار المادة</h2>
-<button onclick="start('rights')">حقوق الملكية الفكرية</button>
-<button onclick="start('comm')">Communication Concept</button>
-<button onclick="start('path')">Pathology</button>
-</div>
-
-<!-- QUIZ -->
-<div id="quiz" class="card" style="display:none;">
-<div class="title" id="title"></div>
-<div id="qbox"></div>
-<div id="abox"></div>
-<button onclick="next()">التالي</button>
-</div>
-
-</div>
+<div id="quiz"></div>
 
 <script>
 
-let data=[];
-let index=0;
-let locked=false;
+const questions = [
 
-// ================== حقوق الملكية (نفس نصك بدون أي تغيير) ==================
-const rights=[
 {
 q:`1- من خصائص العنصر المعنوي لحق المؤلف:
 أ- عدم قابليته للتنازل عنه أو التعامل به
 ب- قابليته للتنازل عنه والتعامل به
 ج- يسقط بالتقادم
 د- قابليته للحجز`,
-options:["أ","ب","ج","د"],
-answer:0
+a:["أ- عدم قابليته للتنازل عنه أو التعامل به","ب- قابليته للتنازل عنه والتعامل به","ج- يسقط بالتقادم","د- قابليته للحجز"],
+correct:0
 },
+
 {
 q:`2- حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان وهذا ما أُطلق عليه بموجب اتفاقية WIPO:
 أ- المصنف أو المؤلف
 ب- المؤلف أو المبدع أو المبتكر
 ج- السلطة الأبوية
 د- الاستغلال والتصرف`,
-answer:1,
-options:["أ","ب","ج","د"]
+a:["أ- المصنف أو المؤلف","ب- المؤلف أو المبدع أو المبتكر","ج- السلطة الأبوية","د- الاستغلال والتصرف"],
+correct:1
 },
+
 {
 q:`3- من أشكال التنازل عن العنصر المعنوي:
 أ- البيع، الهبة، التبرع
 ب- المصنف أو المؤلف
 ج- التبرع وأخذ قيمته
 د- يسقط بالتقادم`,
-answer:0,
-options:["أ","ب","ج","د"]
-}
-];
-
-// ================== Communication ==================
-const comm=[
-{
-q:"Therapeutic communication is / التواصل العلاجي هو",
-options:["Casual","Professional planned","Orders only","Calming only"],
-answer:1
+a:["أ- البيع، الهبة، التبرع","ب- المصنف أو المؤلف","ج- التبرع وأخذ قيمته","د- يسقط بالتقادم"],
+correct:0
 },
-{
-q:"Silence helps patient / الصمت يساعد",
-options:["Ignore","Think","Leave","Stop"],
-answer:1
-}
-];
 
-// ================== Pathology ==================
-const path=[
 {
-q:"Body water percentage / نسبة ماء الجسم",
-options:["40%","50%","60%","70%"],
-answer:2
+q:`4- إذا تنازل أو باع الفرد المؤلف أو المنتج الخاص به هل ينتقل العنصر المعنوي؟
+أ- لا يستتبع تصرف المؤلف في ملكية نسخته المادية من مصنفه تنازله عن أي من حقوق المؤلف
+ب- يستتبع تصرف المؤلف في ملكية نسخته المادية من مصنفه تنازله عن أي من حقوق المؤلف
+ج- يتصرف المؤلف في ملكية نسخته المادية من مصنفه
+د- البيع`,
+a:["أ- لا يستتبع تصرف المؤلف في ملكية نسخته المادية من مصنفه تنازله عن أي من حقوق المؤلف","ب- يستتبع تصرف المؤلف في ملكية نسخته المادية من مصنفه تنازله عن أي من حقوق المؤلف","ج- يتصرف المؤلف في ملكية نسخته المادية من مصنفه","د- البيع"],
+correct:0
 },
+
 {
-q:"Non pitting edema / الوذمة غير الانطباعية",
-options:["Cardiac","Renal","Lymphatic","Liver"],
-answer:2
+q:`5- تنازل المؤلف عن حقوقه المالية أو أي جزء منها لا يستتبع ذلك:
+أ- الحقوق المعنوية
+ب- الهبة
+ج- التبرع
+د- البيع`,
+a:["أ- الحقوق المعنوية","ب- الهبة","ج- التبرع","د- البيع"],
+correct:0
+},
+
+{
+q:`6- الحقوق اللصيقة بشخصية الإنسان ليست حقوقًا مالية إنما هي:
+أ- فرع من الحقوق العامة للأفراد
+ب- فرع من فروع المعرفة
+ج- البطلان المطلق للكافة
+د- الحق المالي وحق البيع`,
+a:["أ- فرع من الحقوق العامة للأفراد","ب- فرع من فروع المعرفة","ج- البطلان المطلق للكافة","د- الحق المالي وحق البيع"],
+correct:0
 }
+
 ];
 
-// ================== ENGINE ==================
-
-function start(type){
-
-index=0;
-locked=false;
-
-if(type==="rights") data=rights, title="حقوق الملكية الفكرية";
-if(type==="comm") data=comm, title="Communication Concept";
-if(type==="path") data=path, title="Pathology";
-
-document.getElementById("menu").style.display="none";
-document.getElementById("quiz").style.display="block";
-document.getElementById("title").innerText=title;
-
-show();
-}
+let index=0;
 
 function show(){
+let q=questions[index];
 
-locked=false;
+let html=`<div class="card">
+<h3>${q.q}</h3>`;
 
-let q=data[index];
-
-document.getElementById("qbox").innerText=q.q;
-
-let box=document.getElementById("abox");
-box.innerHTML="";
-
-q.options.forEach((o,i)=>{
-
-let b=document.createElement("button");
-b.innerText=o;
-
-b.onclick=()=>check(i,b);
-
-box.appendChild(b);
+q.a.forEach((opt,i)=>{
+html+=`<div class="option" onclick="check(${i})">${opt}</div>`;
 });
+
+html+=`<p id="res"></p></div>`;
+
+document.getElementById("quiz").innerHTML=html;
 }
 
-function check(i,b){
+function check(i){
+let q=questions[index];
+let res=document.getElementById("res");
 
-if(locked) return;
-locked=true;
+let opts=document.querySelectorAll(".option");
 
-let q=data[index];
-let btns=document.querySelectorAll("#abox button");
+opts.forEach(o=>o.style.pointerEvents="none");
 
-if(i===q.answer){
-b.classList.add("correct");
-b.innerHTML+=" 💖";
+if(i===q.correct){
+opts[i].classList.add("correct");
+res.innerHTML="✔ صح 💖";
 }else{
-b.classList.add("wrong");
-b.innerHTML+=" 💔";
-btns[q.answer].classList.add("correct");
-}
+opts[i].classList.add("wrong");
+opts[q.correct].classList.add("correct");
+res.innerHTML="✖ غلط 💔";
 }
 
-function next(){
+setTimeout(()=>{
 index++;
-if(index<data.length){
+if(index<questions.length){
 show();
 }else{
-alert("خلص الاختبار 💖");
-location.reload();
+document.getElementById("quiz").innerHTML="<h2>انتهى الاختبار 💖</h2>";
 }
+},1200);
 }
+
+show();
 
 </script>
 
