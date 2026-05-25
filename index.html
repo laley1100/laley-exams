@@ -1,204 +1,243 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-<meta charset="UTF-8">
-<title>Quiz System</title>
+const rightsQuestions = [
 
-<style>
-body{
-  font-family: Arial;
-  text-align:center;
-  background:#f3eeff;
-  padding:20px;
-}
-
-h1{color:#6b3fd4}
-
-button{
-  display:block;
-  margin:10px auto;
-  padding:12px;
-  width:80%;
-  border-radius:15px;
-  border:none;
-  cursor:pointer;
-  background:#e7ddff;
-  font-size:16px;
-}
-
-button:hover{background:#d6c6ff}
-
-.card{
-  background:white;
-  padding:15px;
-  border-radius:15px;
-  margin-top:20px;
-}
-
-.correct{color:green;font-weight:bold}
-.wrong{color:red;font-weight:bold}
-</style>
-</head>
-
-<body>
-
-<h1 id="title">Choose Subject</h1>
-
-<div id="menu"></div>
-<div id="quiz"></div>
-<div id="result"></div>
-
-<script>
-
-// ================= DATA =================
-
-const data = {
-
-// ================== 1) حقوق الملكية الفكرية ==================
-"حقوق الملكية الفكرية": [
-{q:"من خصائص العنصر المعنوي لحق المؤلف",options:["عدم قابليته للتنازل","قابليته للتنازل","يسقط بالتقادم","قابليته للحجز"],answer:0},
-{q:"حق المؤلف يعتبر حقًا لصيقًا بالشخصية",options:["المؤلف أو المبدع","السلطة الأبوية","البيع","التجارة"],answer:0},
-{q:"من أشكال التنازل عن العنصر المعنوي",options:["البيع والهبة","الطب","الإدارة","التعليم"],answer:0},
-{q:"التصرف في النسخة المادية لا يعني التنازل عن الحقوق",options:["صح","خطأ","غير معروف","أحياناً"],answer:0},
-{q:"الحقوق المعنوية لا تقبل التنازل",options:["صح","خطأ","تقبل","تنتهي"],answer:0},
-{q:"الحق المعنوي هو",options:["لصيق بالشخصية","مالي","تجاري","مؤقت"],answer:0},
-{q:"الحق الذي يقبل الحجز هو",options:["الحق المالي","المعنوي","الأدبي","الإنساني"],answer:0},
-{q:"العنصر المادي لا يظهر إلا",options:["بنشر المصنف","بالحجز","بالإلغاء","بالتنازل"],answer:0},
-{q:"الحق هو",options:["سلطة ومصلحة","اسم","عنوان","كتاب"],answer:0},
-{q:"من الحقوق المعنوية",options:["منع التشويه","البيع","التجارة","الإيجار"],answer:0},
-{q:"للمؤلف الحق في نشر مصنفه",options:["صح","خطأ","ممنوع","غير واضح"],answer:0},
-{q:"تحديد طريقة النشر يكون للمؤلف",options:["صح","خطأ","للشركة","للحكومة"],answer:0},
-{q:"نسبة المصنف للمؤلف حق",options:["صح","خطأ","غير موجود","ملغي"],answer:0},
-{q:"الامتناع عن النشر",options:["حق للمؤلف","إجبار","ممنوع","غير قانوني"],answer:0},
-{q:"إخفاء اسم المؤلف",options:["ممكن","ممنوع","إجباري","غير قانوني"],answer:0},
-{q:"الترجمة بدون إساءة",options:["ليست اعتداء","اعتداء","سرقة","ممنوعة"],answer:0},
-{q:"الإساءة في الترجمة تعتبر",options:["اعتداء","عادي","مسموح","مجهول"],answer:0},
-{q:"الحق المعنوي يحمي",options:["الشرف","المال","التجارة","البيع"],answer:0},
-{q:"سحب المصنف",options:["حق للمؤلف","ممنوع","للشركة","للقضاء"],answer:0},
-{q:"إذا لا يوجد ورثة",options:["وزارة الثقافة","البائع","المشتري","لا أحد"],answer:0}
+{
+q_en:"Intellectual property rights are",
+q_ar:"حقوق الملكية الفكرية هي",
+options:[
+{en:"Transferable always", ar:"قابلة للتنازل دائمًا"},
+{en:"Non-transferable moral rights", ar:"حقوق معنوية لا يمكن التنازل عنها"},
+{en:"Only financial rights", ar:"حقوق مالية فقط"},
+{en:"Can be seized", ar:"يمكن الحجز عليها"}
 ],
+answer:1
+},
 
-// ================== 2) Communication Concept ==================
-"Communication Concept": [
-{q:"Therapeutic communication is",options:["professional act","casual talk","no communication","orders"],answer:0},
-{q:"Shared understanding helps",options:["patient goals","delay","confusion","ignore"],answer:0},
-{q:"Silence allows patient to",options:["think","ignore","stop","panic"],answer:0},
-{q:"Exploring means",options:["dig deeper","change topic","end talk","ignore"],answer:0},
-{q:"Clarification used to",options:["check understanding","argue","stop","confuse"],answer:0},
-{q:"Reflecting focuses on",options:["feelings","machines","documents","orders"],answer:0},
-{q:"Communication is",options:["two-way","one-way","none","written only"],answer:0},
-{q:"Handover affected by",options:["noise","clarity","tools","teamwork"],answer:0},
-{q:"SBAR stands for",options:["Situation Background Assessment Recommendation","random","none","system"],answer:0},
-{q:"EMD role is",options:["dispatch","operate surgery","billing","pharmacy"],answer:0},
-{q:"Hard hearing patient avoid",options:["shouting","speaking clearly","writing","eye contact"],answer:0},
-{q:"Angry patient should",options:["stay calm","argue","shout","ignore"],answer:0},
-{q:"Rapport with child",options:["eye level","ignore","shout","leave"],answer:0},
-{q:"OLD CARTS used for",options:["symptoms","money","drugs","surgery"],answer:0},
-{q:"Why questions avoided",options:["accusation","help","clarity","support"],answer:0},
-{q:"Interview is",options:["ongoing","once","never","late"],answer:0},
-{q:"Open question example",options:["how did it start","yes/no","age","pain yes"],answer:0},
-{q:"Interview purpose",options:["trust","speed","ignore","end"],answer:0},
-{q:"Formal communication example",options:["lecture","gossip","rumor","chat"],answer:0},
-{q:"Upward communication",options:["employee to manager","manager to employee","none","random"],answer:0}
+{
+q_en:"Copyright is related to",
+q_ar:"حق المؤلف مرتبط بـ",
+options:[
+{en:"The product only", ar:"المنتج فقط"},
+{en:"The creator", ar:"المبدع أو المؤلف"},
+{en:"Government", ar:"الحكومة"},
+{en:"Market", ar:"السوق"}
 ],
+answer:1
+},
 
-// ================== 3) Pathology ==================
-"Pathology": [
-{q:"Body water percentage",options:["60%","40%","70%","80%"],answer:0},
-{q:"Non pitting edema",options:["lymphatic","cardiac","renal","liver"],answer:0},
-{q:"Physiological hyperemia",options:["exercise","disease","failure","block"],answer:0},
-{q:"Most common thrombus",options:["venous","arterial","cardiac","capillary"],answer:0},
-{q:"Septic thrombus contains",options:["bacteria","virus","fat","air"],answer:0},
-{q:"Hypovolemic shock cause",options:["bleeding","infection","heart failure","block"],answer:0},
-{q:"Amyloidosis organ",options:["kidney","brain","skin","bone"],answer:0},
-{q:"Neoplasm is",options:["abnormal growth","infection","injury","normal cell"],answer:0},
-{q:"Benign tumor",options:["well differentiated","metastasis","invasive","fast"],answer:0},
-{q:"Metastasis means",options:["spread","local growth","repair","healing"],answer:0},
-{q:"Carcinoma arises from",options:["epithelium","muscle","bone","fat"],answer:0},
-{q:"Liposarcoma is",options:["soft tissue tumor","bone tumor","skin tumor","blood tumor"],answer:0},
-{q:"Gold standard diagnosis",options:["histopathology","xray","blood test","urine"],answer:0},
-{q:"Malignant feature",options:["invasion","capsule","slow","smooth"],answer:0},
-{q:"Benign tumor feature",options:["capsulated","invasive","metastatic","fast"],answer:0},
-{q:"Tumor prognosis depends on",options:["radiosensitivity","hair color","age only","height"],answer:0},
-{q:"Shock type bleeding",options:["hypovolemic","cardiogenic","obstructive","neurogenic"],answer:0},
-{q:"Amyloid affects",options:["kidney","lung","skin","bone"],answer:0},
-{q:"Local invasion",options:["penetration","stay same","heal","reduce"],answer:0},
-{q:"Cancer diagnosis best method",options:["H&E stain","CT","MRI","Xray"],answer:0}
-]
+{
+q_en:"Waiver of moral rights is",
+q_ar:"التنازل عن الحقوق المعنوية",
+options:[
+{en:"Allowed", ar:"مسموح"},
+{en:"Not allowed", ar:"غير مسموح"},
+{en:"Conditional", ar:"مشروط"},
+{en:"Temporary", ar:"مؤقت"}
+],
+answer:1
+},
 
-};
+{
+q_en:"Selling a work means",
+q_ar:"بيع العمل يعني",
+options:[
+{en:"Transfer moral rights", ar:"نقل الحقوق المعنوية"},
+{en:"Transfer physical copy only", ar:"نقل النسخة المادية فقط"},
+{en:"Transfer all rights", ar:"نقل كل الحقوق"},
+{en:"Cancel ownership", ar:"إلغاء الملكية"}
+],
+answer:1
+},
 
-// ================= LOGIC =================
+{
+q_en:"Financial rights can be",
+q_ar:"الحقوق المالية يمكن",
+options:[
+{en:"Transferred", ar:"التنازل عنها"},
+{en:"Not transferred", ar:"لا يمكن التنازل"},
+{en:"Cancelled", ar:"إلغاؤها"},
+{en:"Ignored", ar:"تجاهلها"}
+],
+answer:0
+},
 
-let subject="";
-let index=0;
-let score=0;
+{
+q_en:"Moral rights are",
+q_ar:"الحقوق المعنوية هي",
+options:[
+{en:"Financial", ar:"مالية"},
+{en:"Personal", ar:"شخصية"},
+{en:"Commercial", ar:"تجارية"},
+{en:"Temporary", ar:"مؤقتة"}
+],
+answer:1
+},
 
-function loadMenu(){
-document.getElementById("menu").innerHTML="";
-for(let s in data){
-let b=document.createElement("button");
-b.innerText=s;
-b.onclick=()=>start(s);
-document.getElementById("menu").appendChild(b);
+{
+q_en:"Seizable rights are",
+q_ar:"الحقوق التي يمكن الحجز عليها",
+options:[
+{en:"Moral rights", ar:"المعنوية"},
+{en:"Financial rights", ar:"المالية"},
+{en:"None", ar:"لا شيء"},
+{en:"Both", ar:"كلاهما"}
+],
+answer:1
+},
+
+{
+q_en:"Material element appears when",
+q_ar:"العنصر المادي يظهر عند",
+options:[
+{en:"Thinking", ar:"التفكير"},
+{en:"Publishing work", ar:"نشر العمل"},
+{en:"Idea only", ar:"الفكرة فقط"},
+{en:"Hidden work", ar:"عمل مخفي"}
+],
+answer:1
+},
+
+{
+q_en:"Right means",
+q_ar:"الحق يعني",
+options:[
+{en:"Power and benefit", ar:"سلطة ومنفعة"},
+{en:"Name only", ar:"اسم فقط"},
+{en:"Law only", ar:"قانون فقط"},
+{en:"Duty", ar:"واجب"}
+],
+answer:0
+},
+
+{
+q_en:"Author has moral rights such as",
+q_ar:"من الحقوق المعنوية للمؤلف",
+options:[
+{en:"Modify freely", ar:"تعديل حر"},
+{en:"Prevent distortion", ar:"منع التشويه"},
+{en:"Sell work", ar:"بيع العمل"},
+{en:"Ignore work", ar:"تجاهل العمل"}
+],
+answer:1
+},
+
+{
+q_en:"Author alone can",
+q_ar:"المؤلف وحده يستطيع",
+options:[
+{en:"Publish first time", ar:"نشر العمل لأول مرة"},
+{en:"Sell without limit", ar:"البيع فقط"},
+{en:"Ignore law", ar:"تجاهل القانون"},
+{en:"Transfer moral rights", ar:"نقل الحقوق المعنوية"}
+],
+answer:0
+},
+
+{
+q_en:"Author chooses publication method",
+q_ar:"المؤلف يختار طريقة النشر",
+options:[
+{en:"Printing", ar:"الطباعة"},
+{en:"Recording", ar:"التسجيل"},
+{en:"Broadcast", ar:"البث"},
+{en:"All", ar:"كل ما سبق"}
+],
+answer:3
+},
+
+{
+q_en:"Attribution right means",
+q_ar:"حق نسبة العمل يعني",
+options:[
+{en:"Write name on work", ar:"وضع اسم المؤلف"},
+{en:"Hide name", ar:"إخفاء الاسم"},
+{en:"Sell work", ar:"بيع العمل"},
+{en:"Delete work", ar:"حذف العمل"}
+],
+answer:0
+},
+
+{
+q_en:"Author may refuse publication",
+q_ar:"يمكن للمؤلف الامتناع عن نشر مصنفه",
+options:[
+{en:"Yes", ar:"نعم"},
+{en:"No", ar:"لا"},
+{en:"Sometimes", ar:"أحيانًا"},
+{en:"Only contract", ar:"حسب العقد"}
+],
+answer:0
+},
+
+{
+q_en:"Anonymous publishing means",
+q_ar:"النشر بدون اسم يعني",
+options:[
+{en:"Hide identity", ar:"إخفاء الهوية"},
+{en:"Fake work", ar:"عمل مزيف"},
+{en:"Illegal", ar:"غير قانوني"},
+{en:"Sell rights", ar:"بيع الحقوق"}
+],
+answer:0
+},
+
+{
+q_en:"Translation without permission is",
+q_ar:"الترجمة بدون إذن",
+options:[
+{en:"Allowed", ar:"مسموح"},
+{en:"Violation", ar:"اعتداء"},
+{en:"Optional", ar:"اختياري"},
+{en:"Free use", ar:"استخدام حر"}
+],
+answer:1
+},
+
+{
+q_en:"Harmful translation is",
+q_ar:"الترجمة الضارة تعتبر",
+options:[
+{en:"Normal", ar:"طبيعي"},
+{en:"Violation", ar:"اعتداء"},
+{en:"Allowed", ar:"مسموح"},
+{en:"Ignored", ar:"تجاهل"}
+],
+answer:1
+},
+
+{
+q_en:"Author can prevent",
+q_ar:"يمكن للمؤلف منع",
+options:[
+{en:"Distortion", ar:"تشويه العمل"},
+{en:"Reading", ar:"القراءة"},
+{en:"Thinking", ar:"التفكير"},
+{en:"Study", ar:"الدراسة"}
+],
+answer:0
+},
+
+{
+q_en:"Moral rights include",
+q_ar:"تشمل الحقوق المعنوية",
+options:[
+{en:"Withdraw work", ar:"سحب العمل"},
+{en:"Sell work", ar:"بيع"},
+{en:"Ignore work", ar:"تجاهل"},
+{en:"Delete law", ar:"إلغاء القانون"}
+],
+answer:0
+},
+
+{
+q_en:"If no heirs, rights go to",
+q_ar:"إذا لم يوجد ورثة تذهب الحقوق إلى",
+options:[
+{en:"Government", ar:"الدولة"},
+{en:"Friend", ar:"صديق"},
+{en:"Market", ar:"السوق"},
+{en:"Company", ar:"شركة"}
+],
+answer:0
 }
-}
 
-function start(s){
-subject=s;
-index=0;
-score=0;
-document.getElementById("title").innerText=s;
-document.getElementById("menu").style.display="none";
-loadQ();
-}
-
-function loadQ(){
-let q=data[subject][index];
-
-document.getElementById("quiz").innerHTML=`
-<div class="card">
-<h3>${q.q}</h3>
-${q.options.map((o,i)=>`
-<button onclick="check(${i})">${o}</button>
-`).join("")}
-<div id="msg"></div>
-</div>
-`;
-}
-
-function check(i){
-let q=data[subject][index];
-let msg=document.getElementById("msg");
-
-if(i===q.answer){
-score++;
-msg.innerHTML="💚 Correct";
-msg.className="correct";
-}else{
-msg.innerHTML="💔 Wrong<br><span class='correct'>Correct: "+q.options[q.answer]+"</span>";
-msg.className="wrong";
-}
-
-setTimeout(next,900);
-}
-
-function next(){
-index++;
-if(index<data[subject].length){
-loadQ();
-}else{
-document.getElementById("quiz").innerHTML="";
-document.getElementById("menu").style.display="block";
-document.getElementById("result").innerHTML=
-"Score: "+score+"/"+data[subject].length;
-loadMenu();
-}
-}
-
-loadMenu();
-
-</script>
-
-</body>
-</html>
+];
