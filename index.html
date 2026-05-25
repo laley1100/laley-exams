@@ -2,17 +2,17 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>Quiz</title>
+<title>Communication Concept</title>
 
 <style>
 body{
   font-family: Arial;
-  text-align:center;
   background:#f3e5f5;
+  text-align:center;
   padding:20px;
 }
 
-h1{
+h2{
   color:#6a1b9a;
 }
 
@@ -31,32 +31,27 @@ button:hover{
   background:#ce93d8;
 }
 
+#result{
+  font-size:20px;
+  margin-top:15px;
+}
+
 .correct{color:green;font-weight:bold;}
 .wrong{color:red;font-weight:bold;}
-
-#nextBtn{
-  display:none;
-  padding:10px 20px;
-  border:none;
-  border-radius:20px;
-  background:#8e24aa;
-  color:white;
-}
 </style>
 </head>
 
 <body>
 
-<h1>Quiz</h1>
+<h2>Communication Concept</h2>
 
 <div id="quiz"></div>
 <div id="result"></div>
 
-<button id="nextBtn" onclick="nextQ()">Next</button>
+<button onclick="nextQ()" id="nextBtn" style="display:none;">Next</button>
 
 <script>
 
-/* الأسئلة بدون أي تعديل */
 let questions = [
 {
 q:"1- من خصائص العنصر المعنوي لحق المؤلف",
@@ -107,211 +102,50 @@ o:[
 "د البيع"
 ],
 a:0
-},
-{
-q:"6- الحقوق اللصيقة بشخصية الإنسان ليست حقوقًا مالية إنما هي",
-o:[
-"أ فرع من الحقوق العامة للأفراد",
-"ب فرع من فروع المعرفة",
-"ج البطلان المطلق للكافة",
-"د الحق المالي وحق البيع"
-],
-a:0
-},
-{
-q:"7- الحق الذي يقبل الحجز هو",
-o:[
-"أ الحق المعنوي",
-"ب الحق المالي وهو العنصر المادي للحق الفكري",
-"ج الحق المعنوي والحق المالي معًا",
-"د الحق المعنوي"
-],
-a:1
-},
-{
-q:"8- العنصر المادي لا يخرج إلى حيز الوجود إلا",
-o:[
-"أ بالحجز المسبق على الحق المعنوي",
-"ب بالسقوط بالتقادم للحق المعنوي",
-"ج بنشر المصنف بإذن من مالكه",
-"د باطلًا"
-],
-a:2
-},
-{
-q:"9- الحق عند تقسيم الحقوق هو",
-o:[
-"أ سلطة واختصاص تمكن صاحبها من منفعة أو مصلحة",
-"ب نسبة المصنف إلى الغير",
-"ج عدم استعمال الاسم المستعار",
-"د المساس بالمصنف"
-],
-a:0
-},
-{
-q:"10- يتمتع المؤلف بالحقوق المعنوية التالية",
-o:[
-"أ منع أي تحريف أو تشويه أو أي تعديل لمصنفه",
-"ب ضرورة الإفصاح عن هويته أو أن لا يستعمل اسمًا مستعارًا",
-"ج نسبة المصنف إلى نفسه بالطريقة غير المألوفة",
-"د نسبة المصنف للغير"
-],
-a:0
-},
-{
-q:"11- للمؤلف وحده دون غيره الحق في",
-o:[
-"أ عدم إتاحة المصنف للجمهور لأول مرة من عدمه",
-"ب له مطلق الحرية في إظهار مصنفه للكافة ونشره دون أي إلزام عليه يفرض في ذلك",
-"ج إتاحة المصنف لغير الجمهور ضمن شروط قاسية",
-"د ضرورة عدم الإفصاح"
-],
-a:1
-},
-{
-q:"12- للمؤلف اختيار وتحديد الطريقة والوسيلة التي يقوم فيها بإعلان مصنفه من خلال",
-o:[
-"أ النشر والطباعة أو التصوير",
-"ب التسجيل الصوتي غير الواضح",
-"ج المرئي أو غير البث الإذاعي",
-"د للمؤلف وحده البث الإذاعي"
-],
-a:0
-},
-{
-q:"13- من حق المؤلف نسبة المصنف إلى نفسه بالطريقة المألوفة حيث يتم",
-o:[
-"أ تدوين اسم المؤلف على إنتاجه بالطريقة التي يراها مناسبة",
-"ب يجوز لورثة المؤلف أن لا ينسبوا مصنف مورثهم إلى شخص آخر",
-"ج الطلب من غير القضاء التنفيذ عن طريق التعويض",
-"د الطلب من المؤلف التنفيذ دون غيره"
-],
-a:0
-},
-{
-q:"14- هل يجوز للمؤلف أن يمتنع عن نشر مصنفه وفقًا للاتفاق",
-o:[
-"أ لا يجبر الدائن شركة النشر المؤلف أن يقبل تنفيذ العمل",
-"ب يجوز للدائن شركة النشر أن يجبر المؤلف أن لا يقبل تنفيذ العمل من شخص آخر",
-"ج لا يجوز للدائن أن يجبر المؤلف",
-"د الطلب من المؤلف التنفيذ"
-],
-a:0
-},
-{
-q:"15- يحق للمؤلف أن يبقي الرابطة بينه وبين مؤلفه مجهولة بأن",
-o:[
-"أ أن ينشره دون ذكر اسمه عليه",
-"ب نشره دون اسم مستعار معين ويجب تحديد الاسم",
-"ج الابتعاد عن التدقيق على الاسم",
-"د الترجمة للمصنف"
-],
-a:0
-},
-{
-q:"16- هل تعتبر الترجمة للمصنف تعديلًا للنص وبالتالي اعتداء",
-o:[
-"أ المنطق القانوني يقول بأنه لا تعتبر الترجمة اعتداء إذا قام المترجم بالإشارة إلى مواطن التغيير أو الحذف بالنص",
-"ب الترجمة اعتداء",
-"ج ليس واجب أخذ الإذن من المؤلف للترجمة",
-"د اعتداء يجيز للمؤلف عدم المساس بالمترجم"
-],
-a:0
-},
-{
-q:"17- إذا كان بالترجمة إساءة إلى سمعة المؤلف ومكانته فيعتبر ذلك",
-o:[
-"أ ليس اعتداء على حقوق المؤلف",
-"ب اعتداء يجيز للمؤلف رفعه عن طريق القضاء",
-"ج التغاضي عن ذلك",
-"د نسبة المصنف للمترجم"
-],
-a:1
-},
-{
-q:"18- بموجب السلطة المعنوية من حق المؤلف أن",
-o:[
-"أ يمنع أي عمل يتعلق بمصنفه فيه إضرار بشرفه أو سمعته",
-"ب ليس واجب أخذ الإذن من المؤلف",
-"ج تداول المصنف وطباعته من غير إذن المؤلف",
-"د التغاضي عن ذلك"
-],
-a:0
-},
-{
-q:"19- من حقوق المؤلف المعنوية ما يلي",
-o:[
-"أ حظر طرح مصنفه للتداول",
-"ب عدم سحب مصنفه الذي تم تداوله",
-"ج البيع",
-"د لا يحظر"
-],
-a:1
-},
-{
-q:"20- إذا لم يكن للمؤلف ورثة تباشر الحقوق على المصنف من قبل",
-o:[
-"أ القاضي",
-"ب الهبة للغير",
-"ج البيع للغير",
-"د وزارة الثقافة"
-],
-a:3
 }
-
 ];
 
-let index = 0;
-let score = 0;
-let answered = false;
+let i = 0;
 
-function loadQ(){
-  answered = false;
-
-  let q = questions[index];
+function load(){
+  let q = questions[i];
 
   document.getElementById("quiz").innerHTML =
   `<h3>${q.q}</h3>` +
-  q.o.map((x,i)=>
-    `<button onclick="check(${i})">${x}</button>`
+  q.o.map((x,idx)=>
+    `<button onclick="check(${idx})">${x}</button>`
   ).join("");
 
   document.getElementById("result").innerHTML="";
   document.getElementById("nextBtn").style.display="none";
 }
 
-function check(i){
-  if(answered) return;
-  answered = true;
+function check(ans){
+  let q = questions[i];
+  let result = document.getElementById("result");
 
-  let q = questions[index];
-  let buttons = document.querySelectorAll("button");
-
-  if(i === q.a){
-    buttons[i].classList.add("correct");
-    document.getElementById("result").innerHTML="Correct";
-    score++;
+  if(ans === q.a){
+    result.innerHTML = "صح 💗";
+    result.className="correct";
   } else {
-    buttons[i].classList.add("wrong");
-    buttons[q.a].classList.add("correct");
-    document.getElementById("result").innerHTML="Wrong";
+    result.innerHTML = "غلط 💔 <br> الإجابة الصحيحة: " + q.o[q.a];
+    result.className="wrong";
   }
 
   document.getElementById("nextBtn").style.display="block";
 }
 
 function nextQ(){
-  index++;
-  if(index < questions.length){
-    loadQ();
+  i++;
+  if(i < questions.length){
+    load();
   } else {
-    document.getElementById("quiz").innerHTML =
-      `<h2>Score ${score}/20</h2>`;
+    document.getElementById("quiz").innerHTML="خلص الاختبار 💗";
     document.getElementById("nextBtn").style.display="none";
   }
 }
 
-loadQ();
+load();
 
 </script>
 
