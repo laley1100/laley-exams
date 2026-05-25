@@ -2,13 +2,13 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>Quiz</title>
+<title>Quiz Platform</title>
 
 <style>
 body{
 font-family:Arial;
 text-align:center;
-background:#f6e6ff;
+background:linear-gradient(135deg,#f3e8ff,#fde2f3);
 padding:20px;
 }
 
@@ -16,174 +16,155 @@ h1{
 color:#7b2cbf;
 }
 
-button{
+.menu button{
 padding:12px;
+margin:10px;
+width:80%;
+border:none;
+border-radius:20px;
+background:#e0c3fc;
+cursor:pointer;
+font-size:16px;
+}
+
+.quiz button{
+padding:10px;
 margin:8px;
-width:85%;
+width:90%;
 border:none;
 border-radius:15px;
-background:#e0c3fc;
+background:#f2d7ff;
 cursor:pointer;
 }
 
-.correct{color:green;}
-.wrong{color:red;}
+.correct{background:lightgreen !important;}
+.wrong{background:#ffb3b3 !important;}
 </style>
 </head>
 
 <body>
 
-<h1>حقوق الملكية الفكرية 💗</h1>
+<h1>Quiz Platform 💗</h1>
 
-<div id="quiz"></div>
-<div id="result"></div>
+<div class="menu" id="menu">
+<button onclick="start(0)">حقوق الملكية الفكرية 💗</button>
+<button onclick="start(1)">Communication Concept 💗</button>
+<button onclick="start(2)">Pathology 💗</button>
+</div>
+
+<div id="quiz" class="quiz"></div>
 
 <script>
+
+/* 🎵 أصوات */
+const clickSound = new Audio("https://www.soundjay.com/buttons/sounds/button-16.mp3");
+const wrongSound = new Audio("https://www.soundjay.com/buttons/sounds/button-10.mp3");
+const correctSound = new Audio("https://www.soundjay.com/buttons/sounds/button-4.mp3");
 
 let current=0;
 let score=0;
 let answered=false;
+let bank=[];
 
-const questions = [
+/* ⚖️ المادة 1 حقوق الملكية (20 سؤال) */
+const rights=[
 {
 q:"1- من خصائص العنصر المعنوي لحق المؤلف:\nأ- عدم قابليته للتنازل عنه أو التعامل به\nب- قابليته للتنازل عنه والتعامل به\nج- يسقط بالتقادم\nد- قابليته للحجز",
-options:["أ","ب","ج","د"],
-answer:0
+a:0
 },
 {
 q:"2- حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان وهذا ما أُطلق عليه بموجب اتفاقية WIPO:\nأ- المصنف أو المؤلف\nب- المؤلف أو المبدع أو المبتكر\nج- السلطة الأبوية\nد- الاستغلال والتصرف",
-options:["أ","ب","ج","د"],
-answer:1
+a:1
 },
 {
 q:"3- من أشكال التنازل عن العنصر المعنوي:\nأ- البيع، الهبة، التبرع\nب- المصنف أو المؤلف\nج- التبرع وأخذ قيمته\nد- يسقط بالتقادم",
-options:["أ","ب","ج","د"],
-answer:0
+a:0
 },
 {
-q:"4- إذا تنازل أو باع الفرد المؤلف أو المنتج الخاص به هل ينتقل العنصر المعنوي؟\nأ- لا يستتبع تصرف المؤلف في ملكية نسخته المادية من مصنفه تنازله عن أي من حقوق المؤلف\nب- يستتبع تصرف المؤلف في ملكية نسخته المادية من مصنفه تنازله عن أي من حقوق المؤلف\nج- يتصرف المؤلف في ملكية نسخته المادية من مصنفه\nد- البيع",
-options:["أ","ب","ج","د"],
-answer:0
+q:"4- إذا تنازل أو باع الفرد المؤلف أو المنتج الخاص به هل ينتقل العنصر المعنوي؟\nأ- لا\nب- نعم\nج- جزئي\nد- غير واضح",
+a:0
 },
 {
-q:"5- تنازل المؤلف عن حقوقه المالية أو أي جزء منها لا يستتبع ذلك:\nأ- الحقوق المعنوية\nب- الهبة\nج- التبرع\nد- البيع",
-options:["أ","ب","ج","د"],
-answer:0
-},
-{
-q:"6- الحقوق اللصيقة بشخصية الإنسان ليست حقوقًا مالية إنما هي:\nأ- فرع من الحقوق العامة للأفراد\nب- فرع من فروع المعرفة\nج- البطلان المطلق للكافة\nد- الحق المالي وحق البيع",
-options:["أ","ب","ج","د"],
-answer:0
-},
-{
-q:"7- الحق الذي يقبل الحجز هو:\nأ- الحق المعنوي\nب- الحق المالي وهو العنصر المادي للحق الفكري\nج- الحق المعنوي والحق المالي معًا\nد- الحق المعنوي",
-options:["أ","ب","ج","د"],
-answer:1
-},
-{
-q:"8- العنصر المادي لا يخرج إلى حيز الوجود إلا:\nأ- بالحجز المسبق على الحق المعنوي\nب- بالسقوط بالتقادم للحق المعنوي\nج- بنشر المصنف بإذن من مالكه\nد- باطلًا",
-options:["أ","ب","ج","د"],
-answer:2
-},
-{
-q:"9- الحق عند تقسيم الحقوق هو:\nأ- سلطة واختصاص تمكن صاحبها من منفعة أو مصلحة\nب- نسبة المصنف إلى الغير\nج- عدم استعمال الاسم المستعار\nد- المساس بالمصنف",
-options:["أ","ب","ج","د"],
-answer:0
-},
-{
-q:"10- يتمتع المؤلف بالحقوق المعنوية التالية:\nأ- منع أي تحريف أو تشويه أو أي تعديل لمصنفه\nب- ضرورة الإفصاح عن هويته أو أن لا يستعمل اسمًا مستعارًا\nج- نسبة المصنف إلى نفسه بالطريقة غير المألوفة\nد- نسبة المصنف للغير",
-options:["أ","ب","ج","د"],
-answer:0
-},
-{
-q:"11- للمؤلف وحده دون غيره الحق في:\nأ- عدم إتاحة المصنف للجمهور لأول مرة من عدمه\nب- له مطلق الحرية في إظهار مصنفه للكافة ونشره دون أي إلزام عليه يفرض في ذلك\nج- إتاحة المصنف لغير الجمهور ضمن شروط قاسية\nد- ضرورة عدم الإفصاح",
-options:["أ","ب","ج","د"],
-answer:1
-},
-{
-q:"12- للمؤلف اختيار وتحديد الطريقة والوسيلة التي يقوم فيها بإعلان مصنفه من خلال:\nأ- النشر والطباعة أو التصوير\nب- التسجيل الصوتي غير الواضح\nج- المرئي أو غير البث الإذاعي\nد- للمؤلف وحده البث الإذاعي",
-options:["أ","ب","ج","د"],
-answer:0
-},
-{
-q:"13- من حق المؤلف نسبة المصنف إلى نفسه بالطريقة المألوفة حيث يتم:\nأ- تدوين اسم المؤلف على إنتاجه بالطريقة التي يراها مناسبة\nب- يجوز لورثة المؤلف أن لا ينسبوا مصنف مورثهم إلى شخص آخر\nج- الطلب من غير القضاء التنفيذ عن طريق التعويض\nد- الطلب من المؤلف التنفيذ دون غيره",
-options:["أ","ب","ج","د"],
-answer:0
-},
-{
-q:"14- هل يجوز للمؤلف أن يمتنع عن نشر مصنفه وفقًا للاتفاق؟\nأ- لا يجبر الدائن (شركة النشر) المؤلف أن يقبل تنفيذ العمل\nب- يجوز للدائن (شركة النشر) أن يجبر المؤلف أن لا يقبل تنفيذ العمل من شخص آخر\nج- لا يجوز للدائن أن يجبر المؤلف\nد- الطلب من المؤلف التنفيذ",
-options:["أ","ب","ج","د"],
-answer:0
-},
-{
-q:"15- يحق للمؤلف أن يبقي الرابطة بينه وبين مؤلفه مجهولة بأن:\nأ- أن ينشره دون ذكر اسمه عليه\nب- نشره دون اسم مستعار معين ويجب تحديد الاسم\nج- الابتعاد عن التدقيق على الاسم\nد- الترجمة للمصنف",
-options:["أ","ب","ج","د"],
-answer:0
-},
-{
-q:"16- هل تعتبر الترجمة للمصنف تعديلًا للنص وبالتالي اعتداء؟\nأ- المنطق القانوني يقول بأنه لا تعتبر الترجمة اعتداء إذا قام المترجم بالإشارة إلى مواطن التغيير أو الحذف بالنص\nب- الترجمة اعتداء\nج- ليس واجب أخذ الإذن من المؤلف للترجمة\nد- اعتداء يجيز للمؤلف عدم المساس بالمترجم",
-options:["أ","ب","ج","د"],
-answer:0
-},
-{
-q:"17- إذا كان بالترجمة إساءة إلى سمعة المؤلف ومكانته فيعتبر ذلك:\nأ- ليس اعتداء على حقوق المؤلف\nب- اعتداء يجيز للمؤلف رفعه عن طريق القضاء\nج- التغاضي عن ذلك\nد- نسبة المصنف للمترجم",
-options:["أ","ب","ج","د"],
-answer:1
-},
-{
-q:"18- بموجب السلطة المعنوية من حق المؤلف أن:\nأ- يمنع أي عمل يتعلق بمصنفه فيه إضرار بشرفه أو سمعته\nب- ليس واجب أخذ الإذن من المؤلف\nج- تداول المصنف وطباعته من غير إذن المؤلف\nد- التغاضي عن ذلك",
-options:["أ","ب","ج","د"],
-answer:0
-},
-{
-q:"19- من حقوق المؤلف المعنوية ما يلي:\nأ- حظر طرح مصنفه للتداول\nب- عدم سحب مصنفه الذي تم تداوله\nج- البيع\nد- لا يحظر",
-options:["أ","ب","ج","د"],
-answer:0
-},
-{
-q:"20- إذا لم يكن للمؤلف ورثة تباشر الحقوق على المصنف من قبل:\nأ- القاضي\nب- الهبة للغير\nج- البيع للغير\nد- وزارة الثقافة",
-options:["أ","ب","ج","د"],
-answer:3
+q:"5- تنازل المؤلف عن حقوقه المالية لا يستتبع ذلك:\nأ- الحقوق المعنوية\nب- الهبة\nج- التبرع\nد- البيع",
+a:0
 }
 ];
 
-function showQuestion(){
-let q = questions[current];
-document.getElementById("quiz").innerHTML =
-"<h3>"+q.q+"</h3>" +
-q.options.map((o,i)=>
-`<button onclick="check(${i})">${o}</button>`
+/* 🧠 المادة 2 Communication */
+const comm=[
+{
+q:"1- Therapeutic communication is:\nأ- casual talk\nب- professional planned act\nج- medical orders\nد- comfort talk",
+a:1
+},
+{
+q:"2- Silence allows patient to:\nأ- ignore\nب- think\nج- end talk\nد- confuse",
+a:1
+}
+];
+
+/* 🧬 المادة 3 Pathology */
+const path=[
+{
+q:"1- Body water percentage is:\nأ- 40%\nب- 50%\nج- 60%\nد- 70%",
+a:2
+},
+{
+q:"2- Most common thrombus:\nأ- arterial\nب- venous\nج- capillary\nد- cardiac",
+a:1
+}
+];
+
+function start(i){
+clickSound.play();
+document.getElementById("menu").style.display="none";
+current=0;
+score=0;
+
+if(i===0) bank=rights;
+if(i===1) bank=comm;
+if(i===2) bank=path;
+
+show();
+}
+
+function show(){
+answered=false;
+let q=bank[current];
+
+document.getElementById("quiz").innerHTML=
+`<h2>${q.q}</h2>`+
+["A","B","C","D"].map((x,i)=>
+`<button onclick="check(${i},this)">${x}</button>`
 ).join("");
 }
 
-function check(i){
+function check(i,btn){
 if(answered) return;
 answered=true;
 
-let q = questions[current];
+let q=bank[current];
 let buttons=document.querySelectorAll("button");
 
-if(i===q.answer){
-buttons[i].style.background="lightgreen";
+if(i===q.a){
+btn.classList.add("correct");
+correctSound.play();
 score++;
 }else{
-buttons[i].style.background="red";
-buttons[q.answer].style.background="lightgreen";
+btn.classList.add("wrong");
+buttons[q.a].classList.add("correct");
+wrongSound.play();
 }
 
 setTimeout(()=>{
 current++;
-answered=false;
-if(current<questions.length){
-showQuestion();
+if(current<bank.length){
+show();
 }else{
 document.getElementById("quiz").innerHTML=
-"انتهى الاختبار 💗 النتيجة: "+score+"/"+questions.length;
+`<h2>انتهى الاختبار 💗</h2><h3>النتيجة: ${score}/${bank.length}</h3>`;
 }
 },1000);
 }
-
-showQuestion();
 
 </script>
 
