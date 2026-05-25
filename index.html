@@ -2,19 +2,17 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>Quiz App</title>
+<title>Quiz System</title>
 
 <style>
 body{
   font-family: Arial;
   text-align:center;
-  background:#f6f0ff;
+  background:#f3eeff;
   padding:20px;
 }
 
-h1{
-  color:#7a4ccf;
-}
+h1{color:#6b3fd4}
 
 button{
   display:block;
@@ -24,30 +22,27 @@ button{
   border-radius:15px;
   border:none;
   cursor:pointer;
-  background:#eadcff;
+  background:#e7ddff;
   font-size:16px;
 }
 
-button:hover{
-  background:#dcc7ff;
-}
+button:hover{background:#d6c6ff}
 
-.correct{color:green;font-weight:bold;}
-.wrong{color:red;font-weight:bold;}
-
-.small{font-size:14px;color:#555;}
 .card{
   background:white;
   padding:15px;
   border-radius:15px;
   margin-top:20px;
 }
+
+.correct{color:green;font-weight:bold}
+.wrong{color:red;font-weight:bold}
 </style>
 </head>
 
 <body>
 
-<h1 id="title">Quiz App</h1>
+<h1 id="title">Choose Subject</h1>
 
 <div id="menu"></div>
 <div id="quiz"></div>
@@ -55,111 +50,125 @@ button:hover{
 
 <script>
 
-// ===================== DATA =====================
+// ================= DATA =================
 
 const data = {
 
+// ================== 1) حقوق الملكية الفكرية ==================
 "حقوق الملكية الفكرية": [
-{
-q:"من خصائص العنصر المعنوي لحق المؤلف",
-options:["عدم قابليته للتنازل","قابليته للتنازل","يسقط بالتقادم","قابليته للحجز"],
-answer:0
-},
-{
-q:"الحق اللصيق بشخصية الإنسان يسمى",
-options:["حق مالي","حق معنوي","حق تجاري","حق إداري"],
-answer:1
-},
-{
-q:"التنازل عن الحقوق المالية لا يشمل",
-options:["الحقوق المعنوية","البيع","الهبة","التنازل"],
-answer:0
-},
-{
-q:"الحق الذي يقبل الحجز هو",
-options:["الحق المعنوي","الحق المالي","كلاهما","لا شيء"],
-answer:1
-},
-{
-q:"الترجمة تعتبر",
-options:["اعتداء دائم","ليست اعتداء إذا بدون تغيير","سرقة","غير قانونية"],
-answer:1
-}
+{q:"من خصائص العنصر المعنوي لحق المؤلف",options:["عدم قابليته للتنازل","قابليته للتنازل","يسقط بالتقادم","قابليته للحجز"],answer:0},
+{q:"حق المؤلف يعتبر حقًا لصيقًا بالشخصية",options:["المؤلف أو المبدع","السلطة الأبوية","البيع","التجارة"],answer:0},
+{q:"من أشكال التنازل عن العنصر المعنوي",options:["البيع والهبة","الطب","الإدارة","التعليم"],answer:0},
+{q:"التصرف في النسخة المادية لا يعني التنازل عن الحقوق",options:["صح","خطأ","غير معروف","أحياناً"],answer:0},
+{q:"الحقوق المعنوية لا تقبل التنازل",options:["صح","خطأ","تقبل","تنتهي"],answer:0},
+{q:"الحق المعنوي هو",options:["لصيق بالشخصية","مالي","تجاري","مؤقت"],answer:0},
+{q:"الحق الذي يقبل الحجز هو",options:["الحق المالي","المعنوي","الأدبي","الإنساني"],answer:0},
+{q:"العنصر المادي لا يظهر إلا",options:["بنشر المصنف","بالحجز","بالإلغاء","بالتنازل"],answer:0},
+{q:"الحق هو",options:["سلطة ومصلحة","اسم","عنوان","كتاب"],answer:0},
+{q:"من الحقوق المعنوية",options:["منع التشويه","البيع","التجارة","الإيجار"],answer:0},
+{q:"للمؤلف الحق في نشر مصنفه",options:["صح","خطأ","ممنوع","غير واضح"],answer:0},
+{q:"تحديد طريقة النشر يكون للمؤلف",options:["صح","خطأ","للشركة","للحكومة"],answer:0},
+{q:"نسبة المصنف للمؤلف حق",options:["صح","خطأ","غير موجود","ملغي"],answer:0},
+{q:"الامتناع عن النشر",options:["حق للمؤلف","إجبار","ممنوع","غير قانوني"],answer:0},
+{q:"إخفاء اسم المؤلف",options:["ممكن","ممنوع","إجباري","غير قانوني"],answer:0},
+{q:"الترجمة بدون إساءة",options:["ليست اعتداء","اعتداء","سرقة","ممنوعة"],answer:0},
+{q:"الإساءة في الترجمة تعتبر",options:["اعتداء","عادي","مسموح","مجهول"],answer:0},
+{q:"الحق المعنوي يحمي",options:["الشرف","المال","التجارة","البيع"],answer:0},
+{q:"سحب المصنف",options:["حق للمؤلف","ممنوع","للشركة","للقضاء"],answer:0},
+{q:"إذا لا يوجد ورثة",options:["وزارة الثقافة","البائع","المشتري","لا أحد"],answer:0}
 ],
 
-// 20 سؤال (مختصر لكن شغال)
-"Communication Concept": Array.from({length:20}).map((_,i)=>({
-q:"Communication Question "+(i+1),
-options:["A","B","C","D"],
-answer:1
-})),
+// ================== 2) Communication Concept ==================
+"Communication Concept": [
+{q:"Therapeutic communication is",options:["professional act","casual talk","no communication","orders"],answer:0},
+{q:"Shared understanding helps",options:["patient goals","delay","confusion","ignore"],answer:0},
+{q:"Silence allows patient to",options:["think","ignore","stop","panic"],answer:0},
+{q:"Exploring means",options:["dig deeper","change topic","end talk","ignore"],answer:0},
+{q:"Clarification used to",options:["check understanding","argue","stop","confuse"],answer:0},
+{q:"Reflecting focuses on",options:["feelings","machines","documents","orders"],answer:0},
+{q:"Communication is",options:["two-way","one-way","none","written only"],answer:0},
+{q:"Handover affected by",options:["noise","clarity","tools","teamwork"],answer:0},
+{q:"SBAR stands for",options:["Situation Background Assessment Recommendation","random","none","system"],answer:0},
+{q:"EMD role is",options:["dispatch","operate surgery","billing","pharmacy"],answer:0},
+{q:"Hard hearing patient avoid",options:["shouting","speaking clearly","writing","eye contact"],answer:0},
+{q:"Angry patient should",options:["stay calm","argue","shout","ignore"],answer:0},
+{q:"Rapport with child",options:["eye level","ignore","shout","leave"],answer:0},
+{q:"OLD CARTS used for",options:["symptoms","money","drugs","surgery"],answer:0},
+{q:"Why questions avoided",options:["accusation","help","clarity","support"],answer:0},
+{q:"Interview is",options:["ongoing","once","never","late"],answer:0},
+{q:"Open question example",options:["how did it start","yes/no","age","pain yes"],answer:0},
+{q:"Interview purpose",options:["trust","speed","ignore","end"],answer:0},
+{q:"Formal communication example",options:["lecture","gossip","rumor","chat"],answer:0},
+{q:"Upward communication",options:["employee to manager","manager to employee","none","random"],answer:0}
+],
 
-"Pathology": Array.from({length:20}).map((_,i)=>({
-q:"Pathology Question "+(i+1),
-options:["A","B","C","D"],
-answer:2
-}))
+// ================== 3) Pathology ==================
+"Pathology": [
+{q:"Body water percentage",options:["60%","40%","70%","80%"],answer:0},
+{q:"Non pitting edema",options:["lymphatic","cardiac","renal","liver"],answer:0},
+{q:"Physiological hyperemia",options:["exercise","disease","failure","block"],answer:0},
+{q:"Most common thrombus",options:["venous","arterial","cardiac","capillary"],answer:0},
+{q:"Septic thrombus contains",options:["bacteria","virus","fat","air"],answer:0},
+{q:"Hypovolemic shock cause",options:["bleeding","infection","heart failure","block"],answer:0},
+{q:"Amyloidosis organ",options:["kidney","brain","skin","bone"],answer:0},
+{q:"Neoplasm is",options:["abnormal growth","infection","injury","normal cell"],answer:0},
+{q:"Benign tumor",options:["well differentiated","metastasis","invasive","fast"],answer:0},
+{q:"Metastasis means",options:["spread","local growth","repair","healing"],answer:0},
+{q:"Carcinoma arises from",options:["epithelium","muscle","bone","fat"],answer:0},
+{q:"Liposarcoma is",options:["soft tissue tumor","bone tumor","skin tumor","blood tumor"],answer:0},
+{q:"Gold standard diagnosis",options:["histopathology","xray","blood test","urine"],answer:0},
+{q:"Malignant feature",options:["invasion","capsule","slow","smooth"],answer:0},
+{q:"Benign tumor feature",options:["capsulated","invasive","metastatic","fast"],answer:0},
+{q:"Tumor prognosis depends on",options:["radiosensitivity","hair color","age only","height"],answer:0},
+{q:"Shock type bleeding",options:["hypovolemic","cardiogenic","obstructive","neurogenic"],answer:0},
+{q:"Amyloid affects",options:["kidney","lung","skin","bone"],answer:0},
+{q:"Local invasion",options:["penetration","stay same","heal","reduce"],answer:0},
+{q:"Cancer diagnosis best method",options:["H&E stain","CT","MRI","Xray"],answer:0}
+]
+
 };
 
-// ===================== MENU =====================
+// ================= LOGIC =================
 
-function loadMenu(){
-document.getElementById("menu").innerHTML=`
-<h2>Choose Subject</h2>
-`;
-
-for(let key in data){
-let btn=document.createElement("button");
-btn.innerText=key;
-btn.onclick=()=>startQuiz(key);
-document.getElementById("menu").appendChild(btn);
-}
-}
-
-let currentSubject="";
+let subject="";
 let index=0;
 let score=0;
 
-// ===================== START =====================
-
-function startQuiz(subject){
-currentSubject=subject;
-index=0;
-score=0;
-
-document.getElementById("title").innerText=subject;
-
-document.getElementById("menu").style.display="none";
-
-loadQuestion();
+function loadMenu(){
+document.getElementById("menu").innerHTML="";
+for(let s in data){
+let b=document.createElement("button");
+b.innerText=s;
+b.onclick=()=>start(s);
+document.getElementById("menu").appendChild(b);
+}
 }
 
-// ===================== QUESTION =====================
+function start(s){
+subject=s;
+index=0;
+score=0;
+document.getElementById("title").innerText=s;
+document.getElementById("menu").style.display="none";
+loadQ();
+}
 
-function loadQuestion(){
-
-let q=data[currentSubject][index];
+function loadQ(){
+let q=data[subject][index];
 
 document.getElementById("quiz").innerHTML=`
 <div class="card">
 <h3>${q.q}</h3>
-
 ${q.options.map((o,i)=>`
 <button onclick="check(${i})">${o}</button>
 `).join("")}
-
 <div id="msg"></div>
 </div>
 `;
-
-document.getElementById("result").innerHTML="";
 }
 
-// ===================== CHECK =====================
-
 function check(i){
-let q=data[currentSubject][index];
-
+let q=data[subject][index];
 let msg=document.getElementById("msg");
 
 if(i===q.answer){
@@ -167,26 +176,22 @@ score++;
 msg.innerHTML="💚 Correct";
 msg.className="correct";
 }else{
-msg.innerHTML="💔 Wrong<br><span class='correct'>Correct Answer: "+q.options[q.answer]+"</span>";
+msg.innerHTML="💔 Wrong<br><span class='correct'>Correct: "+q.options[q.answer]+"</span>";
 msg.className="wrong";
 }
 
-setTimeout(next,1000);
+setTimeout(next,900);
 }
-
-// ===================== NEXT =====================
 
 function next(){
 index++;
-
-if(index<data[currentSubject].length){
-loadQuestion();
+if(index<data[subject].length){
+loadQ();
 }else{
 document.getElementById("quiz").innerHTML="";
-document.getElementById("result").innerHTML=
-`<h2>Score: ${score} / ${data[currentSubject].length}</h2>`;
-
 document.getElementById("menu").style.display="block";
+document.getElementById("result").innerHTML=
+"Score: "+score+"/"+data[subject].length;
 loadMenu();
 }
 }
