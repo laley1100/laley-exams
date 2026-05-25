@@ -2,18 +2,25 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>Quiz App</title>
+<title>Quiz System</title>
 
 <style>
 body{
 font-family: Arial;
-background:#f5f5f5;
+background:#f4f4f4;
 text-align:center;
 }
 
 h2{
 margin-top:20px;
-color:#333;
+color:#222;
+}
+
+.sub{
+font-size:12px;
+color:#777;
+margin-top:-10px;
+margin-bottom:10px;
 }
 
 .card{
@@ -40,29 +47,25 @@ cursor:pointer;
 background:#ddd;
 }
 
-.result{
-margin-top:10px;
-font-weight:bold;
-}
-.correct{color:green;}
-.wrong{color:red;}
+.correct{color:green;font-weight:bold;}
+.wrong{color:red;font-weight:bold;}
 .small{font-size:12px;color:#666;}
 </style>
 </head>
 
 <body>
 
-<h2>Quiz System</h2>
-
 <div id="app"></div>
 
 <script>
-// ================== DATA ==================
+
+// ================= DATA =================
 
 const subjects = [
 
 {
 name:"حقوق الملكية الفكرية",
+sub:"Intellectual Property Rights",
 questions:[
 {
 q_ar:"من خصائص العنصر المعنوي لحق المؤلف",
@@ -91,6 +94,7 @@ answer:1
 
 {
 name:"Communication Concept",
+sub:"مفهوم التواصل العلاجي",
 questions:[
 {
 q_ar:"Therapeutic communication is",
@@ -119,6 +123,7 @@ answer:1
 
 {
 name:"Pathology",
+sub:"علم الأمراض",
 questions:[
 {
 q_ar:"Percentage of body water",
@@ -147,17 +152,23 @@ answer:1
 
 ];
 
-// ================== APP ==================
+// ================= APP =================
 
 const app = document.getElementById("app");
 
-subjects.forEach((subject,sIndex)=>{
+subjects.forEach(subject=>{
 
 const title = document.createElement("h2");
 title.innerText = subject.name;
-app.appendChild(title);
 
-subject.questions.forEach((q,qIndex)=>{
+const sub = document.createElement("div");
+sub.className="sub";
+sub.innerText = subject.sub;
+
+app.appendChild(title);
+app.appendChild(sub);
+
+subject.questions.forEach(q=>{
 
 const card = document.createElement("div");
 card.className="card";
@@ -175,23 +186,21 @@ btn.innerText = opt;
 
 btn.onclick = ()=>{
 
-let result = card.querySelector(".result");
+let old = card.querySelector(".result");
+if(old) old.remove();
 
-if(result) result.remove();
-
-result = document.createElement("div");
-result.className="result";
+const res = document.createElement("div");
+res.className="result";
 
 if(i === q.answer){
-result.innerHTML = "✔ صح";
-result.classList.add("correct");
-}
-else{
-result.innerHTML = "❌ غلط 💔 <br> الصح: " + q.options[q.answer];
-result.classList.add("wrong");
+res.innerHTML = "✔ صح";
+res.className="correct";
+}else{
+res.innerHTML = "❌ غلط 💔 <br> الصح: " + q.options[q.answer];
+res.className="wrong";
 }
 
-card.appendChild(result);
+card.appendChild(res);
 };
 
 card.appendChild(btn);
