@@ -1,61 +1,56 @@
 [
   {
-    "subject": "Communication Concepts",
-    "q_en": "What is communication?",
-    "q_ar": "ما هو الاتصال؟",
+    "q_en": "Therapeutic communication is best defined as",
+    "q_ar": "ما هو تعريف الاتصال العلاجي؟",
     "options": [
-      { "en": "Sharing information", "ar": "تبادل المعلومات" },
-      { "en": "Cooking food", "ar": "طبخ الطعام" },
-      { "en": "Sleeping", "ar": "النوم" },
-      { "en": "Running", "ar": "الجري" }
+      { "en": "Casual conversation", "ar": "حديث عادي" },
+      { "en": "Professional planned communication", "ar": "اتصال مهني مخطط" },
+      { "en": "Giving orders only", "ar": "إعطاء أوامر فقط" },
+      { "en": "Talking to calm patient", "ar": "التحدث لتهدئة المريض فقط" }
+    ],
+    "answer": 1
+  },
+  {
+    "q_en": "Shared understanding of information helps to",
+    "q_ar": "الفهم المشترك للمعلومات يساعد على",
+    "options": [
+      { "en": "Achieve patient goals", "ar": "تحقيق أهداف المريض" },
+      { "en": "Reduce paperwork", "ar": "تقليل الأوراق" },
+      { "en": "Save time only", "ar": "توفير الوقت فقط" },
+      { "en": "Limit interaction", "ar": "تقليل التفاعل" }
     ],
     "answer": 0
   },
   {
-    "subject": "Communication Concepts",
-    "q_en": "Which are types of communication?",
-    "q_ar": "ما هي أنواع الاتصال؟",
+    "q_en": "Using silence allows the patient to",
+    "q_ar": "استخدام الصمت يسمح للمريض بـ",
     "options": [
-      { "en": "Verbal & Non-verbal", "ar": "لفظي وغير لفظي" },
-      { "en": "Hot & Cold", "ar": "حار وبارد" },
-      { "en": "Fast & Slow", "ar": "سريع وبطيء" },
-      { "en": "Big & Small", "ar": "كبير وصغير" }
+      { "en": "Feel ignored", "ar": "الشعور بالتجاهل" },
+      { "en": "Think and reflect", "ar": "التفكير والتأمل" },
+      { "en": "End conversation", "ar": "إنهاء الحديث" },
+      { "en": "Be confused", "ar": "الارتباك" }
     ],
-    "answer": 0
+    "answer": 1
   },
   {
-    "subject": "Communication Concepts",
-    "q_en": "Verbal communication uses:",
-    "q_ar": "الاتصال اللفظي يستخدم:",
+    "q_en": "Exploring means",
+    "q_ar": "التعمق في الموضوع يعني",
     "options": [
-      { "en": "Words", "ar": "كلمات" },
-      { "en": "Gestures", "ar": "إيماءات" },
-      { "en": "Facial expressions", "ar": "تعبيرات الوجه" },
-      { "en": "Silence", "ar": "الصمت" }
+      { "en": "Changing topic", "ar": "تغيير الموضوع" },
+      { "en": "Going deeper into issue", "ar": "التعمق في الموضوع" },
+      { "en": "Ending interview", "ar": "إنهاء المقابلة" },
+      { "en": "Ignoring patient", "ar": "تجاهل المريض" }
     ],
-    "answer": 0
+    "answer": 1
   },
   {
-    "subject": "Communication Concepts",
-    "q_en": "Non-verbal communication includes:",
-    "q_ar": "الاتصال غير اللفظي يشمل:",
+    "q_en": "Clarification is used to",
+    "q_ar": "التوضيح يستخدم لـ",
     "options": [
-      { "en": "Body language", "ar": "لغة الجسد" },
-      { "en": "Speaking", "ar": "التحدث" },
-      { "en": "Writing", "ar": "الكتابة" },
-      { "en": "Reading", "ar": "القراءة" }
-    ],
-    "answer": 0
-  },
-  {
-    "subject": "Communication Concepts",
-    "q_en": "Sender is:",
-    "q_ar": "المرسل هو:",
-    "options": [
-      { "en": "Who sends message", "ar": "من يرسل الرسالة" },
-      { "en": "Who receives message", "ar": "من يستقبل الرسالة" },
-      { "en": "Noise", "ar": "ضوضاء" },
-      { "en": "Channel", "ar": "قناة" }
+      { "en": "Check understanding", "ar": "التأكد من الفهم" },
+      { "en": "Confuse patient", "ar": "إرباك المريض" },
+      { "en": "End conversation", "ar": "إنهاء الحديث" },
+      { "en": "Give medication", "ar": "إعطاء دواء" }
     ],
     "answer": 0
   }
