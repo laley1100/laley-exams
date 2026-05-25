@@ -2,17 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Quiz</title>
+<title>Quiz Platform</title>
 
 <style>
 body{
   font-family: Arial;
   text-align:center;
-  background:#f3efff;
+  background:#f5f0ff;
   padding:20px;
 }
 
-h1{color:#6b4bd1}
+h1{
+  color:#6b4bd1;
+}
 
 button{
   display:block;
@@ -25,15 +27,24 @@ button{
   cursor:pointer;
 }
 
-button:hover{background:#f3c6da}
+button:hover{
+  background:#f3c6da;
+}
 
 .menu-btn{
-  background:#d9c9ff;
+  background:#d8ccff;
   font-size:18px;
 }
 
-.correct{color:green;font-weight:bold}
-.wrong{color:red;font-weight:bold}
+.correct{
+  color:green;
+  font-weight:bold;
+}
+
+.wrong{
+  color:red;
+  font-weight:bold;
+}
 </style>
 </head>
 
@@ -42,4 +53,171 @@ button:hover{background:#f3c6da}
 <h1>Quiz Platform</h1>
 
 <div id="menu">
-  <button class="menu-btn" onclick="start('c')">
+  <button class="menu-btn" onclick="start('comm')">Communication Concept</button>
+  <button class="menu-btn" onclick="start('path')">Pathology</button>
+  <button class="menu-btn" onclick="start('law')">حقوق الملكية الفكرية</button>
+</div>
+
+<div id="quiz"></div>
+<div id="feedback"></div>
+
+<button id="next" style="display:none;" onclick="nextQ()">Next</button>
+
+<h2 id="result"></h2>
+
+<script>
+
+let questions=[];
+let index=0;
+let score=0;
+
+function start(subject){
+
+  if(subject==="comm"){
+    questions=comm;
+  }
+
+  if(subject==="path"){
+    questions=path;
+  }
+
+  if(subject==="law"){
+    questions=law;
+  }
+
+  document.getElementById("menu").style.display="none";
+  index=0;
+  score=0;
+  load();
+}
+
+function load(){
+
+  let q=questions[index];
+
+  document.getElementById("quiz").innerHTML=`
+    <h3>${q.q}</h3>
+    ${q.options.map((o,i)=>`
+      <button onclick="check(${i})">${o}</button>
+    `).join("")}
+  `;
+
+  document.getElementById("feedback").innerHTML="";
+  document.getElementById("next").style.display="none";
+}
+
+function check(i){
+
+  let q=questions[index];
+
+  let btns=document.querySelectorAll("button");
+  btns.forEach(b=>{
+    if(b.id!=="next") b.disabled=true;
+  });
+
+  if(i===q.answer){
+    score++;
+    document.getElementById("feedback").innerHTML=
+    "<div class='correct'>Correct 💚</div>";
+  }else{
+    document.getElementById("feedback").innerHTML=
+    "<div class='wrong'>Wrong 💔</div><div class='correct'>Correct Answer: "+q.options[q.answer]+"</div>";
+  }
+
+  document.getElementById("next").style.display="block";
+}
+
+function nextQ(){
+  index++;
+
+  if(index<questions.length){
+    load();
+  }else{
+    document.getElementById("quiz").innerHTML="";
+    document.getElementById("feedback").innerHTML="";
+    document.getElementById("next").style.display="none";
+
+    document.getElementById("result").innerHTML=
+    "Score: "+score+" / "+questions.length;
+  }
+}
+
+/* ================= COMMUNICATION ================= */
+const comm=[
+{q:"Therapeutic communication is best defined as",options:["Casual talk","Professional communication","Orders","Chat"],answer:1},
+{q:"Silence helps patient to",options:["Ignore","Think","End","Shout"],answer:1},
+{q:"Clarification means",options:["Confuse","Check understanding","End","Ignore"],answer:1},
+{q:"Communication is",options:["One way","Two way","None","Written"],answer:1},
+{q:"Handover means",options:["Money","Care transfer","Food","Paper"],answer:1},
+{q:"SBAR stands for",options:["Correct model","Wrong","None","Fake"],answer:0},
+{q:"Noise affects",options:["Handover","Healing","Drugs","None"],answer:0},
+{q:"EMD role",options:["Dispatch","Surgery","Driving","None"],answer:0},
+{q:"Therapeutic focus",options:["Patient","Doctor","System","None"],answer:0},
+{q:"Good communication leads to",options:["Errors","Safety","Confusion","Delay"],answer:1},
+
+{q:"Exploring means",options:["Ignore","Deepen","Stop","End"],answer:1},
+{q:"Reflecting focuses on",options:["Feelings","Tools","Money","None"],answer:0},
+{q:"Functional touch is",options:["Clinical","Social","Hobby","None"],answer:0},
+{q:"Bad communication leads to",options:["Errors","Safety","Fast care","None"],answer:0},
+{q:"Patient interview is",options:["Important","Useless","None","Extra"],answer:0},
+{q:"Open question example",options:["How are you?","Yes/No","Age","Stop"],answer:0},
+{q:"Why questions are avoided because",options:["Accusation","Clear","Good","None"],answer:0},
+{q:"Rapport means",options:["Trust","Money","Work","None"],answer:0},
+{q:"Interview starts with",options:["Assessment","Greeting","Surgery","None"],answer:1},
+{q:"Goal of communication",options:["Understanding","Confusion","Delay","None"],answer:0}
+];
+
+/* ================= PATHOLOGY ================= */
+const path=[
+{q:"Body water %",options:["40","50","60","70"],answer:2},
+{q:"Non pitting edema",options:["Heart","Kidney","Lymph","Liver"],answer:2},
+{q:"Most thrombus",options:["Arterial","Venous","Heart","None"],answer:1},
+{q:"Shock in trauma",options:["Hypovolemic","Cardiac","Septic","None"],answer:0},
+{q:"Neoplasm is",options:["Tumor","Normal","Infection","None"],answer:0},
+{q:"Metastasis",options:["Local","Spread","Heal","None"],answer:1},
+{q:"Benign tumor",options:["Well","Bad","Fast","None"],answer:0},
+{q:"Malignant",options:["Invasive","Safe","Slow","None"],answer:0},
+{q:"Gold standard",options:["H&E","Xray","CT","MRI"],answer:0},
+{q:"Most sarcoma",options:["Lipo","Bone","Skin","None"],answer:0},
+
+{q:"Amyloidosis organ",options:["Kidney","Skin","Bone","Lung"],answer:0},
+{q:"Hyperemia exercise",options:["Yes","No","Maybe","None"],answer:0},
+{q:"Thrombus bacteria",options:["Septic","Clean","Red","None"],answer:0},
+{q:"Benign feature",options:["Capsule","Invasion","Spread","None"],answer:0},
+{q:"Carcinoma origin",options:["Epithelial","Muscle","Bone","None"],answer:0},
+{q:"Sarcoma origin",options:["Mesenchymal","Skin","Brain","None"],answer:0},
+{q:"Tumor prognosis",options:["Type","Hair","Age","None"],answer:0},
+{q:"Bleeding shock",options:["Hypovolemic","Neurogenic","All","None"],answer:0},
+{q:"Benign danger",options:["Brain","Skin","Hand","None"],answer:0},
+{q:"Diagnosis",options:["Histology","Guess","Talk","None"],answer:0}
+];
+
+/* ================= LAW ================= */
+const law=[
+{q:"حق المؤلف",options:["معنوي","مالي","بيع","شراء"],answer:0},
+{q:"WIPO meaning",options:["مبدع","شركة","دولة","لا"],answer:0},
+{q:"تنازل",options:["بيع هبة","أكل","نوم","لا"],answer:0},
+{q:"البيع ينقل",options:["لا","نعم","جزئيا","كل"],answer:0},
+{q:"الحق المعنوي",options:["لا يسقط","يسقط","يباع","يشترى"],answer:0},
+{q:"الحجز",options:["مالي","معنوي","كلا","لا"],answer:0},
+{q:"العنصر المادي",options:["نشر","حجز","بيع","لا"],answer:0},
+{q:"الحق هو",options:["سلطة","اسم","شكل","لا"],answer:0},
+{q:"التعديل ممنوع",options:["نعم","لا","أحيانا","لا"],answer:0},
+{q:"النشر للمؤلف",options:["حر","ممنوع","إجباري","لا"],answer:0},
+
+{q:"اسم المؤلف",options:["يوضع","لا","يمنع","يحذف"],answer:0},
+{q:"الترجمة",options:["بإذن","بدون","دائما","لا"],answer:0},
+{q:"الإساءة",options:["اعتداء","عادي","لا","مسموح"],answer:0},
+{q:"الحقوق",options:["معنوية","مالية","بيع","شراء"],answer:0},
+{q:"إخفاء الاسم",options:["مسموح","ممنوع","لا","أحيانا"],answer:0},
+{q:"التداول",options:["يمنع الضرر","يسمح","بيع","شراء"],answer:0},
+{q:"السمعة",options:["محمي","غير","لا","أحيانا"],answer:0},
+{q:"بدون ورثة",options:["وزارة الثقافة","بيع","هبة","لا"],answer:0},
+{q:"التصرف",options:["مقيد","حر","بيع","شراء"],answer:0},
+{q:"الحق",options:["حماية","مال","سلعة","لا"],answer:0}
+];
+
+</script>
+
+</body>
+</html>
