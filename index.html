@@ -42,14 +42,24 @@ button:hover{
 background:#a855f7;
 }
 
-.correct{ background:#b7f7c1 !important; }
-.wrong{ background:#ffb3c1 !important; }
+.correct{
+background:#b7f7c1 !important;
+}
+
+.wrong{
+background:#ffb3c1 !important;
+}
 
 .title{
 font-size:20px;
 font-weight:bold;
 color:#4c1d95;
 margin-bottom:10px;
+}
+
+.heart{
+font-size:18px;
+margin-left:6px;
 }
 </style>
 </head>
@@ -61,17 +71,17 @@ margin-bottom:10px;
 <!-- MENU -->
 <div id="menu" class="card">
 <h2>اختار المادة</h2>
-<button onclick="startQuiz('rights')">حقوق الملكية الفكرية</button>
-<button onclick="startQuiz('comm')">Communication Concept</button>
-<button onclick="startQuiz('path')">Pathology</button>
+<button onclick="start('rights')">حقوق الملكية الفكرية</button>
+<button onclick="start('comm')">Communication Concept</button>
+<button onclick="start('path')">Pathology</button>
 </div>
 
 <!-- QUIZ -->
 <div id="quiz" class="card" style="display:none;">
 <div class="title" id="title"></div>
-<div id="qBox"></div>
-<div id="aBox"></div>
-<button onclick="nextQ()">التالي</button>
+<div id="qbox"></div>
+<div id="abox"></div>
+<button onclick="next()">التالي</button>
 </div>
 
 </div>
@@ -80,11 +90,10 @@ margin-bottom:10px;
 
 let data=[];
 let index=0;
-let title="";
+let locked=false;
 
-// ===================== 1) الحقوق (نفس نصك بدون تغيير) =====================
-const rights = [
-
+// ================== حقوق الملكية (نفس نصك بدون أي تغيير) ==================
+const rights=[
 {
 q:`1- من خصائص العنصر المعنوي لحق المؤلف:
 أ- عدم قابليته للتنازل عنه أو التعامل به
@@ -94,82 +103,67 @@ q:`1- من خصائص العنصر المعنوي لحق المؤلف:
 options:["أ","ب","ج","د"],
 answer:0
 },
-
 {
 q:`2- حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان وهذا ما أُطلق عليه بموجب اتفاقية WIPO:
 أ- المصنف أو المؤلف
 ب- المؤلف أو المبدع أو المبتكر
 ج- السلطة الأبوية
 د- الاستغلال والتصرف`,
-options:["أ","ب","ج","د"],
-answer:1
+answer:1,
+options:["أ","ب","ج","د"]
 },
-
 {
 q:`3- من أشكال التنازل عن العنصر المعنوي:
 أ- البيع، الهبة، التبرع
 ب- المصنف أو المؤلف
 ج- التبرع وأخذ قيمته
 د- يسقط بالتقادم`,
-options:["أ","ب","ج","د"],
-answer:0
+answer:0,
+options:["أ","ب","ج","د"]
 }
-
-// 👉 (هنا تكملي باقي 20 سؤال نفس ما هو بدون تغيير)
 ];
 
-// ===================== 2) Communication =====================
-const comm = [
+// ================== Communication ==================
+const comm=[
 {
-q:"Therapeutic communication is\nالتواصل العلاجي هو",
-options:["Casual chat","Professional planned","Orders only","Calming only"],
+q:"Therapeutic communication is / التواصل العلاجي هو",
+options:["Casual","Professional planned","Orders only","Calming only"],
 answer:1
 },
 {
-q:"Silence allows patient to\nالصمت يساعد المريض على",
+q:"Silence helps patient / الصمت يساعد",
 options:["Ignore","Think","Leave","Stop"],
 answer:1
 }
 ];
 
-// ===================== 3) Pathology =====================
-const path = [
+// ================== Pathology ==================
+const path=[
 {
-q:"Body water percentage\nنسبة ماء الجسم",
+q:"Body water percentage / نسبة ماء الجسم",
 options:["40%","50%","60%","70%"],
 answer:2
 },
 {
-q:"Non-pitting edema\nالوذمة غير الانطباعية",
+q:"Non pitting edema / الوذمة غير الانطباعية",
 options:["Cardiac","Renal","Lymphatic","Liver"],
 answer:2
 }
 ];
 
-// ===================== ENGINE =====================
+// ================== ENGINE ==================
 
-function startQuiz(type){
+function start(type){
 
 index=0;
+locked=false;
 
-if(type==="rights"){
-data=rights;
-title="حقوق الملكية الفكرية";
-}
-
-if(type==="comm"){
-data=comm;
-title="Communication Concept";
-}
-
-if(type==="path"){
-data=path;
-title="Pathology";
-}
+if(type==="rights") data=rights, title="حقوق الملكية الفكرية";
+if(type==="comm") data=comm, title="Communication Concept";
+if(type==="path") data=path, title="Pathology";
 
 document.getElementById("menu").style.display="none";
 document.getElementById("quiz").style.display="block";
-
 document.getElementById("title").innerText=title;
 
 show();
@@ -177,17 +171,19 @@ show();
 
 function show(){
 
+locked=false;
+
 let q=data[index];
 
-document.getElementById("qBox").innerText=q.q;
+document.getElementById("qbox").innerText=q.q;
 
-let box=document.getElementById("aBox");
+let box=document.getElementById("abox");
 box.innerHTML="";
 
-q.options.forEach((opt,i)=>{
+q.options.forEach((o,i)=>{
 
 let b=document.createElement("button");
-b.innerText=opt;
+b.innerText=o;
 
 b.onclick=()=>check(i,b);
 
@@ -197,8 +193,11 @@ box.appendChild(b);
 
 function check(i,b){
 
+if(locked) return;
+locked=true;
+
 let q=data[index];
-let buttons=document.querySelectorAll("#aBox button");
+let btns=document.querySelectorAll("#abox button");
 
 if(i===q.answer){
 b.classList.add("correct");
@@ -206,11 +205,11 @@ b.innerHTML+=" 💖";
 }else{
 b.classList.add("wrong");
 b.innerHTML+=" 💔";
-buttons[q.answer].classList.add("correct");
+btns[q.answer].classList.add("correct");
 }
 }
 
-function nextQ(){
+function next(){
 index++;
 if(index<data.length){
 show();
