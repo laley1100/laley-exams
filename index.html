@@ -1,361 +1,89 @@
 const examApp = {
+  Communication: [
+    {
+      q_en: "Therapeutic communication is best defined as",
+      q_ar: "التواصل العلاجي يُعرّف بأنه",
+      options: [
+        { en: "Casual conversation between paramedic and patient", ar: "محادثة عادية بين المسعف والمريض" },
+        { en: "A planned, deliberate, professional act using communication techniques", ar: "فعل مهني مخطط باستخدام تقنيات التواصل" },
+        { en: "Giving medical instructions only", ar: "إعطاء تعليمات طبية فقط" },
+        { en: "Talking to calm the patient", ar: "التحدث لتهدئة المريض" }
+      ],
+      answer: 1
+    },
 
-"Communication": [
-{
-q_en:"Therapeutic communication is best defined as",
-q_ar:"التواصل العلاجي يُعرّف بأنه",
-options:[
-{en:"Casual conversation between paramedic and patient", ar:"محادثة عادية بين المسعف والمريض"},
-{en:"A planned, deliberate, professional act using communication techniques", ar:"فعل مهني مخطط باستخدام تقنيات التواصل"},
-{en:"Giving medical instructions only", ar:"إعطاء تعليمات طبية فقط"},
-{en:"Talking to calm the patient", ar:"التحدث لتهدئة المريض"}
-],
-answer:1
-},
+    {
+      q_en: "Shared understanding of information helps to",
+      q_ar: "الفهم المشترك للمعلومات يساعد على",
+      options: [
+        { en: "Achieve desired patient-care goals", ar: "تحقيق أهداف رعاية المريض" },
+        { en: "Reduce documentation", ar: "تقليل التوثيق" },
+        { en: "Save time only", ar: "توفير الوقت فقط" },
+        { en: "Limit patient interaction", ar: "تقليل التفاعل مع المريض" }
+      ],
+      answer: 0
+    },
 
-{
-q_en:"Shared understanding of information helps to",
-q_ar:"الفهم المشترك للمعلومات يساعد على",
-options:[
-{en:"Achieve desired patient-care goals", ar:"تحقيق أهداف رعاية المريض"},
-{en:"Reduce documentation", ar:"تقليل التوثيق"},
-{en:"Save time only", ar:"توفير الوقت فقط"},
-{en:"Limit patient interaction", ar:"تقليل التفاعل مع المريض"}
-],
-answer:0
-},
+    {
+      q_en: "Using silence in communication allows the patient to",
+      q_ar: "استخدام الصمت في التواصل يسمح للمريض أن",
+      options: [
+        { en: "Feel ignored", ar: "يشعر بالإهمال" },
+        { en: "Think and gain insight", ar: "يفكر ويكتسب فهم" },
+        { en: "Lose interest", ar: "يفقد الاهتمام" },
+        { en: "End conversation", ar: "ينهي المحادثة" }
+      ],
+      answer: 1
+    }
+  ],
 
-{
-q_en:"Using silence in communication allows the patient to",
-q_ar:"استخدام الصمت في التواصل يسمح للمريض أن",
-options:[
-{en:"Feel ignored", ar:"يشعر بالإهمال"},
-{en:"Think and gain insight", ar:"يفكر ويكتسب فهم"},
-{en:"Lose interest", ar:"يفقد الاهتمام"},
-{en:"End conversation", ar:"ينهي المحادثة"}
-],
-answer:1
-},
+  Pathology: [
+    {
+      q_en: "Approximately what percentage of body weight is water?",
+      q_ar: "حوالي كم نسبة الماء في جسم الإنسان؟",
+      options: [
+        { en: "40%", ar: "40٪" },
+        { en: "50%", ar: "50٪" },
+        { en: "60%", ar: "60٪" },
+        { en: "70%", ar: "70٪" }
+      ],
+      answer: 2
+    },
 
-{
-q_en:"Exploring is best described as",
-q_ar:"الاستكشاف يُعرّف بأنه",
-options:[
-{en:"Changing subject", ar:"تغيير الموضوع"},
-{en:"Delving deeper into a topic", ar:"التعمق في الموضوع"},
-{en:"Giving medical advice", ar:"إعطاء نصيحة طبية"},
-{en:"Summarizing data", ar:"تلخيص البيانات"}
-],
-answer:1
-},
+    {
+      q_en: "Non-pitting edema occurs in which condition?",
+      q_ar: "الوذمة غير الانطباعية تحدث في أي حالة؟",
+      options: [
+        { en: "Cardiac edema", ar: "وذمة قلبية" },
+        { en: "Renal edema", ar: "وذمة كلوية" },
+        { en: "Nutritional edema", ar: "وذمة غذائية" },
+        { en: "Lymphatic edema", ar: "وذمة لمفاوية" }
+      ],
+      answer: 3
+    }
+  ],
 
-{
-q_en:"Clarification is used when the paramedic wants to",
-q_ar:"يستخدم التوضيح عندما يريد المسعف",
-options:[
-{en:"Check understanding", ar:"التأكد من الفهم"},
-{en:"Challenge patient", ar:"تحدي المريض"},
-{en:"Give instructions", ar:"إعطاء تعليمات"},
-{en:"End communication", ar:"إنهاء التواصل"}
-],
-answer:0
-},
+  IntellectualProperty: [
+    {
+      q_ar: "حقوق الملكية الفكرية هي",
+      options: [
+        { ar: "قابلة للتنازل دائمًا" },
+        { ar: "حقوق معنوية لا يمكن التنازل عنها" },
+        { ar: "حقوق مالية فقط" },
+        { ar: "يمكن الحجز عليها" }
+      ],
+      answer: 1
+    },
 
-{
-q_en:"Reflecting focuses on",
-q_ar:"الانعكاس يركز على",
-options:[
-{en:"Medical facts only", ar:"الحقائق الطبية فقط"},
-{en:"Client feelings and content", ar:"مشاعر ومحتوى المريض"},
-{en:"Paramedic opinion", ar:"رأي المسعف"},
-{en:"Documentation", ar:"التوثيق"}
-],
-answer:1
-},
-
-{
-q_en:"Communication is best described as",
-q_ar:"التواصل يُعرّف بأنه",
-options:[
-{en:"One-way process", ar:"عملية باتجاه واحد"},
-{en:"Two-way process", ar:"عملية ثنائية الاتجاه"},
-{en:"Written only", ar:"كتابي فقط"},
-{en:"Technological process", ar:"عملية تقنية"}
-],
-answer:1
-},
-
-{
-q_en:"Functional-professional touch is used for",
-q_ar:"اللمس المهني يستخدم لـ",
-options:[
-{en:"Clinical care", ar:"الرعاية السريرية"},
-{en:"Emotional bonding", ar:"ارتباط عاطفي"},
-{en:"Social greeting", ar:"تحية اجتماعية"},
-{en:"Intimacy", ar:"علاقة شخصية"}
-],
-answer:0
-},
-
-{
-q_en:"Therapeutic impasses are",
-q_ar:"العوائق العلاجية هي",
-options:[
-{en:"Successful interaction", ar:"تفاعل ناجح"},
-{en:"Block in communication", ar:"عائق في التواصل"},
-{en:"Legal issues", ar:"مشاكل قانونية"},
-{en:"Goals", ar:"أهداف"}
-],
-answer:1
-},
-
-{
-q_en:"SBAR stands for",
-q_ar:"SBAR تعني",
-options:[
-{en:"Signs Background Action Response", ar:"علامات خلفية إجراء استجابة"},
-{en:"Situation Background Assessment Recommendation", ar:"الوضع الخلفية التقييم التوصية"},
-{en:"Symptoms Baseline Assessment Report", ar:"أعراض أساس تقييم تقرير"},
-{en:"Status Body Airway Response", ar:"حالة جسم مجرى هوائي استجابة"}
-],
-answer:1
-}
-],
-
-
-"Pathology": [
-{
-q_en:"Approximately what percentage of body weight is water?",
-q_ar:"حوالي كم نسبة الماء في جسم الإنسان؟",
-options:[
-{en:"40%", ar:"40٪"},
-{en:"50%", ar:"50٪"},
-{en:"60%", ar:"60٪"},
-{en:"70%", ar:"70٪"}
-],
-answer:2
-},
-
-{
-q_en:"Non-pitting edema occurs in which condition?",
-q_ar:"الوذمة غير الانطباعية تحدث في أي حالة؟",
-options:[
-{en:"Cardiac edema", ar:"وذمة قلبية"},
-{en:"Renal edema", ar:"وذمة كلوية"},
-{en:"Nutritional edema", ar:"وذمة غذائية"},
-{en:"Lymphatic edema", ar:"وذمة لمفاوية"}
-],
-answer:3
-},
-
-{
-q_en:"Which type of thrombus is most common?",
-q_ar:"ما أكثر نوع خثرة شيوعًا؟",
-options:[
-{en:"Arterial", ar:"شريانية"},
-{en:"Capillary", ar:"شعيرية"},
-{en:"Venous", ar:"وريدية"},
-{en:"Cardiac", ar:"قلبية"}
-],
-answer:2
-},
-
-{
-q_en:"Septic thrombus contains",
-q_ar:"الخثرة الإنتانية تحتوي على",
-options:[
-{en:"No bacteria", ar:"لا تحتوي بكتيريا"},
-{en:"Bacteria", ar:"بكتيريا"},
-{en:"Fats only", ar:"دهون فقط"},
-{en:"Air", ar:"هواء"}
-],
-answer:1
-},
-
-{
-q_en:"Hypovolemic shock is caused by",
-q_ar:"صدمة نقص حجم الدم تحدث بسبب",
-options:[
-{en:"Heart failure", ar:"فشل القلب"},
-{en:"Blood loss", ar:"فقدان الدم"},
-{en:"Infection", ar:"عدوى"},
-{en:"Blockage", ar:"انسداد"}
-],
-answer:1
-},
-
-{
-q_en:"Most common organ affected in amyloidosis",
-q_ar:"أكثر عضو يتأثر بالنشواني",
-options:[
-{en:"Liver", ar:"الكبد"},
-{en:"Spleen", ar:"الطحال"},
-{en:"Heart", ar:"القلب"},
-{en:"Kidney", ar:"الكلى"}
-],
-answer:3
-},
-
-{
-q_en:"Neoplasm is",
-q_ar:"الورم هو",
-options:[
-{en:"Inflammation", ar:"التهاب"},
-{en:"Abnormal uncontrolled growth", ar:"نمو غير طبيعي"},
-{en:"Infection", ar:"عدوى"},
-{en:"Trauma", ar:"إصابة"}
-],
-answer:1
-},
-
-{
-q_en:"Benign tumor is characterized by",
-q_ar:"الورم الحميد يتميز بـ",
-options:[
-{en:"Metastasis", ar:"انتشار"},
-{en:"Well-differentiated cells", ar:"خلايا متمايزة"},
-{en:"Invasion", ar:"غزو"},
-{en:"Rapid spread", ar:"انتشار سريع"}
-],
-answer:1
-},
-
-{
-q_en:"Metastasis means",
-q_ar:"الانتقال (Metastasis) يعني",
-options:[
-{en:"Local growth", ar:"نمو موضعي"},
-{en:"Spread to distant sites", ar:"انتشار لأماكن بعيدة"},
-{en:"Healing", ar:"شفاء"},
-{en:"Inflammation", ar:"التهاب"}
-],
-answer:1
-},
-
-{
-q_en:"Gold standard for tumor diagnosis is",
-q_ar:"أفضل تشخيص للأورام هو",
-options:[
-{en:"Blood test", ar:"تحليل دم"},
-{en:"Imaging", ar:"تصوير"},
-{en:"Histopathology H&E", ar:"فحص نسيجي"},
-{en:"Urine test", ar:"تحليل بول"}
-],
-answer:2
-}
-],
-
-
-"Intellectual Property": [
-{
-q_ar:"حقوق الملكية الفكرية هي",
-options:[
-{ar:"قابلة للتنازل دائمًا"},
-{ar:"حقوق معنوية لا يمكن التنازل عنها"},
-{ar:"حقوق مالية فقط"},
-{ar:"يمكن الحجز عليها"}
-],
-answer:1
-},
-
-{
-q_ar:"حق المؤلف مرتبط بـ",
-options:[
-{ar:"المنتج فقط"},
-{ar:"المؤلف أو المبدع"},
-{ar:"الحكومة"},
-{ar:"السوق"}
-],
-answer:1
-},
-
-{
-q_ar:"التنازل عن الحقوق المعنوية",
-options:[
-{ar:"مسموح"},
-{ar:"غير مسموح"},
-{ar:"مشروط"},
-{ar:"مؤقت"}
-],
-answer:1
-},
-
-{
-q_ar:"بيع العمل يعني",
-options:[
-{ar:"نقل الحقوق المعنوية"},
-{ar:"نقل النسخة فقط"},
-{ar:"نقل الحقوق المالية"},
-{ar:"إلغاء الملكية"}
-],
-answer:1
-},
-
-{
-q_ar:"الحقوق المالية يمكن",
-options:[
-{ar:"التنازل عنها"},
-{ar:"لا يمكن التنازل"},
-{ar:"إلغاؤها"},
-{ar:"تجاهلها"}
-],
-answer:0
-},
-
-{
-q_ar:"الحقوق المعنوية هي",
-options:[
-{ar:"مالية"},
-{ar:"شخصية"},
-{ar:"تجارية"},
-{ar:"مؤقتة"}
-],
-answer:1
-},
-
-{
-q_ar:"حق نسبة العمل يعني",
-options:[
-{ar:"وضع اسم المؤلف"},
-{ar:"إخفاء الاسم"},
-{ar:"بيع العمل"},
-{ar:"حذف العمل"}
-],
-answer:0
-},
-
-{
-q_ar:"يمكن للمؤلف منع",
-options:[
-{ar:"تشويه العمل"},
-{ar:"القراءة"},
-{ar:"التفكير"},
-{ar:"الدراسة"}
-],
-answer:0
-},
-
-{
-q_ar:"النشر بدون اسم يعني",
-options:[
-{ar:"إخفاء الهوية"},
-{ar:"عمل مزيف"},
-{ar:"غير قانوني"},
-{ar:"بيع الحقوق"}
-],
-answer:0
-},
-
-{
-q_ar:"إذا لم يوجد ورثة تذهب الحقوق إلى",
-options:[
-{ar:"الدولة"},
-{ar:"صديق"},
-{ar:"السوق"},
-{ar:"شركة"}
-],
-answer:0
-}
-]
-
+    {
+      q_ar: "حق المؤلف مرتبط بـ",
+      options: [
+        { ar: "المنتج فقط" },
+        { ar: "المؤلف أو المبدع" },
+        { ar: "الحكومة" },
+        { ar: "السوق" }
+      ],
+      answer: 1
+    }
+  ]
 };
