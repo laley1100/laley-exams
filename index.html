@@ -21,7 +21,6 @@ button{
     border-radius:10px;
     background:#ffb6d9;
     cursor:pointer;
-    font-size:16px;
 }
 
 .container{
@@ -62,6 +61,7 @@ button{
 
 <div id="quiz" class="container" style="display:none;">
 <h2 id="title"></h2>
+<p id="counter"></p>
 <h3 id="question"></h3>
 <div id="answers"></div>
 <p id="result"></p>
@@ -72,7 +72,7 @@ button{
 let index=0;
 let current=[];
 
-/* ================= COMMUNICATION ================= */
+/* ================= COMM ================= */
 
 const comm=[
 {
@@ -100,7 +100,7 @@ a:0
 }
 ];
 
-/* ================= PATHOLOGY ================= */
+/* ================= PATH ================= */
 
 const path=[
 {
@@ -120,7 +120,7 @@ a:2
 
 const ip=[
 {
-q:`1- من خصائص العنصر المعنوي لحق المؤلف`,
+q:"1- من خصائص العنصر المعنوي لحق المؤلف",
 options:[
 "أ- عدم قابليته للتنازل عنه أو التعامل به",
 "ب- قابليته للتنازل عنه والتعامل به",
@@ -131,7 +131,7 @@ a:0
 },
 
 {
-q:`2- حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان وهذا ما أُطلق عليه بموجب اتفاقية WIPO`,
+q:"2- حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان وهذا ما أُطلق عليه بموجب اتفاقية WIPO",
 options:[
 "أ- المصنف أو المؤلف",
 "ب- المؤلف أو المبدع أو المبتكر",
@@ -142,7 +142,7 @@ a:1
 }
 ];
 
-/* ================= LOGIC ================= */
+/* ================= START ================= */
 
 function startQuiz(type){
 document.getElementById("menu").style.display="none";
@@ -165,23 +165,27 @@ document.getElementById("title").innerText="حقوق الملكية الفكري
 show();
 }
 
+/* ================= SHOW ================= */
+
 function show(){
 let q=current[index];
 let box=document.getElementById("answers");
 box.innerHTML="";
 document.getElementById("result").innerText="";
 
-/* ===== عرض السؤال ===== */
+/* رقم السؤال */
+document.getElementById("counter").innerText=
+(index+1)+" / "+current.length;
 
+/* السؤال + الترجمة */
 if(q.ar){
 document.getElementById("question").innerHTML=
-q.q + "<div class='small'>"+q.ar+"</div>";
+q.q+"<div class='small'>"+q.ar+"</div>";
 }else{
 document.getElementById("question").innerText=q.q;
 }
 
-/* ===== عرض الخيارات ===== */
-
+/* الخيارات */
 if(q.o){
 q.o.forEach((opt,i)=>{
 let btn=document.createElement("div");
@@ -203,7 +207,7 @@ box.appendChild(btn);
 }
 }
 
-/* ===== تحقق ===== */
+/* ================= CHECK ================= */
 
 function check(i){
 let correct=current[index].a;
