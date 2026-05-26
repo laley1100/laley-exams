@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Exam App</title>
+<title>Quiz App</title>
 
 <style>
 body{
@@ -13,7 +13,7 @@ padding:20px;
 }
 
 .card{
-background: rgba(255,255,255,0.25);
+background: rgba(255,255,255,0.2);
 backdrop-filter: blur(10px);
 padding:20px;
 border-radius:20px;
@@ -31,30 +31,23 @@ border-radius:12px;
 cursor:pointer;
 background:#ff4fa3;
 color:white;
-font-size:14px;
 font-weight:bold;
 }
 
 button:disabled{
-background:#999;
+background:gray;
 cursor:not-allowed;
 }
 
 small{
 display:block;
-color:#222;
 font-size:12px;
-}
-
-h3{
-margin-bottom:5px;
+color:#222;
 }
 
 #result{
 font-weight:bold;
-font-size:16px;
 }
-
 </style>
 </head>
 
@@ -63,13 +56,12 @@ font-size:16px;
 <h2>💗 Choose Subject</h2>
 
 <div id="menu">
-<button onclick="start('comm')">التواصل العلاجي</button>
-<button onclick="start('path')">علم الأمراض</button>
+<button onclick="start('comm')">Communication</button>
+<button onclick="start('path')">Pathology</button>
 <button onclick="start('ip')">الملكية الفكرية</button>
 </div>
 
 <div class="card" id="quiz" style="display:none;">
-
 <h3 id="q"></h3>
 <small id="q_ar"></small>
 
@@ -78,538 +70,21 @@ font-size:16px;
 <p id="result"></p>
 
 <button id="nextBtn" onclick="next()" disabled>Next 💗</button>
-
 </div>
 
 <script>
 
-// ================= COMMUNICATION =================
-const comm = [
-{
-q:"1. Therapeutic communication is best defined as",
-q_ar:"التواصل العلاجي يُعرّف بأنه",
-options:[
-["Casual conversation","محادثة عادية"],
-["Professional planned communication","تواصل مهني مخطط"],
-["Medical instructions only","تعليمات طبية فقط"],
-["Calming patient only","تهدئة فقط"]
-],
-a:1
-},
-{
-q:"2. Shared understanding helps to",
-q_ar:"الفهم المشترك يساعد على",
-options:[
-["Achieve goals","تحقيق الأهداف"],
-["Reduce documentation","تقليل التوثيق"],
-["Save time","توفير الوقت"],
-["Limit interaction","تقليل التفاعل"]
-],
-a:0
-},
-{
-q:"3. Using silence allows patient to",
-q_ar:"استخدام الصمت يسمح للمريض أن",
-options:[
-["Feel ignored","يشعر بالإهمال"],
-["Think and reflect","يفكر ويتأمل"],
-["Lose interest","يفقد الاهتمام"],
-["End conversation","ينهي الحوار"]
-],
-a:1
-},
-{
-q:"4. Exploring is best described as",
-q_ar:"الاستكشاف هو",
-options:[
-["Changing subject","تغيير الموضوع"],
-["Delving deeper","التعمق"],
-["Giving advice","نصيحة"],
-["Summarizing","تلخيص"]
-],
-a:1
-},
-{
-q:"5. Clarification is used when",
-q_ar:"التوضيح يستخدم عندما",
-options:[
-["Check understanding","التأكد من الفهم"],
-["Give orders","أوامر"],
-["End talk","إنهاء"],
-["Ignore patient","تجاهل"]
-],
-a:0
-},
-{
-q:"6. Example of clarification",
-q_ar:"مثال على التوضيح",
-options:[
-["Why did you do that","لماذا فعلت ذلك"],
-["Tell me again","أعد قول ذلك"],
-["What do you mean","ماذا تقصد"],
-["You are wrong","أنت مخطئ"]
-],
-a:2
-},
-{
-q:"7. Reflecting focuses on",
-q_ar:"الانعكاس يركز على",
-options:[
-["Facts","حقائق"],
-["Feelings","مشاعر"],
-["Opinion","رأي"],
-["Report","تقرير"]
-],
-a:1
-},
-{
-q:"8. Functional touch is used for",
-q_ar:"اللمس المهني يستخدم لـ",
-options:[
-["Clinical care","رعاية سريرية"],
-["Emotion","عاطفة"],
-["Greeting","تحية"],
-["Social","اجتماعي"]
-],
-a:0
-},
-{
-q:"9. Explaining procedures considers",
-q_ar:"شرح الإجراءات يراعي",
-options:[
-["Age language","العمر واللغة"],
-["Doctor mood","مزاج الطبيب"],
-["Time only","الوقت"],
-["Hospital size","الحجم"]
-],
-a:0
-},
-{
-q:"10. Communication failure leads to",
-q_ar:"فشل التواصل يؤدي إلى",
-options:[
-["Better teamwork","تحسن العمل"],
-["Adverse events","أحداث سلبية"],
-["Faster care","رعاية أسرع"],
-["Less stress","ضغط أقل"]
-],
-a:1
-},
-{
-q:"11. Communication is",
-q_ar:"التواصل هو",
-options:[
-["One way","اتجاه واحد"],
-["Two way","ثنائي"],
-["Written only","كتابي فقط"],
-["Random","عشوائي"]
-],
-a:1
-},
-{
-q:"12. Noise affects handover by",
-q_ar:"الضوضاء تؤثر على التسليم",
-options:[
-["Improving","تحسين"],
-["Confusion","ارتباك"],
-["Helping","مساعدة"],
-["None","لا شيء"]
-],
-a:1
-},
-{
-q:"13. SBAR stands for",
-q_ar:"SBAR تعني",
-options:[
-["Signs Background Action Response","..."],
-["Situation Background Assessment Recommendation","..."],
-["System Basic Action Report","..."],
-["Status Body Airway Response","..."]
-],
-a:1
-},
-{
-q:"14. IMIST excludes",
-q_ar:"IMIST لا يشمل",
-options:[
-["Injury","إصابة"],
-["Treatment","علاج"],
-["Financial status","مالي"],
-["Mechanism","آلية"]
-],
-a:2
-},
-{
-q:"15. SBAR limitation",
-q_ar:"عيب SBAR",
-options:[
-["Too simple","بسيط"],
-["Lacks details","يفتقر"],
-["Too long","طويل"],
-["No structure","بدون تنظيم"]
-],
-a:1
-},
-{
-q:"16. Best identification tool",
-q_ar:"أفضل أداة تعريف",
-options:[
-["SBAR","SBAR"],
-["ISBAR","ISBAR"],
-["SOAP","SOAP"],
-["ATMIST","ATMIST"]
-],
-a:1
-},
-{
-q:"17. Handover refers to",
-q_ar:"التسليم هو",
-options:[
-["Equipment","معدات"],
-["Responsibility","مسؤولية"],
-["Bills","فواتير"],
-["Reports","تقارير"]
-],
-a:1
-},
-{
-q:"18. Therapeutic impasses are",
-q_ar:"العوائق التواصلية",
-options:[
-["Success","نجاح"],
-["Block","عائق"],
-["Legal","قانوني"],
-["Goal","هدف"]
-],
-a:1
-},
-{
-q:"19. Shared understanding leads to",
-q_ar:"الفهم المشترك يؤدي إلى",
-options:[
-["Better care","رعاية أفضل"],
-["Errors","أخطاء"],
-["Delay","تأخير"],
-["Confusion","ارتباك"]
-],
-a:0
-},
-{
-q:"20. Silence in communication",
-q_ar:"الصمت في التواصل",
-options:[
-["Helps thinking","يساعد التفكير"],
-["Stops care","يوقف"],
-["Confuses","يربك"],
-["Hides info","يخفي"]
-],
-a:0
-}
-],
-
-// ================= PATHOLOGY =================
-const path = [
-{
-q:"1. Water percentage in body",
-q_ar:"نسبة الماء في الجسم",
-options:[
-["40%","40٪"],
-["50%","50٪"],
-["60%","60٪"],
-["70%","70٪"]
-],
-a:2
-},
-{
-q:"2. Non-pitting edema occurs in",
-q_ar:"وذمة غير انطباعية",
-options:[
-["Cardiac","قلب"],
-["Renal","كلية"],
-["Nutritional","غذائي"],
-["Lymphatic","لمفاوي"]
-],
-a:3
-},
-{
-q:"3. Physiological hyperemia in",
-q_ar:"احتقان فسيولوجي",
-options:[
-["Exercise","تمرين"],
-["Heart failure","فشل"],
-["Obstruction","انسداد"],
-["Inflammation","التهاب"]
-],
-a:0
-},
-{
-q:"4. Most common thrombus",
-q_ar:"أكثر خثرة",
-options:[
-["Arterial","شرياني"],
-["Venous","وريدي"],
-["Capillary","شعيري"],
-["Cardiac","قلبي"]
-],
-a:1
-},
-{
-q:"5. Septic thrombus contains",
-q_ar:"الخثرة الإنتانية",
-options:[
-["No bacteria","بدون"],
-["Bacteria","بكتيريا"],
-["Fat","دهون"],
-["Air","هواء"]
-],
-a:1
-},
-{
-q:"6. Hypovolemic shock cause",
-q_ar:"سبب الصدمة",
-options:[
-["Blood loss","دم"],
-["Infection","عدوى"],
-["Heart failure","قلب"],
-["Block","انسداد"]
-],
-a:0
-},
-{
-q:"7. Amyloidosis affects",
-q_ar:"الأميلويد",
-options:[
-["Kidney","كلية"],
-["Skin","جلد"],
-["Bone","عظم"],
-["Lung","رئة"]
-],
-a:0
-},
-{
-q:"8. Neoplasm is",
-q_ar:"ورم",
-options:[
-["Normal","طبيعي"],
-["Abnormal growth","غير طبيعي"],
-["Inflammation","التهاب"],
-["Infection","عدوى"]
-],
-a:1
-},
-{
-q:"9. Benign tumor",
-q_ar:"حميد",
-options:[
-["Metastasis","انتشار"],
-["Well differentiated","متمايز"],
-["Invasion","غزو"],
-["Fast","سريع"]
-],
-a:1
-},
-{
-q:"10. Local invasion",
-q_ar:"غزو محلي",
-options:[
-["Local spread","محلي"],
-["Blood spread","دم"],
-["No growth","لا نمو"],
-["Healing","شفاء"]
-],
-a:0
-},
-{
-q:"11. Metastasis",
-q_ar:"نقائل",
-options:[
-["Local","محلي"],
-["Distant","بعيد"],
-["Inflammation","التهاب"],
-["Repair","إصلاح"]
-],
-a:1
-},
-{
-q:"12. Carcinoma origin",
-q_ar:"سرطان من",
-options:[
-["Epithelium","طلائي"],
-["Muscle","عضلات"],
-["Bone","عظم"],
-["Nerve","عصب"]
-],
-a:0
-},
-{
-q:"13. Liposarcoma",
-q_ar:"ورم دهني خبيث",
-options:[
-["Benign","حميد"],
-["Malignant","خبيث"],
-["Skin","جلد"],
-["Blood","دم"]
-],
-a:1
-},
-{
-q:"14. Gold standard",
-q_ar:"التشخيص الذهبي",
-options:[
-["Blood","دم"],
-["Histopathology","أنسجة"],
-["X-ray","أشعة"],
-["MRI","رنين"]
-],
-a:1
-},
-{
-q:"15. Benign harmful when",
-q_ar:"الحميد يضر عندما",
-options:[
-["Brain","دماغ"],
-["Always","دائم"],
-["Never","أبد"],
-["Skin","جلد"]
-],
-a:0
-},
-{
-q:"16. Thrombus is",
-q_ar:"خثرة",
-options:[
-["Clot in vessel","جلطة"],
-["Infection","عدوى"],
-["Tumor","ورم"],
-["Fluid","سائل"]
-],
-a:0
-},
-{
-q:"17. Edema is",
-q_ar:"وذمة",
-options:[
-["Fluid accumulation","تجمع سوائل"],
-["Blood loss","دم"],
-["Cancer","سرطان"],
-["Fever","حمى"]
-],
-a:0
-},
-{
-q:"18. Infarction is",
-q_ar:"احتشاء",
-options:[
-["Tissue death","موت نسيج"],
-["Growth","نمو"],
-["Inflammation","التهاب"],
-["Healing","شفاء"]
-],
-a:0
-},
-{
-q:"19. Septic emboli",
-q_ar:"صمات إنتانية",
-options:[
-["Infection","عدوى"],
-["Trauma","إصابة"],
-["Allergy","حساسية"],
-["Genetic","وراثي"]
-],
-a:0
-},
-{
-q:"20. Thrombus formation",
-q_ar:"تكوّن الخثرة",
-options:[
-["Clot formation","تجلط"],
-["Healing","شفاء"],
-["Growth","نمو"],
-["Repair","إصلاح"]
-],
-a:0
-}
-],
-
-// ================= IP =================
-const ip = [
-{q:"1. حقوق الملكية الفكرية هي",options:[["حقوق معنوية"],["حقوق مادية"],["حقوق مؤقتة"],["لا شيء"]],a:0},
-{q:"2. حق المؤلف مرتبط بـ",options:[["المبدع"],["السوق"],["الحكومة"],["المستهلك"]],a:0},
-{q:"3. التعدي يعني",options:[["نسخ غير مصرح"],["ابتكار"],["حفظ"],["تسجيل"]],a:0},
-{q:"4. الحقوق المعنوية",options:[["لا تتنازل"],["تُباع"],["تُلغى"],["تنتهي"]],a:0},
-{q:"5. الحقوق المالية",options:[["تتنازل"],["لا تتنازل"],["تلغى"],["تختفي"]],a:0},
-{q:"6. التأليف",options:[["إبداع"],["نسخ"],["سرقة"],["حذف"]],a:0},
-{q:"7. العلامة التجارية",options:[["تمييز منتج"],["نسخ"],["إلغاء"],["عشوائي"]],a:0},
-{q:"8. براءة الاختراع",options:[["اختراع"],["نسخ"],["بيع"],["إخفاء"]],a:0},
-{q:"9. الحقوق المحمية",options:[["قانونيًا"],["عشوائي"],["ضعيف"],["غير مهم"]],a:0},
-{q:"10. الانتهاك",options:[["عقوبة"],["مكافأة"],["تجاهل"],["حماية"]],a:0},
-{q:"11. الملكية الفكرية تشمل",options:[["أفكار"],["أشياء مادية"],["هواء"],["ماء"]],a:0},
-{q:"12. الابتكار",options:[["إبداع جديد"],["نسخ"],["تكرار"],["إلغاء"]],a:0},
-{q:"13. حقوق المؤلف تحمي",options:[["الأعمال"],["الناس"],["الأماكن"],["الزمن"]],a:0},
-{q:"14. النشر بدون إذن",options:[["ممنوع"],["مسموح"],["اختياري"],["طبيعي"]],a:0},
-{q:"15. الهدف",options:[["حماية الإبداع"],["منع الإبداع"],["فوضى"],["إلغاء"]],a:0},
-{q:"16. الترخيص",options:[["إذن"],["منع"],["سرقة"],["إخفاء"]],a:0},
-{q:"17. الحقوق القانونية",options:[["محمية"],["غير موجودة"],["ضعيفة"],["عشوائية"]],a:0},
-{q:"18. المخترع",options:[["مبتكر"],["ناسخ"],["مستهلك"],["موزع"]],a:0},
-{q:"19. الملكية الفكرية",options:[["حماية"],["سرقة"],["فوضى"],["إلغاء"]],a:0},
-{q:"20. الهدف النهائي",options:[["حماية الإبداع"],["منع الإبداع"],["تدمير"],["عشوائي"]],a:0}
-];
-
-let subject="", index=0, answered=false;
-
-function start(s){
-subject=s;
-index=0;
-document.getElementById("menu").style.display="none";
-document.getElementById("quiz").style.display="block";
-show();
-}
-
-function show(){
-answered=false;
-document.getElementById("nextBtn").disabled=true;
-
-let q = (subject==="comm"?comm:subject==="path"?path:ip)[index];
-
-document.getElementById("q").innerText=q.q;
-document.getElementById("q_ar").innerText=q.q_ar||"";
-
-let html="";
-q.options.forEach((o,i)=>{
-html+=`<button onclick="check(${i})">${o[0]}<small>${o[1]||""}</small></button><br>`;
-});
-
-document.getElementById("options").innerHTML=html;
-document.getElementById("result").innerHTML="";
-}
-
-function check(i){
-if(answered) return;
-answered=true;
-
-let arr=(subject==="comm"?comm:subject==="path"?path:ip);
-let correct=arr[index].a;
-
-if(i===correct){
-document.getElementById("result").innerHTML="💗 Correct";
-}else{
-document.getElementById("result").innerHTML="💔 Wrong - Correct: "+arr[index].options[correct][0];
-}
-
-document.getElementById("nextBtn").disabled=false;
-}
-
-function next(){
-index++;
-let arr=(subject==="comm"?comm:subject==="path"?path:ip);
-if(index>=arr.length){
-document.getElementById("quiz").innerHTML="💗 Finished!";
-return;
-}
-show();
-}
-
-</script>
-
-</body>
-</html>
+// ================= COMMUNICATION (20) =================
+const comm=[
+{q:"Therapeutic communication is",q_ar:"التواصل العلاجي هو",options:[["Professional talk","تواصل مهني"],["Casual talk","حديث عادي"],["No talk","بدون تواصل"],["Orders","أوامر"]],a:0},
+{q:"Silence helps patient to",q_ar:"الصمت يساعد المريض على",options:[["Think","يفكر"],["Forget","ينسى"],["Run","يجري"],["Shout","يصرخ"]],a:0},
+{q:"Clarification means",q_ar:"التوضيح يعني",options:[["Understand","فهم"],["Confuse","تضليل"],["Stop","توقف"],["Hide","إخفاء"]],a:0},
+{q:"Communication is",q_ar:"التواصل هو",options:[["Two way","ثنائي"],["One way","أحادي"],["None","لا شيء"],["Random","عشوائي"]],a:0},
+{q:"Handover is",q_ar:"التسليم هو",options:[["Transfer care","نقل رعاية"],["Delete","حذف"],["Buy","شراء"],["Sell","بيع"]],a:0},
+{q:"SBAR is",q_ar:"SBAR هو",options:[["Tool","أداة"],["Disease","مرض"],["Drug","دواء"],["Test","فحص"]],a:0},
+{q:"Noise causes",q_ar:"الضوضاء تسبب",options:[["Confusion","ارتباك"],["Clarity","وضوح"],["Calm","هدوء"],["Focus","تركيز"]],a:0},
+{q:"Listening is",q_ar:"الاستماع هو",options:[["Important","مهم"],["Useless","غير مهم"],["Danger","خطر"],["Optional","اختياري"]],a:0},
+{q:"Patient feel better when",q_ar:"المريض يشعر أفضل عندما",options:[["He is heard","يُسمع"],["Ignored","يُتجاهل"],["Shouted at","يُصرخ عليه"],["Left alone","يُترك"]],a:0},
+{q:"Touch in care is",q_ar:"اللمس في الرعاية هو",options:[["Professional","مهني"],["Random","عشوائي"],["Harmful","ضار"],["None","لا شيء"]],a:0},
+{q:"Good communication improves",q_ar:"التواصل الجيد يحسن",options:[["Care","الرعاية"],["Error","الخطأ"],["Delay","التأخير"],["Stress","الضغط"]],a:0},
+{q:"Explaining procedure helps",q_ar:"شرح الإجراء يساعد",options:[["Understanding","الفهم"],["Confusion","ارتباك"],["Fear","خوف"],["Pain","ألم"]],
