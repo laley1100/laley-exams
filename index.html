@@ -1,233 +1,232 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
 <meta charset="UTF-8">
 <title>Quiz</title>
 
 <style>
 body{
-    font-family: Arial;
-    background: linear-gradient(to right,#ffd6e7,#e6ccff);
-    text-align:center;
-    padding:20px;
+font-family:Arial;
+background:#fff0f6;
+text-align:center;
+direction:rtl;
 }
-
-h1{ color:#a64ca6; }
-
+h1{color:#d63384;}
 button{
-    padding:10px;
-    margin:10px;
-    border:none;
-    border-radius:10px;
-    background:#ffb6d9;
-    cursor:pointer;
+display:block;
+margin:10px auto;
+padding:10px;
+width:300px;
+border:none;
+border-radius:10px;
+background:#e599f7;
+color:white;
+font-size:16px;
+cursor:pointer;
 }
-
-.container{
-    background:white;
-    padding:20px;
-    border-radius:15px;
-    max-width:500px;
-    margin:auto;
-}
-
+.question{font-size:20px;margin:20px;}
+.small{font-size:14px;color:#555;}
 .option{
-    display:block;
-    background:#f3e6ff;
-    margin:6px auto;
-    padding:8px;
-    border-radius:10px;
-    cursor:pointer;
-    width:80%;
-    font-size:14px;
+display:block;
+margin:8px auto;
+padding:10px;
+width:300px;
+background:#f8d7ff;
+border-radius:10px;
+cursor:pointer;
 }
-
-.small{
-    font-size:12px;
-    color:gray;
-}
+.correct{background:#b2f2bb !important;}
+.wrong{background:#ffa8a8 !important;}
+.result{font-size:20px;margin-top:10px;}
 </style>
 </head>
 
 <body>
 
-<h1>Choose Subject</h1>
+<h1>اختاري المادة 💗</h1>
 
 <div id="menu">
+<button onclick="startQuiz('ip')">حقوق الملكية الفكرية</button>
 <button onclick="startQuiz('comm')">Communication Concept</button>
 <button onclick="startQuiz('path')">Pathology</button>
-<button onclick="startQuiz('ip')">حقوق الملكية الفكرية</button>
 </div>
 
-<div id="quiz" class="container" style="display:none;">
+<div id="quiz" style="display:none">
 <h2 id="title"></h2>
-<p id="counter"></p>
-<h3 id="question"></h3>
-<div id="answers"></div>
-<p id="result"></p>
+<div id="qnum"></div>
+<div id="question" class="question"></div>
+<div id="options"></div>
+<div id="result" class="result"></div>
 </div>
 
 <script>
-
-let index=0;
-let current=[];
-
-/* ================= COMM ================= */
-
-const comm=[
-{
-q:"Therapeutic communication is best defined as",
-ar:"التواصل العلاجي يُعرّف بأنه",
-o:[
-["Casual conversation between paramedic and patient","محادثة عادية"],
-["A planned, deliberate, professional act using communication techniques","عملية مهنية مخططة"],
-["Giving medical instructions only","تعليمات فقط"],
-["Talking to calm the patient","تهدئة المريض"]
-],
-a:1
-},
-
-{
-q:"Shared understanding of information helps to",
-ar:"الفهم المشترك للمعلومات يساعد على",
-o:[
-["Achieve desired patient-care goals","تحقيق أهداف الرعاية"],
-["Reduce documentation","تقليل التوثيق"],
-["Save time only","توفير الوقت"],
-["Limit patient interaction","تقليل التفاعل"]
-],
-a:0
-}
-];
-
-/* ================= PATH ================= */
-
-const path=[
-{
-q:"Approximately what percentage of body weight is water?",
-ar:"كم نسبة الماء في جسم الإنسان تقريبًا",
-o:[
-["40%","٤٠٪"],
-["50%","٥٠٪"],
-["60%","٦٠٪"],
-["70%","٧٠٪"]
-],
-a:2
-}
-];
-
-/* ================= IP ================= */
-
-const ip=[
-{
-q:"1- من خصائص العنصر المعنوي لحق المؤلف",
-options:[
-"أ- عدم قابليته للتنازل عنه أو التعامل به",
-"ب- قابليته للتنازل عنه والتعامل به",
-"ج- يسقط بالتقادم",
-"د- قابليته للحجز"
-],
-a:0
-},
-
-{
-q:"2- حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان وهذا ما أُطلق عليه بموجب اتفاقية WIPO",
-options:[
-"أ- المصنف أو المؤلف",
-"ب- المؤلف أو المبدع أو المبتكر",
-"ج- السلطة الأبوية",
-"د- الاستغلال والتصرف"
-],
-a:1
-}
-];
-
-/* ================= START ================= */
+let current=0;
+let data=[];
 
 function startQuiz(type){
 document.getElementById("menu").style.display="none";
 document.getElementById("quiz").style.display="block";
-index=0;
+current=0;
 
-if(type==="comm"){
-current=comm;
-document.getElementById("title").innerText="Communication Concept 💜";
-}
-if(type==="path"){
-current=path;
-document.getElementById("title").innerText="Pathology 💜";
-}
-if(type==="ip"){
-current=ip;
-document.getElementById("title").innerText="حقوق الملكية الفكرية 💜";
-}
+if(type=="ip"){title.innerText="حقوق الملكية الفكرية 💗";data=ip;}
+if(type=="comm"){title.innerText="Communication Concept 💗";data=comm;}
+if(type=="path"){title.innerText="Pathology 💗";data=path;}
 
 show();
 }
 
-/* ================= SHOW ================= */
-
 function show(){
-let q=current[index];
-let box=document.getElementById("answers");
-box.innerHTML="";
-document.getElementById("result").innerText="";
+let q=data[current];
+qnum.innerText=(current+1)+" / 20";
 
-/* رقم السؤال */
-document.getElementById("counter").innerText=
-(index+1)+" / "+current.length;
-
-/* السؤال + الترجمة */
-if(q.ar){
-document.getElementById("question").innerHTML=
-q.q+"<div class='small'>"+q.ar+"</div>";
+if(q.en){
+question.innerHTML=q.en+"<div class='small'>"+q.ar+"</div>";
 }else{
-document.getElementById("question").innerText=q.q;
+question.innerText=q.q;
 }
 
-/* الخيارات */
-if(q.o){
-q.o.forEach((opt,i)=>{
-let btn=document.createElement("div");
-btn.className="option";
-btn.innerHTML=opt[0]+"<div class='small'>"+opt[1]+"</div>";
-btn.onclick=()=>check(i);
-box.appendChild(btn);
-});
-}
+options.innerHTML="";
+result.innerText="";
 
-if(q.options){
 q.options.forEach((opt,i)=>{
-let btn=document.createElement("div");
-btn.className="option";
-btn.innerText=opt;
-btn.onclick=()=>check(i);
-box.appendChild(btn);
+let div=document.createElement("div");
+div.className="option";
+
+if(opt.en){
+div.innerHTML=opt.en+"<div class='small'>"+opt.ar+"</div>";
+}else{
+div.innerText=opt;
+}
+
+div.onclick=()=>check(i,div);
+options.appendChild(div);
 });
 }
-}
 
-/* ================= CHECK ================= */
+function check(i,btn){
+let q=data[current];
+let all=document.querySelectorAll(".option");
+all.forEach(b=>b.onclick=null);
 
-function check(i){
-let correct=current[index].a;
-
-if(i===correct){
-document.getElementById("result").innerHTML="صح 💖";
+if(i==q.answer){
+btn.classList.add("correct");
+result.innerText="✅ صح 💗";
 }else{
-document.getElementById("result").innerHTML="غلط 💔";
+btn.classList.add("wrong");
+all[q.answer].classList.add("correct");
+result.innerText="❌ غلط 💔";
 }
 
 setTimeout(()=>{
-index++;
-if(index<current.length){
-show();
-}else{
-document.getElementById("question").innerText="خلصت 🎉";
-document.getElementById("answers").innerHTML="";
+current++;
+if(current<data.length){show();}
+else{
+question.innerText="خلصتي 🎉";
+options.innerHTML="";
+result.innerText="";
 }
-},1000);
+},1500);
 }
+
+//////////////////////////////////////
+// Pathology
+const path=[
+
+{en:"Approximately what percentage of body weight is water?",ar:"كم نسبة الماء في جسم الإنسان تقريبًا",options:[{en:"40%",ar:"٤٠٪"},{en:"50%",ar:"٥٠٪"},{en:"60%",ar:"٦٠٪"},{en:"70%",ar:"٧٠٪"}],answer:2},
+
+{en:"Non-pitting edema occurs in which condition?",ar:"الوذمة غير الانطباعية تحدث في أي حالة",options:[{en:"Cardiac edema",ar:"وذمة قلبية"},{en:"Renal edema",ar:"وذمة كلوية"},{en:"Nutritional edema",ar:"وذمة غذائية"},{en:"Lymphatic edema",ar:"وذمة لمفاوية"}],answer:3},
+
+{en:"Which of the following is an example of physiological hyperemia?",ar:"أيهم مثال على فرط التروية الفسيولوجي",options:[{en:"Acute inflammation",ar:"التهاب حاد"},{en:"Exercise muscle",ar:"العضلات أثناء التمرين"},{en:"Heart failure",ar:"فشل قلبي"},{en:"Venous obstruction",ar:"انسداد وريدي"}],answer:1},
+
+{en:"Which type of thrombus is most common?",ar:"أكثر نوع خثرة شيوعًا",options:[{en:"Arterial",ar:"شرياني"},{en:"Capillary",ar:"شعيري"},{en:"Venous",ar:"وريدي"},{en:"Cardiac",ar:"قلبي"}],answer:2},
+
+{en:"Thrombus with bacteria is called",ar:"الخثرة التي تحتوي بكتيريا تسمى",options:[{en:"Aseptic",ar:"معقمة"},{en:"Red",ar:"حمراء"},{en:"Septic",ar:"إنتانية"},{en:"Mixed",ar:"مختلطة"}],answer:2},
+
+{en:"Massive bleeding causes",ar:"النزيف الشديد يؤدي إلى",options:[{en:"Cardiogenic shock",ar:"صدمة قلبية"},{en:"Distributive",ar:"توزيعية"},{en:"Hypovolemic",ar:"نقص حجم"},{en:"Obstructive",ar:"انسدادية"}],answer:2},
+
+{en:"Most affected organ in amyloidosis",ar:"أكثر عضو يتأثر بالأميلويد",options:[{en:"Liver",ar:"الكبد"},{en:"Spleen",ar:"الطحال"},{en:"Heart",ar:"القلب"},{en:"Kidney",ar:"الكلية"}],answer:3},
+
+{en:"Neoplasm is",ar:"الورم هو",options:[{en:"Reversible growth",ar:"نمو مؤقت"},{en:"Uncontrolled growth",ar:"نمو غير محدود"},{en:"Inflammation",ar:"التهاب"},{en:"Defect",ar:"خلل"}],answer:1},
+
+{en:"Benign tumor characteristic",ar:"صفة الورم الحميد",options:[{en:"Metastasis",ar:"انتشار"},{en:"Fast",ar:"سريع"},{en:"Well differentiated",ar:"متمايز"},{en:"Invasion",ar:"غزو"}],answer:2},
+
+{en:"Local invasion means",ar:"الغزو الموضعي يعني",options:[{en:"Stay",ar:"يبقى"},{en:"Invade tissue",ar:"يغزو الأنسجة"},{en:"Spread blood",ar:"ينتشر"},{en:"Seed",ar:"يزرع"}],answer:1},
+
+{en:"Benign tumor gross",ar:"شكل الورم الحميد",options:[{en:"Necrosis",ar:"نخر"},{en:"Well defined",ar:"محدد"},{en:"Irregular",ar:"غير منتظم"},{en:"Ulcer",ar:"قرحة"}],answer:1},
+
+{en:"Malignant surface feature",ar:"شكل الورم الخبيث",options:[{en:"Polyp",ar:"سلولي"},{en:"Cyst",ar:"كيسي"},{en:"Ulcer",ar:"قرحي"},{en:"Small",ar:"صغير"}],answer:2},
+
+{en:"Benign harms when",ar:"الورم الحميد يضر عندما",options:[{en:"Brain",ar:"في الدماغ"},{en:"Small",ar:"صغير"},{en:"Capsule",ar:"مغلف"},{en:"Expand",ar:"يتمدد"}],answer:0},
+
+{en:"Metastasis is",ar:"النقيلة هي",options:[{en:"Local",ar:"موضعي"},{en:"Distant spread",ar:"انتشار بعيد"},{en:"Transform",ar:"تحول"},{en:"Slow",ar:"بطيء"}],answer:1},
+
+{en:"Carcinoma vs sarcoma",ar:"الفرق بين السرطان",options:[{en:"Speed",ar:"سرعة"},{en:"Epithelial vs mesenchymal",ar:"ظهاري مقابل لحمي"},{en:"No spread",ar:"لا ينتشر"},{en:"Young",ar:"صغار"}],answer:1},
+
+{en:"Prognosis factor",ar:"عامل التنبؤ",options:[{en:"Blood",ar:"دم"},{en:"Radiosensitivity",ar:"استجابة إشعاع"},{en:"Hair",ar:"شعر"},{en:"Benign",ar:"حميد"}],answer:1},
+
+{en:"Common sarcoma",ar:"أشهر ساركوما",options:[{en:"Fibro",ar:"ليفية"},{en:"Leiomy",ar:"عضلية"},{en:"Lipo",ar:"دهنية"},{en:"Angio",ar:"وعائية"}],answer:2},
+
+{en:"Uterine tumor diagnosis",ar:"تشخيص ورم الرحم",options:[{en:"Leiomyoma",ar:"حميد"},{en:"Leiomyosarcoma",ar:"خبيث"},{en:"Stromal",ar:"لحمي"},{en:"Undiff",ar:"غير متمايز"}],answer:1},
+
+{en:"Adenoma risk",ar:"خطر الورم الحميد",options:[{en:"Pituitary",ar:"نخامي"},{en:"Adrenal",ar:"كظري"},{en:"Colon adenoma→carcinoma",ar:"قولون"},{en:"Skin",ar:"جلد"}],answer:2},
+
+{en:"Gold standard diagnosis",ar:"أفضل تشخيص",options:[{en:"Liquid",ar:"سائل"},{en:"IHC",ar:"مناعي"},{en:"Histopathology",ar:"نسيجي"},{en:"Flow",ar:"تدفق"}],answer:2}
+
+];
+
+//////////////////////////////////////
+// Communication (نفس أسئلتك)
+const comm = [
+{en:"Therapeutic communication is best defined as",ar:"التواصل العلاجي يُعرّف بأنه",options:[{en:"Casual conversation",ar:"محادثة عادية"},{en:"Professional act",ar:"فعل مهني منظم"},{en:"Instructions only",ar:"تعليمات فقط"},{en:"Calming talk",ar:"حديث لتهدئة"}],answer:1},
+{en:"Shared understanding helps to",ar:"الفهم المشترك يساعد على",options:[{en:"Goals",ar:"تحقيق أهداف العلاج"},{en:"Reduce docs",ar:"تقليل التوثيق"},{en:"Save time",ar:"توفير الوقت"},{en:"Limit",ar:"تقليل التفاعل"}],answer:0},
+{en:"Silence allows patient",ar:"الصمت يسمح للمريض",options:[{en:"Ignored",ar:"يشعر بالتجاهل"},{en:"Think",ar:"التفكير"},{en:"Lose interest",ar:"فقدان الاهتمام"},{en:"End",ar:"إنهاء الحوار"}],answer:1},
+
+// 👇 كملت لك 20
+{en:"Exploring means",ar:"الاستكشاف يعني",options:[{en:"Change topic",ar:"تغيير الموضوع"},{en:"Deep discussion",ar:"التعمق"},{en:"Advice",ar:"نصيحة"},{en:"Summary",ar:"تلخيص"}],answer:1},
+{en:"Clarification is used to",ar:"التوضيح يستخدم",options:[{en:"Check understanding",ar:"التأكد من الفهم"},{en:"Challenge",ar:"تحدي"},{en:"Give orders",ar:"أوامر"},{en:"End",ar:"إنهاء"}],answer:0},
+{en:"Example of clarification",ar:"مثال على التوضيح",options:[{en:"Why?",ar:"لماذا"},{en:"Repeat",ar:"أعد"},{en:"What do you mean?",ar:"ماذا تقصد"},{en:"Wrong",ar:"خطأ"}],answer:2},
+{en:"Reflecting focuses on",ar:"الانعكاس يركز على",options:[{en:"Facts",ar:"حقائق"},{en:"Feelings",ar:"مشاعر"},{en:"Opinion",ar:"رأي"},{en:"Docs",ar:"توثيق"}],answer:1},
+{en:"Touch used for",ar:"اللمس يستخدم",options:[{en:"Clinical",ar:"سريري"},{en:"Bond",ar:"عاطفي"},{en:"Greeting",ar:"تحية"},{en:"Intimacy",ar:"حميمية"}],answer:0},
+{en:"Explain procedures consider",ar:"شرح الإجراءات يتطلب",options:[{en:"Time",ar:"وقت"},{en:"Docs",ar:"توثيق"},{en:"Opinion",ar:"رأي"},{en:"Age & language",ar:"العمر واللغة"}],answer:3},
+{en:"Impasses are",ar:"العوائق هي",options:[{en:"Success",ar:"نجاح"},{en:"Blocks",ar:"عوائق"},{en:"Legal",ar:"قانوني"},{en:"Goals",ar:"أهداف"}],answer:1},
+{en:"Failures lead to",ar:"فشل التواصل يؤدي إلى",options:[{en:"Teamwork",ar:"عمل جماعي"},{en:"Fast discharge",ar:"خروج سريع"},{en:"Adverse events",ar:"أخطاء"},{en:"Less work",ar:"عمل أقل"}],answer:2},
+{en:"Communication is",ar:"التواصل هو",options:[{en:"One way",ar:"اتجاه واحد"},{en:"Two way",ar:"اتجاهين"},{en:"Written",ar:"كتابي"},{en:"Tech",ar:"تقني"}],answer:1},
+{en:"Negative factor",ar:"عامل سلبي",options:[{en:"Noise",ar:"ضوضاء"},{en:"Clear docs",ar:"توثيق"},{en:"Tools",ar:"أدوات"},{en:"Team",ar:"فريق"}],answer:0},
+{en:"Handover means",ar:"تسليم المريض يعني",options:[{en:"Equipment",ar:"معدات"},{en:"Responsibility",ar:"مسؤولية"},{en:"Policy",ar:"سياسة"},{en:"Finance",ar:"مال"}],answer:1},
+{en:"Not benefit",ar:"ليس فائدة",options:[{en:"Accuracy",ar:"دقة"},{en:"Safety",ar:"أمان"},{en:"More work",ar:"زيادة عمل"},{en:"Fast",ar:"سرعة"}],answer:2},
+{en:"Pause duration",ar:"مدة التوقف",options:[{en:"5s",ar:"٥"},{en:"20s",ar:"٢٠"},{en:"1m",ar:"دقيقة"},{en:"None",ar:"لا"}],answer:1},
+{en:"SBAR stands for",ar:"اختصار SBAR",options:[{en:"Signs",ar:"علامات"},{en:"Situation Background Assessment Recommendation",ar:"الحالة الخلفية التقييم التوصية"},{en:"Symptoms",ar:"أعراض"},{en:"Status",ar:"حالة"}],answer:1},
+{en:"IMIST excludes",ar:"IMIST لا يشمل",options:[{en:"Injury",ar:"إصابة"},{en:"Treatment",ar:"علاج"},{en:"Allergy",ar:"حساسية"},{en:"Finance",ar:"مال"}],answer:3},
+{en:"SBAR limitation",ar:"عيب SBAR",options:[{en:"Complex",ar:"معقد"},{en:"No prehospital",ar:"لا يشمل الإسعاف"},{en:"Long",ar:"طويل"},{en:"Unstructured",ar:"غير منظم"}],answer:1},
+{en:"Best ID tool",ar:"أفضل أداة تعريف",options:[{en:"SBAR",ar:"SBAR"},{en:"ISBAR",ar:"ISBAR"},{en:"SOAP",ar:"SOAP"},{en:"ATMIST",ar:"ATMIST"}],answer:1}
+];
+
+//////////////////////////////////////
+// Intellectual Property (نصك 그대로)
+const ip = [
+{q:"من خصائص العنصر المعنوي لحق المؤلف",options:["أ- عدم قابليته للتنازل عنه أو التعامل به","ب- قابليته للتنازل عنه والتعامل به","ج- يسقط بالتقادم","د- قابليته للحجز"],answer:0},
+{q:"حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان وهذا ما أُطلق عليه بموجب اتفاقية WIPO",options:["أ- المصنف أو المؤلف","ب- المؤلف أو المبدع أو المبتكر","ج- السلطة الأبوية","د- الاستغلال والتصرف"],answer:1},
+{q:"من أشكال التنازل عن العنصر المعنوي",options:["أ- البيع، الهبة، التبرع","ب- المصنف أو المؤلف","ج- التبرع وأخذ قيمته","د- يسقط بالتقادم"],answer:0},
+
+// 👇 كملت 20 نفس نمطك بدون تغيير
+{q:"إذا تنازل أو باع الفرد المؤلف أو المنتج الخاص به هل ينتقل العنصر المعنوي",options:["أ- لا يستتبع تصرف المؤلف في ملكية نسخته المادية","ب- يستتبع تصرف المؤلف","ج- يتصرف المؤلف","د- البيع"],answer:0},
+{q:"تنازل المؤلف عن حقوقه المالية لا يستتبع",options:["أ- الحقوق المعنوية","ب- الهبة","ج- التبرع","د- البيع"],answer:0},
+{q:"الحقوق اللصيقة ليست مالية بل",options:["أ- عامة","ب- معرفة","ج- بطلان","د- مالي"],answer:0},
+{q:"الحق الذي يقبل الحجز",options:["أ- معنوي","ب- مالي","ج- كلاهما","د- معنوي"],answer:1},
+{q:"العنصر المادي يظهر عند",options:["أ- حجز","ب- تقادم","ج- نشر","د- باطل"],answer:2},
+{q:"الحق هو",options:["أ- سلطة ومنفعة","ب- نسبة","ج- اسم","د- مساس"],answer:0},
+{q:"من الحقوق المعنوية",options:["أ- منع التشويه","ب- الإفصاح","ج- نسبة غير مألوفة","د- نسبة للغير"],answer:0},
+{q:"المؤلف وحده يقرر",options:["أ- نشر العمل","ب- البيع","ج- تجاهل","د- إخفاء"],answer:0},
+{q:"اختيار النشر يكون عبر",options:["أ- طباعة","ب- تسجيل","ج- بث","د- الكل"],answer:3},
+{q:"نسبة المصنف تكون",options:["أ- كتابة الاسم","ب- الورثة","ج- القضاء","د- التنفيذ"],answer:0},
+{q:"هل يجوز رفض النشر",options:["أ- نعم","ب- لا","ج- أحيانًا","د- طلب"],answer:0},
+{q:"النشر بدون اسم يعني",options:["أ- إخفاء الهوية","ب- مزيف","ج- غير قانوني","د- بيع"],answer:0},
+{q:"الترجمة بدون إذن",options:["أ- مسموح","ب- اعتداء","ج- اختياري","د- حر"],answer:1},
+{q:"الترجمة الضارة",options:["أ- طبيعي","ب- اعتداء","ج- مسموح","د- تجاهل"],answer:1},
+{q:"يمنع المؤلف",options:["أ- تشويه","ب- قراءة","ج- تفكير","د- دراسة"],answer:0},
+{q:"تشمل الحقوق",options:["أ- سحب العمل","ب- بيع","ج- تجاهل","د- إلغاء"],answer:0},
+{q:"إذا لا ورثة",options:["أ- الدولة","ب- صديق","ج- سوق","د- شركة"],answer:0}
+];
 
 </script>
 
