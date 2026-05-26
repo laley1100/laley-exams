@@ -12,13 +12,6 @@ text-align:center;
 background:linear-gradient(135deg,#ffc0cb,#caa6ff);
 }
 
-/* ❌ حذف أي خلفية بيضاء */
-.card{
-margin-top:40px;
-padding:20px;
-}
-
-/* توسيط كامل */
 .option{
 display:block;
 margin:10px auto;
@@ -33,15 +26,13 @@ cursor:pointer;
 .wrong{background:#ffb6b6;}
 
 button{
-padding:10px 15px;
+padding:10px;
 margin:10px;
 border:none;
 border-radius:10px;
 background:#ffb6c1;
 cursor:pointer;
 }
-
-#nextBtn{background:#d6a6ff;}
 </style>
 </head>
 
@@ -64,11 +55,9 @@ cursor:pointer;
 
 <div id="options"></div>
 
-<p id="result"></p>
 <h3>Score: <span id="score">0</span></h3>
 
-<button id="nextBtn" onclick="next()">Next 💗</button>
-
+<button onclick="next()">Next 💗</button>
 </div>
 
 <script>
@@ -77,65 +66,80 @@ let i=0;
 let score=0;
 let qset=[];
 
-/* ================= حقوق الملكية الفكرية (عربي فقط) ================= */
+/* ================= حقوق الملكية الفكرية ================= */
 const rights=[
 {q:"من خصائص العنصر المعنوي لحق المؤلف",o:["عدم قابليته للتنازل","قابليته للتنازل","يسقط بالتقادم","قابليته للحجز"],a:0},
-{q:"حق المؤلف مرتبط بشخصية الإنسان",o:["المصنف","المؤلف","الحكومة","السوق"],a:1}
+{q:"حق المؤلف حق لصيق بشخصية الإنسان",o:["المصنف","المؤلف","الحكومة","السوق"],a:1},
+{q:"لا يجوز التنازل عن الحقوق المعنوية",o:["صح","خطأ","أحياناً","غير معروف"],a:0},
+{q:"بيع المصنف لا ينقل الحقوق المعنوية",o:["صح","خطأ","أحياناً","غير مهم"],a:0},
+{q:"الحقوق المالية يمكن التنازل عنها",o:["صح","خطأ","ممنوع","غير قانوني"],a:0},
+{q:"الحق المالي يمكن الحجز عليه",o:["صح","خطأ","أحياناً","لا"],a:0},
+{q:"العنصر المادي يظهر عند نشر المصنف",o:["صح","خطأ","فكرة","صمت"],a:0},
+{q:"الحق هو سلطة تحقق منفعة",o:["صح","خطأ","اسم","لا شيء"],a:0},
+{q:"منع التشويه من الحقوق المعنوية",o:["صح","خطأ","مال","بيع"],a:0},
+{q:"المؤلف له حق نشر عمله",o:["صح","خطأ","غير ذلك","ممنوع"],a:0},
+{q:"تحديد طريقة النشر حق للمؤلف",o:["صح","خطأ","دولة","سوق"],a:0},
+{q:"نسبة المصنف للمؤلف حق",o:["صح","خطأ","بيع","حذف"],a:0},
+{q:"إخفاء الاسم مسموح",o:["صح","خطأ","ممنوع","إجباري"],a:0},
+{q:"الترجمة بدون إذن اعتداء",o:["صح","خطأ","حر","مسموح"],a:0},
+{q:"إساءة الترجمة اعتداء",o:["صح","خطأ","عادي","مقبول"],a:0},
+{q:"المؤلف يمنع التشويه",o:["صح","خطأ","بيع","سوق"],a:0},
+{q:"الحقوق المعنوية شخصية",o:["صح","خطأ","مالية","تجارية"],a:0},
+{q:"يجوز سحب المصنف",o:["صح","خطأ","بيع","شراء"],a:0},
+{q:"الحقوق لا تسقط بالتقادم",o:["صح","خطأ","دائماً","أبداً"],a:0},
+{q:"بدون ورثة تنتقل للدولة",o:["صح","خطأ","صديق","شركة"],a:0}
 ];
 
-/* ================= Communication (مترجم بالكامل) ================= */
+/* ================= Communication ================= */
 const comm=[
-{
-q:"Therapeutic communication is best defined as",
-tr:"التواصل العلاجي يُعرّف بأنه",
-o:[
-"محادثة عادية - Casual conversation",
-"تواصل مهني مخطط - Planned professional communication",
-"أوامر طبية فقط - Medical instructions only",
-"كلام لتهدئة المريض - Talking to calm patient"
-],
-a:1
-},
-{
-q:"Shared understanding helps to",
-tr:"الفهم المشترك يساعد على",
-o:[
-"تحقيق أهداف الرعاية - Achieve care goals",
-"تقليل التوثيق - Reduce documentation",
-"إضاعة الوقت - Waste time",
-"تقليل التواصل - Limit interaction"
-],
-a:0
-}
+{q:"Therapeutic communication is planned professional act",tr:"التواصل العلاجي عمل مهني مخطط",o:["صح","خطأ","عشوائي","غير مهم"],a:0},
+{q:"Shared understanding helps patient goals",tr:"الفهم المشترك يساعد أهداف المريض",o:["صح","خطأ","لا","أحياناً"],a:0},
+{q:"Silence allows patient to think",tr:"الصمت يساعد التفكير",o:["صح","خطأ","إلغاء","تجاهل"],a:0},
+{q:"Exploring means digging deeper",tr:"الاستكشاف تعمق",o:["صح","خطأ","وقف","إنهاء"],a:0},
+{q:"Clarification checks understanding",tr:"التوضيح للتأكد من الفهم",o:["صح","خطأ","إرباك","رفض"],a:0},
+{q:"Communication is two-way",tr:"التواصل ثنائي",o:["صح","خطأ","واحد","صمت"],a:0},
+{q:"Handover transfers responsibility",tr:"التسليم نقل مسؤولية",o:["صح","خطأ","مال","أداة"],a:0},
+{q:"SBAR is communication tool",tr:"SBAR أداة تواصل",o:["صح","خطأ","مرض","دواء"],a:0},
+{q:"Noise affects communication",tr:"الضوضاء تؤثر",o:["صح","خطأ","لا","دائماً"],a:0},
+{q:"Failure leads to errors",tr:"الفشل يؤدي لأخطاء",o:["صح","خطأ","نجاح","راحة"],a:0},
+{q:"Reflecting focuses on feelings",tr:"الانعكاس مشاعر",o:["صح","خطأ","أجهزة","قانون"],a:0},
+{q:"Touch can be clinical",tr:"اللمس مهني",o:["صح","خطأ","عاطفي","مزاح"],a:0},
+{q:"Communication improves safety",tr:"التواصل يحسن السلامة",o:["صح","خطأ","يضر","لا"],a:0},
+{q:"Impasses are blocks",tr:"العوائق مشاكل",o:["صح","خطأ","نجاح","سرعة"],a:0},
+{q:"Handover must be structured",tr:"التسليم منظم",o:["صح","خطأ","عشوائي","لا"],a:0},
+{q:"Clarification example is what do you mean",tr:"مثال ماذا تقصد",o:["صح","خطأ","اذهب","توقف"],a:0},
+{q:"Silence can be therapeutic",tr:"الصمت علاجي",o:["صح","خطأ","سيء","ممنوع"],a:0},
+{q:"Communication is exchange",tr:"التواصل تبادل",o:["صح","خطأ","بيع","شراء"],a:0},
+{q:"SBAR stands Situation Background Assessment Recommendation",tr:"SBAR حالة خلفية تقييم توصية",o:["صح","خطأ","لا","غير"],a:0},
+{q:"Effective communication reduces errors",tr:"التواصل يقلل الأخطاء",o:["صح","خطأ","يزيد","لا"],a:0}
 ];
 
-/* ================= Pathology (مترجم بالكامل) ================= */
+/* ================= Pathology ================= */
 const path=[
-{
-q:"Approximately what percentage of body weight is water?",
-tr:"تقريبًا كم نسبة الماء في الجسم؟",
-o:["40% - 40%","50% - 50%","60% - 60%","70% - 70%"],
-a:2
-},
-{
-q:"Non-pitting edema occurs in which condition?",
-tr:"أي حالة يحدث فيها تورم غير قابل للانطباع؟",
-o:[
-"وذمة قلبية - Cardiac edema",
-"وذمة كلوية - Renal edema",
-"وذمة غذائية - Nutritional edema",
-"وذمة لمفاوية - Lymphatic edema"
-],
-a:3
-}
+{q:"60% of body is water",tr:"60% ماء",o:["صح","خطأ","50","70"],a:0},
+{q:"Neoplasm is abnormal growth",tr:"ورم نمو غير طبيعي",o:["صح","خطأ","شفاء","التهاب"],a:0},
+{q:"Benign tumor is non invasive",tr:"حميد غير غازي",o:["صح","خطأ","خبيث","سريع"],a:0},
+{q:"Malignant tumor invades",tr:"خبيث يغزو",o:["صح","خطأ","حميد","طبيعي"],a:0},
+{q:"Metastasis is spread",tr:"انتشار",o:["صح","خطأ","توقف","شفاء"],a:0},
+{q:"Hypovolemic shock bleeding",tr:"صدمة نزيف",o:["صح","خطأ","قلب","دماغ"],a:0},
+{q:"Venous thrombus common",tr:"خثرة وريدية",o:["صح","خطأ","دماغ","عظم"],a:0},
+{q:"Kidney affected amyloidosis",tr:"الكلى تتأثر",o:["صح","خطأ","جلد","عظم"],a:0},
+{q:"Tumor is abnormal mass",tr:"ورم كتلة غير طبيعية",o:["صح","خطأ","طبيعي","شفاء"],a:0},
+{q:"Benign well defined",tr:"حميد واضح",o:["صح","خطأ","غير واضح","خبيث"],a:0},
+{q:"Malignant invades tissue",tr:"خبيث يغزو",o:["صح","خطأ","محاط","بطيء"],a:0},
+{q:"Histopathology gold standard",tr:"فحص نسيجي معيار ذهبي",o:["صح","خطأ","دم","بول"],a:0},
+{q:"Carcinoma epithelial",tr:"سرطان طلائي",o:["صح","خطأ","عظمي","دهني"],a:0},
+{q:"Sarcoma mesenchymal",tr:"ساركوما ضامة",o:["صح","خطأ","جلد","دم"],a:0},
+{q:"Brain tumor dangerous",tr:"دماغ خطير",o:["صح","خطأ","بسيط","صغير"],a:0},
+{q:"Metastasis defines malignancy",tr:"انتشار خباثة",o:["صح","خطأ","حميد","عادي"],a:0},
+{q:"Benign encapsulated",tr:"محاط",o:["صح","خطأ","منتشر","خبيث"],a:0},
+{q:"Ulcer mass malignant",tr:"قرحة خباثة",o:["صح","خطأ","حميد","جلد"],a:0},
+{q:"Tumor uncontrolled growth",tr:"نمو غير مسيطر",o:["صح","خطأ","شفاء","طبيعي"],a:0},
+{q:"Liposarcoma soft tissue tumor",tr:"ورم دهني",o:["صح","خطأ","عظم","دم"],a:0}
 ];
-
-/* ================= SYSTEM ================= */
 
 function start(type){
-i=0;
-score=0;
-document.getElementById("score").innerText=0;
+i=0;score=0;
 
 if(type==="rights") qset=rights;
 if(type==="comm") qset=comm;
@@ -145,13 +149,13 @@ document.getElementById("home").style.display="none";
 document.getElementById("quiz").style.display="block";
 
 document.getElementById("title").innerText=type;
+
 show();
 }
 
 function show(){
 let q=qset[i];
-
-document.getElementById("qnum").innerText="Question "+(i+1);
+document.getElementById("qnum").innerText="Q"+(i+1);
 document.getElementById("q").innerText=q.q;
 document.getElementById("tr").innerText=q.tr||"";
 
@@ -175,24 +179,19 @@ opts.forEach(o=>o.onclick=null);
 
 if(idx===q.a){
 opts[idx].classList.add("correct");
-document.getElementById("result").innerText="💚 صح";
 score++;
 }else{
 opts[idx].classList.add("wrong");
 opts[q.a].classList.add("correct");
-document.getElementById("result").innerText="💔 غلط - الإجابة الصحيحة بالأخضر";
 }
 
-document.getElementById("score").innerText=score;
 }
 
 function next(){
 i++;
 if(i<qset.length) show();
-else document.getElementById("quiz").innerHTML=
-`<h2>خلص الاختبار 💗</h2><h3>Score: ${score}/${qset.length}</h3>`;
+else document.getElementById("quiz").innerHTML=`<h2>Done 💗</h2><h3>${score}/60</h3>`;
 }
-
 </script>
 
 </body>
