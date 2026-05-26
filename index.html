@@ -1,96 +1,108 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Exam</title>
-</head>
-
-<body>
-
-<script>
 const examApp = {
 
 Communication: [
 {
-q_en: "Therapeutic communication is best defined as",
-q_ar: "التواصل العلاجي يُعرّف بأنه",
-options: [
-{ en: "Casual conversation between paramedic and patient", ar: "محادثة عادية بين المسعف والمريض" },
-{ en: "A planned professional communication using techniques", ar: "تواصل مهني مخطط باستخدام تقنيات" },
-{ en: "Medical instructions only", ar: "تعليمات طبية فقط" },
-{ en: "Talking to calm patient only", ar: "التحدث لتهدئة المريض فقط" }
+q_en:"Therapeutic communication is best defined as",
+q_ar:"التواصل العلاجي يُعرّف بأنه",
+options:[
+{en:"Casual conversation", ar:"محادثة عادية"},
+{en:"Professional planned communication", ar:"تواصل مهني مخطط"},
+{en:"Medical instructions only", ar:"تعليمات طبية فقط"},
+{en:"Calming patient only", ar:"تهدئة المريض فقط"}
 ],
-answer: 1
+answer:1
 },
-
 {
-q_en: "Shared understanding of information helps to",
-q_ar: "الفهم المشترك يساعد على",
-options: [
-{ en: "Achieve patient-care goals", ar: "تحقيق أهداف رعاية المريض" },
-{ en: "Reduce documentation", ar: "تقليل التوثيق" },
-{ en: "Save time only", ar: "توفير الوقت فقط" },
-{ en: "Limit interaction", ar: "تقليل التفاعل" }
+q_en:"Shared understanding helps to",
+q_ar:"الفهم المشترك يساعد على",
+options:[
+{en:"Achieve goals", ar:"تحقيق الأهداف"},
+{en:"Reduce documentation", ar:"تقليل التوثيق"},
+{en:"Save time", ar:"توفير الوقت"},
+{en:"Limit interaction", ar:"تقليل التفاعل"}
 ],
-answer: 0
+answer:0
+},
+{
+q_en:"Silence in communication allows the patient to",
+q_ar:"الصمت في التواصل يسمح للمريض أن",
+options:[
+{en:"Feel ignored", ar:"يشعر بالإهمال"},
+{en:"Think and reflect", ar:"يفكر ويتأمل"},
+{en:"Lose interest", ar:"يفقد الاهتمام"},
+{en:"End conversation", ar:"ينهي المحادثة"}
+],
+answer:1
 }
 ],
 
 Pathology: [
 {
-q_en: "Water percentage in body is about",
-q_ar: "نسبة الماء في الجسم تقريبًا",
-options: [
-{ en: "40%", ar: "40٪" },
-{ en: "50%", ar: "50٪" },
-{ en: "60%", ar: "60٪" },
-{ en: "70%", ar: "70٪" }
+q_en:"Approximately what percentage of body weight is water?",
+q_ar:"كم نسبة الماء في الجسم تقريبًا؟",
+options:[
+{en:"40%", ar:"40٪"},
+{en:"50%", ar:"50٪"},
+{en:"60%", ar:"60٪"},
+{en:"70%", ar:"70٪"}
 ],
-answer: 2
+answer:2
 },
-
 {
-q_en: "Non-pitting edema occurs in",
-q_ar: "الوذمة غير الانطباعية تحدث في",
-options: [
-{ en: "Cardiac edema", ar: "وذمة قلبية" },
-{ en: "Renal edema", ar: "وذمة كلوية" },
-{ en: "Lymphatic edema", ar: "وذمة لمفاوية" },
-{ en: "Nutritional edema", ar: "وذمة غذائية" }
+q_en:"Non-pitting edema occurs in",
+q_ar:"الوذمة غير الانطباعية تحدث في",
+options:[
+{en:"Cardiac edema", ar:"وذمة قلبية"},
+{en:"Renal edema", ar:"وذمة كلوية"},
+{en:"Nutritional edema", ar:"وذمة غذائية"},
+{en:"Lymphatic edema", ar:"وذمة لمفاوية"}
 ],
-answer: 2
+answer:3
+},
+{
+q_en:"Most common thrombus is",
+q_ar:"أكثر نوع خثرة شيوعًا هو",
+options:[
+{en:"Arterial", ar:"شرياني"},
+{en:"Venous", ar:"وريدي"},
+{en:"Capillary", ar:"شعيري"},
+{en:"Cardiac", ar:"قلبي"}
+],
+answer:1
 }
 ],
 
 IntellectualProperty: [
 {
-q_ar: "حقوق الملكية الفكرية هي",
-options: [
-{ ar: "قابلة للتنازل دائمًا" },
-{ ar: "حقوق معنوية لا يمكن التنازل عنها" },
-{ ar: "حقوق مالية فقط" },
-{ ar: "يمكن الحجز عليها" }
+q_ar:"حقوق الملكية الفكرية هي",
+options:[
+{ar:"قابلة للتنازل دائمًا"},
+{ar:"حقوق معنوية لا يمكن التنازل عنها"},
+{ar:"حقوق مالية فقط"},
+{ar:"يمكن الحجز عليها"}
 ],
-answer: 1
+answer:1
 },
-
 {
-q_ar: "حق المؤلف مرتبط بـ",
-options: [
-{ ar: "المنتج فقط" },
-{ ar: "المؤلف أو المبدع" },
-{ ar: "الحكومة" },
-{ ar: "السوق" }
+q_ar:"حق المؤلف مرتبط بـ",
+options:[
+{ar:"المنتج فقط"},
+{ar:"المؤلف أو المبدع"},
+{ar:"الحكومة"},
+{ar:"السوق"}
 ],
-answer: 1
+answer:1
+},
+{
+q_ar:"التنازل عن الحقوق المعنوية",
+options:[
+{ar:"مسموح"},
+{ar:"غير مسموح"},
+{ar:"مشروط"},
+{ar:"مؤقت"}
+],
+answer:1
 }
 ]
 
 };
-</script>
-
-<h2>Open Console (F12)</h2>
-<p>الكود اشتغل — افتح Console للتأكد</p>
-
-</body>
-</html>
