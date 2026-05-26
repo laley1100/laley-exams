@@ -12,9 +12,7 @@ body{
     padding:20px;
 }
 
-h1{
-    color:#a64ca6;
-}
+h1{ color:#a64ca6; }
 
 button{
     padding:10px;
@@ -30,17 +28,19 @@ button{
     background:white;
     padding:20px;
     border-radius:15px;
-    max-width:600px;
+    max-width:500px;
     margin:auto;
 }
 
 .option{
     display:block;
     background:#f3e6ff;
-    margin:8px;
-    padding:10px;
+    margin:6px auto;
+    padding:8px;
     border-radius:10px;
     cursor:pointer;
+    width:80%;
+    font-size:14px;
 }
 
 .small{
@@ -79,10 +79,10 @@ const comm=[
 q:"Therapeutic communication is best defined as",
 ar:"التواصل العلاجي يُعرّف بأنه",
 o:[
-["Casual conversation between paramedic and patient","محادثة عادية بين المسعف والمريض"],
-["A planned, deliberate, professional act using communication techniques","عملية مهنية مخططة باستخدام مهارات التواصل"],
-["Giving medical instructions only","إعطاء تعليمات فقط"],
-["Talking to calm the patient","التحدث لتهدئة المريض"]
+["Casual conversation between paramedic and patient","محادثة عادية"],
+["A planned, deliberate, professional act using communication techniques","عملية مهنية مخططة"],
+["Giving medical instructions only","تعليمات فقط"],
+["Talking to calm the patient","تهدئة المريض"]
 ],
 a:1
 },
@@ -91,52 +91,13 @@ a:1
 q:"Shared understanding of information helps to",
 ar:"الفهم المشترك للمعلومات يساعد على",
 o:[
-["Achieve desired patient-care goals","تحقيق أهداف رعاية المريض"],
+["Achieve desired patient-care goals","تحقيق أهداف الرعاية"],
 ["Reduce documentation","تقليل التوثيق"],
-["Save time only","توفير الوقت فقط"],
-["Limit patient interaction","تقليل التفاعل مع المريض"]
+["Save time only","توفير الوقت"],
+["Limit patient interaction","تقليل التفاعل"]
 ],
 a:0
-},
-
-{
-q:"Using silence in communication allows the patient",
-ar:"استخدام الصمت في التواصل يسمح للمريض",
-o:[
-["Feel ignored","يشعر بالإهمال"],
-["Think and gain insight","يفكر ويستوعب"],
-["Lose interest","يفقد الاهتمام"],
-["End the conversation","ينهي الحديث"]
-],
-a:1
-},
-
-{
-q:"Exploring is best described as",
-ar:"الاستكشاف يُعرّف بأنه",
-o:[
-["Changing the subject","تغيير الموضوع"],
-["Delving further into a topic","التعمق في الموضوع"],
-["Giving medical advice","إعطاء نصيحة"],
-["Summarizing data","تلخيص المعلومات"]
-],
-a:1
-},
-
-{
-q:"Clarification is used when the paramedic wants to",
-ar:"يستخدم التوضيح عندما يريد المسعف",
-o:[
-["Check understanding","التأكد من الفهم"],
-["Challenge the patient","تحدي المريض"],
-["Give instructions","إعطاء تعليمات"],
-["End communication","إنهاء التواصل"]
-],
-a:0
-},
-
-/* كملنا 5… نكرر نفس النمط لباقي 15 بدون أخطاء */
-
+}
 ];
 
 /* ================= PATHOLOGY ================= */
@@ -152,85 +113,32 @@ o:[
 ["70%","٧٠٪"]
 ],
 a:2
-},
-
-{
-q:"Non-pitting edema occurs in which condition?",
-ar:"الوذمة غير الانطباعية تحدث في أي حالة",
-o:[
-["Cardiac edema","وذمة قلبية"],
-["Renal edema","وذمة كلوية"],
-["Nutritional edema","وذمة غذائية"],
-["Lymphatic edema","وذمة لمفاوية"]
-],
-a:3
-},
-
-{
-q:"Which organ is most commonly involved in amyloidosis?",
-ar:"أي عضو يتأثر غالبًا بالأميلويد",
-o:[
-["Liver","الكبد"],
-["Spleen","الطحال"],
-["Heart","القلب"],
-["Kidney","الكلى"]
-],
-a:3
-},
-
-{
-q:"Which of the following best defines a neoplasm?",
-ar:"ما هو تعريف الورم",
-o:[
-["Increase in cell size","زيادة حجم الخلايا"],
-["Uncontrolled cell growth","نمو غير طبيعي وغير محدود"],
-["Inflammation","التهاب"],
-["Development issue","خلل نمو"]
-],
-a:1
-},
-
-{
-q:"Which is characteristic of benign tumor?",
-ar:"ما صفة الورم الحميد",
-o:[
-["Metastasis","ينتشر"],
-["Rapid growth","سريع"],
-["Well differentiated","خلايا طبيعية"],
-["Invasive","يغزو"]
-],
-a:2
 }
 ];
 
-/* ================= ARABIC (بدون تغيير حرف) ================= */
+/* ================= IP ================= */
 
 const ip=[
 {
-q:`1- من خصائص العنصر المعنوي لحق المؤلف
-أ- عدم قابليته للتنازل عنه أو التعامل به
-ب- قابليته للتنازل عنه والتعامل به
-ج- يسقط بالتقادم
-د- قابليته للحجز`,
+q:`1- من خصائص العنصر المعنوي لحق المؤلف`,
+options:[
+"أ- عدم قابليته للتنازل عنه أو التعامل به",
+"ب- قابليته للتنازل عنه والتعامل به",
+"ج- يسقط بالتقادم",
+"د- قابليته للحجز"
+],
 a:0
 },
 
 {
-q:`2- حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان وهذا ما أُطلق عليه بموجب اتفاقية WIPO
-أ- المصنف أو المؤلف
-ب- المؤلف أو المبدع أو المبتكر
-ج- السلطة الأبوية
-د- الاستغلال والتصرف`,
+q:`2- حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان وهذا ما أُطلق عليه بموجب اتفاقية WIPO`,
+options:[
+"أ- المصنف أو المؤلف",
+"ب- المؤلف أو المبدع أو المبتكر",
+"ج- السلطة الأبوية",
+"د- الاستغلال والتصرف"
+],
 a:1
-},
-
-{
-q:`3- من أشكال التنازل عن العنصر المعنوي
-أ- البيع، الهبة، التبرع
-ب- المصنف أو المؤلف
-ج- التبرع وأخذ قيمته
-د- يسقط بالتقادم`,
-a:0
 }
 ];
 
@@ -259,10 +167,20 @@ show();
 
 function show(){
 let q=current[index];
-document.getElementById("question").innerText=q.q;
 let box=document.getElementById("answers");
 box.innerHTML="";
 document.getElementById("result").innerText="";
+
+/* ===== عرض السؤال ===== */
+
+if(q.ar){
+document.getElementById("question").innerHTML=
+q.q + "<div class='small'>"+q.ar+"</div>";
+}else{
+document.getElementById("question").innerText=q.q;
+}
+
+/* ===== عرض الخيارات ===== */
 
 if(q.o){
 q.o.forEach((opt,i)=>{
@@ -272,18 +190,20 @@ btn.innerHTML=opt[0]+"<div class='small'>"+opt[1]+"</div>";
 btn.onclick=()=>check(i);
 box.appendChild(btn);
 });
-}else{
-q.q.split("\n").forEach((line,i)=>{
-if(i>0){
+}
+
+if(q.options){
+q.options.forEach((opt,i)=>{
 let btn=document.createElement("div");
 btn.className="option";
-btn.innerText=line;
-btn.onclick=()=>check(i-1);
+btn.innerText=opt;
+btn.onclick=()=>check(i);
 box.appendChild(btn);
-}
 });
 }
 }
+
+/* ===== تحقق ===== */
 
 function check(i){
 let correct=current[index].a;
