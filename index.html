@@ -1,121 +1,184 @@
-const comm=[
+const examApp = {
+
+"Communication": [
 {
-q:"Therapeutic communication is best defined as",
-tr:"التواصل العلاجي هو الأفضل تعريفًا بأنه",
-o:[
-"Casual conversation بين الممرض والمريض",
-"محادثة عادية بين الممرض والمريض",
-"A planned professional act using communication techniques",
-"عمل مهني مخطط باستخدام تقنيات التواصل",
-"Giving medical instructions only",
-"إعطاء تعليمات طبية فقط",
-"Talking to calm the patient",
-"التحدث فقط لتهدئة المريض"
-],a:2
+q_en:"Therapeutic communication is best defined as",
+q_ar:"التواصل العلاجي يُعرّف بأنه",
+options:[
+{en:"Casual conversation", ar:"محادثة عادية"},
+{en:"A planned professional act using communication techniques", ar:"فعل مهني مخطط باستخدام تقنيات التواصل"},
+{en:"Medical instructions only", ar:"تعليمات طبية فقط"},
+{en:"Talking to calm patient", ar:"التحدث لتهدئة المريض"}
+],
+answer:1
 },
 
 {
-q:"Shared understanding of information helps to",
-tr:"الفهم المشترك للمعلومات يساعد على",
-o:[
-"Achieve desired patient-care goals",
-"تحقيق أهداف رعاية المريض",
-"Reduce documentation",
-"تقليل التوثيق",
-"Save time only",
-"توفير الوقت فقط",
-"Limit patient interaction",
-"تقليل تفاعل المريض"
-],a:0
+q_en:"Shared understanding of information helps to",
+q_ar:"الفهم المشترك للمعلومات يساعد على",
+options:[
+{en:"Achieve patient-care goals", ar:"تحقيق أهداف رعاية المريض"},
+{en:"Reduce documentation", ar:"تقليل التوثيق"},
+{en:"Save time only", ar:"توفير الوقت فقط"},
+{en:"Limit interaction", ar:"تقليل التفاعل"}
+],
+answer:0
 },
 
 {
-q:"Using silence in communication allows the patient",
-tr:"استخدام الصمت في التواصل يسمح للمريض",
-o:[
-"Feel ignored",
-"الشعور بالإهمال",
-"Think and gain insight",
-"التفكير واكتساب فهم",
-"Lose interest",
-"فقدان الاهتمام",
-"End the conversation",
-"إنهاء الحوار"
-],a:1
+q_en:"Using silence allows the patient to",
+q_ar:"استخدام الصمت يسمح للمريض",
+options:[
+{en:"Feel ignored", ar:"الشعور بالإهمال"},
+{en:"Think and gain insight", ar:"التفكير واكتساب فهم"},
+{en:"Lose interest", ar:"فقدان الاهتمام"},
+{en:"End conversation", ar:"إنهاء الحوار"}
+],
+answer:1
 },
 
 {
-q:"Exploring is best described as",
-tr:"الاستكشاف يُعرّف بأنه",
-o:[
-"Changing the subject",
-"تغيير الموضوع",
-"Delving further into a topic",
-"التعمق في الموضوع",
-"Giving medical advice",
-"إعطاء نصيحة طبية",
-"Summarizing data",
-"تلخيص البيانات"
-],a:1
+q_en:"Exploring is best described as",
+q_ar:"الاستكشاف يُعرّف بأنه",
+options:[
+{en:"Changing subject", ar:"تغيير الموضوع"},
+{en:"Delving deeper", ar:"التعمق"},
+{en:"Giving advice", ar:"إعطاء نصيحة"},
+{en:"Summarizing", ar:"تلخيص"}
+],
+answer:1
 },
 
 {
-q:"Clarification is used when the paramedic wants to",
-tr:"يُستخدم التوضيح عندما يريد المسعف",
-o:[
-"Check understanding",
-"التأكد من الفهم",
-"Challenge the patient",
-"تحدي المريض",
-"Give instructions",
-"إعطاء تعليمات",
-"End communication",
-"إنهاء التواصل"
-],a:0
-},
-
-{
-q:"Reflecting focuses on",
-tr:"الانعكاس يركز على",
-o:[
-"Only medical facts",
-"الحقائق الطبية فقط",
-"Client’s feelings and content",
-"مشاعر ومحتوى المريض",
-"Paramedic’s opinion",
-"رأي المسعف",
-"Documentation",
-"التوثيق"
-],a:1
-},
-
-{
-q:"Communication is best described as",
-tr:"التواصل يُعرّف بأنه",
-o:[
-"A one-way process",
-"عملية أحادية الاتجاه",
-"A two-way process",
-"عملية ثنائية الاتجاه",
-"Written process only",
-"كتابة فقط",
-"Technological process",
-"عملية تقنية"
-],a:1
-},
-
-{
-q:"Patient handover refers to the transfer of",
-tr:"تسليم المريض يعني نقل",
-o:[
-"Medical equipment",
-"الأدوات الطبية",
-"Responsibility and accountability of patient care",
-"مسؤولية رعاية المريض",
-"Hospital policies",
-"سياسات المستشفى",
-"Financial records",
-"السجلات المالية"
-],a:1
+q_en:"Clarification is used to",
+q_ar:"التوضيح يستخدم لـ",
+options:[
+{en:"Check understanding", ar:"التأكد من الفهم"},
+{en:"Challenge patient", ar:"تحدي المريض"},
+{en:"Give orders", ar:"إعطاء أوامر"},
+{en:"End talk", ar:"إنهاء الحوار"}
+],
+answer:0
 }
-];
+],
+
+"Pathology": [
+{
+q_en:"Approximately 60% of body weight is water",
+q_ar:"حوالي 60٪ من وزن الجسم ماء",
+options:[
+{en:"40%", ar:"40٪"},
+{en:"50%", ar:"50٪"},
+{en:"60%", ar:"60٪"},
+{en:"70%", ar:"70٪"}
+],
+answer:2
+},
+
+{
+q_en:"Non-pitting edema occurs in lymphatic obstruction",
+q_ar:"الوذمة غير الانطباعية تحدث في انسداد لمفاوي",
+options:[
+{en:"Cardiac edema", ar:"وذمة قلبية"},
+{en:"Renal edema", ar:"وذمة كلوية"},
+{en:"Nutritional edema", ar:"وذمة غذائية"},
+{en:"Lymphatic edema", ar:"وذمة لمفاوية"}
+],
+answer:3
+},
+
+{
+q_en:"Most common thrombus is venous",
+q_ar:"أكثر خثرة شيوعًا هي الوريدية",
+options:[
+{en:"Arterial", ar:"شريانية"},
+{en:"Capillary", ar:"شعيرية"},
+{en:"Venous", ar:"وريدية"},
+{en:"Cardiac", ar:"قلبية"}
+],
+answer:2
+},
+
+{
+q_en:"Septic thrombus contains bacteria",
+q_ar:"الخثرة الإنتانية تحتوي على بكتيريا",
+options:[
+{en:"Aseptic", ar:"معقمة"},
+{en:"Red", ar:"حمراء"},
+{en:"Septic", ar:"إنتانية"},
+{en:"Mixed", ar:"مختلطة"}
+],
+answer:2
+},
+
+{
+q_en:"Hypovolemic shock is due to blood loss",
+q_ar:"صدمة نقص حجم الدم بسبب فقدان الدم",
+options:[
+{en:"Cardiogenic", ar:"قلبية"},
+{en:"Distributive", ar:"توزيعية"},
+{en:"Hypovolemic", ar:"نقص حجم الدم"},
+{en:"Obstructive", ar:"انسدادية"}
+],
+answer:2
+}
+],
+
+"Intellectual Property": [
+{
+q_ar:"حقوق الملكية الفكرية هي",
+options:[
+{ar:"قابلة للتنازل دائمًا"},
+{ar:"حقوق معنوية لا يمكن التنازل عنها"},
+{ar:"حقوق مالية فقط"},
+{ar:"يمكن الحجز عليها"}
+],
+answer:1
+},
+
+{
+q_ar:"حق المؤلف مرتبط بـ",
+options:[
+{ar:"المنتج فقط"},
+{ar:"المؤلف أو المبدع"},
+{ar:"الحكومة"},
+{ar:"السوق"}
+],
+answer:1
+},
+
+{
+q_ar:"التنازل عن الحقوق المعنوية",
+options:[
+{ar:"مسموح"},
+{ar:"غير مسموح"},
+{ar:"مشروط"},
+{ar:"مؤقت"}
+],
+answer:1
+},
+
+{
+q_ar:"بيع العمل يعني",
+options:[
+{ar:"نقل الحقوق المعنوية"},
+{ar:"نقل النسخة فقط"},
+{ar:"نقل كل الحقوق المالية"},
+{ar:"إلغاء الملكية"}
+],
+answer:1
+},
+
+{
+q_ar:"الحقوق المالية يمكن",
+options:[
+{ar:"التنازل عنها"},
+{ar:"لا يمكن التنازل"},
+{ar:"إلغاؤها"},
+{ar:"تجاهلها"}
+],
+answer:0
+}
+]
+
+};
