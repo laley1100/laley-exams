@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Exam System</title>
+<title>Exam</title>
 
 <style>
 body{
@@ -13,7 +13,7 @@ padding:20px;
 }
 
 .card{
-background: rgba(255,255,255,0.25);
+background: rgba(255,255,255,0.2);
 padding:20px;
 border-radius:20px;
 width:85%;
@@ -38,6 +38,7 @@ button.wrong{background:#e74c3c !important;}
 #nextBtn{background:#6c5ce7;}
 small{display:block;font-size:12px;}
 </style>
+
 </head>
 
 <body>
@@ -62,3 +63,147 @@ small{display:block;font-size:12px;}
 <button id="nextBtn" onclick="next()" disabled>Next</button>
 
 </div>
+
+<script>
+
+let subject="",index=0,answered=false;
+
+// ===== START =====
+function start(s){
+subject=s;
+index=0;
+document.getElementById("menu").style.display="none";
+document.getElementById("quiz").style.display="block";
+show();
+}
+
+// ===== QUESTIONS (20 لكل مادة) =====
+
+const comm = [
+{q:"Therapeutic communication",q_ar:"التواصل العلاجي",options:["A","B","C","D"],a:1},
+{q:"Shared understanding",q_ar:"الفهم المشترك",options:["A","B","C","D"],a:0},
+{q:"Silence allows",q_ar:"الصمت يسمح",options:["A","B","C","D"],a:1},
+{q:"Exploring",q_ar:"الاستكشاف",options:["A","B","C","D"],a:1},
+{q:"Clarification",q_ar:"التوضيح",options:["A","B","C","D"],a:0},
+{q:"Example clarification",q_ar:"مثال",options:["A","B","C","D"],a:2},
+{q:"Reflecting",q_ar:"الانعكاس",options:["A","B","C","D"],a:1},
+{q:"Touch",q_ar:"اللمس",options:["A","B","C","D"],a:0},
+{q:"Explain procedure",q_ar:"شرح",options:["A","B","C","D"],a:0},
+{q:"Failure",q_ar:"فشل",options:["A","B","C","D"],a:1},
+{q:"Q11",options:["A","B","C","D"],a:1},
+{q:"Q12",options:["A","B","C","D"],a:0},
+{q:"Q13",options:["A","B","C","D"],a:1},
+{q:"Q14",options:["A","B","C","D"],a:2},
+{q:"Q15",options:["A","B","C","D"],a:1},
+{q:"Q16",options:["A","B","C","D"],a:1},
+{q:"Q17",options:["A","B","C","D"],a:3},
+{q:"Q18",options:["A","B","C","D"],a:1},
+{q:"Q19",options:["A","B","C","D"],a:1},
+{q:"Q20",options:["A","B","C","D"],a:0}
+];
+
+const path = [
+{q:"Body water",q_ar:"ماء الجسم",options:["40","50","60","70"],a:2},
+{q:"Edema",q_ar:"وذمة",options:["A","B","C","D"],a:3},
+{q:"Hyperemia",q_ar:"احتقان",options:["A","B","C","D"],a:1},
+{q:"Thrombus",q_ar:"جلطة",options:["A","B","C","D"],a:2},
+{q:"Septic",q_ar:"بكتيريا",options:["A","B","C","D"],a:2},
+{q:"Shock",q_ar:"صدمة",options:["A","B","C","D"],a:2},
+{q:"Amyloidosis",q_ar:"أميلويد",options:["A","B","C","D"],a:3},
+{q:"Neoplasm",q_ar:"ورم",options:["A","B","C","D"],a:1},
+{q:"Benign",q_ar:"حميد",options:["A","B","C","D"],a:2},
+{q:"Invasion",q_ar:"غزو",options:["A","B","C","D"],a:1},
+{q:"Q11",options:["A","B","C","D"],a:1},
+{q:"Q12",options:["A","B","C","D"],a:2},
+{q:"Q13",options:["A","B","C","D"],a:0},
+{q:"Q14",options:["A","B","C","D"],a:1},
+{q:"Q15",options:["A","B","C","D"],a:1},
+{q:"Q16",options:["A","B","C","D"],a:1},
+{q:"Q17",options:["A","B","C","D"],a:2},
+{q:"Q18",options:["A","B","C","D"],a:1},
+{q:"Q19",options:["A","B","C","D"],a:2},
+{q:"Q20",options:["A","B","C","D"],a:2}
+];
+
+const ip = [
+{q:"ماهي الملكية الفكرية",options:["A","B","C","D"],a:0},
+{q:"حقوق المؤلف",options:["A","B","C","D"],a:0},
+{q:"Q3",options:["A","B","C","D"],a:1},
+{q:"Q4",options:["A","B","C","D"],a:2},
+{q:"Q5",options:["A","B","C","D"],a:3},
+{q:"Q6",options:["A","B","C","D"],a:1},
+{q:"Q7",options:["A","B","C","D"],a:0},
+{q:"Q8",options:["A","B","C","D"],a:2},
+{q:"Q9",options:["A","B","C","D"],a:1},
+{q:"Q10",options:["A","B","C","D"],a:0},
+{q:"Q11",options:["A","B","C","D"],a:1},
+{q:"Q12",options:["A","B","C","D"],a:2},
+{q:"Q13",options:["A","B","C","D"],a:0},
+{q:"Q14",options:["A","B","C","D"],a:1},
+{q:"Q15",options:["A","B","C","D"],a:3},
+{q:"Q16",options:["A","B","C","D"],a:1},
+{q:"Q17",options:["A","B","C","D"],a:0},
+{q:"Q18",options:["A","B","C","D"],a:2},
+{q:"Q19",options:["A","B","C","D"],a:1},
+{q:"Q20",options:["A","B","C","D"],a:0}
+];
+
+// ===== SHOW =====
+function show(){
+answered=false;
+document.getElementById("nextBtn").disabled=true;
+
+let arr = subject==="comm"?comm:subject==="path"?path:ip;
+let q = arr[index];
+
+document.getElementById("q").innerText=q.q;
+document.getElementById("q_ar").innerText=q.q_ar||"";
+
+let html="";
+q.options.forEach((opt,i)=>{
+html+=`<button onclick="check(this,${i})">${opt}</button>`;
+});
+
+document.getElementById("options").innerHTML=html;
+document.getElementById("result").innerText="";
+}
+
+// ===== CHECK =====
+function check(btn,i){
+if(answered) return;
+answered=true;
+
+let arr = subject==="comm"?comm:subject==="path"?path:ip;
+let correct = arr[index].a;
+
+let buttons=document.querySelectorAll("#options button");
+
+if(i===correct){
+btn.classList.add("correct");
+document.getElementById("result").innerText="💗 صح";
+}else{
+btn.classList.add("wrong");
+buttons[correct].classList.add("correct");
+document.getElementById("result").innerText="💔 غلط";
+}
+
+document.getElementById("nextBtn").disabled=false;
+}
+
+// ===== NEXT =====
+function next(){
+index++;
+let arr = subject==="comm"?comm:subject==="path"?path:ip;
+
+if(index>=arr.length){
+document.getElementById("quiz").innerHTML="💗 خلص الاختبار";
+return;
+}
+
+show();
+}
+
+</script>
+
+</body>
+</html>
