@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Exam App</title>
+<title>Quiz App</title>
 
 <style>
 body{
 font-family: Arial;
-background:#ffe6f0;
+background: linear-gradient(135deg,#ffb6d9,#cdb4ff);
 text-align:center;
 padding:20px;
 }
@@ -15,24 +15,42 @@ padding:20px;
 .card{
 background:white;
 padding:20px;
-border-radius:15px;
-width:60%;
+border-radius:20px;
+width:70%;
 margin:auto;
-box-shadow:0 0 10px #ccc;
+box-shadow:0 0 15px rgba(0,0,0,0.2);
 }
 
 button{
-margin:5px;
-padding:10px;
+margin:8px;
+padding:10px 15px;
 border:none;
-border-radius:10px;
+border-radius:12px;
 cursor:pointer;
 background:#d63384;
 color:white;
+font-size:14px;
 }
 
-button:hover{
-background:#a61e5c;
+button:disabled{
+background:gray;
+cursor:not-allowed;
+}
+
+small{
+display:block;
+color:gray;
+font-size:12px;
+}
+
+.correct{
+color:green;
+font-weight:bold;
+}
+
+.wrong{
+color:red;
+font-weight:bold;
 }
 </style>
 </head>
@@ -42,28 +60,35 @@ background:#a61e5c;
 <h2>💗 Choose Subject</h2>
 
 <div id="menu">
-<button onclick="start('Communication')">Communication</button>
-<button onclick="start('Pathology')">Pathology</button>
-<button onclick="start('IP')">Intellectual Property</button>
+<button onclick="start('comm')">Communication</button>
+<button onclick="start('path')">Pathology</button>
+<button onclick="start('ip')">Intellectual Property</button>
 </div>
 
 <div class="card" id="quiz" style="display:none;">
+
 <h3 id="q"></h3>
+<small id="q_ar"></small>
+
 <div id="options"></div>
+
 <p id="result"></p>
-<button onclick="next()">Next</button>
+
+<button id="nextBtn" onclick="next()" disabled>Next 💗</button>
+
 </div>
 
 <script>
 
-// ===== DATA =====
+// ================= DATA =================
 const examApp = {
-Communication:[
+comm:[
 {
-q:"Therapeutic communication is",
+q:"Therapeutic communication is best defined as",
+q_ar:"التواصل العلاجي يُعرّف بأنه",
 options:[
 ["Casual conversation","محادثة عادية"],
-["Professional planned communication","تواصل مهني"],
+["Professional planned communication","تواصل مهني مخطط"],
 ["Medical instructions only","تعليمات فقط"],
 ["Calming patient only","تهدئة فقط"]
 ],
@@ -71,19 +96,21 @@ a:1
 },
 {
 q:"Shared understanding helps to",
+q_ar:"الفهم المشترك يساعد على",
 options:[
-["Achieve goals","تحقيق أهداف"],
+["Achieve goals","تحقيق الأهداف"],
 ["Reduce documentation","تقليل التوثيق"],
-["Save time","توفير وقت"],
+["Save time","توفير الوقت"],
 ["Limit interaction","تقليل التفاعل"]
 ],
 a:0
 }
 ],
 
-Pathology:[
+path:[
 {
 q:"Water percentage in body",
+q_ar:"نسبة الماء في الجسم",
 options:[
 ["40%","40٪"],
 ["50%","50٪"],
@@ -94,19 +121,21 @@ a:2
 },
 {
 q:"Non-pitting edema occurs in",
+q_ar:"الوذمة غير الانطباعية تحدث في",
 options:[
-["Cardiac","قلب"],
-["Renal","كلية"],
-["Nutritional","غذائي"],
-["Lymphatic","لمفاوي"]
+["Cardiac","قلبية"],
+["Renal","كلوية"],
+["Nutritional","غذائية"],
+["Lymphatic","لمفاوية"]
 ],
 a:3
 }
 ],
 
-IP:[
+ip:[
 {
 q:"حقوق الملكية الفكرية هي",
+q_ar:"",
 options:[
 ["قابلة للتنازل"],
 ["حقوق معنوية"],
@@ -114,24 +143,16 @@ options:[
 ["حجز عليها"]
 ],
 a:1
-},
-{
-q:"حق المؤلف مرتبط بـ",
-options:[
-["المنتج"],
-["المؤلف"],
-["الحكومة"],
-["السوق"]
-],
-a:1
 }
 ]
+
 };
 
 let subject="";
 let index=0;
+let answered=false;
 
-// ===== START =====
+// ================= START =================
 function start(s){
 subject=s;
 index=0;
@@ -140,40 +161,59 @@ document.getElementById("quiz").style.display="block";
 show();
 }
 
-// ===== SHOW =====
+// ================= SHOW =================
 function show(){
+answered=false;
+document.getElementById("nextBtn").disabled=true;
+
 let q = examApp[subject][index];
 
-document.getElementById("q").innerText = q.q;
+document.getElementById("q").innerText=q.q;
+document.getElementById("q_ar").innerText=q.q_ar;
 
 let html="";
+
 q.options.forEach((o,i)=>{
-html += `<button onclick="check(${i})">${o[0]} <br><small>${o[1]}</small></button><br>`;
+html += `
+<button onclick="check(${i})">
+${o[0]}
+<small>${o[1]||""}</small>
+</button><br>
+`;
 });
 
 document.getElementById("options").innerHTML=html;
 document.getElementById("result").innerText="";
 }
 
-// ===== CHECK =====
+// ================= CHECK =================
 function check(i){
-let correct = examApp[subject][index].a;
+if(answered) return;
+
+answered=true;
+
+let q = examApp[subject][index];
+let correct = q.a;
 
 if(i===correct){
-document.getElementById("result").innerText="💚 Correct";
+document.getElementById("result").innerHTML="💗💗 Correct";
 }else{
-document.getElementById("result").innerText="💔 Wrong - Correct Answer: " 
-+ examApp[subject][index].options[correct][0];
-}
+document.getElementById("result").innerHTML=
+"💔 Wrong<br>Correct Answer: " + q.options[correct][0];
 }
 
-// ===== NEXT =====
+document.getElementById("nextBtn").disabled=false;
+}
+
+// ================= NEXT =================
 function next(){
 index++;
+
 if(index>=examApp[subject].length){
 document.getElementById("quiz").innerHTML="💗 Finished!";
 return;
 }
+
 show();
 }
 
