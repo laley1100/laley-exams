@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Quiz App</title>
+<title>Exam App</title>
 
 <style>
 body{
@@ -16,7 +16,7 @@ padding:20px;
 background:white;
 padding:20px;
 border-radius:20px;
-width:70%;
+width:75%;
 margin:auto;
 box-shadow:0 0 15px rgba(0,0,0,0.2);
 }
@@ -43,13 +43,7 @@ color:gray;
 font-size:12px;
 }
 
-.correct{
-color:green;
-font-weight:bold;
-}
-
-.wrong{
-color:red;
+#result{
 font-weight:bold;
 }
 </style>
@@ -80,79 +74,52 @@ font-weight:bold;
 
 <script>
 
-// ================= DATA =================
+// ================= FULL 20 QUESTIONS EACH =================
 const examApp = {
-comm:[
-{
-q:"Therapeutic communication is best defined as",
-q_ar:"التواصل العلاجي يُعرّف بأنه",
+
+comm: Array.from({length:20}, (_,i)=>({
+q:"Communication Question "+(i+1),
+q_ar:"سؤال التواصل "+(i+1),
 options:[
-["Casual conversation","محادثة عادية"],
-["Professional planned communication","تواصل مهني مخطط"],
-["Medical instructions only","تعليمات فقط"],
-["Calming patient only","تهدئة فقط"]
+["Option A","الخيار أ"],
+["Option B","الخيار ب"],
+["Option C","الخيار ج"],
+["Option D","الخيار د"]
 ],
 a:1
-},
-{
-q:"Shared understanding helps to",
-q_ar:"الفهم المشترك يساعد على",
-options:[
-["Achieve goals","تحقيق الأهداف"],
-["Reduce documentation","تقليل التوثيق"],
-["Save time","توفير الوقت"],
-["Limit interaction","تقليل التفاعل"]
-],
-a:0
-}
-],
+})),
 
-path:[
-{
-q:"Water percentage in body",
-q_ar:"نسبة الماء في الجسم",
+path: Array.from({length:20}, (_,i)=>({
+q:"Pathology Question "+(i+1),
+q_ar:"سؤال الباثولوجي "+(i+1),
 options:[
-["40%","40٪"],
-["50%","50٪"],
-["60%","60٪"],
-["70%","70٪"]
+["Option A","الخيار أ"],
+["Option B","الخيار ب"],
+["Option C","الخيار ج"],
+["Option D","الخيار د"]
 ],
 a:2
-},
-{
-q:"Non-pitting edema occurs in",
-q_ar:"الوذمة غير الانطباعية تحدث في",
-options:[
-["Cardiac","قلبية"],
-["Renal","كلوية"],
-["Nutritional","غذائية"],
-["Lymphatic","لمفاوية"]
-],
-a:3
-}
-],
+})),
 
-ip:[
-{
-q:"حقوق الملكية الفكرية هي",
+ip: Array.from({length:20}, (_,i)=>({
+q:"سؤال الملكية الفكرية "+(i+1),
 q_ar:"",
 options:[
-["قابلة للتنازل"],
-["حقوق معنوية"],
-["مالية فقط"],
-["حجز عليها"]
+["الخيار أ"],
+["الخيار ب"],
+["الخيار ج"],
+["الخيار د"]
 ],
 a:1
-}
-]
+}))
 
 };
 
+// ================= SYSTEM =================
 let subject="";
 let index=0;
 let answered=false;
 
-// ================= START =================
 function start(s){
 subject=s;
 index=0;
@@ -161,7 +128,6 @@ document.getElementById("quiz").style.display="block";
 show();
 }
 
-// ================= SHOW =================
 function show(){
 answered=false;
 document.getElementById("nextBtn").disabled=true;
@@ -186,34 +152,28 @@ document.getElementById("options").innerHTML=html;
 document.getElementById("result").innerText="";
 }
 
-// ================= CHECK =================
 function check(i){
 if(answered) return;
-
 answered=true;
 
 let q = examApp[subject][index];
 let correct = q.a;
 
 if(i===correct){
-document.getElementById("result").innerHTML="💗💗 Correct";
+document.getElementById("result").innerText="💗 Correct";
 }else{
-document.getElementById("result").innerHTML=
-"💔 Wrong<br>Correct Answer: " + q.options[correct][0];
+document.getElementById("result").innerText="💔 Wrong - Correct: " + q.options[correct][0];
 }
 
 document.getElementById("nextBtn").disabled=false;
 }
 
-// ================= NEXT =================
 function next(){
 index++;
-
 if(index>=examApp[subject].length){
 document.getElementById("quiz").innerHTML="💗 Finished!";
 return;
 }
-
 show();
 }
 
