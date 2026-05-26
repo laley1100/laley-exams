@@ -33,8 +33,6 @@ border-radius:10px;
 background:#ffb6c1;
 cursor:pointer;
 }
-
-#tr{font-size:13px;color:#444}
 </style>
 </head>
 
@@ -70,31 +68,31 @@ cursor:pointer;
 
 let i=0,score=0,qset=[];
 
-/* ================= حقوق الملكية (كما أرسلتيها بدون تغيير) ================= */
+/* ================= حقوق الملكية الفكرية (نفس أسئلتك) ================= */
 const rights=[
 {q:"من خصائص العنصر المعنوي لحق المؤلف: عدم قابليته للتنازل عنه أو التعامل به",o:["أ","ب","ج","د"],a:0},
 {q:"حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان",o:["أ","ب","ج","د"],a:0},
 {q:"من أشكال التنازل عن العنصر المعنوي",o:["أ","ب","ج","د"],a:0},
 {q:"إذا تنازل أو باع الفرد المؤلف أو المنتج الخاص به هل ينتقل العنصر المعنوي",o:["أ","ب","ج","د"],a:0},
-{q:"تنازل المؤلف عن حقوقه المالية أو أي جزء منها لا يستتبع ذلك",o:["أ","ب","ج","د"],a:0},
+{q:"تنازل المؤلف عن حقوقه المالية لا يستتبع ذلك",o:["أ","ب","ج","د"],a:0},
 {q:"الحقوق اللصيقة بشخصية الإنسان ليست حقوقًا مالية إنما هي",o:["أ","ب","ج","د"],a:0},
 {q:"الحق الذي يقبل الحجز هو",o:["أ","ب","ج","د"],a:0},
 {q:"العنصر المادي لا يخرج إلى حيز الوجود إلا",o:["أ","ب","ج","د"],a:0},
 {q:"الحق عند تقسيم الحقوق هو",o:["أ","ب","ج","د"],a:0},
 {q:"يتمتع المؤلف بالحقوق المعنوية التالية",o:["أ","ب","ج","د"],a:0},
-{q:"للمؤلف وحده دون غيره الحق في",o:["أ","ب","ج","د"],a:0},
-{q:"للمؤلف اختيار وتحديد الطريقة والوسيلة التي يقوم فيها بإعلان مصنفه من خلال",o:["أ","ب","ج","د"],a:0},
-{q:"من حق المؤلف نسبة المصنف إلى نفسه بالطريقة المألوفة حيث يتم",o:["أ","ب","ج","د"],a:0},
-{q:"هل يجوز للمؤلف أن يمتنع عن نشر مصنفه وفقًا للاتفاق",o:["أ","ب","ج","د"],a:0},
-{q:"يحق للمؤلف أن يبقي الرابطة بينه وبين مؤلفه مجهولة بأن",o:["أ","ب","ج","د"],a:0},
-{q:"هل تعتبر الترجمة للمصنف تعديلًا للنص وبالتالي اعتداء",o:["أ","ب","ج","د"],a:0},
-{q:"إذا كان بالترجمة إساءة إلى سمعة المؤلف ومكانته فيعتبر ذلك",o:["أ","ب","ج","د"],a:0},
-{q:"بموجب السلطة المعنوية من حق المؤلف أن",o:["أ","ب","ج","د"],a:0},
-{q:"من حقوق المؤلف المعنوية ما يلي",o:["أ","ب","ج","د"],a:0},
-{q:"إذا لم يكن للمؤلف ورثة تباشر الحقوق على المصنف من قبل",o:["أ","ب","ج","د"],a:0}
+{q:"للمؤلف وحده الحق في",o:["أ","ب","ج","د"],a:0},
+{q:"يختار المؤلف طريقة النشر من خلال",o:["أ","ب","ج","د"],a:0},
+{q:"من حق المؤلف نسبة المصنف إلى نفسه",o:["أ","ب","ج","د"],a:0},
+{q:"هل يجوز للمؤلف الامتناع عن النشر",o:["أ","ب","ج","د"],a:0},
+{q:"النشر بدون اسم يعني",o:["أ","ب","ج","د"],a:0},
+{q:"الترجمة بدون إذن تعتبر",o:["أ","ب","ج","د"],a:0},
+{q:"إذا أساءت الترجمة للمؤلف فهي",o:["أ","ب","ج","د"],a:0},
+{q:"للمؤلف الحق في منع",o:["أ","ب","ج","د"],a:0},
+{q:"من حقوق المؤلف المعنوية",o:["أ","ب","ج","د"],a:0},
+{q:"إذا لم يوجد ورثة تنتقل الحقوق إلى",o:["أ","ب","ج","د"],a:0}
 ];
 
-/* ================= Communication ================= */
+/* ================= Communication (مترجم) ================= */
 const comm=[
 {
 q:"Therapeutic communication is best defined as",
@@ -111,27 +109,27 @@ q:"Shared understanding helps to",
 tr:"الفهم المشترك",
 o:[
 "A. تحقيق الأهداف",
-"B. تقليل العمل",
-"C. الوقت",
-"D. الحد من التواصل"
+"B. تقليل الوثائق",
+"C. الوقت فقط",
+"D. تقليل التواصل"
 ],a:0
 },
 {
 q:"Using silence allows patient to",
-tr:"الصمت",
+tr:"استخدام الصمت",
 o:[
 "A. تجاهل",
 "B. التفكير",
-"C. ملل",
-"D. إنهاء"
+"C. فقدان الاهتمام",
+"D. إنهاء الحوار"
 ],a:1
 },
 {
 q:"Exploring is",
 tr:"الاستكشاف",
 o:[
-"A. تغيير موضوع",
-"B. تعمق",
+"A. تغيير الموضوع",
+"B. التعمق",
 "C. نصح",
 "D. تلخيص"
 ],a:1
@@ -140,9 +138,9 @@ o:[
 q:"Clarification is",
 tr:"التوضيح",
 o:[
-"A. فهم",
+"A. التأكد",
 "B. تحدي",
-"C. أمر",
+"C. أوامر",
 "D. إنهاء"
 ],a:0
 },
@@ -150,29 +148,29 @@ o:[
 q:"Reflecting focuses on",
 tr:"الانعكاس",
 o:[
-"A. حقائق",
+"A. معلومات",
 "B. مشاعر",
 "C. رأي",
-"D. توثيق"
+"D. كتابة"
 ],a:1
 },
 {
 q:"Communication is",
 tr:"التواصل",
 o:[
-"A. واحد",
-"B. اثنان",
+"A. اتجاه واحد",
+"B. اتجاهين",
 "C. كتابة",
 "D. جهاز"
 ],a:1
 },
 {
-q:"Handover means",
+q:"Handover is",
 tr:"التسليم",
 o:[
 "A. أدوات",
-"B. مسؤولية",
-"C. مال",
+"B. مسؤولية المريض",
+"C. أموال",
 "D. أوراق"
 ],a:1
 },
@@ -183,7 +181,7 @@ o:[
 "A. نعم",
 "B. لا",
 "C. أحياناً",
-"D. غير مهم"
+"D. لا يهم"
 ],a:0
 },
 {
@@ -193,7 +191,7 @@ o:[
 "A. أداة",
 "B. مرض",
 "C. دواء",
-"D. لا شيء"
+"D. خطأ"
 ],a:0
 },
 {
@@ -201,7 +199,7 @@ q:"Failure leads to",
 tr:"الفشل",
 o:[
 "A. أمان",
-"B. أخطاء",
+"B. أحداث سلبية",
 "C. نجاح",
 "D. لا شيء"
 ],a:1
@@ -221,14 +219,14 @@ q:"Impasses are",
 tr:"عوائق",
 o:[
 "A. نجاح",
-"B. عوائق",
+"B. مشاكل",
 "C. علاج",
 "D. لا شيء"
 ],a:1
 },
 {
 q:"Communication is exchange of",
-tr:"التواصل",
+tr:"تبادل المعلومات",
 o:[
 "A. معلومات",
 "B. مال",
@@ -243,14 +241,14 @@ o:[
 "A. ماذا تقصد",
 "B. اسكت",
 "C. اذهب",
-"D. لا شيء"
+"D. تجاهل"
 ],a:0
 },
 {
 q:"Silence is",
 tr:"الصمت",
 o:[
-"A. علاجي",
+"A. مفيد",
 "B. سيء",
 "C. خاطئ",
 "D. لا شيء"
@@ -260,14 +258,14 @@ o:[
 q:"Communication reduces",
 tr:"التواصل",
 o:[
-"A. أخطاء",
-"B. أمان",
-"C. وقت",
+"A. الأخطاء",
+"B. الفوضى",
+"C. الوقت",
 "D. لا شيء"
 ],a:0
 },
 {
-q:"Handover is transfer of",
+q:"Handover means transfer of",
 tr:"التسليم",
 o:[
 "A. رعاية",
@@ -300,34 +298,33 @@ o:[
 
 /* ================= Pathology ================= */
 const path=[
-{q:"Approximately 60% of body weight is water",tr:"نسبة الماء",o:["40","50","60","70"],a:2},
+{q:"Approximately 60% of body weight is water",tr:"نسبة الماء",o:["40%","50%","60%","70%"],a:2},
 {q:"Non-pitting edema occurs in",tr:"الوذمة",o:["Cardiac","Renal","Nutritional","Lymphatic"],a:3},
 {q:"Hyperemia occurs in",tr:"فرط الدم",o:["Inflammation","Exercise","Failure","Obstruction"],a:1},
 {q:"Most common thrombus",tr:"خثرة",o:["Arterial","Capillary","Venous","Cardiac"],a:2},
 {q:"Septic thrombus is",tr:"خثرة",o:["Aseptic","Red","Septic","Mixed"],a:2},
-{q:"Shock caused by bleeding",tr:"صدمة",o:["Cardiogenic","Distributive","Hypovolemic","Obstructive"],a:2},
+{q:"Shock due to bleeding",tr:"صدمة",o:["Cardiogenic","Distributive","Hypovolemic","Obstructive"],a:2},
 {q:"Amyloidosis affects",tr:"أميلويد",o:["Liver","Spleen","Heart","Kidney"],a:3},
-{q:"Neoplasm is",tr:"ورم",o:["Normal","Abnormal growth","Inflammation","Infection"],a:1},
-{q:"Benign tumor is",tr:"حميد",o:["Metastatic","Well differentiated","Invasive","Malignant"],a:1},
-{q:"Metastasis is",tr:"انتشار",o:["Local","Distant","Shrink","Heal"],a:1},
+{q:"Neoplasm is",tr:"ورم",o:["Normal","Abnormal mass","Inflammation","Infection"],a:1},
+{q:"Benign tumor is",tr:"حميد",o:["Metastasis","Well differentiated","Invasive","Malignant"],a:1},
+{q:"Metastasis is",tr:"انتشار",o:["Local","Distant spread","Heal","Shrink"],a:1},
 {q:"Carcinoma arises from",tr:"سرطان",o:["Epithelium","Bone","Fat","Muscle"],a:0},
 {q:"Prognosis depends on",tr:"التنبؤ",o:["Blood","Radiosensitivity","Hair","Age"],a:1},
 {q:"Most common sarcoma",tr:"ساركوما",o:["Fibro","Leio","Lipo","Angio"],a:2},
 {q:"Leiomyosarcoma is",tr:"ورم",o:["Benign","Malignant","Normal","None"],a:1},
-{q:"Adenoma leads to",tr:"أدينوما",o:["Cancer","Cold","Pain","Fever"],a:0},
-{q:"Gold standard",tr:"تشخيص",o:["Blood","IHC","H&E","CT"],a:2},
-{q:"Benign tumor",tr:"حميد",o:["Invasive","Non invasive","Metastatic","Fatal"],a:1},
-{q:"Malignant tumor",tr:"خبيث",o:["Non invasive","Invasive","Benign","Small"],a:1},
+{q:"Adenoma may lead to",tr:"أدينوما",o:["Cancer","Cold","Pain","Fever"],a:0},
+{q:"Gold standard diagnosis",tr:"تشخيص",o:["Blood","IHC","H&E","CT"],a:2},
+{q:"Benign tumor is",tr:"حميد",o:["Invasive","Non invasive","Metastatic","Fatal"],a:1},
+{q:"Malignant tumor is",tr:"خبيث",o:["Non invasive","Invasive","Benign","Small"],a:1},
 {q:"Tumor is",tr:"ورم",o:["Mass","Virus","Bacteria","Fluid"],a:0},
 {q:"Metastasis means",tr:"انتشار",o:["Local","Spread","Heal","Stop"],a:1}
 ];
 
 /* ================= logic ================= */
 
-let i=0,score=0,qset=[];
-
 function start(type){
-i=0;score=0;
+i=0;
+score=0;
 
 if(type==="rights") qset=rights;
 if(type==="comm") qset=comm;
@@ -337,6 +334,7 @@ document.getElementById("home").style.display="none";
 document.getElementById("quiz").style.display="block";
 
 document.getElementById("title").innerText=type;
+
 show();
 }
 
@@ -348,7 +346,7 @@ document.getElementById("home").style.display="block";
 function show(){
 let q=qset[i];
 
-document.getElementById("qnum").innerText="Q"+(i+1);
+document.getElementById("qnum").innerText="Q "+(i+1);
 document.getElementById("q").innerText=q.q;
 document.getElementById("tr").innerText=q.tr||"";
 
@@ -359,7 +357,6 @@ q.o.forEach((x,idx)=>{
 let d=document.createElement("div");
 d.className="option";
 d.innerText=x;
-
 d.onclick=()=>check(idx,q.a);
 box.appendChild(d);
 });
@@ -382,9 +379,13 @@ document.getElementById("score").innerText=score;
 
 function next(){
 i++;
-if(i<qset.length) show();
-else document.getElementById("quiz").innerHTML=
-`<h2>Finished 💗</h2><h3>${score}/${qset.length}</h3>`;
+if(i<qset.length){
+show();
+}else{
+document.getElementById("quiz").innerHTML=
+`<h2>Finished 💗</h2><h3>${score}/${qset.length}</h3>
+<button onclick="backHome()">رجوع للمواد</button>`;
+}
 }
 
 </script>
