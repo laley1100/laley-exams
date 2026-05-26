@@ -2,7 +2,7 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>Quiz Final</title>
+<title>Quiz App</title>
 
 <style>
 body{
@@ -15,7 +15,7 @@ background:linear-gradient(135deg,#ffc0cb,#caa6ff);
 .option{
 display:block;
 margin:10px auto;
-padding:10px;
+padding:12px;
 width:70%;
 border-radius:12px;
 background:#f3e6ff;
@@ -35,12 +35,12 @@ cursor:pointer;
 }
 
 #tr{font-size:13px;color:#444}
-#tr2{font-size:12px;color:#666}
 </style>
 </head>
 
 <body>
 
+<!-- HOME -->
 <div id="home">
 <h2>اختاري المادة 💗</h2>
 <button onclick="start('rights')">حقوق الملكية الفكرية</button>
@@ -48,6 +48,7 @@ cursor:pointer;
 <button onclick="start('path')">Pathology</button>
 </div>
 
+<!-- QUIZ -->
 <div id="quiz" style="display:none">
 
 <h2 id="title"></h2>
@@ -55,19 +56,21 @@ cursor:pointer;
 
 <h2 id="q"></h2>
 <p id="tr"></p>
-<p id="tr2"></p>
 
 <div id="options"></div>
 
 <h3>Score: <span id="score">0</span></h3>
-<button onclick="next()">Next 💗</button>
+
+<button onclick="next()">Next</button>
+<button onclick="backHome()">رجوع للمواد</button>
+
 </div>
 
 <script>
 
 let i=0,score=0,qset=[];
 
-/* ================= الحقوق الفكرية (نفس نصك بدون تغيير) ================= */
+/* ================= حقوق الملكية (كما أرسلتيها بدون تغيير) ================= */
 const rights=[
 {q:"من خصائص العنصر المعنوي لحق المؤلف: عدم قابليته للتنازل عنه أو التعامل به",o:["أ","ب","ج","د"],a:0},
 {q:"حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان",o:["أ","ب","ج","د"],a:0},
@@ -97,166 +100,151 @@ const comm=[
 q:"Therapeutic communication is best defined as",
 tr:"التواصل العلاجي",
 o:[
-"A. محادثة عادية بين المسعف والمريض",
-"B. عمل مهني مخطط باستخدام تقنيات التواصل",
-"C. إعطاء تعليمات طبية فقط",
-"D. التحدث لتهدئة المريض"
-],
-a:1
+"A. محادثة عادية",
+"B. عمل مهني مخطط",
+"C. تعليمات فقط",
+"D. تهدئة فقط"
+],a:1
 },
 {
-q:"Shared understanding of information helps to",
+q:"Shared understanding helps to",
 tr:"الفهم المشترك",
 o:[
-"A. تحقيق أهداف رعاية المريض",
-"B. تقليل التوثيق",
-"C. توفير الوقت فقط",
-"D. تقليل التفاعل"
-],
-a:0
+"A. تحقيق الأهداف",
+"B. تقليل العمل",
+"C. الوقت",
+"D. الحد من التواصل"
+],a:0
 },
 {
-q:"Using silence in communication allows the patient",
+q:"Using silence allows patient to",
 tr:"الصمت",
 o:[
-"A. يشعر بالتجاهل",
-"B. التفكير والفهم",
-"C. فقدان الاهتمام",
-"D. إنهاء الحديث"
-],
-a:1
+"A. تجاهل",
+"B. التفكير",
+"C. ملل",
+"D. إنهاء"
+],a:1
 },
 {
-q:"Exploring is best described as",
+q:"Exploring is",
 tr:"الاستكشاف",
 o:[
-"A. تغيير الموضوع",
-"B. التعمق في الموضوع",
-"C. إعطاء نصائح",
+"A. تغيير موضوع",
+"B. تعمق",
+"C. نصح",
 "D. تلخيص"
-],
-a:1
+],a:1
 },
 {
-q:"Clarification is used when the paramedic wants to",
+q:"Clarification is",
 tr:"التوضيح",
 o:[
-"A. التأكد من الفهم",
-"B. التحدي",
-"C. إعطاء أوامر",
-"D. إنهاء التواصل"
-],
-a:0
+"A. فهم",
+"B. تحدي",
+"C. أمر",
+"D. إنهاء"
+],a:0
 },
 {
 q:"Reflecting focuses on",
 tr:"الانعكاس",
 o:[
-"A. الحقائق فقط",
-"B. المشاعر",
-"C. الرأي",
-"D. التوثيق"
-],
-a:1
+"A. حقائق",
+"B. مشاعر",
+"C. رأي",
+"D. توثيق"
+],a:1
 },
 {
 q:"Communication is",
 tr:"التواصل",
 o:[
-"A. أحادي",
-"B. ثنائي",
-"C. كتابي فقط",
-"D. غير ذلك"
-],
-a:1
+"A. واحد",
+"B. اثنان",
+"C. كتابة",
+"D. جهاز"
+],a:1
 },
 {
-q:"Patient handover refers to",
+q:"Handover means",
 tr:"التسليم",
 o:[
-"A. الأجهزة",
-"B. المسؤولية",
-"C. المال",
-"D. الأوراق"
-],
-a:1
+"A. أدوات",
+"B. مسؤولية",
+"C. مال",
+"D. أوراق"
+],a:1
 },
 {
-q:"Noise affects communication",
+q:"Noise affects",
 tr:"الضوضاء",
 o:[
 "A. نعم",
 "B. لا",
 "C. أحياناً",
 "D. غير مهم"
-],
-a:0
+],a:0
 },
 {
-q:"SBAR stands for",
+q:"SBAR is",
 tr:"SBAR",
 o:[
-"A. أداة تواصل",
+"A. أداة",
 "B. مرض",
 "C. دواء",
 "D. لا شيء"
-],
-a:0
+],a:0
 },
 {
-q:"Communication failures lead to",
+q:"Failure leads to",
 tr:"الفشل",
 o:[
-"A. سلامة",
+"A. أمان",
 "B. أخطاء",
-"C. تحسين",
+"C. نجاح",
 "D. لا شيء"
-],
-a:1
+],a:1
 },
 {
-q:"Reflecting focuses on",
-tr:"الانعكاس",
+q:"Touch is",
+tr:"اللمس",
 o:[
-"A. مشاعر المريض",
-"B. الطبيب",
-"C. الورق",
-"D. النظام"
-],
-a:0
+"A. علاجي",
+"B. اجتماعي",
+"C. عشوائي",
+"D. غير مهم"
+],a:0
 },
 {
-q:"Therapeutic impasses are",
+q:"Impasses are",
 tr:"عوائق",
 o:[
 "A. نجاح",
 "B. عوائق",
 "C. علاج",
 "D. لا شيء"
-],
-a:1
+],a:1
 },
 {
 q:"Communication is exchange of",
 tr:"التواصل",
 o:[
 "A. معلومات",
-"B. أموال",
+"B. مال",
 "C. أدوات",
 "D. لا شيء"
-],
-a:0
+],a:0
 },
 {
-q:"Clarification example is",
+q:"Clarification example",
 tr:"مثال",
 o:[
 "A. ماذا تقصد",
 "B. اسكت",
 "C. اذهب",
 "D. لا شيء"
-],
-a:0
+],a:0
 },
 {
 q:"Silence is",
@@ -265,183 +253,78 @@ o:[
 "A. علاجي",
 "B. سيء",
 "C. خاطئ",
-"D. غير مهم"
-],
-a:0
+"D. لا شيء"
+],a:0
 },
 {
 q:"Communication reduces",
 tr:"التواصل",
 o:[
-"A. الأخطاء",
-"B. السلامة",
-"C. الوقت",
+"A. أخطاء",
+"B. أمان",
+"C. وقت",
 "D. لا شيء"
-],
-a:0
+],a:0
 },
 {
 q:"Handover is transfer of",
 tr:"التسليم",
 o:[
-"A. الرعاية",
-"B. المال",
-"C. الأشياء",
+"A. رعاية",
+"B. مال",
+"C. أشياء",
 "D. لا شيء"
-],
-a:0
+],a:0
 },
 {
-q:"SBAR is",
+q:"SBAR stands for",
 tr:"SBAR",
 o:[
-"A. نموذج صحيح",
+"A. نموذج",
 "B. خطأ",
-"C. غير مهم",
-"D. لا شيء"
-],
-a:0
+"C. لا شيء",
+"D. غير ذلك"
+],a:0
 },
 {
 q:"Communication improves",
 tr:"التواصل",
 o:[
-"A. السلامة",
-"B. الأخطاء",
-"C. الفوضى",
+"A. أمان",
+"B. أخطاء",
+"C. فوضى",
 "D. لا شيء"
-],
-a:0
+],a:0
 }
 ];
 
 /* ================= Pathology ================= */
 const path=[
-{
-q:"Approximately 60% of body weight is water",
-tr:"نسبة الماء",
-o:["40%","50%","60%","70%"],
-a:2
-},
-{
-q:"Non-pitting edema occurs in",
-tr:"الوذمة",
-o:["Cardiac","Renal","Nutritional","Lymphatic"],
-a:3
-},
-{
-q:"Physiological hyperemia occurs in",
-tr:"فرط الدم",
-o:["Inflammation","Exercise","Failure","Obstruction"],
-a:1
-},
-{
-q:"Most common thrombus is",
-tr:"الخثرة",
-o:["Arterial","Capillary","Venous","Cardiac"],
-a:2
-},
-{
-q:"Septic thrombus is",
-tr:"خثرة",
-o:["Aseptic","Red","Septic","Mixed"],
-a:2
-},
-{
-q:"Hypovolemic shock caused by",
-tr:"الصدمة",
-o:["Bleeding","Infection","Allergy","Stress"],
-a:0
-},
-{
-q:"Amyloidosis affects",
-tr:"أميلويد",
-o:["Liver","Spleen","Heart","Kidney"],
-a:3
-},
-{
-q:"Neoplasm is",
-tr:"ورم",
-o:["Normal","Abnormal growth","Inflammation","Infection"],
-a:1
-},
-{
-q:"Benign tumor is",
-tr:"حميد",
-o:["Metastatic","Well differentiated","Invasive","Malignant"],
-a:1
-},
-{
-q:"Metastasis is",
-tr:"انتشار",
-o:["Local","Distant spread","Shrink","Heal"],
-a:1
-},
-{
-q:"Carcinoma arises from",
-tr:"سرطان",
-o:["Epithelium","Bone","Fat","Muscle"],
-a:0
-},
-{
-q:"Prognosis depends on",
-tr:"التنبؤ",
-o:["Blood","Radiosensitivity","Hair","Age"],
-a:1
-},
-{
-q:"Most common sarcoma",
-tr:"ساركوما",
-o:["Fibro","Leio","Lipo","Angio"],
-a:2
-},
-{
-q:"Leiomyosarcoma is",
-tr:"ورم",
-o:["Benign","Malignant","Normal","None"],
-a:1
-},
-{
-q:"Adenoma leads to",
-tr:"أدينوما",
-o:["Cancer","Cold","Pain","Fever"],
-a:0
-},
-{
-q:"Gold standard is",
-tr:"تشخيص",
-o:["Blood","IHC","H&E","CT"],
-a:2
-},
-{
-q:"Benign tumor is",
-tr:"حميد",
-o:["Invasive","Non invasive","Metastatic","Fatal"],
-a:1
-},
-{
-q:"Malignant tumor is",
-tr:"خبيث",
-o:["Non invasive","Invasive","Benign","Small"],
-a:1
-},
-{
-q:"Tumor is",
-tr:"ورم",
-o:["Mass","Virus","Bacteria","Fluid"],
-a:0
-},
-{
-q:"Metastasis means",
-tr:"انتشار",
-o:["Local","Spread","Heal","Stop"],
-a:1
-}
+{q:"Approximately 60% of body weight is water",tr:"نسبة الماء",o:["40","50","60","70"],a:2},
+{q:"Non-pitting edema occurs in",tr:"الوذمة",o:["Cardiac","Renal","Nutritional","Lymphatic"],a:3},
+{q:"Hyperemia occurs in",tr:"فرط الدم",o:["Inflammation","Exercise","Failure","Obstruction"],a:1},
+{q:"Most common thrombus",tr:"خثرة",o:["Arterial","Capillary","Venous","Cardiac"],a:2},
+{q:"Septic thrombus is",tr:"خثرة",o:["Aseptic","Red","Septic","Mixed"],a:2},
+{q:"Shock caused by bleeding",tr:"صدمة",o:["Cardiogenic","Distributive","Hypovolemic","Obstructive"],a:2},
+{q:"Amyloidosis affects",tr:"أميلويد",o:["Liver","Spleen","Heart","Kidney"],a:3},
+{q:"Neoplasm is",tr:"ورم",o:["Normal","Abnormal growth","Inflammation","Infection"],a:1},
+{q:"Benign tumor is",tr:"حميد",o:["Metastatic","Well differentiated","Invasive","Malignant"],a:1},
+{q:"Metastasis is",tr:"انتشار",o:["Local","Distant","Shrink","Heal"],a:1},
+{q:"Carcinoma arises from",tr:"سرطان",o:["Epithelium","Bone","Fat","Muscle"],a:0},
+{q:"Prognosis depends on",tr:"التنبؤ",o:["Blood","Radiosensitivity","Hair","Age"],a:1},
+{q:"Most common sarcoma",tr:"ساركوما",o:["Fibro","Leio","Lipo","Angio"],a:2},
+{q:"Leiomyosarcoma is",tr:"ورم",o:["Benign","Malignant","Normal","None"],a:1},
+{q:"Adenoma leads to",tr:"أدينوما",o:["Cancer","Cold","Pain","Fever"],a:0},
+{q:"Gold standard",tr:"تشخيص",o:["Blood","IHC","H&E","CT"],a:2},
+{q:"Benign tumor",tr:"حميد",o:["Invasive","Non invasive","Metastatic","Fatal"],a:1},
+{q:"Malignant tumor",tr:"خبيث",o:["Non invasive","Invasive","Benign","Small"],a:1},
+{q:"Tumor is",tr:"ورم",o:["Mass","Virus","Bacteria","Fluid"],a:0},
+{q:"Metastasis means",tr:"انتشار",o:["Local","Spread","Heal","Stop"],a:1}
 ];
 
 /* ================= logic ================= */
 
-let qset=[];
+let i=0,score=0,qset=[];
 
 function start(type){
 i=0;score=0;
@@ -457,13 +340,17 @@ document.getElementById("title").innerText=type;
 show();
 }
 
+function backHome(){
+document.getElementById("quiz").style.display="none";
+document.getElementById("home").style.display="block";
+}
+
 function show(){
 let q=qset[i];
 
 document.getElementById("qnum").innerText="Q"+(i+1);
 document.getElementById("q").innerText=q.q;
 document.getElementById("tr").innerText=q.tr||"";
-document.getElementById("tr2").innerText="";
 
 let box=document.getElementById("options");
 box.innerHTML="";
