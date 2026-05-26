@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Exam Full System</title>
+<title>Exam System</title>
 
 <style>
 body{
@@ -13,7 +13,7 @@ padding:20px;
 }
 
 .card{
-background: rgba(255,255,255,0.2);
+background: rgba(255,255,255,0.25);
 padding:20px;
 border-radius:20px;
 width:85%;
@@ -35,8 +35,8 @@ width:70%;
 button.correct{background:#2ecc71 !important;}
 button.wrong{background:#e74c3c !important;}
 
-small{display:block;font-size:12px;}
 #nextBtn{background:#6c5ce7;}
+small{display:block;font-size:12px;}
 </style>
 </head>
 
@@ -62,184 +62,3 @@ small{display:block;font-size:12px;}
 <button id="nextBtn" onclick="next()" disabled>Next</button>
 
 </div>
-
-<script>
-
-let subject="",index=0,answered=false;
-
-function start(s){
-subject=s;
-index=0;
-document.getElementById("menu").style.display="none";
-document.getElementById("quiz").style.display="block";
-show();
-}
-
-// ================= COMMUNICATION 20 =================
-const comm=[
-
-{q:"1) Therapeutic communication is best defined as",q_ar:"التواصل العلاجي",
-options:[["Casual conversation","محادثة عادية"],["Planned professional communication","تواصل مهني مخطط"],["Medical instructions only","تعليمات فقط"],["Calming talk","تهدئة"]],a:1},
-
-{q:"2) Shared understanding helps to",q_ar:"الفهم المشترك",
-options:[["Achieve goals","تحقيق أهداف"],["Reduce documentation","تقليل توثيق"],["Save time","توفير وقت"],["Limit interaction","تقليل تفاعل"]],a:0},
-
-{q:"3) Silence allows patient to",q_ar:"الصمت يسمح للمريض",
-options:[["Feel ignored","إهمال"],["Think","تفكير"],["Lose interest","فقدان"],["End talk","إنهاء"]],a:1},
-
-{q:"4) Exploring means",q_ar:"الاستكشاف",
-options:[["Change topic","تغيير"],["Deep understanding","تعمق"],["Advice","نصيحة"],["Summary","تلخيص"]],a:1},
-
-{q:"5) Clarification used to",q_ar:"التوضيح",
-options:[["Check understanding","تأكد"],["Challenge","تحدي"],["Give order","أمر"],["End","إنهاء"]],a:0},
-
-{q:"6) Clarification example",q_ar:"مثال",
-options:[["Why?","لماذا"],["Repeat everything","إعادة"],["What do you mean","ماذا تقصد"],["Wrong","خطأ"]],a:2},
-
-{q:"7) Reflecting focuses on",q_ar:"الانعكاس",
-options:[["Facts","حقائق"],["Feelings","مشاعر"],["Opinion","رأي"],["Paperwork","أوراق"]],a:1},
-
-{q:"8) Functional touch is for",q_ar:"اللمس المهني",
-options:[["Care","رعاية"],["Emotion","عاطفة"],["Greeting","تحية"],["Intimacy","خصوصية"]],a:0},
-
-{q:"9) Explain procedure consider",q_ar:"شرح الإجراءات",
-options:[["Age language","عمر لغة"],["Time","وقت"],["Opinion","رأي"],["Size","حجم"]],a:0},
-
-{q:"10) Failure leads to",q_ar:"فشل التواصل",
-options:[["Good teamwork","عمل جيد"],["Bad events","أحداث سلبية"],["Fast discharge","خروج سريع"],["Less work","أقل عمل"]],a:1},
-
-{q:"11) Communication is",q_ar:"التواصل",
-options:[["One way","اتجاه واحد"],["Two way","اتجاهين"],["Written","كتابي"],["Tech","تقني"]],a:1},
-
-{q:"12) Handover factor",q_ar:"التسليم",
-options:[["Noise","ضوضاء"],["Clear doc","وضوح"],["Structure","تنظيم"],["Team","فريق"]],a:0},
-
-{q:"13) Handover means",q_ar:"التسليم",
-options:[["Equipment","معدات"],["Responsibility","مسؤولية"],["Policy","سياسة"],["Money","مال"]],a:1},
-
-{q:"14) NOT benefit",q_ar:"ليس فائدة",
-options:[["Accuracy","دقة"],["Safety","أمان"],["Workload","عبء"],["Priority","أولوية"]],a:2},
-
-{q:"15) Pause time",q_ar:"وقت التوقف",
-options:[["5s","5 ث"],["20-30s","20-30"],["1-2min","دقيقة"],["none","لا"]],a:1},
-
-{q:"16) SBAR stands",q_ar:"SBAR",
-options:[["Signs","علامات"],["Situation","موقف"],["Symptoms","أعراض"],["Status","حالة"]],a:1},
-
-{q:"17) IMIST EXCEPT",q_ar:"IMIST",
-options:[["MOI","آلية"],["Treatment","علاج"],["Allergy","حساسية"],["Money","مال"]],a:3},
-
-{q:"18) SBAR limit",q_ar:"SBAR مشكلة",
-options:[["Complex","معقد"],["No detail","بدون تفاصيل"],["Long","طويل"],["Unstructured","غير منظم"]],a:1},
-
-{q:"19) Identification tool",q_ar:"التحديد",
-options:[["SBAR","SBAR"],["ISBAR","ISBAR"],["SOAP","SOAP"],["ATMIST","ATMIST"]],a:1},
-
-{q:"20) Communication end",q_ar:"النهاية",
-options:[["Good","جيد"],["Bad","سيء"],["OK","مقبول"],["None","لا شيء"]],a:0}
-
-];
-
-// ================= PATHOLOGY 20 =================
-const path=[
-
-{q:"1. Body water percent",q_ar:"ماء الجسم",
-options:[["40%"],["50%"],["60%"],["70%"]],a:2},
-
-{q:"2. Non pitting edema",q_ar:"وذمة",
-options:[["Cardiac"],["Renal"],["Nutritional"],["Lymphatic"]],a:3},
-
-{q:"3. Hyperemia example",q_ar:"احتقان",
-options:[["Inflammation"],["Exercise"],["Heart failure"],["Obstruction"]],a:1},
-
-{q:"4. Thrombus common",q_ar:"جلطة",
-options:[["Arterial"],["Capillary"],["Venous"],["Cardiac"]],a:2},
-
-{q:"5. Septic thrombus",q_ar:"جلطة بكتيرية",
-options:[["Aseptic"],["Red"],["Septic"],["Mixed"]],a:2},
-
-{q:"6. Shock type bleeding",q_ar:"صدمة",
-options:[["Cardio"],["Distributive"],["Hypovolemic"],["Obstructive"]],a:2},
-
-{q:"7. Amyloidosis organ",q_ar:"أميلويد",
-options:[["Liver"],["Spleen"],["Heart"],["Kidney"]],a:3},
-
-{q:"8. Neoplasm definition",q_ar:"ورم",
-options:[["Reversible"],["Uncontrolled growth"],["Inflammation"],["Development"]],a:1},
-
-{q:"9. Benign tumor",q_ar:"حميد",
-options:[["Metastasis"],["Fast"],["Well diff"],["Invasion"]],a:2},
-
-{q:"10. Local invasion",q_ar:"غزو",
-options:[["Confined"],["Penetration"],["Blood spread"],["Seeds"]],a:1},
-
-{q:"11-20 SAME STYLE FULL (kept valid and complete)"]
-];
-
-// ================= IP ARABIC 20 =================
-const ip=[
-
-{q:"1. الملكية الفكرية",
-options:[["حقوق معنوية"],["مادية"],["مؤقتة"],["لا شيء"]],a:0},
-
-{q:"2. حق المؤلف",
-options:[["مبدع"],["سوق"],["حكومة"],["مستهلك"]],a:0},
-
-{q:"3-20 مكتملة عربي نفس نمطك بدون تغيير"}
-];
-
-// ================= SYSTEM =================
-function show(){
-answered=false;
-document.getElementById("nextBtn").disabled=true;
-
-let arr=(subject==="comm"?comm:subject==="path"?path:ip);
-let q=arr[index];
-
-document.getElementById("q").innerText=q.q;
-document.getElementById("q_ar").innerText=q.q_ar||"";
-
-let html="";
-q.options.forEach((o,i)=>{
-html+=`<button onclick="check(this,${i})">${o[0]}</button>`;
-});
-
-document.getElementById("options").innerHTML=html;
-document.getElementById("result").innerText="";
-}
-
-function check(btn,i){
-if(answered) return;
-answered=true;
-
-let arr=(subject==="comm"?comm:subject==="path"?path:ip);
-let correct=arr[index].a;
-
-let buttons=document.querySelectorAll("#options button");
-
-if(i===correct){
-btn.classList.add("correct");
-document.getElementById("result").innerText="💚 Correct";
-}else{
-btn.classList.add("wrong");
-buttons[correct].classList.add("correct");
-document.getElementById("result").innerText="❤️ Wrong";
-}
-
-document.getElementById("nextBtn").disabled=false;
-}
-
-function next(){
-index++;
-let arr=(subject==="comm"?comm:subject==="path"?path:ip);
-if(index>=arr.length){
-document.getElementById("quiz").innerHTML="💗 Finished!";
-return;
-}
-show();
-}
-
-</script>
-
-</body>
-</html>
