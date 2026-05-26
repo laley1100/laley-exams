@@ -1,99 +1,22 @@
-const commQuestions = [
-{
-en:"Therapeutic communication is best defined as",
-ar:"التواصل العلاجي يُعرّف بأنه",
-options:[
-"A. Casual conversation <div class='small'>محادثة عادية</div>",
-"B. A planned professional act <div class='small'>عملية مهنية مخططة</div>",
-"C. Giving instructions <div class='small'>إعطاء تعليمات</div>",
-"D. Talking only <div class='small'>مجرد التحدث</div>"
-],
-answer:1
-},
+#nextBtn{
+background:#ff66b2;
+color:white;
+border:none;
+padding:12px 25px;
+border-radius:30px;
+font-size:16px;
+cursor:pointer;
+box-shadow:0 5px 15px rgba(255,102,178,0.3);
+transition:0.3s;
+}
 
-{
-en:"Shared understanding helps to",
-ar:"الفهم المشترك يساعد على",
-options:[
-"A. Achieve goals <div class='small'>تحقيق الأهداف</div>",
-"B. Reduce work <div class='small'>تقليل العمل</div>",
-"C. Save time <div class='small'>توفير الوقت فقط</div>",
-"D. Limit care <div class='small'>تقليل الرعاية</div>"
-],
-answer:0
-},
+#nextBtn:hover{
+transform:scale(1.05);
+background:#ff4da6;
+}
 
-{
-en:"Using silence allows patient",
-ar:"استخدام الصمت يسمح للمريض",
-options:[
-"A. Ignore <div class='small'>يشعر بالتجاهل</div>",
-"B. Think <div class='small'>يفكر ويستوعب</div>",
-"C. End talk <div class='small'>ينهي الحديث</div>",
-"D. Lose focus <div class='small'>يفقد التركيز</div>"
-],
-answer:1
-},
-
-{
-en:"Exploring means",
-ar:"الاستكشاف يعني",
-options:[
-"A. Change topic <div class='small'>تغيير الموضوع</div>",
-"B. Deep discussion <div class='small'>التعمق في الموضوع</div>",
-"C. Advice <div class='small'>إعطاء نصيحة</div>",
-"D. Summary <div class='small'>تلخيص</div>"
-],
-answer:1
-},
-
-{
-en:"Clarification is used to",
-ar:"التوضيح يُستخدم لـ",
-options:[
-"A. Check understanding <div class='small'>التأكد من الفهم</div>",
-"B. Challenge <div class='small'>التحدي</div>",
-"C. End talk <div class='small'>إنهاء الحديث</div>",
-"D. Ignore <div class='small'>تجاهل</div>"
-],
-answer:0
-},
-
-{
-en:"Example of clarification",
-ar:"مثال على التوضيح",
-options:[
-"A. Why? <div class='small'>لماذا؟</div>",
-"B. Repeat <div class='small'>كرر</div>",
-"C. What do you mean? <div class='small'>ماذا تقصد؟</div>",
-"D. Wrong <div class='small'>خطأ</div>"
-],
-answer:2
-},
-
-{
-en:"Reflecting focuses on",
-ar:"الانعكاس يركز على",
-options:[
-"A. Facts <div class='small'>الحقائق فقط</div>",
-"B. Feelings <div class='small'>المشاعر والمحتوى</div>",
-"C. Opinion <div class='small'>الرأي</div>",
-"D. Docs <div class='small'>التوثيق</div>"
-],
-answer:1
-},
-
-{
-en:"Professional touch is for",
-ar:"اللمس المهني يستخدم لـ",
-options:[
-"A. Care <div class='small'>الرعاية الطبية</div>",
-"B. Bonding <div class='small'>الارتباط العاطفي</div>",
-"C. Greeting <div class='small'>التحية</div>",
-"D. Intimacy <div class='small'>الحميمية</div>"
-],
-answer:0
-},
-
-// كملي بنفس النمط لباقي الأسئلة (نفس الطريقة)
-];
+#nextBtn:disabled{
+background:#ccc;
+cursor:not-allowed;
+box-shadow:none;
+}
