@@ -2,7 +2,7 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>Exam</title>
+<title>Quiz Final</title>
 
 <style>
 body{
@@ -35,6 +35,7 @@ cursor:pointer;
 }
 
 #tr{font-size:13px;color:#444}
+#tr2{font-size:12px;color:#666}
 </style>
 </head>
 
@@ -54,11 +55,11 @@ cursor:pointer;
 
 <h2 id="q"></h2>
 <p id="tr"></p>
+<p id="tr2"></p>
 
 <div id="options"></div>
 
 <h3>Score: <span id="score">0</span></h3>
-
 <button onclick="next()">Next 💗</button>
 </div>
 
@@ -66,79 +67,381 @@ cursor:pointer;
 
 let i=0,score=0,qset=[];
 
-/* ================= الحقوق الفكرية (20 عربي) ================= */
+/* ================= الحقوق الفكرية (نفس نصك بدون تغيير) ================= */
 const rights=[
-{q:"من خصائص العنصر المعنوي لحق المؤلف عدم قابليته للتنازل عنه",o:["أ","ب","ج","د"],a:0},
-{q:"حق المؤلف حق لصيق بشخصية الإنسان",o:["أ","ب","ج","د"],a:0},
-{q:"الحقوق المعنوية لا يمكن التنازل عنها",o:["أ","ب","ج","د"],a:0},
-{q:"بيع المصنف لا ينقل الحقوق المعنوية",o:["أ","ب","ج","د"],a:0},
-{q:"الحقوق المالية يمكن التنازل عنها",o:["أ","ب","ج","د"],a:0},
-{q:"الحقوق المعنوية لا تسقط بالتقادم",o:["أ","ب","ج","د"],a:0},
-{q:"الحق المالي يمكن الحجز عليه",o:["أ","ب","ج","د"],a:0},
-{q:"العنصر المادي يظهر عند نشر المصنف",o:["أ","ب","ج","د"],a:0},
-{q:"الحق هو سلطة تحقق منفعة",o:["أ","ب","ج","د"],a:0},
-{q:"من الحقوق المعنوية منع التشويه",o:["أ","ب","ج","د"],a:0},
-{q:"للمؤلف حق نشر مصنفه لأول مرة",o:["أ","ب","ج","د"],a:0},
-{q:"للمؤلف اختيار طريقة النشر",o:["أ","ب","ج","د"],a:0},
-{q:"من حق المؤلف نسبة المصنف إليه",o:["أ","ب","ج","د"],a:0},
-{q:"يجوز استخدام اسم مستعار",o:["أ","ب","ج","د"],a:0},
-{q:"الترجمة بدون إذن تعد اعتداء",o:["أ","ب","ج","د"],a:0},
-{q:"إساءة الترجمة تعتبر اعتداء",o:["أ","ب","ج","د"],a:0},
-{q:"للمؤلف حق منع التشويه",o:["أ","ب","ج","د"],a:0},
-{q:"الحقوق المعنوية شخصية لصيقة",o:["أ","ب","ج","د"],a:0},
-{q:"يجوز سحب المصنف من التداول",o:["أ","ب","ج","د"],a:0},
-{q:"إذا لم يوجد ورثة تنتقل الحقوق للدولة",o:["أ","ب","ج","د"],a:0}
+{q:"من خصائص العنصر المعنوي لحق المؤلف: عدم قابليته للتنازل عنه أو التعامل به",o:["أ","ب","ج","د"],a:0},
+{q:"حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان",o:["أ","ب","ج","د"],a:0},
+{q:"من أشكال التنازل عن العنصر المعنوي",o:["أ","ب","ج","د"],a:0},
+{q:"إذا تنازل أو باع الفرد المؤلف أو المنتج الخاص به هل ينتقل العنصر المعنوي",o:["أ","ب","ج","د"],a:0},
+{q:"تنازل المؤلف عن حقوقه المالية أو أي جزء منها لا يستتبع ذلك",o:["أ","ب","ج","د"],a:0},
+{q:"الحقوق اللصيقة بشخصية الإنسان ليست حقوقًا مالية إنما هي",o:["أ","ب","ج","د"],a:0},
+{q:"الحق الذي يقبل الحجز هو",o:["أ","ب","ج","د"],a:0},
+{q:"العنصر المادي لا يخرج إلى حيز الوجود إلا",o:["أ","ب","ج","د"],a:0},
+{q:"الحق عند تقسيم الحقوق هو",o:["أ","ب","ج","د"],a:0},
+{q:"يتمتع المؤلف بالحقوق المعنوية التالية",o:["أ","ب","ج","د"],a:0},
+{q:"للمؤلف وحده دون غيره الحق في",o:["أ","ب","ج","د"],a:0},
+{q:"للمؤلف اختيار وتحديد الطريقة والوسيلة التي يقوم فيها بإعلان مصنفه من خلال",o:["أ","ب","ج","د"],a:0},
+{q:"من حق المؤلف نسبة المصنف إلى نفسه بالطريقة المألوفة حيث يتم",o:["أ","ب","ج","د"],a:0},
+{q:"هل يجوز للمؤلف أن يمتنع عن نشر مصنفه وفقًا للاتفاق",o:["أ","ب","ج","د"],a:0},
+{q:"يحق للمؤلف أن يبقي الرابطة بينه وبين مؤلفه مجهولة بأن",o:["أ","ب","ج","د"],a:0},
+{q:"هل تعتبر الترجمة للمصنف تعديلًا للنص وبالتالي اعتداء",o:["أ","ب","ج","د"],a:0},
+{q:"إذا كان بالترجمة إساءة إلى سمعة المؤلف ومكانته فيعتبر ذلك",o:["أ","ب","ج","د"],a:0},
+{q:"بموجب السلطة المعنوية من حق المؤلف أن",o:["أ","ب","ج","د"],a:0},
+{q:"من حقوق المؤلف المعنوية ما يلي",o:["أ","ب","ج","د"],a:0},
+{q:"إذا لم يكن للمؤلف ورثة تباشر الحقوق على المصنف من قبل",o:["أ","ب","ج","د"],a:0}
 ];
 
-/* ========== Communication (20 مع ترجمة) ========== */
+/* ================= Communication ================= */
 const comm=[
-{q:"Therapeutic communication is best defined as",tr:"التواصل العلاجي",o:["Casual conversation","Planned professional act","Instructions only","Calming talk"],a:1},
-{q:"Shared understanding helps to",tr:"الفهم المشترك",o:["Achieve goals","Reduce paperwork","Save time","Limit interaction"],a:0},
-{q:"Silence allows patient to",tr:"الصمت",o:["Ignored","Think","Lose interest","End talk"],a:1},
-{q:"Exploring is",tr:"الاستكشاف",o:["Change topic","Dig deeper","Advice","Summary"],a:1},
-{q:"Clarification is used to",tr:"التوضيح",o:["Check understanding","Challenge","Order","End"],a:0},
-{q:"Reflecting focuses on",tr:"الانعكاس",o:["Facts","Feelings","Opinion","Docs"],a:1},
-{q:"Communication is",tr:"التواصل",o:["One way","Two way","Written","None"],a:1},
-{q:"Handover means",tr:"التسليم",o:["Equipment","Responsibility","Policy","Money"],a:1},
-{q:"Noise affects communication",tr:"الضوضاء",o:["Yes","No","Maybe","Never"],a:0},
-{q:"SBAR is",tr:"SBAR",o:["Tool","Disease","Drug","None"],a:0},
-{q:"Failure leads to",tr:"الفشل",o:["Safety","Errors","Success","None"],a:1},
-{q:"Touch is",tr:"اللمس",o:["Clinical","Social","Random","None"],a:0},
-{q:"Impasses are",tr:"عوائق",o:["Blocks","Success","Help","None"],a:0},
-{q:"Handover improves",tr:"التسليم",o:["Safety","Risk","Errors","None"],a:0},
-{q:"Communication is exchange of",tr:"التواصل",o:["Info","Money","Tools","None"],a:0},
-{q:"Clarification example",tr:"مثال",o:["What do you mean","Ignore","Stop","Leave"],a:0},
-{q:"Silence is",tr:"الصمت",o:["Therapeutic","Bad","Wrong","None"],a:0},
-{q:"SBAR stands for",tr:"SBAR",o:["Correct model","Wrong","Random","None"],a:0},
-{q:"Communication reduces",tr:"التواصل",o:["Errors","Safety","Time","None"],a:0},
-{q:"Handover is transfer of",tr:"التسليم",o:["Care","Money","Goods","None"],a:0}
+{
+q:"Therapeutic communication is best defined as",
+tr:"التواصل العلاجي",
+o:[
+"A. محادثة عادية بين المسعف والمريض",
+"B. عمل مهني مخطط باستخدام تقنيات التواصل",
+"C. إعطاء تعليمات طبية فقط",
+"D. التحدث لتهدئة المريض"
+],
+a:1
+},
+{
+q:"Shared understanding of information helps to",
+tr:"الفهم المشترك",
+o:[
+"A. تحقيق أهداف رعاية المريض",
+"B. تقليل التوثيق",
+"C. توفير الوقت فقط",
+"D. تقليل التفاعل"
+],
+a:0
+},
+{
+q:"Using silence in communication allows the patient",
+tr:"الصمت",
+o:[
+"A. يشعر بالتجاهل",
+"B. التفكير والفهم",
+"C. فقدان الاهتمام",
+"D. إنهاء الحديث"
+],
+a:1
+},
+{
+q:"Exploring is best described as",
+tr:"الاستكشاف",
+o:[
+"A. تغيير الموضوع",
+"B. التعمق في الموضوع",
+"C. إعطاء نصائح",
+"D. تلخيص"
+],
+a:1
+},
+{
+q:"Clarification is used when the paramedic wants to",
+tr:"التوضيح",
+o:[
+"A. التأكد من الفهم",
+"B. التحدي",
+"C. إعطاء أوامر",
+"D. إنهاء التواصل"
+],
+a:0
+},
+{
+q:"Reflecting focuses on",
+tr:"الانعكاس",
+o:[
+"A. الحقائق فقط",
+"B. المشاعر",
+"C. الرأي",
+"D. التوثيق"
+],
+a:1
+},
+{
+q:"Communication is",
+tr:"التواصل",
+o:[
+"A. أحادي",
+"B. ثنائي",
+"C. كتابي فقط",
+"D. غير ذلك"
+],
+a:1
+},
+{
+q:"Patient handover refers to",
+tr:"التسليم",
+o:[
+"A. الأجهزة",
+"B. المسؤولية",
+"C. المال",
+"D. الأوراق"
+],
+a:1
+},
+{
+q:"Noise affects communication",
+tr:"الضوضاء",
+o:[
+"A. نعم",
+"B. لا",
+"C. أحياناً",
+"D. غير مهم"
+],
+a:0
+},
+{
+q:"SBAR stands for",
+tr:"SBAR",
+o:[
+"A. أداة تواصل",
+"B. مرض",
+"C. دواء",
+"D. لا شيء"
+],
+a:0
+},
+{
+q:"Communication failures lead to",
+tr:"الفشل",
+o:[
+"A. سلامة",
+"B. أخطاء",
+"C. تحسين",
+"D. لا شيء"
+],
+a:1
+},
+{
+q:"Reflecting focuses on",
+tr:"الانعكاس",
+o:[
+"A. مشاعر المريض",
+"B. الطبيب",
+"C. الورق",
+"D. النظام"
+],
+a:0
+},
+{
+q:"Therapeutic impasses are",
+tr:"عوائق",
+o:[
+"A. نجاح",
+"B. عوائق",
+"C. علاج",
+"D. لا شيء"
+],
+a:1
+},
+{
+q:"Communication is exchange of",
+tr:"التواصل",
+o:[
+"A. معلومات",
+"B. أموال",
+"C. أدوات",
+"D. لا شيء"
+],
+a:0
+},
+{
+q:"Clarification example is",
+tr:"مثال",
+o:[
+"A. ماذا تقصد",
+"B. اسكت",
+"C. اذهب",
+"D. لا شيء"
+],
+a:0
+},
+{
+q:"Silence is",
+tr:"الصمت",
+o:[
+"A. علاجي",
+"B. سيء",
+"C. خاطئ",
+"D. غير مهم"
+],
+a:0
+},
+{
+q:"Communication reduces",
+tr:"التواصل",
+o:[
+"A. الأخطاء",
+"B. السلامة",
+"C. الوقت",
+"D. لا شيء"
+],
+a:0
+},
+{
+q:"Handover is transfer of",
+tr:"التسليم",
+o:[
+"A. الرعاية",
+"B. المال",
+"C. الأشياء",
+"D. لا شيء"
+],
+a:0
+},
+{
+q:"SBAR is",
+tr:"SBAR",
+o:[
+"A. نموذج صحيح",
+"B. خطأ",
+"C. غير مهم",
+"D. لا شيء"
+],
+a:0
+},
+{
+q:"Communication improves",
+tr:"التواصل",
+o:[
+"A. السلامة",
+"B. الأخطاء",
+"C. الفوضى",
+"D. لا شيء"
+],
+a:0
+}
 ];
 
-/* ========== Pathology (20 مع ترجمة) ========== */
+/* ================= Pathology ================= */
 const path=[
-{q:"Approximately 60% of body weight is water",tr:"نسبة الماء",o:["40","50","60","70"],a:2},
-{q:"Non-pitting edema occurs in",tr:"وذمة",o:["Cardiac","Renal","Nutritional","Lymphatic"],a:3},
-{q:"Physiological hyperemia occurs in",tr:"فرط الدم",o:["Inflammation","Exercise","Failure","Obstruction"],a:1},
-{q:"Most common thrombus is",tr:"خثرة",o:["Arterial","Capillary","Venous","Cardiac"],a:2},
-{q:"Septic thrombus is",tr:"خثرة",o:["Aseptic","Red","Septic","Mixed"],a:2},
-{q:"Hypovolemic shock caused by",tr:"صدمة",o:["Bleeding","Infection","Allergy","Stress"],a:0},
-{q:"Amyloidosis affects",tr:"أميلويد",o:["Liver","Spleen","Heart","Kidney"],a:3},
-{q:"Neoplasm is",tr:"ورم",o:["Normal","Abnormal growth","Inflammation","Infection"],a:1},
-{q:"Benign tumor is",tr:"حميد",o:["Metastatic","Well differentiated","Invasive","Malignant"],a:1},
-{q:"Local invasion is",tr:"غزو",o:["Confined","Penetration","Spread blood","Seeds"],a:1},
-{q:"Benign tumor feature",tr:"حميد",o:["Irregular","Well defined","Necrotic","Ulcer"],a:1},
-{q:"Malignant tumor surface",tr:"خبيث",o:["Smooth","Ulcerative","Small","Mobile"],a:1},
-{q:"Benign tumor harm",tr:"ضرر",o:["Brain","Skin","Bone","Muscle"],a:0},
-{q:"Metastasis is",tr:"انتشار",o:["Local","Distant spread","Shrink","Heal"],a:1},
-{q:"Carcinoma arises from",tr:"سرطان",o:["Epithelium","Bone","Fat","Muscle"],a:0},
-{q:"Prognosis depends on",tr:"التنبؤ",o:["Blood type","Radiosensitivity","Hair","Age only"],a:1},
-{q:"Most common sarcoma",tr:"ساركوما",o:["Fibro","Leio","Lipo","Angio"],a:2},
-{q:"Leiomyosarcoma is",tr:"ورم",o:["Benign","Malignant","Normal","None"],a:1},
-{q:"Adenoma risk leads to",tr:"أدينوما",o:["Cancer","Cold","Pain","Fever"],a:0},
-{q:"Gold standard diagnosis",tr:"تشخيص",o:["Blood","IHC","H&E histology","CT"],a:2}
+{
+q:"Approximately 60% of body weight is water",
+tr:"نسبة الماء",
+o:["40%","50%","60%","70%"],
+a:2
+},
+{
+q:"Non-pitting edema occurs in",
+tr:"الوذمة",
+o:["Cardiac","Renal","Nutritional","Lymphatic"],
+a:3
+},
+{
+q:"Physiological hyperemia occurs in",
+tr:"فرط الدم",
+o:["Inflammation","Exercise","Failure","Obstruction"],
+a:1
+},
+{
+q:"Most common thrombus is",
+tr:"الخثرة",
+o:["Arterial","Capillary","Venous","Cardiac"],
+a:2
+},
+{
+q:"Septic thrombus is",
+tr:"خثرة",
+o:["Aseptic","Red","Septic","Mixed"],
+a:2
+},
+{
+q:"Hypovolemic shock caused by",
+tr:"الصدمة",
+o:["Bleeding","Infection","Allergy","Stress"],
+a:0
+},
+{
+q:"Amyloidosis affects",
+tr:"أميلويد",
+o:["Liver","Spleen","Heart","Kidney"],
+a:3
+},
+{
+q:"Neoplasm is",
+tr:"ورم",
+o:["Normal","Abnormal growth","Inflammation","Infection"],
+a:1
+},
+{
+q:"Benign tumor is",
+tr:"حميد",
+o:["Metastatic","Well differentiated","Invasive","Malignant"],
+a:1
+},
+{
+q:"Metastasis is",
+tr:"انتشار",
+o:["Local","Distant spread","Shrink","Heal"],
+a:1
+},
+{
+q:"Carcinoma arises from",
+tr:"سرطان",
+o:["Epithelium","Bone","Fat","Muscle"],
+a:0
+},
+{
+q:"Prognosis depends on",
+tr:"التنبؤ",
+o:["Blood","Radiosensitivity","Hair","Age"],
+a:1
+},
+{
+q:"Most common sarcoma",
+tr:"ساركوما",
+o:["Fibro","Leio","Lipo","Angio"],
+a:2
+},
+{
+q:"Leiomyosarcoma is",
+tr:"ورم",
+o:["Benign","Malignant","Normal","None"],
+a:1
+},
+{
+q:"Adenoma leads to",
+tr:"أدينوما",
+o:["Cancer","Cold","Pain","Fever"],
+a:0
+},
+{
+q:"Gold standard is",
+tr:"تشخيص",
+o:["Blood","IHC","H&E","CT"],
+a:2
+},
+{
+q:"Benign tumor is",
+tr:"حميد",
+o:["Invasive","Non invasive","Metastatic","Fatal"],
+a:1
+},
+{
+q:"Malignant tumor is",
+tr:"خبيث",
+o:["Non invasive","Invasive","Benign","Small"],
+a:1
+},
+{
+q:"Tumor is",
+tr:"ورم",
+o:["Mass","Virus","Bacteria","Fluid"],
+a:0
+},
+{
+q:"Metastasis means",
+tr:"انتشار",
+o:["Local","Spread","Heal","Stop"],
+a:1
+}
 ];
 
 /* ================= logic ================= */
+
+let qset=[];
 
 function start(type){
 i=0;score=0;
@@ -160,6 +463,7 @@ let q=qset[i];
 document.getElementById("qnum").innerText="Q"+(i+1);
 document.getElementById("q").innerText=q.q;
 document.getElementById("tr").innerText=q.tr||"";
+document.getElementById("tr2").innerText="";
 
 let box=document.getElementById("options");
 box.innerHTML="";
@@ -176,7 +480,6 @@ box.appendChild(d);
 
 function check(sel,ans){
 let opts=document.querySelectorAll(".option");
-
 opts.forEach(o=>o.onclick=null);
 
 if(sel===ans){
@@ -194,8 +497,9 @@ function next(){
 i++;
 if(i<qset.length) show();
 else document.getElementById("quiz").innerHTML=
-`<h2>Finished 💗</h2><h3>${score}/60</h3>`;
+`<h2>Finished 💗</h2><h3>${score}/${qset.length}</h3>`;
 }
+
 </script>
 
 </body>
