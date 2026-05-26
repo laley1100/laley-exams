@@ -7,266 +7,263 @@
 <style>
 body{
 font-family: Arial;
+background: linear-gradient(135deg,#f8c8dc,#d6b3ff);
 text-align:center;
-background: linear-gradient(to right,#ffd6ec,#e6ccff);
+margin:0;
 }
 
-h1{
-color:#a64dff;
+.card{
+background:white;
+width:80%;
+margin:auto;
+margin-top:40px;
+padding:20px;
+border-radius:20px;
+box-shadow:0 0 20px rgba(0,0,0,0.2);
 }
 
 button{
-padding:12px;
+padding:10px 20px;
 margin:10px;
-width:260px;
 border:none;
-border-radius:20px;
-background:#ffb6d9;
-color:white;
-font-size:16px;
+border-radius:15px;
+background:#ffb6c1;
 cursor:pointer;
+font-weight:bold;
 }
+
+button:hover{background:#dda0dd;}
 
 .option{
 display:block;
-margin:10px auto;
-width:80%;
 padding:10px;
-border-radius:12px;
-border:1px solid #ddd;
+margin:10px;
+border-radius:10px;
+background:#f3e6ff;
 cursor:pointer;
-background:white;
 }
 
-.option:hover{
-background:#ffe6f2;
-}
+.correct{background:#b6ffb6 !important;}
+.wrong{background:#ffb6b6 !important;}
 
 .small{
 font-size:12px;
-color:#888;
-}
-
-.correct{
-background:#d4f7e6 !important;
-}
-
-.wrong{
-background:#ffd6e0 !important;
+color:gray;
 }
 
 #nextBtn{
-background:#ff66b2;
-color:white;
-border:none;
-padding:12px 25px;
-border-radius:30px;
-font-size:16px;
-cursor:pointer;
-box-shadow:0 5px 15px rgba(255,102,178,0.3);
-}
-
-#nextBtn:disabled{
-background:#ccc;
-cursor:not-allowed;
-box-shadow:none;
+background:#d8b4ff;
 }
 </style>
 </head>
 
 <body>
 
-<h1>اختاري المادة 💗</h1>
-
-<div id="menu">
-<button onclick="startQuiz('ip')">حقوق الملكية الفكرية</button>
-<button onclick="startQuiz('comm')">Communication Concepts</button>
-<button onclick="startQuiz('patho')">Pathology</button>
+<!-- الصفحة الأولى -->
+<div id="home" class="card">
+<h2>💗 اختاري المادة</h2>
+<button onclick="startQuiz('rights')">حقوق الملكية الفكرية</button>
+<button onclick="startQuiz('comm')">Communication Concept</button>
+<button onclick="startQuiz('path')">Pathology</button>
 </div>
 
-<div id="quiz" style="display:none;"></div>
+<!-- الاختبار -->
+<div id="quiz" class="card" style="display:none">
+
+<h3 id="title"></h3>
+<div id="qnum"></div>
+
+<p id="question"></p>
+<p class="small" id="translation"></p>
+
+<div id="options"></div>
+
+<div id="result"></div>
+
+<button id="nextBtn" onclick="nextQuestion()">Next 💗</button>
+
+</div>
 
 <script>
 
 let current=0;
 let score=0;
+let selectedSubject="";
 let questions=[];
-let answered=false;
 
-/* ================= START ================= */
+/* ==================  حقوق الملكية الفكرية (عربي فقط) ================== */
+const rights=[
+{
+q:"من خصائص العنصر المعنوي لحق المؤلف",
+options:["عدم قابليته للتنازل","قابليته للتنازل","يسقط بالتقادم","يمكن الحجز عليه"],
+answer:0
+},
+{
+q:"حق المؤلف مرتبط بشخصية الإنسان",
+options:["المصنف","المبدع أو المؤلف","الحكومة","السوق"],
+answer:1
+},
+{
+q:"من أشكال التنازل",
+options:["البيع والهبة","التبرع فقط","التجاهل","التقادم"],
+answer:0
+},
+{
+q:"بيع المصنف يعني",
+options:["نقل الحقوق المعنوية","نقل النسخة فقط","نقل كل الحقوق","إلغاء الملكية"],
+answer:1
+},
+{
+q:"الحقوق المعنوية",
+options:["لا تنتقل","تنتقل","تباع","تُلغى"],
+answer:0
+}
+];
 
-function startQuiz(type){
-document.getElementById("menu").style.display="none";
-document.getElementById("quiz").style.display="block";
+/* ================== Communication ================== */
+const comm=[
+{
+q:"Therapeutic communication is best defined as",
+tr:"التواصل العلاجي يُعرّف بأنه",
+options:[
+"Casual conversation",
+"Professional planned communication",
+"Medical orders only",
+"Calming talk only"
+],
+answer:1
+},
+{
+q:"Shared understanding helps to",
+tr:"الفهم المشترك يساعد على",
+options:[
+"Achieve goals",
+"Reduce work",
+"Save time only",
+"Ignore patient"
+],
+answer:0
+},
+{
+q:"Silence allows patient to",
+tr:"الصمت يسمح للمريض",
+options:[
+"Feel ignored",
+"Think and reflect",
+"Stop talking",
+"End session"
+],
+answer:1
+}
+];
 
+/* ================== Pathology ================== */
+const path=[
+{
+q:"Approximately body water percentage",
+tr:"نسبة الماء في الجسم تقريباً",
+options:["40%","50%","60%","70%"],
+answer:2
+},
+{
+q:"Neoplasm is",
+tr:"الورم هو",
+options:[
+"Inflammation",
+"Uncontrolled cell growth",
+"Normal tissue",
+"Infection"
+],
+answer:1
+},
+{
+q:"Benign tumor characteristic",
+tr:"الورم الحميد يتميز بـ",
+options:[
+"Metastasis",
+"Well differentiated",
+"Rapid spread",
+"Invasion"
+],
+answer:1
+}
+];
+
+function startQuiz(subject){
+selectedSubject=subject;
 current=0;
 score=0;
 
-if(type==="comm") questions=commQuestions;
-if(type==="patho") questions=pathoQuestions;
-if(type==="ip") questions=ipQuestions;
+if(subject==="rights"){
+questions=rights;
+document.getElementById("title").innerText="حقوق الملكية الفكرية";
+}
+if(subject==="comm"){
+questions=comm;
+document.getElementById("title").innerText="Communication Concept";
+}
+if(subject==="path"){
+questions=path;
+document.getElementById("title").innerText="Pathology";
+}
+
+document.getElementById("home").style.display="none";
+document.getElementById("quiz").style.display="block";
 
 showQuestion();
 }
 
-/* ================= SHOW QUESTION ================= */
-
 function showQuestion(){
-answered=false;
 
 let q=questions[current];
 
-let html=`<h2>${current+1}/20</h2>`;
+document.getElementById("qnum").innerText=`Question ${current+1}`;
 
-if(q.ar){
-html+=`<p>${q.en}</p>
-<p class="small">${q.ar}</p>`;
-}else{
-html+=`<p>${q.q}</p>`;
-}
+document.getElementById("question").innerText=q.q;
+
+document.getElementById("translation").innerText=q.tr || "";
+
+let optDiv=document.getElementById("options");
+optDiv.innerHTML="";
 
 q.options.forEach((opt,i)=>{
-html+=`<div class="option" onclick="check(${i})">${opt}</div>`;
+let btn=document.createElement("div");
+btn.className="option";
+btn.innerText=opt;
+btn.onclick=()=>checkAnswer(btn,i);
+optDiv.appendChild(btn);
 });
 
-html+=`<br><button id="nextBtn" onclick="nextQuestion()" disabled>💗 Next</button>`;
-
-document.getElementById("quiz").innerHTML=html;
+document.getElementById("result").innerHTML="";
 }
 
-/* ================= CHECK ANSWER ================= */
-
-function check(i){
-if(answered) return;
-answered=true;
+function checkAnswer(btn,index){
 
 let q=questions[current];
-let correctIndex=q.answer;
+let opts=document.querySelectorAll(".option");
 
-let options=document.querySelectorAll(".option");
+opts.forEach(o=>o.onclick=null);
 
-options.forEach((el,index)=>{
-el.onclick=null;
-
-if(index===correctIndex){
-el.classList.add("correct");
-}
-
-if(index===i && i!==correctIndex){
-el.classList.add("wrong");
-}
-});
-
-if(i!==correctIndex){
-document.getElementById("quiz").innerHTML+=
-`<p style="color:#ff4d88;font-weight:bold;">💔 غلط</p>
-<p style="color:#ff66b2;font-weight:bold;">الإجابة الصحيحة: ${q.options[correctIndex]}</p>`;
+if(index===q.answer){
+btn.classList.add("correct");
+document.getElementById("result").innerHTML="💗 صح";
+score++;
 }else{
-document.getElementById("quiz").innerHTML+=
-`<p style="color:#ff66b2;font-weight:bold;">💗 صح</p>`;
+btn.classList.add("wrong");
+opts[q.answer].classList.add("correct");
+document.getElementById("result").innerHTML="💔 غلط - الإجابة الصحيحة بالأخضر";
 }
-
-document.getElementById("nextBtn").disabled=false;
-
-if(i===correctIndex) score++;
 }
-
-/* ================= NEXT ================= */
 
 function nextQuestion(){
 current++;
-
 if(current<questions.length){
 showQuestion();
 }else{
-document.getElementById("quiz").innerHTML=
-`<h2>خلصتي 💗</h2>
-<p>درجتك: ${score}/20</p>
-<button onclick="location.reload()">إعادة</button>`;
+document.getElementById("quiz").innerHTML=`<h2>انتهى الاختبار 💗</h2>
+<p>النتيجة: ${score}/${questions.length}</p>`;
 }
 }
-
-/* ================= COMMUNICATION ================= */
-
-const commQuestions=[
-{en:"Therapeutic communication is best defined as", ar:"التواصل العلاجي يُعرّف بأنه", options:["Casual conversation","Planned professional act","Giving instructions","Talking only"], answer:1},
-{en:"Shared understanding helps to", ar:"الفهم المشترك يساعد على", options:["Achieve goals","Reduce work","Save time","Limit care"], answer:0},
-{en:"Using silence allows patient", ar:"استخدام الصمت يسمح للمريض", options:["Ignore","Think","End talk","Lose focus"], answer:1},
-{en:"Exploring means", ar:"الاستكشاف يعني", options:["Change topic","Deep discussion","Advice","Summary"], answer:1},
-{en:"Clarification is used to", ar:"التوضيح يستخدم لـ", options:["Check understanding","Challenge","End talk","Ignore"], answer:0},
-
-{en:"Reflecting focuses on", ar:"الانعكاس يركز على", options:["Facts","Feelings","Opinion","Docs"], answer:1},
-{en:"Communication is", ar:"التواصل هو", options:["One way","Two way","Written","Tech"], answer:1},
-{en:"Handover means transfer of", ar:"التسليم يعني نقل", options:["Equipment","Responsibility","Policy","Money"], answer:1},
-{en:"SBAR stands for", ar:"SBAR يعني", options:["Wrong","Situation Background Assessment Recommendation","Symptom","Status"], answer:1},
-{en:"Tool for ID", ar:"أداة تعريف", options:["SBAR","ISBAR","SOAP","ATMIST"], answer:1},
-
-/* (مكملين 20 سؤال بنفس النمط) */
-{en:"Question 11", ar:"سؤال 11", options:["A","B","C","D"], answer:0},
-{en:"Question 12", ar:"سؤال 12", options:["A","B","C","D"], answer:0},
-{en:"Question 13", ar:"سؤال 13", options:["A","B","C","D"], answer:0},
-{en:"Question 14", ar:"سؤال 14", options:["A","B","C","D"], answer:0},
-{en:"Question 15", ar:"سؤال 15", options:["A","B","C","D"], answer:0},
-{en:"Question 16", ar:"سؤال 16", options:["A","B","C","D"], answer:0},
-{en:"Question 17", ar:"سؤال 17", options:["A","B","C","D"], answer:0},
-{en:"Question 18", ar:"سؤال 18", options:["A","B","C","D"], answer:0},
-{en:"Question 19", ar:"سؤال 19", options:["A","B","C","D"], answer:0},
-{en:"Question 20", ar:"سؤال 20", options:["A","B","C","D"], answer:0},
-];
-
-/* ================= PATHOLOGY ================= */
-
-const pathoQuestions=[
-{en:"Body water percentage", ar:"نسبة الماء", options:["40","50","60","70"], answer:2},
-{en:"Non-pitting edema", ar:"الوذمة", options:["Cardiac","Renal","Nutritional","Lymphatic"], answer:3},
-{en:"Thrombus type", ar:"نوع الخثرة", options:["Arterial","Capillary","Venous","Cardiac"], answer:2},
-{en:"Neoplasm", ar:"الورم", options:["Normal","Abnormal growth","Inflammation","Infection"], answer:1},
-
-/* مكمل 20 */
-{en:"Q5", ar:"س5", options:["A","B","C","D"], answer:0},
-{en:"Q6", ar:"س6", options:["A","B","C","D"], answer:0},
-{en:"Q7", ar:"س7", options:["A","B","C","D"], answer:0},
-{en:"Q8", ar:"س8", options:["A","B","C","D"], answer:0},
-{en:"Q9", ar:"س9", options:["A","B","C","D"], answer:0},
-{en:"Q10", ar:"س10", options:["A","B","C","D"], answer:0},
-{en:"Q11", ar:"س11", options:["A","B","C","D"], answer:0},
-{en:"Q12", ar:"س12", options:["A","B","C","D"], answer:0},
-{en:"Q13", ar:"س13", options:["A","B","C","D"], answer:0},
-{en:"Q14", ar:"س14", options:["A","B","C","D"], answer:0},
-{en:"Q15", ar:"س15", options:["A","B","C","D"], answer:0},
-{en:"Q16", ar:"س16", options:["A","B","C","D"], answer:0},
-{en:"Q17", ar:"س17", options:["A","B","C","D"], answer:0},
-{en:"Q18", ar:"س18", options:["A","B","C","D"], answer:0},
-{en:"Q19", ar:"س19", options:["A","B","C","D"], answer:0},
-{en:"Q20", ar:"س20", options:["A","B","C","D"], answer:0},
-];
-
-/* ================= IP (ARABIC) ================= */
-
-const ipQuestions=[
-{q:"من خصائص العنصر المعنوي لحق المؤلف", options:["أ","ب","ج","د"], answer:0},
-{q:"حق المؤلف WIPO", options:["أ","ب","ج","د"], answer:1},
-{q:"التنازل المعنوي", options:["أ","ب","ج","د"], answer:0},
-{q:"هل ينتقل الحق المعنوي", options:["أ","ب","ج","د"], answer:0},
-{q:"تنازل مالي", options:["أ","ب","ج","د"], answer:0},
-
-/* مكمل 20 */
-{q:"س6", options:["أ","ب","ج","د"], answer:0},
-{q:"س7", options:["أ","ب","ج","د"], answer:0},
-{q:"س8", options:["أ","ب","ج","د"], answer:0},
-{q:"س9", options:["أ","ب","ج","د"], answer:0},
-{q:"س10", options:["أ","ب","ج","د"], answer:0},
-{q:"س11", options:["أ","ب","ج","د"], answer:0},
-{q:"س12", options:["أ","ب","ج","د"], answer:0},
-{q:"س13", options:["أ","ب","ج","د"], answer:0},
-{q:"س14", options:["أ","ب","ج","د"], answer:0},
-{q:"س15", options:["أ","ب","ج","د"], answer:0},
-{q:"س16", options:["أ","ب","ج","د"], answer:0},
-{q:"س17", options:["أ","ب","ج","د"], answer:0},
-{q:"س18", options:["أ","ب","ج","د"], answer:0},
-{q:"س19", options:["أ","ب","ج","د"], answer:0},
-{q:"س20", options:["أ","ب","ج","د"], answer:0},
-];
 
 </script>
 
