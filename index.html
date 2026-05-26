@@ -3,47 +3,180 @@
 <head>
 <meta charset="UTF-8">
 <title>Exam App</title>
+
+<style>
+body{
+font-family: Arial;
+background:#ffe6f0;
+text-align:center;
+padding:20px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:15px;
+width:60%;
+margin:auto;
+box-shadow:0 0 10px #ccc;
+}
+
+button{
+margin:5px;
+padding:10px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+background:#d63384;
+color:white;
+}
+
+button:hover{
+background:#a61e5c;
+}
+</style>
 </head>
 
 <body>
 
-<h2>Exam Loaded ✔</h2>
-<div id="output"></div>
+<h2>💗 Choose Subject</h2>
+
+<div id="menu">
+<button onclick="start('Communication')">Communication</button>
+<button onclick="start('Pathology')">Pathology</button>
+<button onclick="start('IP')">Intellectual Property</button>
+</div>
+
+<div class="card" id="quiz" style="display:none;">
+<h3 id="q"></h3>
+<div id="options"></div>
+<p id="result"></p>
+<button onclick="next()">Next</button>
+</div>
 
 <script>
+
 // ===== DATA =====
 const examApp = {
-Communication: [
+Communication:[
 {
-q_en:"Therapeutic communication is best defined as",
-q_ar:"التواصل العلاجي يُعرّف بأنه",
+q:"Therapeutic communication is",
 options:[
-{en:"Casual conversation", ar:"محادثة عادية"},
-{en:"Professional planned communication", ar:"تواصل مهني مخطط"},
-{en:"Medical instructions only", ar:"تعليمات طبية فقط"},
-{en:"Calming patient only", ar:"تهدئة المريض فقط"}
+["Casual conversation","محادثة عادية"],
+["Professional planned communication","تواصل مهني"],
+["Medical instructions only","تعليمات فقط"],
+["Calming patient only","تهدئة فقط"]
 ],
-answer:1
+a:1
 },
 {
-q_en:"Shared understanding helps to",
-q_ar:"الفهم المشترك يساعد على",
+q:"Shared understanding helps to",
 options:[
-{en:"Achieve goals", ar:"تحقيق الأهداف"},
-{en:"Reduce documentation", ar:"تقليل التوثيق"},
-{en:"Save time", ar:"توفير الوقت"},
-{en:"Limit interaction", ar:"تقليل التفاعل"}
+["Achieve goals","تحقيق أهداف"],
+["Reduce documentation","تقليل التوثيق"],
+["Save time","توفير وقت"],
+["Limit interaction","تقليل التفاعل"]
 ],
-answer:0
+a:0
+}
+],
+
+Pathology:[
+{
+q:"Water percentage in body",
+options:[
+["40%","40٪"],
+["50%","50٪"],
+["60%","60٪"],
+["70%","70٪"]
+],
+a:2
+},
+{
+q:"Non-pitting edema occurs in",
+options:[
+["Cardiac","قلب"],
+["Renal","كلية"],
+["Nutritional","غذائي"],
+["Lymphatic","لمفاوي"]
+],
+a:3
+}
+],
+
+IP:[
+{
+q:"حقوق الملكية الفكرية هي",
+options:[
+["قابلة للتنازل"],
+["حقوق معنوية"],
+["مالية فقط"],
+["حجز عليها"]
+],
+a:1
+},
+{
+q:"حق المؤلف مرتبط بـ",
+options:[
+["المنتج"],
+["المؤلف"],
+["الحكومة"],
+["السوق"]
+],
+a:1
 }
 ]
 };
 
-// ===== TEST OUTPUT (عشان تتأكد أنه شغال) =====
-document.getElementById("output").innerHTML =
-"Communication questions loaded: " + examApp.Communication.length;
+let subject="";
+let index=0;
 
-console.log(examApp);
+// ===== START =====
+function start(s){
+subject=s;
+index=0;
+document.getElementById("menu").style.display="none";
+document.getElementById("quiz").style.display="block";
+show();
+}
+
+// ===== SHOW =====
+function show(){
+let q = examApp[subject][index];
+
+document.getElementById("q").innerText = q.q;
+
+let html="";
+q.options.forEach((o,i)=>{
+html += `<button onclick="check(${i})">${o[0]} <br><small>${o[1]}</small></button><br>`;
+});
+
+document.getElementById("options").innerHTML=html;
+document.getElementById("result").innerText="";
+}
+
+// ===== CHECK =====
+function check(i){
+let correct = examApp[subject][index].a;
+
+if(i===correct){
+document.getElementById("result").innerText="💚 Correct";
+}else{
+document.getElementById("result").innerText="💔 Wrong - Correct Answer: " 
++ examApp[subject][index].options[correct][0];
+}
+}
+
+// ===== NEXT =====
+function next(){
+index++;
+if(index>=examApp[subject].length){
+document.getElementById("quiz").innerHTML="💗 Finished!";
+return;
+}
+show();
+}
+
 </script>
 
 </body>
