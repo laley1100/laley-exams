@@ -6,25 +6,25 @@
 
 <style>
 body{
-font-family: Arial;
-background: linear-gradient(135deg,#f8c8dc,#d6b3ff);
-text-align:center;
 margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#ffd6e7,#d9c2ff);
+text-align:center;
+color:#222;
 }
 
+/* بدون خلفية بيضاء */
 .card{
-background:white;
-width:80%;
+width:85%;
 margin:auto;
 margin-top:40px;
 padding:20px;
 border-radius:20px;
-box-shadow:0 0 20px rgba(0,0,0,0.2);
 }
 
 button{
-padding:10px 20px;
-margin:10px;
+padding:10px 18px;
+margin:8px;
 border:none;
 border-radius:15px;
 background:#ffb6c1;
@@ -34,206 +34,227 @@ font-weight:bold;
 
 button:hover{background:#dda0dd;}
 
+/* 🔥 توسيط الخيارات */
 .option{
 display:block;
 padding:10px;
-margin:10px;
+margin:8px auto;
 border-radius:10px;
 background:#f3e6ff;
 cursor:pointer;
-text-align:left;
+text-align:center;
+width:70%;
 }
 
 .correct{background:#b6ffb6 !important;}
 .wrong{background:#ffb6b6 !important;}
 
-.small{font-size:12px;color:gray;}
+.small{font-size:12px;color:#444;}
 
-#nextBtn{background:#d8b4ff;}
+#nextBtn{background:#caa6ff;}
 </style>
 </head>
 
 <body>
 
-<!-- HOME -->
 <div id="home" class="card">
 <h2>💗 اختاري المادة</h2>
-<button onclick="startQuiz('rights')">حقوق الملكية الفكرية</button>
-<button onclick="startQuiz('comm')">Communication Concept</button>
-<button onclick="startQuiz('path')">Pathology</button>
+<button onclick="start('rights')">حقوق الملكية الفكرية</button>
+<button onclick="start('comm')">Communication Concept</button>
+<button onclick="start('path')">Pathology</button>
 </div>
 
-<!-- QUIZ -->
 <div id="quiz" class="card" style="display:none">
 
 <h3 id="title"></h3>
 <div id="qnum"></div>
 
-<p id="question"></p>
+<h2 id="question"></h2>
 <p class="small" id="translation"></p>
 
 <div id="options"></div>
 
 <div id="result"></div>
 
-<button id="nextBtn" onclick="nextQuestion()">Next 💗</button>
+<div style="margin-top:10px;font-weight:bold">
+Score: <span id="score">0</span>
+</div>
+
+<button id="nextBtn" onclick="next()">Next 💗</button>
 
 </div>
 
 <script>
 
-let current=0;
+let i=0;
 let score=0;
-let questions=[];
-let selectedSubject="";
+let qset=[];
 
-/* =========================
-   1) حقوق الملكية الفكرية (20 سؤال عربي)
-========================= */
-const rights = [
-{q:"من خصائص العنصر المعنوي لحق المؤلف",options:["أ- عدم قابليته للتنازل","ب- قابليته للتنازل","ج- يسقط بالتقادم","د- قابليته للحجز"],answer:0},
-{q:"حق المؤلف مرتبط بشخصية الإنسان",options:["أ- المصنف","ب- المبدع أو المؤلف","ج- الحكومة","د- السوق"],answer:1},
-{q:"من أشكال التنازل",options:["أ- البيع والهبة","ب- التبرع فقط","ج- التبرع وأخذ قيمته","د- التقادم"],answer:0},
-{q:"بيع المصنف يعني",options:["أ- نقل الحقوق المعنوية","ب- نقل النسخة المادية","ج- نقل كل الحقوق","د- إلغاء الملكية"],answer:1},
-{q:"الحقوق المعنوية",options:["أ- لا تنتقل","ب- تنتقل","ج- تباع","د- تُلغى"],answer:0},
-{q:"الحق الذي يقبل الحجز",options:["أ- المعنوي","ب- المالي","ج- كلاهما","د- لا شيء"],answer:1},
-{q:"الحقوق اللصيقة بالشخصية هي",options:["أ- مالية","ب- غير مالية","ج- تجارية","د- صناعية"],answer:1},
-{q:"العنصر المادي يظهر عند",options:["أ- التفكير","ب- النشر","ج- الفكرة","د- الحلم"],answer:1},
-{q:"الحق هو",options:["أ- سلطة ومصلحة","ب- اسم","ج- قانون فقط","د- واجب"],answer:0},
-{q:"من الحقوق المعنوية",options:["أ- منع التشويه","ب- البيع","ج- التنازل","د- الإلغاء"],answer:0},
-{q:"المؤلف وحده يحق له",options:["أ- نشر أول مرة","ب- البيع فقط","ج- النقل","د- الإلغاء"],answer:0},
-{q:"وسيلة النشر يحددها",options:["أ- المؤلف","ب- الحكومة","ج- السوق","د- الناشر فقط"],answer:0},
-{q:"نسبة العمل تعني",options:["أ- اسم المؤلف","ب- إخفاء الاسم","ج- البيع","د- التعديل"],answer:0},
-{q:"رفض النشر",options:["أ- ممكن","ب- غير ممكن","ج- إجباري","د- قانوني فقط"],answer:0},
-{q:"النشر المجهول",options:["أ- إخفاء الاسم","ب- تزوير","ج- بيع","د- قانون"],answer:0},
-{q:"الترجمة بدون إذن",options:["أ- مسموح","ب- اعتداء","ج- اختياري","د- حر"],answer:1},
-{q:"إساءة الترجمة",options:["أ- اعتداء","ب- طبيعي","ج- مسموح","د- تجاهل"],answer:0},
-{q:"منع التشويه",options:["أ- حق للمؤلف","ب- ليس حق","ج- بيع","د- تجاهل"],answer:0},
-{q:"من الحقوق",options:["أ- سحب العمل","ب- بيع","ج- إلغاء","د- تجاهل"],answer:0},
-{q:"بدون ورثة",options:["أ- الدولة","ب- صديق","ج- شركة","د- سوق"],answer:0}
+/* ================= حقوق الملكية الفكرية (عربي فقط) ================= */
+const rights=[
+{q:"من خصائص العنصر المعنوي لحق المؤلف",options:["عدم قابليته للتنازل","قابليته للتنازل","يسقط بالتقادم","قابليته للحجز"],a:0},
+{q:"حق المؤلف مرتبط بشخصية الإنسان",options:["المصنف","المؤلف","الحكومة","السوق"],a:1},
+{q:"من أشكال التنازل",options:["البيع والهبة","التبرع","التقادم","الحجز"],a:0},
+{q:"بيع المصنف يعني",options:["نقل معنوي","نقل مادي","نقل كل الحقوق","إلغاء"],a:1},
+{q:"الحقوق المعنوية",options:["تنتقل","لا تنتقل","تباع","تسقط"],a:1},
+{q:"الحق الذي يقبل الحجز",options:["المعنوي","المالي","كلاهما","لا شيء"],a:1},
+{q:"العنصر المادي يظهر عند",options:["التفكير","النشر","الفكرة","الخيال"],a:1},
+{q:"الترجمة بدون إذن",options:["مسموح","اعتداء","اختياري","حر"],a:1},
+{q:"إساءة الترجمة",options:["اعتداء","طبيعي","مسموح","تجاهل"],a:0},
+{q:"بدون ورثة",options:["الدولة","صديق","شركة","سوق"],a:0}
 ];
 
-/* =========================
-   2) Communication (20 English + Arabic)
-========================= */
-const comm = [
-{q:"Therapeutic communication is best defined as",tr:"التواصل العلاجي هو",options:["Casual talk","Professional planned communication","Medical orders","Noise"],answer:1},
-{q:"Shared understanding helps",tr:"الفهم المشترك يساعد",options:["Achieve goals","Waste time","Confuse patient","Stop care"],answer:0},
-{q:"Silence allows patient to",tr:"الصمت يسمح للمريض",options:["Think","Ignore","Leave","End"],answer:0},
-{q:"Exploring means",tr:"الاستكشاف يعني",options:["Dig deeper","Stop","Ignore","Close"],answer:0},
-{q:"Clarification is used to",tr:"التوضيح يستخدم لـ",options:["Check understanding","Confuse","End","Shout"],answer:0},
-{q:"Reflecting focuses on",tr:"الانعكاس يركز على",options:["Feelings","Machines","Drugs","Noise"],answer:0},
-{q:"Communication is",tr:"التواصل هو",options:["Two-way","One-way","None","Noise"],answer:0},
-{q:"Handover means",tr:"تسليم المريض هو",options:["Transfer responsibility","Ignore","Stop","Delay"],answer:0},
-{q:"SBAR stands for",tr:"SBAR يعني",options:["Situation Background Assessment Recommendation","Wrong","None","Noise"],answer:0},
-{q:"Noise affects",tr:"الضوضاء تؤثر على",options:["Handover","Vision","Food","Sleep only"],answer:0},
-{q:"Functional touch is",tr:"اللمس المهني",options:["Clinical care","Social","Intimate","None"],answer:0},
-{q:"Failure leads to",tr:"الفشل يؤدي إلى",options:["Adverse events","Success","Healing","None"],answer:0},
-{q:"IMIST includes",tr:"IMIST يشمل",options:["Patient info","Food","Money","Games"],answer:0},
-{q:"Recommendation means",tr:"التوصية تعني",options:["Advice","Ignore","Stop","None"],answer:0},
-{q:"Impasses are",tr:"العوائق هي",options:["Blocks","Success","Healing","None"],answer:0},
-{q:"Communication is",tr:"التواصل",options:["Two-way","One-way","None","Noise"],answer:0},
-{q:"Handover safety improves",tr:"السلامة تتحسن",options:["Yes","No","Maybe","Never"],answer:0},
-{q:"SBAR limitation",tr:"مشكلة SBAR",options:["Lacks detail","Too long","Hard","None"],answer:0},
-{q:"Patient safety depends on",tr:"سلامة المريض تعتمد على",options:["Communication","Noise","Delay","Ignore"],answer:0},
-{q:"Therapeutic goal is",tr:"الهدف العلاجي",options:["Help patient","Harm","Ignore","Delay"],answer:0}
+/* ================= Communication (سؤال + ترجمة + خيارات مترجمة) ================= */
+const comm=[
+{
+q:"Therapeutic communication is best defined as",
+tr:"التواصل العلاجي يُعرّف بأنه",
+options:[
+"Casual conversation - محادثة عادية",
+"Planned professional communication - تواصل مهني مخطط",
+"Medical orders only - أوامر طبية فقط",
+"Random talking - كلام عشوائي"
+],a:1
+},
+{
+q:"Shared understanding helps",
+tr:"الفهم المشترك يساعد",
+options:[
+"Achieve goals - تحقيق الأهداف",
+"Confusion - ارتباك",
+"Delay care - تأخير الرعاية",
+"Ignore patient - تجاهل المريض"
+],a:0
+},
+{
+q:"Silence allows patient to",
+tr:"الصمت يسمح للمريض أن",
+options:[
+"Think - يفكر",
+"Ignore - يتجاهل",
+"Leave - يغادر",
+"End talk - ينهي الحديث"
+],a:0
+},
+{
+q:"Exploring means",
+tr:"الاستكشاف يعني",
+options:[
+"Dig deeper - التعمق",
+"Stop - توقف",
+"Ignore - تجاهل",
+"Close topic - إغلاق"
+],a:0
+},
+{
+q:"Clarification is used to",
+tr:"التوضيح يستخدم لـ",
+options:[
+"Check understanding - التأكد من الفهم",
+"Confuse - إرباك",
+"End conversation - إنهاء",
+"Shout - صراخ"
+],a:0
+}
 ];
 
-/* =========================
-   3) Pathology (20 English + Arabic)
-========================= */
-const path = [
-{q:"Water percentage in body",tr:"نسبة الماء في الجسم",options:["40%","50%","60%","70%"],answer:2},
-{q:"Neoplasm is",tr:"الورم هو",options:["Inflammation","Uncontrolled growth","Normal tissue","Infection"],answer:1},
-{q:"Benign tumor",tr:"الورم الحميد",options:["Well differentiated","Metastasis","Invasion","Spread"],answer:0},
-{q:"Malignant tumor",tr:"الورم الخبيث",options:["Aggressive","Benign","Normal","Healing"],answer:0},
-{q:"Metastasis means",tr:"الانتشار يعني",options:["Spread","Stop","Heal","Shrink"],answer:0},
-{q:"Shock from bleeding",tr:"الصدمة من النزيف",options:["Hypovolemic","Cardiac","Neurogenic","Septic"],answer:0},
-{q:"Thrombus in veins",tr:"جلطة في الأوردة",options:["Venous","Arterial","Capillary","None"],answer:0},
-{q:"Amyloidosis affects",tr:"الداء النشواني يؤثر على",options:["Kidney","Skin","Bone","Eye"],answer:0},
-{q:"Cancer origin epithelial is",tr:"سرطان من خلايا طلائية",options:["Carcinoma","Sarcoma","Lipoma","None"],answer:0},
-{q:"Sarcoma origin",tr:"الساركوما من",options:["Mesenchymal","Epithelial","Nerve","Blood"],answer:0},
-{q:"Diagnosis gold standard",tr:"التشخيص الأفضل",options:["Histopathology","Blood test","X-ray","Urine"],answer:0},
-{q:"Benign tumor grows",tr:"الورم الحميد ينمو",options:["Slow","Fast","Random","None"],answer:0},
-{q:"Malignant invasion",tr:"الغزو الخبيث",options:["Yes","No","Sometimes","Never"],answer:0},
-{q:"Inflammation is",tr:"الالتهاب هو",options:["Response","Tumor","Cancer","None"],answer:0},
-{q:"Edema is",tr:"الوذمة هي",options:["Fluid accumulation","Bone","Tumor","Blood"],answer:0},
-{q:"Hyperemia means",tr:"فرط الدم يعني",options:["Increased blood","Low blood","None","Stop"],answer:0},
-{q:"Thrombus is",tr:"الجلطة هي",options:["Clot","Bone","Skin","Nerve"],answer:0},
-{q:"Benign tumors metastasize",tr:"هل ينتشر الحميد",options:["No","Yes","Always","Never"],answer:0},
-{q:"Cancer prognosis depends on",tr:"التنبؤ يعتمد على",options:["Type","Hair","Age only","Color"],answer:0},
-{q:"Diagnosis method",tr:"طريقة التشخيص",options:["Microscopy","Guess","Opinion","None"],answer:0}
+/* ================= Pathology ================= */
+const path=[
+{
+q:"Water percentage in body",
+tr:"نسبة الماء في الجسم",
+options:["40% - 40%","50% - 50%","60% - 60%","70% - 70%"],a:2
+},
+{
+q:"Neoplasm is",
+tr:"الورم هو",
+options:["Inflammation - التهاب","Uncontrolled growth - نمو غير طبيعي","Normal tissue - نسيج طبيعي","Infection - عدوى"],a:1
+},
+{
+q:"Benign tumor",
+tr:"الورم الحميد",
+options:["Well differentiated - متمايز جيداً","Metastasis - انتشار","Invasion - غزو","Spread - انتشار"],a:0
+},
+{
+q:"Malignant tumor",
+tr:"الورم الخبيث",
+options:["Aggressive - عدواني","Benign - حميد","Normal - طبيعي","Healing - شفاء"],a:0
+},
+{
+q:"Metastasis means",
+tr:"الانتشار",
+options:["Spread - انتشار","Stop - توقف","Heal - شفاء","Shrink - انكماش"],a:0
+}
 ];
 
-/* ========================= */
+/* ================= SYSTEM ================= */
 
-function startQuiz(subject){
-selectedSubject=subject;
-current=0;
+function start(type){
+i=0;
 score=0;
+document.getElementById("score").innerText=0;
 
-if(subject==="rights") questions=rights;
-if(subject==="comm") questions=comm;
-if(subject==="path") questions=path;
+if(type==="rights") qset=rights;
+if(type==="comm") qset=comm;
+if(type==="path") qset=path;
 
 document.getElementById("home").style.display="none";
 document.getElementById("quiz").style.display="block";
 
 document.getElementById("title").innerText=
-subject==="rights"?"حقوق الملكية الفكرية":
-subject==="comm"?"Communication Concept":"Pathology";
+type==="rights"?"حقوق الملكية الفكرية":
+type==="comm"?"Communication Concept":"Pathology";
 
-showQuestion();
+show();
 }
 
-function showQuestion(){
-let q=questions[current];
+function show(){
+let q=qset[i];
 
-document.getElementById("qnum").innerText=`Question ${current+1}`;
-
+document.getElementById("qnum").innerText="Question "+(i+1);
 document.getElementById("question").innerText=q.q;
-document.getElementById("translation").innerText=q.tr || "";
+document.getElementById("translation").innerText=q.tr||"";
 
-let optDiv=document.getElementById("options");
-optDiv.innerHTML="";
+let box=document.getElementById("options");
+box.innerHTML="";
 
-q.options.forEach((opt,i)=>{
-let btn=document.createElement("div");
-btn.className="option";
-btn.innerText=opt;
-btn.onclick=()=>checkAnswer(btn,i);
-optDiv.appendChild(btn);
+q.options.forEach((o,idx)=>{
+let d=document.createElement("div");
+d.className="option";
+d.innerText=o;
+d.onclick=()=>check(idx);
+box.appendChild(d);
 });
 
 document.getElementById("result").innerHTML="";
 }
 
-function checkAnswer(btn,index){
-let q=questions[current];
-let opts=document.querySelectorAll(".option");
+function check(idx){
+let q=qset[i];
+let all=document.querySelectorAll(".option");
 
-opts.forEach(o=>o.onclick=null);
+all.forEach(x=>x.onclick=null);
 
-if(index===q.answer){
-btn.classList.add("correct");
-document.getElementById("result").innerHTML="💗 صح";
+if(idx===q.a){
+all[idx].classList.add("correct");
+document.getElementById("result").innerHTML="💚 صح";
+score++;
+document.getElementById("score").innerText=score;
 }else{
-btn.classList.add("wrong");
-opts[q.answer].classList.add("correct");
-document.getElementById("result").innerHTML="💔 غلط - الصح بالأخضر";
+all[idx].classList.add("wrong");
+all[q.a].classList.add("correct");
+document.getElementById("result").innerHTML="💔 غلط - الإجابة الصحيحة بالأخضر";
 }
 }
 
-function nextQuestion(){
-current++;
-if(current<questions.length){
-showQuestion();
-}else{
-document.getElementById("quiz").innerHTML=
-`<h2>انتهى الاختبار 💗</h2><p>${score}/${questions.length}</p>`;
-}
+function next(){
+i++;
+if(i<qset.length) show();
+else document.getElementById("quiz").innerHTML=
+`<h2>خلص الاختبار 💗</h2><h3>Score: ${score}/${qset.length}</h3>`;
 }
 
 </script>
+
 </body>
 </html>
