@@ -1,280 +1,121 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-<meta charset="UTF-8">
-<title>Quiz App</title>
-
-<style>
-body{
-margin:0;
-font-family:Arial;
-text-align:center;
-background:linear-gradient(135deg,#ffc0cb,#caa6ff);
-}
-
-.option{
-display:block;
-margin:10px auto;
-padding:12px;
-width:70%;
-border-radius:12px;
-background:#f3e6ff;
-cursor:pointer;
-}
-
-.correct{background:#b6ffb6;}
-.wrong{background:#ffb6b6;}
-
-button{
-padding:10px;
-margin:10px;
-border:none;
-border-radius:10px;
-background:#ffb6c1;
-cursor:pointer;
-}
-</style>
-</head>
-
-<body>
-
-<!-- HOME -->
-<div id="home">
-<h2>اختاري المادة 💗</h2>
-<button onclick="start(0)">حقوق الملكية الفكرية</button>
-<button onclick="start(1)">Communication</button>
-<button onclick="start(2)">Pathology</button>
-</div>
-
-<!-- QUIZ -->
-<div id="quiz" style="display:none">
-
-<h2 id="title"></h2>
-<h3 id="num"></h3>
-<h2 id="q"></h2>
-<p id="tr"></p>
-
-<div id="options"></div>
-
-<h3>Score: <span id="score">0</span></h3>
-
-<button onclick="next()">Next</button>
-<button onclick="back()">رجوع</button>
-
-</div>
-
-<script>
-
-let i=0,score=0,bank=[];
-
-/* ================= حقوق الملكية الفكرية ================= */
-const rights=[
-{q:"العنصر المعنوي لحق المؤلف غير قابل للتنازل",o:["قابل للتنازل","غير قابل للتنازل","مالي","مؤقت"],a:1},
-{q:"حق المؤلف حق لصيق بالشخصية",o:["مالي","معنوي","شخصي","تجاري"],a:1},
-{q:"التنازل عن الحقوق المعنوية",o:["مسموح","غير مسموح","اختياري","مؤقت"],a:1},
-{q:"بيع المصنف لا ينقل الحقوق المعنوية",o:["صح","خطأ","أحيانًا","غير معروف"],a:0},
-{q:"الحقوق المعنوية ليست مالية بل شخصية",o:["شخصية","تجارية","مادية","مؤقتة"],a:0},
-{q:"الحق الذي يقبل الحجز هو المالي",o:["معنوي","مالي","شخصي","أدبي"],a:1},
-{q:"العنصر المادي يظهر عند النشر",o:["التفكير","النشر","الخيال","الحلم"],a:1},
-{q:"الحق هو سلطة ومنفعة",o:["واجب","سلطة ومنفعة","عقوبة","فكرة"],a:1},
-{q:"للمؤلف حق منع التشويه",o:["صح","خطأ","أحيانًا","غير ذلك"],a:0},
-{q:"للمؤلف حق النشر أول مرة",o:["صح","خطأ","اختياري","ممنوع"],a:0},
-{q:"النشر بدون اسم يسمى مجهول",o:["سري","مجهول","مزيف","مكرر"],a:1},
-{q:"الترجمة بدون إذن اعتداء",o:["مسموح","اعتداء","نقل","تطوير"],a:1},
-{q:"إساءة الترجمة اعتداء",o:["اعتداء","تحسين","نشر","تعديل"],a:0},
-{q:"يمكن للمؤلف رفض النشر",o:["صح","خطأ","أحيانًا","غير ذلك"],a:0},
-{q:"الحقوق المعنوية لا تسقط",o:["صح","خطأ","تسقط","تتغير"],a:0},
-{q:"إذا لا يوجد ورثة تنتقل للدولة",o:["الدولة","الأصدقاء","الشركة","السوق"],a:0},
-{q:"للمؤلف حق نسبة العمل إليه",o:["صح","خطأ","اختياري","غير مهم"],a:0},
-{q:"الحقوق المعنوية لا تباع",o:["صح","خطأ","أحيانًا","ممكن"],a:0},
-{q:"الحق المالي يمكن بيعه",o:["صح","خطأ","أحيانًا","غير معروف"],a:0},
-{q:"المصنف يحميه القانون عند النشر",o:["صح","خطأ","أحيانًا","غير ذلك"],a:0}
-];
-
-/* ================= Communication (مترجم) ================= */
 const comm=[
-{q:"Therapeutic communication is planned professional act",tr:"التواصل العلاجي",
-o:["محادثة عادية","عمل مهني مخطط","تعليمات فقط","تهدئة فقط"],a:1},
+{
+q:"Therapeutic communication is best defined as",
+tr:"التواصل العلاجي هو الأفضل تعريفًا بأنه",
+o:[
+"Casual conversation بين الممرض والمريض",
+"محادثة عادية بين الممرض والمريض",
+"A planned professional act using communication techniques",
+"عمل مهني مخطط باستخدام تقنيات التواصل",
+"Giving medical instructions only",
+"إعطاء تعليمات طبية فقط",
+"Talking to calm the patient",
+"التحدث فقط لتهدئة المريض"
+],a:2
+},
 
-{q:"Shared understanding helps goals",tr:"الفهم المشترك",
-o:["تحقيق الأهداف","تقليل الوثائق","توفير الوقت","تقليل التواصل"],a:0},
+{
+q:"Shared understanding of information helps to",
+tr:"الفهم المشترك للمعلومات يساعد على",
+o:[
+"Achieve desired patient-care goals",
+"تحقيق أهداف رعاية المريض",
+"Reduce documentation",
+"تقليل التوثيق",
+"Save time only",
+"توفير الوقت فقط",
+"Limit patient interaction",
+"تقليل تفاعل المريض"
+],a:0
+},
 
-{q:"Silence helps patient think",tr:"الصمت",
-o:["إهمال","تفكير","ملل","إنهاء"],a:1},
+{
+q:"Using silence in communication allows the patient",
+tr:"استخدام الصمت في التواصل يسمح للمريض",
+o:[
+"Feel ignored",
+"الشعور بالإهمال",
+"Think and gain insight",
+"التفكير واكتساب فهم",
+"Lose interest",
+"فقدان الاهتمام",
+"End the conversation",
+"إنهاء الحوار"
+],a:1
+},
 
-{q:"Exploring means deep discussion",tr:"الاستكشاف",
-o:["تغيير الموضوع","تعمق","نصيحة","تلخيص"],a:1},
+{
+q:"Exploring is best described as",
+tr:"الاستكشاف يُعرّف بأنه",
+o:[
+"Changing the subject",
+"تغيير الموضوع",
+"Delving further into a topic",
+"التعمق في الموضوع",
+"Giving medical advice",
+"إعطاء نصيحة طبية",
+"Summarizing data",
+"تلخيص البيانات"
+],a:1
+},
 
-{q:"Clarification checks understanding",tr:"التوضيح",
-o:["فهم","تحدي","أمر","إنهاء"],a:0},
+{
+q:"Clarification is used when the paramedic wants to",
+tr:"يُستخدم التوضيح عندما يريد المسعف",
+o:[
+"Check understanding",
+"التأكد من الفهم",
+"Challenge the patient",
+"تحدي المريض",
+"Give instructions",
+"إعطاء تعليمات",
+"End communication",
+"إنهاء التواصل"
+],a:0
+},
 
-{q:"Reflecting focuses on feelings",tr:"الانعكاس",
-o:["حقائق","مشاعر","رأي","توثيق"],a:1},
+{
+q:"Reflecting focuses on",
+tr:"الانعكاس يركز على",
+o:[
+"Only medical facts",
+"الحقائق الطبية فقط",
+"Client’s feelings and content",
+"مشاعر ومحتوى المريض",
+"Paramedic’s opinion",
+"رأي المسعف",
+"Documentation",
+"التوثيق"
+],a:1
+},
 
-{q:"Communication is two way",tr:"التواصل",
-o:["اتجاه واحد","اتجاهين","كتابة","تقنية"],a:1},
+{
+q:"Communication is best described as",
+tr:"التواصل يُعرّف بأنه",
+o:[
+"A one-way process",
+"عملية أحادية الاتجاه",
+"A two-way process",
+"عملية ثنائية الاتجاه",
+"Written process only",
+"كتابة فقط",
+"Technological process",
+"عملية تقنية"
+],a:1
+},
 
-{q:"Handover transfers responsibility",tr:"التسليم",
-o:["أدوات","مسؤولية","أموال","أوراق"],a:1},
-
-{q:"Noise affects communication",tr:"الضوضاء",
-o:["يؤثر","لا يؤثر","أحيانًا","مفيد"],a:0},
-
-{q:"SBAR is communication tool",tr:"SBAR",
-o:["أداة","مرض","دواء","خطأ"],a:0},
-
-{q:"Failure leads to adverse events",tr:"الفشل",
-o:["تحسن","أحداث سلبية","نجاح","لا شيء"],a:1},
-
-{q:"Touch is clinical care",tr:"اللمس",
-o:["سريري","اجتماعي","مزاح","غير مهم"],a:0},
-
-{q:"Impasses are barriers",tr:"عوائق",
-o:["نجاح","عوائق","علاج","راحة"],a:1},
-
-{q:"Communication is exchange of info",tr:"التواصل",
-o:["معلومات","مال","أدوات","لا شيء"],a:0},
-
-{q:"Clarification example asking",tr:"مثال",
-o:["ماذا تقصد","اسكت","اذهب","انس"],a:0},
-
-{q:"Silence is therapeutic",tr:"الصمت",
-o:["مفيد","سيء","خاطئ","غير مهم"],a:0},
-
-{q:"Communication reduces errors",tr:"التواصل",
-o:["أخطاء","فوضى","وقت","جهد"],a:0},
-
-{q:"Handover is transfer care",tr:"التسليم",
-o:["رعاية","مال","أدوات","أفكار"],a:0},
-
-{q:"SBAR improves safety",tr:"SBAR",
-o:["أمان","أخطاء","فوضى","تأخير"],a:0},
-
-{q:"Communication improves care",tr:"التواصل",
-o:["أمان","أخطاء","فوضى","تأخير"],a:0}
+{
+q:"Patient handover refers to the transfer of",
+tr:"تسليم المريض يعني نقل",
+o:[
+"Medical equipment",
+"الأدوات الطبية",
+"Responsibility and accountability of patient care",
+"مسؤولية رعاية المريض",
+"Hospital policies",
+"سياسات المستشفى",
+"Financial records",
+"السجلات المالية"
+],a:1
+}
 ];
-
-/* ================= Pathology ================= */
-const path=[
-{q:"Approximately 60% body weight is water",tr:"نسبة الماء",
-o:["40%","50%","60%","70%"],a:2},
-
-{q:"Non pitting edema lymphatic",tr:"الوذمة",
-o:["قلبية","كلوية","غذائية","لمفاوية"],a:3},
-
-{q:"Hyperemia during exercise",tr:"فرط الدم",
-o:["التهاب","تمارين","فشل","انسداد"],a:1},
-
-{q:"Most common thrombus venous",tr:"خثرة",
-o:["شرياني","شعيري","وريدي","قلبي"],a:2},
-
-{q:"Septic thrombus infected",tr:"خثرة",
-o:["معقم","أحمر","إنتاني","مختلط"],a:2},
-
-{q:"Hypovolemic shock bleeding",tr:"صدمة",
-o:["قلبي","توزيعي","نقص حجم","انسدادي"],a:2},
-
-{q:"Amyloidosis kidney affected",tr:"أميلويد",
-o:["كبد","طحال","قلب","كلية"],a:3},
-
-{q:"Neoplasm abnormal growth",tr:"ورم",
-o:["طبيعي","غير طبيعي","التهاب","عدوى"],a:1},
-
-{q:"Benign well differentiated",tr:"حميد",
-o:["انتشار","متمايز","غزو","خبيث"],a:1},
-
-{q:"Metastasis spread",tr:"انتشار",
-o:["محلي","بعيد","شفاء","انكماش"],a:1},
-
-{q:"Carcinoma epithelium",tr:"سرطان",
-o:["طلائي","عظمي","دهني","عضلي"],a:0},
-
-{q:"Prognosis radiosensitivity",tr:"التنبؤ",
-o:["دم","إشعاع","شعر","عمر"],a:1},
-
-{q:"Liposarcoma common",tr:"ساركوما",
-o:["ليفي","دهني","عضلي","وعائي"],a:1},
-
-{q:"Leiomyosarcoma malignant",tr:"ورم",
-o:["حميد","خبيث","طبيعي","لا شيء"],a:1},
-
-{q:"Adenoma may become cancer",tr:"أدينوما",
-o:["سرطان","برد","ألم","حمى"],a:0},
-
-{q:"H&E gold standard",tr:"تشخيص",
-o:["دم","IHC","H&E","CT"],a:2},
-
-{q:"Benign non invasive",tr:"حميد",
-o:["غازي","غير غازي","انتشار","مميت"],a:1},
-
-{q:"Malignant invasive",tr:"خبيث",
-o:["غير غازي","غازي","حميد","صغير"],a:1},
-
-{q:"Tumor is mass",tr:"ورم",
-o:["كتلة","فيروس","بكتيريا","سائل"],a:0},
-
-{q:"Metastasis spread",tr:"انتشار",
-o:["محلي","انتشار","شفاء","توقف"],a:1}
-];
-
-/* ================= logic ================= */
-
-function start(n){
-i=0;score=0;
-bank=[rights,comm,path][n];
-
-document.getElementById("home").style.display="none";
-document.getElementById("quiz").style.display="block";
-
-show();
-}
-
-function back(){
-document.getElementById("quiz").style.display="none";
-document.getElementById("home").style.display="block";
-}
-
-function show(){
-let q=bank[i];
-
-document.getElementById("num").innerText="Q "+(i+1);
-document.getElementById("q").innerText=q.q;
-document.getElementById("tr").innerText=q.tr||"";
-
-let box=document.getElementById("options");
-box.innerHTML="";
-
-q.o.forEach((x,idx)=>{
-let d=document.createElement("div");
-d.className="option";
-d.innerText=x;
-d.onclick=()=>check(idx,q.a);
-box.appendChild(d);
-});
-}
-
-function check(s,a){
-let o=document.querySelectorAll(".option");
-
-o.forEach(x=>x.onclick=null);
-
-if(s===a){
-o[s].classList.add("correct");
-score++;
-}else{
-o[s].classList.add("wrong");
-o[a].classList.add("correct");
-}
-}
-
-function next(){
-i++;
-if(i<bank.length) show();
-else document.getElementById("quiz").innerHTML=
-"<h2>Finished 💗</h2><h3>"+score+"/20</h3><button onclick='location.reload()'>رجوع</button>";
-}
-
-</script>
-
-</body>
-</html>
