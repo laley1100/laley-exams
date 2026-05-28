@@ -1,192 +1,406 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Full Exam Platform</title>
+const examSystem = {
 
-<style>
-body{
-font-family: Arial;
-background: linear-gradient(135deg,#ffd6f3,#d6e4ff);
-margin:0;
-padding:0;
-}
+subjects: [
 
-header{
-background:#ff7ac3;
-color:white;
-padding:20px;
-text-align:center;
-font-size:22px;
-font-weight:bold;
-}
-
-.container{
-padding:20px;
-}
-
-button{
-padding:10px;
-margin:5px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-background:#7aa7ff;
-color:white;
-font-weight:bold;
-}
-
-.card{
-background:white;
-padding:15px;
-margin:10px 0;
-border-radius:12px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
-}
-
-.correct{color:green;font-weight:bold;}
-.wrong{color:red;font-weight:bold;}
-</style>
-</head>
-
-<body>
-
-<header>📚 Exam Platform (4 Subjects)</header>
-
-<div class="container">
-
-<!-- MENU -->
-<div id="menu">
-<h2>اختاري المادة 👇</h2>
-<button onclick="startQuiz(0)">Communication (60)</button>
-<button onclick="startQuiz(1)">Pathology (50)</button>
-<button onclick="startQuiz(2)">Law (20)</button>
-<button onclick="startQuiz(3)">Statistics (82)</button>
-</div>
-
-<!-- QUIZ -->
-<div id="quiz" style="display:none"></div>
-
-<!-- RESULT -->
-<div id="result"></div>
-
-</div>
-
-<script>
-
-/* ========================
-   ALL DATA (4 SUBJECTS)
-======================== */
-
-const quizzes = [
-
-/* 1 COMMUNICATION (60) */
+/* =========================
+📘 المادة 1: الملكية الفكرية (20 سؤال)
+========================= */
 [
-{q:"Therapeutic communication is best defined as",a:1,o:["Casual talk","Professional planned communication","Instructions only","Calming talk"]},
-{q:"Shared understanding helps to",a:0,o:["Achieve goals","Reduce docs","Save time","Limit interaction"]},
-{q:"Silence allows patient to",a:1,o:["Feel ignored","Think","Lose interest","End talk"]},
-{q:"Exploring means",a:1,o:["Change topic","Go deeper","Give advice","Summarize"]},
-{q:"Clarification is used to",a:0,o:["Check understanding","Challenge","Give orders","End talk"]},
-{q:"Reflecting focuses on",a:1,o:["Facts only","Feelings","Opinion","Docs"]},
-{q:"Communication is",a:1,o:["One way","Two way","Written","Tech only"]},
-{q:"Handover affected by",a:0,o:["Noise","Clear docs","Structure","Teamwork"]},
-{q:"SBAR stands for",a:1,o:["Wrong","Situation Background Assessment Recommendation","Symptoms","Status"]},
-{q:"EMD role is",a:0,o:["Pre-arrival instructions","Drive","Hospital care","Assessment"]}
+{q:"من خصائص العنصر المعنوي لحق المؤلف", options:[
+"عدم قابليته للتنازل عنه أو التعامل به",
+"قابليته للتنازل عنه والتعامل به",
+"يسقط بالتقادم",
+"قابليته للحجز"
+], answer:0},
+
+{q:"حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان وهذا ما أُطلق عليه بموجب اتفاقية WIPO", options:[
+"المصنف أو المؤلف",
+"المؤلف أو المبدع أو المبتكر",
+"السلطة الأبوية",
+"الاستغلال والتصرف"
+], answer:1},
+
+{q:"من أشكال التنازل عن العنصر المعنوي", options:[
+"البيع، الهبة، التبرع",
+"المصنف أو المؤلف",
+"التبرع وأخذ قيمته",
+"يسقط بالتقادم"
+], answer:0},
+
+{q:"إذا تنازل أو باع الفرد المؤلف أو المنتج الخاص به هل ينتقل العنصر المعنوي؟", options:[
+"لا يستتبع تصرف المؤلف في ملكية نسخته المادية تنازله عن أي من حقوق المؤلف",
+"يستتبع التنازل",
+"ينتقل تلقائياً",
+"البيع ينقل الحقوق"
+], answer:0},
+
+{q:"تنازل المؤلف عن حقوقه المالية لا يستتبع ذلك", options:[
+"الحقوق المعنوية",
+"الهبة",
+"التبرع",
+"البيع"
+], answer:0},
+
+{q:"الحقوق اللصيقة بشخصية الإنسان ليست حقوقًا مالية إنما هي", options:[
+"فرع من الحقوق العامة للأفراد",
+"فرع من فروع المعرفة",
+"البطلان المطلق",
+"الحق المالي"
+], answer:0},
+
+{q:"الحق الذي يقبل الحجز هو", options:[
+"الحق المعنوي",
+"الحق المالي",
+"كلاهما",
+"لا شيء"
+], answer:1},
+
+{q:"العنصر المادي لا يخرج إلا", options:[
+"بالحجز",
+"بالتقادم",
+"بنشر المصنف بإذن مالكه",
+"بطلان"
+], answer:2},
+
+{q:"الحق عند تقسيم الحقوق هو", options:[
+"سلطة ومصلحة",
+"نسبة المصنف",
+"اسم مستعار",
+"مساس بالمصنف"
+], answer:0},
+
+{q:"يتمتع المؤلف بالحقوق المعنوية التالية", options:[
+"منع التحريف",
+"الإجبار على النشر",
+"التنازل الكامل",
+"البيع"
+], answer:0},
+
+{q:"للمؤلف وحده الحق في", options:[
+"عدم نشر المصنف",
+"إجباره على النشر",
+"منعه دائماً",
+"لا شيء"
+], answer:0},
+
+{q:"للمؤلف اختيار طريقة النشر", options:[
+"النشر والطباعة",
+"الإجبار",
+"المنع",
+"البيع"
+], answer:0},
+
+{q:"نسبة المصنف تكون عبر", options:[
+"اسم المؤلف",
+"إخفاء الاسم",
+"نسبة للغير",
+"بيع الاسم"
+], answer:0},
+
+{q:"امتناع المؤلف عن النشر", options:[
+"لا يجوز إجباره",
+"يجبر دائماً",
+"إجباري",
+"لا حق له"
+], answer:0},
+
+{q:"النشر المجهول يكون عبر", options:[
+"بدون اسم",
+"اسم إلزامي",
+"منع النشر",
+"بيع الاسم"
+], answer:0},
+
+{q:"الترجمة تعتبر", options:[
+"ليست اعتداء إذا صحيحة",
+"اعتداء دائماً",
+"ممنوعة",
+"غير قانونية"
+], answer:0},
+
+{q:"إذا أساءت الترجمة", options:[
+"لا شيء",
+"اعتداء قانوني",
+"مسموح",
+"غير مهم"
+], answer:1},
+
+{q:"السلطة المعنوية للمؤلف", options:[
+"منع الإساءة",
+"السماح بالتحريف",
+"التنازل",
+"عدم وجود حق"
+], answer:0},
+
+{q:"حقوق المؤلف المعنوية تشمل", options:[
+"حظر التشويه",
+"البيع",
+"التنازل",
+"الإهمال"
+], answer:0},
+
+{q:"إذا لم يوجد ورثة", options:[
+"القاضي",
+"البيع",
+"الهبة",
+"شركة خاصة"
+], answer:0}
 ],
 
-/* 2 PATHOLOGY (50 simplified sample structure - full included style) */
+/* =========================
+📘 المادة 2: (Stat / Bio)
+========================= */
 [
-{q:"Water % in body",a:2,o:["40%","50%","60%","70%"]},
-{q:"Non pitting edema",a:3,o:["Cardiac","Renal","Nutritional","Lymphatic"]},
-{q:"Neoplasm is",a:1,o:["Normal growth","Abnormal growth","Inflammation","Infection"]},
-{q:"Metastasis means",a:1,o:["Local","Spread","Shrink","Stop"]},
-{q:"Gold standard tumor diagnosis",a:2,o:["MRI","CT","Histopathology","Blood test"]}
+{q:"Why is organizing data important?", options:[
+"Make data complicated",
+"Large data easy",
+"Summarize data",
+"Remove data"
+], answer:2},
+
+{q:"Histogram is used for", options:[
+"Categorical",
+"Continuous",
+"Text",
+"Random"
+], answer:1},
+
+{q:"Bars in bar chart show", options:[
+"Continuous",
+"Categorical/discrete",
+"Random",
+"Only numbers"
+], answer:1},
+
+{q:"Clustered bar chart", options:[
+"One variable",
+"Multiple variables",
+"Continuous only",
+"Text"
+], answer:1},
+
+{q:"Population example", options:[
+"300 patients",
+"Hospital sample",
+"All patients in USA",
+"50 volunteers"
+], answer:2},
+
+{q:"Nominal data", options:[
+"Ordered",
+"Ranked",
+"Categories no order",
+"Continuous"
+], answer:2},
+
+{q:"Ordinal data", options:[
+"Ordered categories",
+"Continuous",
+"Random",
+"Discrete"
+], answer:0},
+
+{q:"Mean=Median=Mode in", options:[
+"Skewed",
+"Normal",
+"Random",
+"None"
+], answer:1},
+
+{q:"Mean affected by", options:[
+"Outliers",
+"Nothing",
+"Categories",
+"None"
+], answer:0},
+
+{q:"Median preferred when", options:[
+"Outliers",
+"Normal",
+"Small data",
+"Equal data"
+], answer:0},
+
+{q:"Correlation range", options:[
+"0 to 1",
+"-1 to 1",
+"1 to 10",
+"-10 to 10"
+], answer:1},
+
+{q:"r=0 means", options:[
+"Strong",
+"No relation",
+"Perfect",
+"Negative"
+], answer:1},
+
+{q:"Chi-square used for", options:[
+"Continuous",
+"Categorical",
+"Mean",
+"SD"
+], answer:1},
+
+{q:"t-test compares", options:[
+"Proportions",
+"Means",
+"Frequencies",
+"Variance"
+], answer:1},
+
+{q:"ANOVA compares", options:[
+"2 groups",
+"3+ means",
+"Categories",
+"None"
+], answer:1},
+
+{q:"Incidence means", options:[
+"Total cases",
+"New cases",
+"Old cases",
+"Deaths"
+], answer:1},
+
+{q:"Prevalence means", options:[
+"New only",
+"Total cases",
+"Deaths",
+"Recovery"
+], answer:1},
+
+{q:"Bias means", options:[
+"Error",
+"Systematic error",
+"Random",
+"Accurate"
+], answer:1},
+
+{q:"Sensitivity", options:[
+"True negatives",
+"True positives",
+"Errors",
+"Mean"
+], answer:1},
+
+{q:"Specificity", options:[
+"True positives",
+"True negatives",
+"Errors",
+"Mean"
+], answer:1}
 ],
 
-/* 3 LAW (20) */
+/* =========================
+📘 المادة 3: Pathology (50)
+========================= */
 [
-{q:"Right of author is",a:0,o:["Non transferable moral right","Sale right","Trade right","None"]},
-{q:"Translation without harm is",a:0,o:["Allowed if no distortion","Always illegal","Always allowed","Not related"]},
-{q:"Moral rights include",a:0,o:["Name protection","Money only","Sale","Loss"]},
-{q:"If no heirs rights go to",a:3,o:["Court","Sale","Donation","Ministry of Culture"]}
-],
+{q:"Water % of body", options:["40%","50%","60%","70%"], answer:2},
+{q:"Non-pitting edema", options:["Cardiac","Renal","Nutritional","Lymphatic"], answer:3},
+{q:"Most common thrombus", options:["Arterial","Capillary","Venous","Cardiac"], answer:2},
+{q:"Septic thrombus contains", options:["No bacteria","Bacteria","RBC only","Platelets"], answer:1},
+{q:"Shock from bleeding", options:["Cardiogenic","Distributive","Hypovolemic","Obstructive"], answer:2},
 
-/* 4 STATISTICS (82 simplified structure sample style) */
-[
-{q:"Histogram used for",a:1,o:["Categorical","Continuous","Text","Random"]},
-{q:"Mean affected by",a:2,o:["Nothing","Median","Outliers","Mode"]},
-{q:"Normal distribution mean",a:2,o:["Less","More","Equal","Zero"]},
-{q:"Correlation range",a:1,o:["0-1","-1 to +1","1-10","None"]},
-{q:"p value < 0.05 means",a:2,o:["Wrong","No difference","Significant","Random"]}
+{q:"Neoplasm is", options:[
+"Reversible growth",
+"Uncontrolled growth",
+"Inflammation",
+"Malformation"
+], answer:1},
+
+{q:"Benign tumor feature", options:[
+"Metastasis",
+"Well differentiated",
+"Fast invasion",
+"Necrosis"
+], answer:1},
+
+{q:"Metastasis is", options:[
+"Local spread",
+"Distant spread",
+"Benign change",
+"Growth only"
+], answer:1},
+
+{q:"Gold standard tumor diagnosis", options:[
+"Blood test",
+"IHC",
+"H&E histopathology",
+"X-ray"
+], answer:2},
+
+{q:"Gangrene is", options:[
+"Infection only",
+"Necrosis with putrefaction",
+"Inflammation",
+"Swelling"
+], answer:1},
+
+{q:"Lines of Zahn", options:[
+"RBC layers",
+"Platelets + fibrin layers",
+"WBC only",
+"Calcium"
+], answer:1},
+
+{q:"Infarct is", options:[
+"Infection",
+"Ischemic necrosis",
+"Bleeding",
+"Inflammation"
+], answer:1},
+
+{q:"Brain infarct type", options:[
+"Red",
+"Pale",
+"Liquefactive",
+"Dry"
+], answer:2},
+
+{q:"Most spread in carcinoma", options:[
+"Blood",
+"Lymph",
+"Direct",
+"Air"
+], answer:1},
+
+{q:"Chemical carcinogen", options:[
+"UV",
+"Aflatoxin",
+"HPV",
+"Radiation"
+], answer:1},
+
+{q:"Lipoma is", options:[
+"Bone tumor",
+"Fat tumor",
+"Muscle tumor",
+"Vessel tumor"
+], answer:1},
+
+{q:"Leiomyoma is", options:[
+"Muscle benign",
+"Cancer",
+"Nerve tumor",
+"Fat tumor"
+], answer:0},
+
+{q:"Hamartoma", options:[
+"Cancer",
+"Malformation",
+"Infection",
+"Metastasis"
+], answer:1},
+
+{q:"Malignant tumor shows", options:[
+"Uniform",
+"Cystic only",
+"Necrosis + hemorrhage",
+"Normal"
+], answer:2}
 ]
 
-];
+]
 
-let currentQuiz = [];
-let score = 0;
-
-/* ========================
-   START QUIZ
-======================== */
-function startQuiz(i){
-document.getElementById("menu").style.display="none";
-document.getElementById("quiz").style.display="block";
-document.getElementById("result").innerHTML="";
-
-currentQuiz = quizzes[i];
-score = 0;
-
-let html = "";
-
-currentQuiz.forEach((q,idx)=>{
-html += `<div class="card">
-<p><b>${idx+1}. ${q.q}</b></p>`;
-
-q.o.forEach((opt,oIdx)=>{
-html += `<div>
-<label>
-<input type="radio" name="q${idx}" value="${oIdx}">
-${String.fromCharCode(65+oIdx)}. ${opt}
-</label>
-</div>`;
-});
-
-html += `</div>`;
-});
-
-html += `<button onclick="submitQuiz()">Submit</button>`;
-
-document.getElementById("quiz").innerHTML = html;
-}
-
-/* ========================
-   SUBMIT + CORRECTION
-======================== */
-function submitQuiz(){
-score = 0;
-let html = "";
-
-currentQuiz.forEach((q,idx)=>{
-let selected = document.querySelector(`input[name="q${idx}"]:checked`);
-
-if(selected && parseInt(selected.value) === q.a){
-score++;
-html += `<p class="correct">✔ ${q.q}</p>`;
-}
-else{
-html += `<p class="wrong">❌ ${q.q}</p>`;
-html += `<p>✔ Correct answer: ${q.o[q.a]}</p>`;
-}
-});
-
-document.getElementById("quiz").style.display="none";
-document.getElementById("menu").style.display="block";
-
-document.getElementById("result").innerHTML =
-`<h2>Score: ${score} / ${currentQuiz.length}</h2>` + html;
-}
-
-</script>
-
-</body>
-</html>
+};
