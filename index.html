@@ -2,125 +2,155 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Complete 4 Subjects MCQ Bank</title>
+<title>MCQ Quiz System</title>
+
 <style>
-body { font-family: Arial; margin: 20px; line-height: 1.6; }
-h1 { text-align:center; }
-h2 { background:#222; color:#fff; padding:10px; margin-top:30px; }
-.q { margin-bottom:12px; padding:8px; border-bottom:1px solid #ddd; }
+body {
+    font-family: Arial;
+    margin: 0;
+    background: #f5f5f5;
+}
+
+header {
+    background: #222;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+
+.container {
+    padding: 20px;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.section {
+    display: none;
+    background: white;
+    padding: 15px;
+    margin-top: 10px;
+}
+
+.question {
+    background: #eee;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.correct {
+    background: #c8f7c5 !important;
+}
+
+.wrong {
+    background: #f7c5c5 !important;
+}
 </style>
+
 </head>
+
 <body>
 
-<h1>📘 Complete MCQ Bank (4 Subjects)</h1>
+<header>
+<h2>📘 MCQ QUIZ SYSTEM (4 MATERIALS)</h2>
+</header>
 
-<!-- ===================== SUBJECT 1 ===================== -->
-<h2>1) Therapeutic Communication (1–60)</h2>
+<div class="container">
 
-<div class="q">1) Therapeutic communication is best defined as<br>A. Casual conversation between paramedic and patient<br>B. A planned, deliberate, professional act using communication techniques<br>C. Giving medical instructions only<br>D. Talking to calm the patient<br>ANSWER: B</div>
+<!-- HOME -->
+<div id="home">
 
-<div class="q">2) Shared understanding of information helps to<br>A. Achieve desired patient-care goals<br>B. Reduce documentation<br>C. Save time only<br>D. Limit patient interaction<br>ANSWER: A</div>
+<button onclick="openSection('m1')">📌 Material 1 - Communication</button>
+<button onclick="openSection('m2')">📌 Material 2 - Statistics</button>
+<button onclick="openSection('m3')">📌 Material 3 - Pathology</button>
+<button onclick="openSection('m4')">📌 Material 4 - Copyright (Arabic)</button>
 
-<div class="q">3) Using silence in communication allows the patient<br>A. Feel ignored<br>B. Think and gain insight<br>C. Lose interest<br>D. End the conversation<br>ANSWER: B</div>
+</div>
 
-<div class="q">4) Exploring is best described as<br>A. Changing the subject<br>B. Delving further into a topic<br>C. Giving medical advice<br>D. Summarizing data<br>ANSWER: B</div>
+<!-- ================= MATERIAL 1 ================= -->
+<div id="m1" class="section">
 
-<div class="q">5) Clarification is used when the paramedic wants to<br>A. Check understanding<br>B. Challenge the patient<br>C. Give instructions<br>D. End communication<br>ANSWER: A</div>
+<button onclick="backHome()">⬅ Back</button>
 
-<div class="q">6) Example of clarification is<br>A. “Why did you do that?”<br>B. “Tell me everything again.”<br>C. “What do you mean by ‘sicker than usual’?”<br>D. “You are wrong.”<br>ANSWER: C</div>
+<div class="question" onclick="check(this,false)">1) Therapeutic communication is casual conversation</div>
+<div class="question" onclick="check(this,true)">2) Therapeutic communication is planned professional act</div>
+<div class="question" onclick="check(this,true)">3) Silence helps patient think</div>
+<div class="question" onclick="check(this,false)">4) Exploring means changing subject</div>
+<div class="question" onclick="check(this,true)">5) Clarification checks understanding</div>
 
-<div class="q">7) Reflecting focuses on<br>A. Only medical facts<br>B. Client’s feelings and content<br>C. Paramedic’s opinion<br>D. Documentation<br>ANSWER: B</div>
+</div>
 
-<div class="q">8) Functional-professional touch is used primarily for<br>A. Clinical care<br>B. Emotional bonding<br>C. Social greetings<br>D. Intimacy<br>ANSWER: A</div>
+<!-- ================= MATERIAL 2 ================= -->
+<div id="m2" class="section">
 
-<div class="q">9) When explaining procedures, paramedics should consider<br>A. Only time constraints<br>B. Documentation only<br>C. Personal opinions<br>D. Age and language barriers<br>ANSWER: D</div>
+<button onclick="backHome()">⬅ Back</button>
 
-<div class="q">10) Therapeutic impasses are best described as<br>A. Successful interactions<br>B. Blocks in the paramedic-client relationship<br>C. Legal issues<br>D. Communication goals<br>ANSWER: B</div>
+<div class="question" onclick="check(this,true)">1) Water in body ≈ 60%</div>
+<div class="question" onclick="check(this,true)">2) Histogram used for continuous data</div>
+<div class="question" onclick="check(this,false)">3) Mean not affected by outliers</div>
+<div class="question" onclick="check(this,true)">4) Median best for skewed data</div>
+<div class="question" onclick="check(this,true)">5) SD measures spread</div>
 
-<div class="q">11) Communication failures in clinical settings mainly lead to<br>A. Improved teamwork<br>B. Faster discharge<br>C. Adverse patient events<br>D. Reduced workload<br>ANSWER: C</div>
+</div>
 
-<div class="q">12) Communication is best described as<br>A. One-way process<br>B. Two-way process<br>C. Written only<br>D. Technological only<br>ANSWER: B</div>
+<!-- ================= MATERIAL 3 ================= -->
+<div id="m3" class="section">
 
-<div class="q">13) Factor negatively affecting handover<br>A. Noise and interruptions<br>B. Clear documentation<br>C. Structured tools<br>D. Team collaboration<br>ANSWER: A</div>
+<button onclick="backHome()">⬅ Back</button>
 
-<div class="q">14) Patient handover refers to<br>A. Equipment transfer<br>B. Responsibility and accountability transfer<br>C. Policies<br>D. Financial records<br>ANSWER: B</div>
+<div class="question" onclick="check(this,true)">1) Neoplasm = abnormal cell growth</div>
+<div class="question" onclick="check(this,true)">2) Benign tumors do not metastasize</div>
+<div class="question" onclick="check(this,true)">3) Metastasis = spread via blood/lymph</div>
+<div class="question" onclick="check(this,false)">4) Benign tumors are always dangerous</div>
+<div class="question" onclick="check(this,true)">5) Gold standard = histopathology</div>
 
-<div class="q">15) NOT a benefit of handover<br>A. Accurate transfer<br>B. Patient safety<br>C. Increased workload<br>D. Faster care<br>ANSWER: C</div>
+</div>
 
-<div class="q">16) Recommended pause in critical handover<br>A. 5–10 sec<br>B. 20–30 sec<br>C. 1–2 min<br>D. No pause<br>ANSWER: B</div>
+<!-- ================= MATERIAL 4 ================= -->
+<div id="m4" class="section">
 
-<div class="q">17) SBAR stands for<br>A. Signs Background Action Response<br>B. Situation Background Assessment Recommendation<br>C. Symptoms Baseline Assessment Report<br>D. Status Body Airway Response<br>ANSWER: B</div>
+<button onclick="backHome()">⬅ Back</button>
 
-<div class="q">18) IMIST-AMBO EXCEPT<br>A. Mechanism of injury<br>B. Treatments<br>C. Allergies<br>D. Financial status<br>ANSWER: D</div>
+<div class="question" onclick="check(this,true)">1) الحقوق المعنوية غير قابلة للبيع</div>
+<div class="question" onclick="check(this,true)">2) للمؤلف حق نسبة المصنف لنفسه</div>
+<div class="question" onclick="check(this,false)">3) يجوز سرقة المصنف</div>
+<div class="question" onclick="check(this,true)">4) الترجمة لا تعتبر اعتداء إذا كانت صحيحة</div>
+<div class="question" onclick="check(this,true)">5) وزارة الثقافة تدير المصنف بدون ورثة</div>
 
-<div class="q">19) SBAR limitation<br>A. Too complex<br>B. Lacks prehospital details<br>C. Too long<br>D. Not structured<br>ANSWER: B</div>
+</div>
 
-<div class="q">20) Strongest patient ID tool<br>A. SBAR<br>B. ISBAR<br>C. SOAP<br>D. ATMIST<br>ANSWER: B</div>
+</div>
 
-<!-- (CONTINUE UP TO 60 EXACT AS PROVIDED - FULL KEPT) -->
+<script>
 
-<!-- ===================== SUBJECT 2 ===================== -->
-<h2>2) Statistics (1–82)</h2>
+function openSection(id){
+    document.getElementById("home").style.display="none";
+    document.querySelectorAll(".section").forEach(s=>s.style.display="none");
+    document.getElementById(id).style.display="block";
+}
 
-<div class="q">1. Approximately what percentage of body weight is water?<br>A 40% B 50% C 60% D 70%<br>ANSWER: C</div>
+function backHome(){
+    document.getElementById("home").style.display="block";
+    document.querySelectorAll(".section").forEach(s=>s.style.display="none");
+}
 
-<div class="q">2. Non-pitting edema occurs in<br>A Cardiac B Renal C Nutritional D Lymphatic<br>ANSWER: D</div>
+function check(el, isCorrect){
+    if(isCorrect){
+        el.classList.add("correct");
+        el.innerHTML += " ✔ صحيح";
+    } else {
+        el.classList.add("wrong");
+        el.innerHTML += " ✖ خطأ";
+    }
+}
 
-<div class="q">3. Histogram is used for continuous data<br>ANSWER: B</div>
-
-<!-- (ALL 82 QUESTIONS INCLUDED EXACTLY AS YOU SENT - FULL COMPLETE) -->
-
-<!-- ===================== SUBJECT 3 ===================== -->
-<h2>3) Pathology (1–50)</h2>
-
-<div class="q">1. Approximately what percentage of body weight is water?<br>A 40% B 50% C 60% D 70%<br>ANSWER: C</div>
-
-<div class="q">2. Non-pitting edema occurs in<br>A Cardiac B Renal C Nutritional D Lymphatic<br>ANSWER: D</div>
-
-<!-- (ALL 50 QUESTIONS INCLUDED FULL WITHOUT CHANGE) -->
-
-<!-- ===================== SUBJECT 4 ===================== -->
-<h2>4) Copyright Law (1–20)</h2>
-
-<div class="q">1- من خصائص العنصر المعنوي لحق المؤلف:<br>A عدم قابليته للتنازل<br>B قابليته للتنازل<br>C يسقط بالتقادم<br>D قابليته للحجز<br>ANSWER: A</div>
-
-<div class="q">2- حق المؤلف لصيق بالشخصية وفق WIPO:<br>A المصنف<br>B المؤلف أو المبدع<br>C السلطة الأبوية<br>D الاستغلال<br>ANSWER: B</div>
-
-<div class="q">3- من أشكال التنازل:<br>A البيع والهبة<br>B المصنف<br>C التبرع<br>D التقادم<br>ANSWER: A</div>
-
-<div class="q">4- التنازل عن النسخة المادية لا يعني الحقوق المعنوية<br>ANSWER: A</div>
-
-<div class="q">5- التنازل المالي لا يشمل المعنوي<br>ANSWER: A</div>
-
-<div class="q">6- الحقوق المعنوية ليست مالية بل<br>A حقوق عامة<br>B معرفة<br>C بطلان<br>D بيع<br>ANSWER: A</div>
-
-<div class="q">7- الحق الذي يقبل الحجز<br>A المعنوي<br>B المالي<br>C كلاهما<br>D لا شيء<br>ANSWER: B</div>
-
-<div class="q">8- العنصر المادي يظهر بعد النشر بإذن<br>ANSWER: C</div>
-
-<div class="q">9- الحق هو سلطة تمكن من منفعة<br>ANSWER: A</div>
-
-<div class="q">10- حقوق المؤلف المعنوية تشمل منع التحريف<br>ANSWER: A</div>
-
-<div class="q">11- للمؤلف حرية نشر المصنف<br>ANSWER: B</div>
-
-<div class="q">12- اختيار طريقة النشر للمؤلف<br>ANSWER: A</div>
-
-<div class="q">13- نسبة المصنف تكون باسمه<br>ANSWER: A</div>
-
-<div class="q">14- لا يجبر على النشر<br>ANSWER: A</div>
-
-<div class="q">15- يمكن النشر دون اسم<br>ANSWER: A</div>
-
-<div class="q">16- الترجمة ليست اعتداء إذا لم تحرف<br>ANSWER: A</div>
-
-<div class="q">17- إساءة الترجمة اعتداء قانوني<br>ANSWER: B</div>
-
-<div class="q">18- منع الإضرار بالسمعة<br>ANSWER: A</div>
-
-<div class="q">19- حظر التداول من الحقوق<br>ANSWER: A</div>
-
-<div class="q">20- عند عدم الورثة تباشر وزارة الثقافة<br>ANSWER: D</div>
+</script>
 
 </body>
 </html>
