@@ -36,7 +36,12 @@ button.correct{background:#2ecc71 !important;}
 button.wrong{background:#e74c3c !important;}
 
 #nextBtn{background:#6c5ce7;}
-.menu button{background:#ff4fa3;}
+
+.small{
+font-size:11px;
+color:#333;
+margin-top:5px;
+}
 </style>
 </head>
 
@@ -44,19 +49,22 @@ button.wrong{background:#e74c3c !important;}
 
 <h2>💗 Exam Platform</h2>
 
-<div class="menu" id="menu">
+<div id="menu">
 
 <button onclick="start('comm')">Communication</button>
 <button onclick="start('path')">Pathology</button>
-<button onclick="start('ip')">IP Rights</button>
 <button onclick="start('stats')">Statistics</button>
+<button onclick="start('ip')">IP Rights</button>
 
 </div>
 
 <div class="card" id="quiz" style="display:none">
 
 <h3 id="q"></h3>
+<div class="small" id="q_ar"></div>
+
 <div id="options"></div>
+
 <p id="result"></p>
 
 <button id="nextBtn" onclick="next()" disabled>Next</button>
@@ -69,7 +77,7 @@ let subject="";
 let index=0;
 let answered=false;
 
-// ===== START =====
+// ================= START =================
 function start(s){
 subject=s;
 index=0;
@@ -78,113 +86,112 @@ document.getElementById("quiz").style.display="block";
 show();
 }
 
-// ===== DATA =====
+// ================= DATA =================
 
-// 1) COMMUNICATION (20)
+// COMMUNICATION (20)
 const comm = [
-{q:"Therapeutic communication?",o:["Casual","Professional planned","Instructions","Calming only"],a:1},
-{q:"Shared understanding helps?",o:["Goals","Docs","Time","Limit"],a:0},
-{q:"Silence allows?",o:["Ignore","Think","End","Lose"],a:1},
-{q:"Exploring means?",o:["Change","Dig deeper","Advice","Summarize"],a:1},
-{q:"Clarification?",o:["Check","Challenge","Order","End"],a:0},
-{q:"Example?",o:["Why","Tell again","What mean","Wrong"],a:2},
-{q:"Reflecting?",o:["Facts","Feelings","Opinion","Docs"],a:1},
-{q:"Touch?",o:["Clinical","Emotional","Greeting","Intimate"],a:0},
-{q:"Explain considers?",o:["Time","Docs","Opinion","Age"],a:3},
-{q:"Impasses?",o:["Success","Block","Legal","Goal"],a:1},
-{q:"Failure leads?",o:["Team","Safety issues","Fast","Less"],a:1},
-{q:"Communication is?",o:["One","Two way","Written","Tech"],a:1},
-{q:"Handover affected by?",o:["Noise","Clear","Tools","Team"],a:0},
-{q:"Handover means?",o:["Equipment","Responsibility","Policy","Money"],a:1},
-{q:"NOT benefit?",o:["Accuracy","Safety","Workload","Fast"],a:2},
-{q:"Pause time?",o:["5s","20-30s","1-2m","None"],a:1},
-{q:"SBAR?",o:["Signs","Situation","Symptoms","Status"],a:1},
-{q:"IMIST EXCEPT?",o:["MOI","Treat","Allergy","Money"],a:3},
-{q:"SBAR limitation?",o:["Complex","No detail","Long","None"],a:1},
-{q:"Best ID tool?",o:["SBAR","ISBAR","SOAP","ATMIST"],a:1}
+{q:"Therapeutic communication is best defined as",ar:"التواصل العلاجي هو",o:["Casual conversation","Professional planned act","Medical instructions only","Calming talk"],a:1},
+{q:"Shared understanding helps to",ar:"الفهم المشترك يساعد على",o:["Achieve goals","Reduce docs","Save time","Limit interaction"],a:0},
+{q:"Using silence allows patient to",ar:"الصمت يسمح للمريض أن",o:["Feel ignored","Think","Lose interest","End talk"],a:1},
+{q:"Exploring is",ar:"الاستكشاف هو",o:["Change topic","Delving deeper","Advice","Summary"],a:1},
+{q:"Clarification is used to",ar:"التوضيح يستخدم لـ",o:["Check understanding","Challenge","Give orders","End"],a:0},
+{q:"Example clarification",ar:"مثال على التوضيح",o:["Why","Tell again","What do you mean","Wrong"],a:2},
+{q:"Reflecting focuses on",ar:"الانعكاس يركز على",o:["Facts","Feelings","Opinion","Docs"],a:1},
+{q:"Functional touch is for",ar:"اللمس المهني هو لـ",o:["Clinical care","Bonding","Greeting","Intimacy"],a:0},
+{q:"Explaining considers",ar:"الشرح يأخذ بعين الاعتبار",o:["Time only","Docs","Opinion","Age language"],a:3},
+{q:"Therapeutic impasses are",ar:"العوائق العلاجية هي",o:["Success","Blocks","Legal","Goals"],a:1},
+{q:"Communication failure leads to",ar:"فشل التواصل يؤدي إلى",o:["Safety issues","Better teamwork","Faster discharge","Less work"],a:0},
+{q:"Communication is",ar:"التواصل هو",o:["One way","Two way","Written only","Tech"],a:1},
+{q:"Handover factor negative",ar:"عامل سلبي للتسليم",o:["Noise","Clear docs","Tools","Team"],a:0},
+{q:"Handover means",ar:"التسليم يعني",o:["Equipment","Responsibility","Policy","Money"],a:1},
+{q:"NOT benefit",ar:"ليس من الفوائد",o:["Accuracy","Safety","Workload","Speed"],a:2},
+{q:"Pause time",ar:"مدة التوقف",o:["5s","20-30s","1-2min","None"],a:1},
+{q:"SBAR stands for",ar:"SBAR تعني",o:["Signs","Situation","Symptoms","Status"],a:1},
+{q:"IMIST EXCEPT",ar:"IMIST ما عدا",o:["MOI","Treatment","Allergy","Money"],a:3},
+{q:"SBAR limitation",ar:"مشكلة SBAR",o:["Complex","No details","Long","None"],a:1},
+{q:"Best ID tool",ar:"أفضل أداة تعريف",o:["SBAR","ISBAR","SOAP","ATMIST"],a:1}
 ];
 
-// 2) PATHOLOGY (50 simplified mapped)
+// PATHOLOGY (20)
 const path = [
-{q:"Body water %?",o:["40","50","60","70"],a:2},
-{q:"Non-pitting edema?",o:["Cardiac","Renal","Nutritional","Lymphatic"],a:3},
-{q:"Hyperemia example?",o:["Inflammation","Exercise","CHF","Block"],a:1},
-{q:"Common thrombus?",o:["Arterial","Capillary","Venous","Cardiac"],a:2},
-{q:"Septic thrombus?",o:["Aseptic","Red","Septic","Mixed"],a:2},
-{q:"Shock type bleed?",o:["Cardio","Distributive","Hypovolemic","Obstruct"],a:2},
-{q:"Amyloidosis organ?",o:["Liver","Spleen","Heart","Kidney"],a:3},
-{q:"Neoplasm?",o:["Reversible","Abnormal growth","Inflammation","Malformation"],a:1},
-{q:"Benign feature?",o:["Metastasis","Fast","Differentiated","Invasion"],a:2},
-{q:"Metastasis?",o:["Local","Blood spread","Benign","Compression"],a:1},
-{q:"Gold standard?",o:["Blood","IHC","H&E","Flow"],a:2},
-{q:"t-test?",o:["Means 2 groups","Proportions","Counts","SD"],a:0},
-{q:"ANOVA?",o:["2 groups","3+ means","Categories","Percent"],a:1},
-{q:"Incidence?",o:["Total","New","Old","Ratio"],a:1},
-{q:"Prevalence?",o:["New","Total","Death","Recovery"],a:1},
-{q:"Bias?",o:["Accurate","Systematic error","Random","None"],a:1},
-{q:"Correlation?",o:["Cause","Relation","Mean","SD"],a:1},
-{q:"r=0?",o:["Strong","None","Perfect","Negative"],a:1},
-{q:"Regression?",o:["Compare","Predict","Count","Remove"],a:1},
-{q:"Sensitivity?",o:["TP","TN","FP","FN"],a:0}
+{q:"Body water %",ar:"نسبة الماء",o:["40","50","60","70"],a:2},
+{q:"Non-pitting edema",ar:"وذمة غير انطباعية",o:["Cardiac","Renal","Nutritional","Lymphatic"],a:3},
+{q:"Hyperemia example",ar:"احتقان فسيولوجي",o:["Inflammation","Exercise","CHF","Block"],a:1},
+{q:"Thrombus type",ar:"أكثر جلطة",o:["Arterial","Capillary","Venous","Cardiac"],a:2},
+{q:"Septic thrombus",ar:"جلطة بكتيرية",o:["Aseptic","Red","Septic","Mixed"],a:2},
+{q:"Shock type",ar:"نوع الصدمة",o:["Cardiac","Distributive","Hypovolemic","Obstruct"],a:2},
+{q:"Amyloidosis organ",ar:"عضو الأميلويد",o:["Liver","Spleen","Heart","Kidney"],a:3},
+{q:"Neoplasm",ar:"ورم",o:["Reversible","Abnormal growth","Inflammation","Malformation"],a:1},
+{q:"Benign feature",ar:"حميد",o:["Metastasis","Fast","Differentiated","Invasion"],a:2},
+{q:"Metastasis",ar:"انتشار",o:["Local","Blood spread","Benign","Compression"],a:1},
+{q:"Gold standard",ar:"أفضل فحص",o:["Blood","IHC","H&E","Flow"],a:2},
+{q:"t-test",ar:"اختبار t",o:["Means 2 groups","Proportions","Counts","SD"],a:0},
+{q:"ANOVA",ar:"ANOVA",o:["2 groups","3+ means","Categories","Percent"],a:1},
+{q:"Incidence",ar:"حدوث جديد",o:["Total","New","Old","Ratio"],a:1},
+{q:"Prevalence",ar:"انتشار",o:["New","Total","Death","Recovery"],a:1},
+{q:"Bias",ar:"تحيز",o:["Accurate","Error","Random","None"],a:1},
+{q:"Correlation",ar:"ارتباط",o:["Cause","Relation","Mean","SD"],a:1},
+{q:"r=0",ar:"لا علاقة",o:["Strong","None","Perfect","Negative"],a:1},
+{q:"Regression",ar:"انحدار",o:["Compare","Predict","Count","Remove"],a:1},
+{q:"Sensitivity",ar:"حساسية",o:["TP","TN","FP","FN"],a:0}
 ];
 
-// 3) IP (20)
-const ip = [
-{q:"Right of author?",o:["No transfer","Transferable","Holds tax","Random"],a:0},
-{q:"WIPO means?",o:["Author","Creator","Authority","Sale"],a:1},
-{q:"Transfer forms?",o:["Sale","Gift","Donation","All"],a:3},
-{q:"Moral right?",o:["Financial","Personal right","Trade","None"],a:1},
-{q:"Financial right can be?",o:["Inherit","No use","Illegal","None"],a:0},
-{q:"Handover of ownership?",o:["No rights lost","All lost","Partial","None"],a:0},
-{q:"Hygiene of rights?",o:["Seizable","Not seizable","Free","None"],a:0},
-{q:"Publishing means?",o:["Hidden","Public","Private","None"],a:1},
-{q:"Right is?",o:["Power","Law","Rule","Random"],a:0},
-{q:"Author can?",o:["Stop distortion","Sell only","Copy free","None"],a:0},
-{q:"Translation?",o:["Allowed","Always violation","Forbidden","None"],a:0},
-{q:"Bad translation?",o:["No issue","Legal case","Ignore","None"],a:1},
-{q:"No heirs goes to?",o:["Court","State","Friend","None"],a:1},
-{q:"Name usage?",o:["Must mention","Hide always","Random","None"],a:0},
-{q:"Publishing refusal?",o:["Allowed","Forced","Illegal","None"],a:0},
-{q:"Moral protection?",o:["Honor","Money","Trade","None"],a:0},
-{q:"IP violation?",o:["Allowed","Not allowed","Optional","None"],a:1},
-{q:"Author right?",o:["Protection","No control","Random","None"],a:0},
-{q:"Work attribution?",o:["Author","Anyone","None","Fake"],a:0},
-{q:"Publishing control?",o:["Author","Gov only","None","Random"],a:0}
-];
-
-// 4) STATISTICS (simplified 20)
+// STATISTICS (20)
 const stats = [
-{q:"Why organize data?",o:["Confuse","Summarize","Delete","Random"],a:1},
-{q:"Histogram?",o:["Categorical","Continuous","Text","None"],a:1},
-{q:"Bar chart shows?",o:["Continuous","Categories","Random","Time"],a:1},
-{q:"Sample used because?",o:["Easy","Small","Costly population","None"],a:2},
-{q:"Population example?",o:["All diabetics","50 patients","Pilot","Sample"],a:0},
-{q:"Nominal?",o:["Order","No order","Continuous","Random"],a:1},
-{q:"Ordinal?",o:["Order","No order","None","Random"],a:0},
-{q:"Discrete?",o:["Height","Weight","Count","Blood"],a:2},
-{q:"Continuous?",o:["Count","BP","Number","None"],a:1},
-{q:"Mean affected by?",o:["Outliers","None","Always","Fixed"],a:0},
-{q:"Median best?",o:["Skewed","Normal","None","Random"],a:0},
-{q:"Range?",o:["Max-min","Mean","Median","SD"],a:0},
-{q:"SD shows?",o:["Center","Spread","Mean","Mode"],a:1},
-{q:"Variance?",o:["SD root","SD square","Mean","None"],a:1},
-{q:"p<0.05?",o:["Not sig","Sig","Wrong","None"],a:1},
-{q:"Null hypothesis?",o:["Difference","No diff","True","False"],a:1},
-{q:"Type I?",o:["Reject true","Accept false","None","Random"],a:0},
-{q:"Type II?",o:["Reject false","Accept false","None","Random"],a:1},
-{q:"CI means?",o:["Exact","Range","Mean","SD"],a:1},
-{q:"Correlation?",o:["Cause","Relation","Mean","None"],a:1}
+{q:"Why organize data",ar:"تنظيم البيانات",o:["Confuse","Summarize","Delete","Random"],a:1},
+{q:"Histogram",ar:"هيستوغرام",o:["Categorical","Continuous","Text","None"],a:1},
+{q:"Bar chart",ar:"مخطط أعمدة",o:["Continuous","Categories","Random","Time"],a:1},
+{q:"Sample use",ar:"العينة",o:["Easy","Small","Costly pop","None"],a:2},
+{q:"Population example",ar:"المجتمع",o:["All diabetics","50","Pilot","Sample"],a:0},
+{q:"Nominal",ar:"اسمي",o:["Order","No order","Continuous","Random"],a:1},
+{q:"Ordinal",ar:"ترتيبي",o:["Order","No order","None","Random"],a:0},
+{q:"Discrete",ar:"منفصل",o:["Height","Weight","Count","BP"],a:2},
+{q:"Continuous",ar:"مستمر",o:["Count","BP","Number","None"],a:1},
+{q:"Mean affected",ar:"المتوسط يتأثر",o:["Outliers","None","Always","Fixed"],a:0},
+{q:"Median best",ar:"الوسيط",o:["Skewed","Normal","None","Random"],a:0},
+{q:"Range",ar:"المدى",o:["Max-min","Mean","Median","SD"],a:0},
+{q:"SD",ar:"الانحراف",o:["Center","Spread","Mean","Mode"],a:1},
+{q:"Variance",ar:"التباين",o:["Root","Square SD","Mean","None"],a:1},
+{q:"p value",ar:"القيمة الاحتمالية",o:["No sig","Sig","Wrong","None"],a:1},
+{q:"Null hypothesis",ar:"فرضية العدم",o:["Diff","No diff","True","False"],a:1},
+{q:"Type I",ar:"خطأ أول",o:["Reject true","Accept false","None","Random"],a:0},
+{q:"Type II",ar:"خطأ ثاني",o:["Reject false","Accept false","None","Random"],a:1},
+{q:"CI",ar:"فترة ثقة",o:["Exact","Range","Mean","SD"],a:1},
+{q:"Correlation",ar:"ارتباط",o:["Cause","Relation","Mean","None"],a:1}
 ];
 
-// ===== GET DATA =====
+// IP RIGHTS (20)
+const ip = [
+{q:"Right of author",ar:"حق المؤلف",o:["No transfer","Transferable","Tax","Random"],a:0},
+{q:"WIPO",ar:"الويبو",o:["Author","Creator","Authority","Sale"],a:1},
+{q:"Transfer forms",ar:"نقل الحقوق",o:["Sale","Gift","All","None"],a:2},
+{q:"Moral right",ar:"حق معنوي",o:["Money","Personal","Trade","None"],a:1},
+{q:"Financial right",ar:"مالي",o:["Inherit","No use","Illegal","None"],a:0},
+{q:"Right is",ar:"الحق هو",o:["Power","Law","Rule","None"],a:0},
+{q:"Can prevent distortion",ar:"منع التشويه",o:["Yes","No","Maybe","None"],a:0},
+{q:"Publishing",ar:"النشر",o:["Hidden","Public","Private","None"],a:1},
+{q:"Translation",ar:"ترجمة",o:["Allowed","Forbidden","Always wrong","None"],a:0},
+{q:"Bad translation",ar:"ترجمة سيئة",o:["No issue","Legal","Ignore","None"],a:1},
+{q:"No heirs",ar:"بدون ورثة",o:["Court","State","Friend","None"],a:1},
+{q:"Name usage",ar:"اسم المؤلف",o:["Must","Hide","Random","None"],a:0},
+{q:"Refusal publish",ar:"رفض النشر",o:["Allowed","Forced","Illegal","None"],a:0},
+{q:"Moral protection",ar:"الحماية",o:["Honor","Money","Trade","None"],a:0},
+{q:"Violation",ar:"انتهاك",o:["Allowed","Not allowed","Optional","None"],a:1},
+{q:"Author control",ar:"تحكم",o:["Author","Gov","None","Random"],a:0},
+{q:"Attribution",ar:"نسبة العمل",o:["Author","Anyone","None","Fake"],a:0},
+{q:"Publishing control",ar:"تحكم نشر",o:["Author","Gov","None","Random"],a:0},
+{q:"Right protection",ar:"حماية",o:["Yes","No","Maybe","None"],a:0},
+{q:"Work ownership",ar:"ملكية",o:["Author","Other","None","Random"],a:0}
+];
+
+// ================= ENGINE =================
 function getData(){
 if(subject==="comm") return comm;
 if(subject==="path") return path;
-if(subject==="ip") return ip;
-return stats;
+if(subject==="stats") return stats;
+return ip;
 }
 
-// ===== SHOW =====
 function show(){
 answered=false;
 document.getElementById("nextBtn").disabled=true;
@@ -193,9 +200,10 @@ let arr = getData();
 let q = arr[index];
 
 document.getElementById("q").innerText = (index+1)+" ) "+q.q;
+document.getElementById("q_ar").innerText = q.ar;
 
 let html="";
-q.o.forEach((opt,i)=>{
+q.o.forEach((opt,i=>{
 html += `<button onclick="check(this,${i})">${opt}</button>`;
 });
 
@@ -203,7 +211,6 @@ document.getElementById("options").innerHTML=html;
 document.getElementById("result").innerText="";
 }
 
-// ===== CHECK =====
 function check(btn,i){
 if(answered) return;
 answered=true;
@@ -225,7 +232,6 @@ document.getElementById("result").innerText="💔 غلط";
 document.getElementById("nextBtn").disabled=false;
 }
 
-// ===== NEXT =====
 function next(){
 index++;
 let arr = getData();
