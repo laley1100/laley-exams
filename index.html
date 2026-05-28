@@ -1,133 +1,181 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Quiz Platform</title>
+<title>Exam Platform</title>
 
 <style>
 body{
-font-family: Arial;
-direction: rtl;
-background:#f5f5f5;
-margin:0;
-padding:0;
+    font-family: Arial;
+    margin:0;
+    background: linear-gradient(135deg,#ffd6f5,#d6d6ff);
 }
 
 header{
-background:#111;
-color:#fff;
-padding:15px;
-text-align:center;
+    text-align:center;
+    padding:20px;
+    font-size:28px;
+    font-weight:bold;
+    color:#5a007a;
 }
 
-.container{padding:20px;}
-
-button{
-padding:10px 15px;
-margin:10px;
-cursor:pointer;
-border:none;
-background:#222;
-color:white;
-border-radius:8px;
+.container{
+    max-width:900px;
+    margin:auto;
+    padding:20px;
 }
 
 .card{
-background:white;
-padding:15px;
-margin:10px 0;
-border-radius:10px;
-box-shadow:0 0 5px #ccc;
+    background:white;
+    padding:20px;
+    margin:15px 0;
+    border-radius:15px;
+    cursor:pointer;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    font-size:18px;
 }
 
-.option{display:block;margin:5px 0;}
+.question{
+    background:white;
+    padding:15px;
+    margin:10px 0;
+    border-radius:10px;
+}
 
-.correct{color:green;}
-.wrong{color:red;}
+button{
+    background:#7b2cff;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:10px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+button:hover{
+    background:#5b18c9;
+}
+
+.correct{color:green;font-weight:bold;}
+.wrong{color:red;font-weight:bold;}
+.heart{font-size:18px;}
+.hidden{display:none;}
 </style>
 </head>
 
 <body>
 
-<header>
-<h2>📚 منصة الاختبار</h2>
-</header>
+<header>🎓 Advanced Exam Platform</header>
 
 <div class="container">
 
+<!-- MENU -->
 <div id="menu">
-<h3>اختر المادة</h3>
-<button onclick="startQuiz('m1')">المادة 1</button>
-<button onclick="startQuiz('m2')">المادة 2</button>
-<button onclick="startQuiz('m3')">المادة 3</button>
-<button onclick="startQuiz('m4')">المادة 4</button>
+
+<div class="card" onclick="start('s1')">📘 Material 1</div>
+<div class="card" onclick="start('s2')">💬 Material 2</div>
+<div class="card" onclick="start('s3')">🧬 Material 3</div>
+<div class="card" onclick="start('s4')">⚖️ Material 4</div>
+
 </div>
 
-<div id="quiz" style="display:none"></div>
+<!-- QUIZ -->
+<div id="quiz" class="hidden">
+
+<h2 id="title"></h2>
+<div id="questions"></div>
+
+<button onclick="submit()">Submit</button>
+<button onclick="back()">Back</button>
+
+<h3 id="result"></h3>
+
+</div>
 
 </div>
 
 <script>
 
+/* =========================
+   🔥 ALL SUBJECTS (PUT FULL QUESTIONS HERE)
+   ========================= */
+
 const data = {
 
-m1: [ /* حطي أسئلتك هنا */ ],
+s1:[
+{q:"Question 1 example",a:"A",opts:{A:"Option A",B:"Option B",C:"Option C",D:"Option D"}},
+{q:"Question 2 example",a:"B",opts:{A:"Option A",B:"Option B",C:"Option C",D:"Option D"}}
+],
 
-m2: [ /* حطي أسئلتك هنا */ ],
+s2:[
+{q:"Therapeutic communication is?",a:"B",opts:{A:"Casual",B:"Professional",C:"Orders",D:"Noise"}},
+{q:"Silence allows?",a:"B",opts:{A:"Confusion",B:"Thinking",C:"End",D:"Stop"}}
+],
 
-m3: [ /* حطي أسئلتك هنا */ ],
+s3:[
+{q:"Neoplasm is?",a:"B",opts:{A:"Normal",B:"Abnormal growth",C:"Inflammation",D:"Repair"}}
+],
 
-m4: [ /* 👈 لازم أنتِ ترسلي أسئلة هذه المادة */ ]
+s4:[
+{q:"Author right is?",a:"A",opts:{A:"Moral right",B:"Sellable",C:"Seizable",D:"None"}}
+]
 
 };
 
-let current = [];
+let current=[];
 
-function startQuiz(m){
+function start(s){
+    current=data[s];
+    document.getElementById("menu").classList.add("hidden");
+    document.getElementById("quiz").classList.remove("hidden");
 
-if(!data[m] || data[m].length === 0){
-alert("❌ لا توجد أسئلة في هذه المادة");
-return;
-}
+    document.getElementById("title") .innerText="Exam Started";
 
-document.getElementById("menu").style.display="none";
-document.getElementById("quiz").style.display="block";
-current = data[m];
-render();
+    render();
 }
 
 function render(){
-let html="";
+    let html="";
 
-current.forEach((item,i)=>{
-html+=`
-<div class="card">
-<p><b>${i+1}. ${item.q}</b></p>
-${item.o.map((opt,idx)=>
-`<label class="option">
-<input type="radio" name="q${i}" value="${idx}">
-${["أ","ب","ج","د"][idx]} - ${opt}
-</label>`
-).join("")}
-</div>
-`;
-});
+    current.forEach((x,i)=>{
+        html+=`
+        <div class="question">
+        <p><b>${i+1}. ${x.q}</b></p>
+        ${Object.keys(x.opts).map(k=>`
+            <label>
+            <input type="radio" name="q${i}" value="${k}">
+            ${k}) ${x.opts[k]}
+            </label><br>
+        `).join("")}
+        </div>
+        `;
+    });
 
-html+=`<button onclick="submitQuiz()">تصحيح</button>`;
-document.getElementById("quiz").innerHTML=html;
+    document.getElementById("questions").innerHTML=html;
 }
 
-function submitQuiz(){
-let score=0;
+function submit(){
+    let score=0;
+    let result="";
 
-current.forEach((item,i)=>{
-let ans=document.querySelector(`input[name=q${i}]:checked`);
-if(ans && parseInt(ans.value)===item.a) score++;
-});
+    current.forEach((x,i)=>{
+        let sel=document.querySelector(`input[name=q${i}]:checked`);
+        let val=sel?sel.value:"";
 
-document.getElementById("quiz").innerHTML=
-`<h2>النتيجة: ${score} / ${current.length}</h2>
-<button onclick="location.reload()">رجوع</button>`;
+        if(val===x.a){
+            score++;
+            result+=`<p class="correct">✔ Q${i+1} Correct ❤️</p>`;
+        }else{
+            result+=`<p class="wrong">❌ Q${i+1} Wrong 💔 | Correct Answer: ${x.a}</p>`;
+        }
+    });
+
+    document.getElementById("result").innerHTML=
+    `Score: ${score}/${current.length}<br><br>`+result;
+}
+
+function back(){
+    location.reload();
 }
 
 </script>
