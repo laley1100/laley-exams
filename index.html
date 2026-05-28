@@ -2,126 +2,90 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>MCQ Quiz System</title>
+<title>MCQ Master Platform</title>
 
 <style>
-body {
-    font-family: Arial;
-    margin: 0;
-    background: #f5f5f5;
+body{
+font-family: Arial;
+margin:0;
+background:#f4f4f4;
 }
 
-header {
-    background: #222;
-    color: white;
-    text-align: center;
-    padding: 15px;
+header{
+background:#111;
+color:white;
+padding:15px;
+text-align:center;
 }
 
-.container {
-    padding: 20px;
+.container{
+padding:20px;
+max-width:700px;
+margin:auto;
 }
 
-button {
-    width: 100%;
-    padding: 15px;
-    margin: 10px 0;
-    font-size: 18px;
-    cursor: pointer;
+button{
+padding:12px;
+width:100%;
+margin:8px 0;
+font-size:16px;
+cursor:pointer;
 }
 
-.section {
-    display: none;
-    background: white;
-    padding: 15px;
-    margin-top: 10px;
+.card{
+background:white;
+padding:20px;
+border-radius:10px;
+display:none;
 }
 
-.question {
-    background: #eee;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 8px;
+.option{
+background:#eee;
+padding:10px;
+margin:8px 0;
+cursor:pointer;
+border-radius:6px;
 }
 
-.correct {
-    background: #c8f7c5 !important;
+.option:hover{
+background:#ddd;
 }
 
-.wrong {
-    background: #f7c5c5 !important;
+.correct{background:#b6fcb6;}
+.wrong{background:#ffb6b6;}
+
+#scoreBox{
+font-size:20px;
+margin-top:15px;
 }
 </style>
-
 </head>
 
 <body>
 
 <header>
-<h2>📘 MCQ QUIZ SYSTEM (4 MATERIALS)</h2>
+<h2>📘 MCQ Master Platform</h2>
 </header>
 
 <div class="container">
 
 <!-- HOME -->
 <div id="home">
-
-<button onclick="openSection('m1')">📌 Material 1 - Communication</button>
-<button onclick="openSection('m2')">📌 Material 2 - Statistics</button>
-<button onclick="openSection('m3')">📌 Material 3 - Pathology</button>
-<button onclick="openSection('m4')">📌 Material 4 - Copyright (Arabic)</button>
-
+<button onclick="startExam(0)">📌 Material 1</button>
+<button onclick="startExam(1)">📌 Material 2</button>
+<button onclick="startExam(2)">📌 Material 3</button>
+<button onclick="startExam(3)">📌 Material 4 (Arabic)</button>
 </div>
 
-<!-- ================= MATERIAL 1 ================= -->
-<div id="m1" class="section">
+<!-- QUIZ BOX -->
+<div class="card" id="quizBox">
 
-<button onclick="backHome()">⬅ Back</button>
+<h3 id="question"></h3>
+<div id="options"></div>
 
-<div class="question" onclick="check(this,false)">1) Therapeutic communication is casual conversation</div>
-<div class="question" onclick="check(this,true)">2) Therapeutic communication is planned professional act</div>
-<div class="question" onclick="check(this,true)">3) Silence helps patient think</div>
-<div class="question" onclick="check(this,false)">4) Exploring means changing subject</div>
-<div class="question" onclick="check(this,true)">5) Clarification checks understanding</div>
+<button onclick="nextQ()">Next</button>
 
-</div>
-
-<!-- ================= MATERIAL 2 ================= -->
-<div id="m2" class="section">
-
-<button onclick="backHome()">⬅ Back</button>
-
-<div class="question" onclick="check(this,true)">1) Water in body ≈ 60%</div>
-<div class="question" onclick="check(this,true)">2) Histogram used for continuous data</div>
-<div class="question" onclick="check(this,false)">3) Mean not affected by outliers</div>
-<div class="question" onclick="check(this,true)">4) Median best for skewed data</div>
-<div class="question" onclick="check(this,true)">5) SD measures spread</div>
-
-</div>
-
-<!-- ================= MATERIAL 3 ================= -->
-<div id="m3" class="section">
-
-<button onclick="backHome()">⬅ Back</button>
-
-<div class="question" onclick="check(this,true)">1) Neoplasm = abnormal cell growth</div>
-<div class="question" onclick="check(this,true)">2) Benign tumors do not metastasize</div>
-<div class="question" onclick="check(this,true)">3) Metastasis = spread via blood/lymph</div>
-<div class="question" onclick="check(this,false)">4) Benign tumors are always dangerous</div>
-<div class="question" onclick="check(this,true)">5) Gold standard = histopathology</div>
-
-</div>
-
-<!-- ================= MATERIAL 4 ================= -->
-<div id="m4" class="section">
-
-<button onclick="backHome()">⬅ Back</button>
-
-<div class="question" onclick="check(this,true)">1) الحقوق المعنوية غير قابلة للبيع</div>
-<div class="question" onclick="check(this,true)">2) للمؤلف حق نسبة المصنف لنفسه</div>
-<div class="question" onclick="check(this,false)">3) يجوز سرقة المصنف</div>
-<div class="question" onclick="check(this,true)">4) الترجمة لا تعتبر اعتداء إذا كانت صحيحة</div>
-<div class="question" onclick="check(this,true)">5) وزارة الثقافة تدير المصنف بدون ورثة</div>
+<div id="scoreBox"></div>
 
 </div>
 
@@ -129,25 +93,95 @@ button {
 
 <script>
 
-function openSection(id){
-    document.getElementById("home").style.display="none";
-    document.querySelectorAll(".section").forEach(s=>s.style.display="none");
-    document.getElementById(id).style.display="block";
+let current=0;
+let score=0;
+let material=0;
+
+const data=[
+
+/* ================= MATERIAL 1 ================= */
+[
+{q:"Therapeutic communication is:",o:["Casual talk","Professional planned act","Giving orders","Random talk"],a:1},
+{q:"Silence allows patient to:",o:["Ignore","Think","Stop","Leave"],a:1},
+{q:"Clarification is used to:",o:["Confuse","Check understanding","End talk","Shout"],a:1},
+{q:"Reflecting focuses on:",o:["Feelings","Doctor opinion","Noise","Charts"],a:0},
+{q:"Communication is:",o:["One way","Two way","None","Written only"],a:1}
+],
+
+/* ================= MATERIAL 2 ================= */
+[
+{q:"Water in body is:",o:["40%","50%","60%","80%"],a:2},
+{q:"Histogram is for:",o:["Categorical","Continuous","Text","Random"],a:1},
+{q:"Median is best for:",o:["Normal","Skewed","Binary","None"],a:1},
+{q:"SD measures:",o:["Center","Spread","Name","Type"],a:1},
+{q:"Probability range:",o:["-1 to 1","0 to 1","1 to 10","0 to 100"],a:1}
+],
+
+/* ================= MATERIAL 3 ================= */
+[
+{q:"Neoplasm means:",o:["Inflammation","Cancer growth","Infection","Swelling"],a:1},
+{q:"Benign tumor:",o:["Metastasis","No metastasis","Fast spread","Deadly"],a:1},
+{q:"Metastasis is:",o:["Local","Distant spread","Healing","Pain"],a:1},
+{q:"Gold standard:",o:["CT","MRI","Histopathology","Blood test"],a:2},
+{q:"Carcinoma origin:",o:["Bone","Epithelium","Muscle","Fat"],a:1}
+],
+
+/* ================= MATERIAL 4 ================= */
+[
+{q:"الحقوق المعنوية:",o:["تباع","لا تباع","تورث فقط","تحجز"],a:1},
+{q:"حق المؤلف:",o:["يسمح بالسرقة","نسبة المصنف","إلغاء الاسم","بيع مباشر"],a:1},
+{q:"الترجمة:",o:["اعتداء دائم","ليست اعتداء إذا صحيحة","ممنوعة","غير قانونية"],a:1},
+{q:"بدون ورثة:",o:["القاضي","وزارة الثقافة","البنك","الشركة"],a:1},
+{q:"التنازل المالي لا يشمل:",o:["الحقوق المعنوية","البيع","الهبة","النشر"],a:0}
+]
+
+];
+
+function startExam(m){
+material=m;
+current=0;
+score=0;
+document.getElementById("home").style.display="none";
+document.getElementById("quizBox").style.display="block";
+showQ();
 }
 
-function backHome(){
-    document.getElementById("home").style.display="block";
-    document.querySelectorAll(".section").forEach(s=>s.style.display="none");
+function showQ(){
+let q=data[material][current];
+document.getElementById("question").innerText=q.q;
+
+let html="";
+q.o.forEach((opt,i)=>{
+html+=`<div class="option" onclick="select(${i},this)">${opt}</div>`;
+});
+
+document.getElementById("options").innerHTML=html;
+document.getElementById("scoreBox").innerHTML="";
 }
 
-function check(el, isCorrect){
-    if(isCorrect){
-        el.classList.add("correct");
-        el.innerHTML += " ✔ صحيح";
-    } else {
-        el.classList.add("wrong");
-        el.innerHTML += " ✖ خطأ";
-    }
+function select(i,el){
+let correct=data[material][current].a;
+
+if(i===correct){
+el.classList.add("correct");
+score++;
+}else{
+el.classList.add("wrong");
+}
+}
+
+function nextQ(){
+current++;
+
+if(current<data[material].length){
+showQ();
+}else{
+document.getElementById("quizBox").innerHTML=`
+<h2>✅ Exam Finished</h2>
+<h3>Your Score: ${score} / ${data[material].length}</h3>
+<button onclick="location.reload()">Restart</button>
+`;
+}
 }
 
 </script>
