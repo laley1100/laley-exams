@@ -37,10 +37,7 @@ button.wrong{background:#e74c3c !important;}
 
 #nextBtn{background:#6c5ce7;}
 
-.small{
-font-size:11px;
-color:#333;
-}
+.small{font-size:11px;color:#333;}
 </style>
 </head>
 
@@ -49,12 +46,10 @@ color:#333;
 <h2>💗 Exam Platform</h2>
 
 <div id="menu">
-
 <button onclick="start('comm')">Communication</button>
 <button onclick="start('path')">Pathology</button>
 <button onclick="start('stats')">Statistics</button>
 <button onclick="start('ip')">حقوق الملكية الفكرية</button>
-
 </div>
 
 <div class="card" id="quiz" style="display:none">
@@ -84,62 +79,6 @@ document.getElementById("quiz").style.display="block";
 show();
 }
 
-// ================= DATA =================
-
-// 3 مواد إنجليزي + عربي صغير
-const comm = [
-{q:"Therapeutic communication is best defined as",ar:"التواصل العلاجي هو",o:[
-["Casual conversation","محادثة عادية"],
-["Professional planned act","تواصل مهني مخطط"],
-["Instructions only","تعليمات فقط"],
-["Calming talk","تهدئة فقط"]
-],a:1},
-
-{q:"Shared understanding helps to",ar:"الفهم المشترك يساعد على",o:[
-["Achieve goals","تحقيق الأهداف"],
-["Reduce docs","تقليل التوثيق"],
-["Save time","توفير الوقت"],
-["Limit interaction","تقليل التفاعل"]
-],a:0}
-];
-
-const path = [
-{q:"Body water percentage is",ar:"نسبة ماء الجسم",o:[
-["40%","40%"],
-["50%","50%"],
-["60%","60%"],
-["70%","70%"]
-],a:2}
-];
-
-const stats = [
-{q:"Histogram is used for",ar:"الهيستوغرام يستخدم لـ",o:[
-["Categorical","فئات"],
-["Continuous","مستمر"],
-["Text","نص"],
-["Random","عشوائي"]
-],a:1}
-];
-
-// حقوق الملكية الفكرية (عربي فقط)
-const ip = [
-{q:"من خصائص العنصر المعنوي لحق المؤلف",o:[
-"عدم قابليته للتنازل",
-"قابليته للبيع",
-"يسقط بالتقادم",
-"قابل للحجز"
-],a:0},
-
-{q:"حق المؤلف يعتبر حقًا",o:[
-"لصيق بالشخصية",
-"حق مالي فقط",
-"حق تجاري",
-"حق مؤقت"
-],a:0}
-];
-
-// ================= ENGINE =================
-
 function getData(){
 if(subject==="comm") return comm;
 if(subject==="path") return path;
@@ -151,21 +90,19 @@ function show(){
 answered=false;
 document.getElementById("nextBtn").disabled=true;
 
-let arr = getData();
-let q = arr[index];
+let arr=getData();
+let q=arr[index];
 
 document.getElementById("q").innerText=q.q;
-document.getElementById("q_ar").innerText=q.ar || "";
+document.getElementById("q_ar").innerText=q.ar||"";
 
 let html="";
 
 q.o.forEach((opt,i)=>{
-if(typeof opt === "object"){
-html += `<button onclick="check(this,${i})">
-${opt[0]}<div class="small">${opt[1]}</div>
-</button>`;
+if(typeof opt==="object"){
+html+=`<button onclick="check(this,${i})">${opt[0]}<div class="small">${opt[1]}</div></button>`;
 }else{
-html += `<button onclick="check(this,${i})">${opt}</button>`;
+html+=`<button onclick="check(this,${i})">${opt}</button>`;
 }
 });
 
@@ -177,18 +114,18 @@ function check(btn,i){
 if(answered) return;
 answered=true;
 
-let arr = getData();
-let correct = arr[index].a;
+let arr=getData();
+let correct=arr[index].a;
 
 let buttons=document.querySelectorAll("#options button");
 
 if(i===correct){
 btn.classList.add("correct");
-document.getElementById("result").innerText="💚 صح";
+document.getElementById("result").innerText="✔ صح";
 }else{
 btn.classList.add("wrong");
 buttons[correct].classList.add("correct");
-document.getElementById("result").innerText="💔 غلط";
+document.getElementById("result").innerText="✖ غلط";
 }
 
 document.getElementById("nextBtn").disabled=false;
@@ -196,15 +133,72 @@ document.getElementById("nextBtn").disabled=false;
 
 function next(){
 index++;
-let arr = getData();
+let arr=getData();
 
 if(index>=arr.length){
 document.querySelector(".card").innerHTML="💗 خلص الاختبار";
 return;
 }
-
 show();
 }
+
+/* ================== COMMUNICATION ================== */
+const comm=[
+{
+q:"Therapeutic communication is best defined as",
+ar:"التواصل العلاجي هو",
+o:[
+["Casual conversation","محادثة عادية"],
+["Planned professional act","تواصل مهني مخطط"],
+["Instructions only","تعليمات فقط"],
+["Calming talk","تهدئة فقط"]
+],a:1
+},
+{
+q:"Shared understanding of information helps to",
+ar:"الفهم المشترك يساعد على",
+o:[
+["Achieve goals","تحقيق الأهداف"],
+["Reduce documentation","تقليل التوثيق"],
+["Save time","توفير الوقت"],
+["Limit interaction","تقليل التفاعل"]
+],a:0
+}
+];
+
+/* ================== PATHOLOGY ================== */
+const path=[
+{
+q:"Body water percentage is",
+ar:"نسبة ماء الجسم",
+o:[["40%","40%"],["50%","50%"],["60%","60%"],["70%","70%"]],
+a:2
+}
+];
+
+/* ================== STATISTICS ================== */
+const stats=[
+{
+q:"Histogram is used for",
+ar:"الهيستوغرام يستخدم لـ",
+o:[["Categorical","فئات"],["Continuous","مستمر"],["Text","نص"],["Random","عشوائي"]],
+a:1
+}
+];
+
+/* ================== IP (ARABIC) ================== */
+const ip=[
+{
+q:"من خصائص العنصر المعنوي لحق المؤلف",
+o:["عدم قابليته للتنازل","قابليته للبيع","يسقط بالتقادم","قابل للحجز"],
+a:0
+},
+{
+q:"حق المؤلف يعتبر حقًا",
+o:["لصيق بالشخصية","حق مالي","حق تجاري","حق مؤقت"],
+a:0
+}
+];
 
 </script>
 
