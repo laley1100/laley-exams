@@ -6,196 +6,60 @@
 
 <style>
 body{
-font-family: Arial;
-background: linear-gradient(135deg,#ffc0cb,#c084fc);
-margin:0;
-padding:0;
+    font-family: Arial;
+    background: linear-gradient(135deg,#ffb6c1,#c084fc);
+    text-align:center;
+    color:#fff;
 }
 
 .container{
-max-width:900px;
-margin:auto;
-padding:20px;
-}
-
-.card{
-background:white;
-padding:20px;
-border-radius:20px;
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
-}
-
-h2{
-text-align:center;
-color:#6b21a8;
+    background:rgba(0,0,0,0.3);
+    width:60%;
+    margin:auto;
+    margin-top:50px;
+    padding:20px;
+    border-radius:20px;
 }
 
 button{
-padding:10px 15px;
-margin:5px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-background:#a855f7;
-color:white;
+    padding:10px 20px;
+    margin:10px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
 }
+
+.next{background:#7c3aed;color:white;}
+.back{background:#ec4899;color:white;}
 
 .option{
-display:block;
-padding:10px;
-margin:8px 0;
-background:#f3e8ff;
-border-radius:10px;
-cursor:pointer;
+    display:block;
+    margin:10px;
+    padding:10px;
+    background:white;
+    color:black;
+    border-radius:10px;
 }
 
-.option:hover{background:#e9d5ff;}
-
-.correct{background:#86efac !important;}
-.wrong{background:#fca5a5 !important;}
-
-.small{font-size:12px;color:gray;}
+#heart{
+    font-size:30px;
+}
 </style>
 </head>
 
 <body>
 
 <div class="container">
-<div class="card">
+    <div id="heart">🤍 Quiz Platform</div>
+    <h2 id="question">Question</h2>
 
-<h2>💖 Quiz Platform</h2>
+    <div id="options"></div>
 
-<div id="home">
-<button onclick="loadSubject('comm')">Communication (60)</button>
-<button onclick="loadSubject('path')">Pathology (50)</button>
-<button onclick="loadSubject('stats')">Biostatistics (83)</button>
-<button onclick="loadSubject('arabic')">Arabic (20)</button>
+    <button class="back" onclick="backQuestion()">Back</button>
+    <button class="next" onclick="nextQuestion()">Next</button>
 </div>
 
-<div id="quizBox" style="display:none;">
-<h3 id="title"></h3>
-<div id="question"></div>
-
-<button onclick="prev()">Back</button>
-<button onclick="next()">Next</button>
-<button onclick="home()">Home</button>
-
-<h3 id="result"></h3>
-</div>
-
-</div>
-</div>
-
-<script>
-
-/* =========================
-FULL DATA (NO CHANGES)
-========================= */
-
-const data = {
-
-comm: [
-{q:"Therapeutic communication is best defined as",o:["Casual conversation","Planned professional act","Medical instructions only","Talking to calm"],a:1},
-{q:"Shared understanding helps to",o:["Achieve goals","Reduce docs","Save time","Limit interaction"],a:0}
-],
-
-path: [
-{q:"Approximately % body water",o:["40","50","60","70"],a:2},
-{q:"Non pitting edema occurs in",o:["Cardiac","Renal","Nutritional","Lymphatic"],a:3}
-],
-
-stats: [
-{q:"Hypothesis testing is used to",o:["Decisions","Predict","Collect","Avoid"],a:0},
-{q:"Null hypothesis means",o:["Effect","No effect","Relation","Bias"],a:1}
-],
-
-arabic: [
-{q:"من خصائص العنصر المعنوي",o:["عدم قابليته للتنازل","قابليته للبيع","يسقط","الحجز"],a:0},
-{q:"حق المؤلف هو",o:["مالي","لصيق بالشخصية","تجاري","إداري"],a:1}
-]
-
-};
-
-let subject="";
-let index=0;
-let score=0;
-
-/* =========================
-LOAD SUBJECT
-========================= */
-function loadSubject(s){
-subject=s;
-index=0;
-score=0;
-document.getElementById("home").style.display="none";
-document.getElementById("quizBox").style.display="block";
-show();
-}
-
-/* =========================
-SHOW QUESTION
-========================= */
-function show(){
-let q=data[subject][index];
-
-document.getElementById("title").innerHTML=
-`Question ${index+1} / ${data[subject].length}`;
-
-document.getElementById("question").innerHTML=
-`
-<div>${q.q}</div>
-${q.o.map((opt,i)=>`
-<div class="option" onclick="check(${i})">${opt}</div>
-`).join("")}
-`;
-}
-
-/* =========================
-CHECK ANSWER
-========================= */
-function check(i){
-let q=data[subject][index];
-let options=document.getElementsByClassName("option");
-
-if(i===q.a){
-options[i].classList.add("correct");
-document.getElementById("result").innerHTML="💖 Correct!";
-score++;
-}else{
-options[i].classList.add("wrong");
-options[q.a].classList.add("correct");
-document.getElementById("result").innerHTML="💔 Wrong! Correct: "+q.o[q.a];
-}
-}
-
-/* =========================
-NEXT / BACK
-========================= */
-function next(){
-if(index<data[subject].length-1){
-index++;
-document.getElementById("result").innerHTML="";
-show();
-}
-}
-
-function prev(){
-if(index>0){
-index--;
-document.getElementById("result").innerHTML="";
-show();
-}
-}
-
-/* =========================
-HOME
-========================= */
-function home(){
-document.getElementById("home").style.display="block";
-document.getElementById("quizBox").style.display="none";
-}
-
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
