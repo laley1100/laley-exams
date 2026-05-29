@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!DOCTYPE html>   
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Quiz Platform</title>
+<title>اقزام بلاتفورم</title>
 
 <style>
 body{
@@ -41,8 +41,15 @@ button{
     border-radius:10px;
 }
 
-#heart{
-    font-size:30px;
+#heart{font-size:30px;}
+
+.small{
+    font-size:12px;
+    opacity:0.8;
+}
+.feedback{
+    margin-top:10px;
+    font-weight:bold;
 }
 </style>
 </head>
@@ -50,10 +57,12 @@ button{
 <body>
 
 <div class="container">
-    <div id="heart">🤍 Quiz Platform</div>
+    <div id="heart">🤍 اقزام بلاتفورم</div>
     <h2 id="question"></h2>
+    <div class="small" id="translation"></div>
 
     <div id="options"></div>
+    <div class="feedback" id="feedback"></div>
 
     <button class="back" onclick="backQuestion()">Back</button>
     <button class="next" onclick="nextQuestion()">Next</button>
@@ -64,58 +73,59 @@ button{
 let current = 0;
 let score = 0;
 let wrong = [];
+let answered = {};
 
 const questions = [
+{q:"Therapeutic communication is best defined as", ar:"التواصل العلاجي يُعرّف بأنه", options:["Casual conversation","Professional planned communication","Medical instructions only","Talking to calm patient"], answer:1},
+{q:"Shared understanding helps to", ar:"الفهم المشترك يساعد على", options:["Achieve goals","Reduce documentation","Save time only","Limit interaction"], answer:0},
+{q:"Using silence allows patient to", ar:"استخدام الصمت يسمح للمريض بـ", options:["Feel ignored","Think and gain insight","Lose interest","End conversation"], answer:1},
+{q:"Exploring is", ar:"الاستكشاف هو", options:["Changing subject","Delving deeper","Giving advice","Summarizing"], answer:1},
+{q:"Clarification is used to", ar:"التوضيح يُستخدم لـ", options:["Check understanding","End communication","Give orders","Confuse patient"], answer:0},
+{q:"Example of clarification", ar:"مثال على التوضيح", options:["Why did you do that?","Tell me everything again","What do you mean by sicker than usual?","You are wrong"], answer:2},
+{q:"Reflecting focuses on", ar:"الانعكاس يركز على", options:["Facts only","Feelings and content","Doctor opinion","Reports"], answer:1},
+{q:"Functional-professional touch is used for", ar:"اللمس المهني يستخدم لـ", options:["Clinical care","Emotion","Greeting","Intimacy"], answer:0},
+{q:"Communication failure leads to", ar:"فشل التواصل يؤدي إلى", options:["Better teamwork","Adverse events","Faster discharge","Less work"], answer:1},
+{q:"Communication is", ar:"التواصل هو", options:["One way","Two way","Written only","Random"], answer:1},
 
-{q:"Therapeutic communication is best defined as",options:["Casual conversation","Professional planned communication","Medical instructions only","Talking to calm patient"],answer:1},
-{q:"Shared understanding helps to",options:["Achieve goals","Reduce documentation","Save time only","Limit interaction"],answer:0},
-{q:"Using silence allows patient to",options:["Feel ignored","Think and gain insight","Lose interest","End conversation"],answer:1},
-{q:"Exploring is",options:["Changing subject","Delving deeper","Giving advice","Summarizing"],answer:1},
-{q:"Clarification is used to",options:["Check understanding","End communication","Give orders","Confuse patient"],answer:0},
-{q:"Example of clarification",options:["Why did you do that?","Tell me everything again","What do you mean by sicker than usual?","You are wrong"],answer:2},
-{q:"Reflecting focuses on",options:["Facts only","Feelings and content","Doctor opinion","Reports"],answer:1},
-{q:"Functional-professional touch is used for",options:["Clinical care","Emotion","Greeting","Intimacy"],answer:0},
-{q:"Communication failure leads to",options:["Better teamwork","Adverse events","Faster discharge","Less work"],answer:1},
-{q:"Communication is",options:["One way","Two way","Written only","Random"],answer:1},
+{q:"Handover refers to", ar:"التسليم يعني", options:["Equipment only","Transfer responsibility","Money","Reports"], answer:1},
+{q:"Noise affects handover by", ar:"الضوضاء تؤثر على التسليم عبر", options:["Improving","Disturbing","Helping","Speeding"], answer:1},
+{q:"SBAR stands for", ar:"SBAR تعني", options:["Signs Background Action Response","Situation Background Assessment Recommendation","Simple Basic Alert Report","None"], answer:1},
+{q:"EMD role is", ar:"دور EMD هو", options:["Drive ambulance","Collect info & dispatch","Surgery","Admin"], answer:1},
+{q:"Portable transceiver used when", ar:"يستخدم جهاز الاتصال المحمول عندما", options:["At hospital","Away from vehicle","Dispatch","Billing"], answer:1},
 
-{q:"Handover refers to",options:["Equipment only","Transfer responsibility","Money","Reports"],answer:1},
-{q:"Noise affects handover by",options:["Improving","Disturbing","Helping","Speeding"],answer:1},
-{q:"SBAR stands for",options:["Signs Background Action Response","Situation Background Assessment Recommendation","Simple Basic Alert Report","None"],answer:1},
-{q:"EMD role is",options:["Drive ambulance","Collect info & dispatch","Surgery","Admin"],answer:1},
-{q:"Portable transceiver used when",options:["At hospital","Away from vehicle","Dispatch","Billing"],answer:1},
+{q:"Therapeutic interview is", ar:"المقابلة العلاجية هي", options:["Less important","Equal important","Not needed","Optional"], answer:1},
+{q:"Purpose of interview", ar:"هدف المقابلة", options:["Replace exam","Build trust","Delay care","Avoid questions"], answer:1},
+{q:"OLD CARTS used for", ar:"OLD CARTS تستخدم لـ", options:["Diagnosis","Symptom analysis","Billing","Surgery"], answer:1},
+{q:"Open ended question", ar:"السؤال المفتوح", options:["Yes/no","How did it start?","Pain yes?","Age"], answer:1},
+{q:"Why questions avoided because", ar:"تجنب أسئلة لماذا لأن", options:["Accusation feeling","Short","Hard","Fast"], answer:0},
 
-{q:"Therapeutic interview is",options:["Less important","Equal important","Not needed","Optional"],answer:1},
-{q:"Purpose of interview",options:["Replace exam","Build trust","Delay care","Avoid questions"],answer:1},
-{q:"OLD CARTS used for",options:["Diagnosis","Symptom analysis","Billing","Surgery"],answer:1},
-{q:"Open ended question",options:["Yes/no","How did it start?","Pain yes?","Age"],answer:1},
-{q:"Why questions avoided because",options:["Accusation feeling","Short","Hard","Fast"],answer:0},
+{q:"Patient interview should be", ar:"مقابلة المريض يجب أن تكون", options:["Once only","Continuous","Never","End only"], answer:1},
+{q:"Communicare means", ar:"Communicare تعني", options:["Write","Share","Talk","Code"], answer:1},
+{q:"Formal communication example", ar:"مثال على التواصل الرسمي", options:["Gossip","Lecture","Rumor","Chat"], answer:1},
+{q:"Downward communication", ar:"التواصل الهابط", options:["Employees to managers","Managers to employees","Peers","Public"], answer:1},
+{q:"Upward communication", ar:"التواصل الصاعد", options:["Managers to staff","Staff to managers","Public","None"], answer:1},
 
-{q:"Patient interview should be",options:["Once only","Continuous","Never","End only"],answer:1},
-{q:"Communicare means",options:["Write","Share","Talk","Code"],answer:1},
-{q:"Formal communication example",options:["Gossip","Lecture","Rumor","Chat"],answer:1},
-{q:"Downward communication",options:["Employees to managers","Managers to employees","Peers","Public"],answer:1},
-{q:"Upward communication",options:["Managers to staff","Staff to managers","Public","None"],answer:1},
+{q:"Horizontal communication", ar:"التواصل الأفقي", options:["Same level coordination","Different levels","External","None"], answer:0},
+{q:"Informal communication", ar:"التواصل غير الرسمي", options:["Structured","Outside formal network","Official","Written"], answer:1},
+{q:"Therapeutic impasse means", ar:"الانسداد العلاجي يعني", options:["Successful interaction","Communication block","Diagnosis","Treatment"], answer:1},
+{q:"Eye contact helps", ar:"التواصل البصري يساعد على", options:["Distract","Build trust","Confuse","Ignore"], answer:1},
+{q:"Empathy means", ar:"التعاطف يعني", options:["Ignoring feelings","Understanding feelings","Giving orders","Diagnosis"], answer:1},
 
-{q:"Horizontal communication",options:["Same level coordination","Different levels","External","None"],answer:0},
-{q:"Informal communication",options:["Structured","Outside formal network","Official","Written"],answer:1},
-{q:"Therapeutic impasse means",options:["Successful interaction","Communication block","Diagnosis","Treatment"],answer:1},
-{q:"Eye contact helps",options:["Distract","Build trust","Confuse","Ignore"],answer:1},
-{q:"Empathy means",options:["Ignoring feelings","Understanding feelings","Giving orders","Diagnosis"],answer:1},
-
-{q:"Active listening includes",options:["Interrupting","Focusing speaker","Ignoring","Multitasking"],answer:1},
-{q:"Closed question example",options:["How are you?","Do you have pain?","Tell me more","Explain"],answer:1},
-{q:"Interview starts with",options:["Physical exam","Greeting & rapport","Medication","Diagnosis"],answer:1},
-{q:"Effective communication reduces",options:["Errors","Teamwork","Documentation","Training"],answer:0},
-{q:"Patient centered communication means",options:["Focus patient needs","Doctor decides","Ignore patient","Fast treatment"],answer:0}
-
+{q:"Active listening includes", ar:"الاستماع النشط يشمل", options:["Interrupting","Focusing speaker","Ignoring","Multitasking"], answer:1},
+{q:"Closed question example", ar:"مثال على سؤال مغلق", options:["How are you?","Do you have pain?","Tell me more","Explain"], answer:1},
+{q:"Interview starts with", ar:"المقابلة تبدأ بـ", options:["Physical exam","Greeting & rapport","Medication","Diagnosis"], answer:1},
+{q:"Effective communication reduces", ar:"التواصل الفعال يقلل", options:["Errors","Teamwork","Documentation","Training"], answer:0},
+{q:"Patient centered communication means", ar:"التواصل المتمحور حول المريض يعني", options:["Focus patient needs","Doctor decides","Ignore patient","Fast treatment"], answer:0}
 ];
 
 function showQuestion(){
 let q = questions[current];
 document.getElementById("question").innerText = (current+1)+". "+q.q;
+document.getElementById("translation").innerText = q.ar;
 
 let optionsDiv = document.getElementById("options");
 optionsDiv.innerHTML = "";
+document.getElementById("feedback").innerText = "";
 
 q.options.forEach((opt,i)=>{
 let btn = document.createElement("button");
@@ -123,15 +133,20 @@ btn.className="option";
 btn.innerText=opt;
 
 btn.onclick=()=>{
+if(answered[current]) return;
+answered[current]=true;
+
 if(i === q.answer){
 score++;
-document.getElementById("heart").innerText="💗 Correct";
+document.getElementById("feedback").innerText="✔ Correct";
 }else{
+document.getElementById("feedback").innerText=
+"✖ Wrong | Correct Answer: " + q.options[q.answer];
+
 wrong.push({
 question:q.q,
 correct:q.options[q.answer]
 });
-document.getElementById("heart").innerText="💔 Wrong";
 }
 };
 
@@ -143,7 +158,6 @@ function nextQuestion(){
 if(current < questions.length-1){
 current++;
 showQuestion();
-document.getElementById("heart").innerText="🤍 Quiz Platform";
 }else{
 showResult();
 }
