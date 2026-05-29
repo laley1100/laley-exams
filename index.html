@@ -21,14 +21,12 @@ body {
 
 /* حاوية العرض الرئيسية بتأثير الإطار الزجاجي المضيء والمحترف */
 .container {
-    background: rgba(255, 255, 255, 0.82); 
+    background: rgba(255, 255, 255, 0.85); 
     width: 100%;
-    max-width: 700px;
+    max-width: 750px;
     padding: 40px 30px;
     border-radius: 32px;
-    /* إطار زجاجي ناعم ومحترف */
-    border: 2px solid rgba(255, 255, 255, 0.7); 
-    /* ظلال مضيئة بألوان الكيوت المحترفة لتبدو الواجهة طافية */
+    border: 2px solid rgba(255, 255, 255, 0.8); 
     box-shadow: 0 20px 45px rgba(219, 39, 119, 0.08), 
                 0 8px 20px rgba(139, 92, 246, 0.06),
                 inset 0 0 12px rgba(255, 255, 255, 0.5);
@@ -38,7 +36,6 @@ body {
     position: relative;
 }
 
-/* عنوان المنصة الأنيق واللامع */
 #title { 
     font-size: 34px; 
     font-weight: 900; 
@@ -59,19 +56,17 @@ body {
     opacity: 0.85;
 }
 
-/* تقسيم أزرار المواد في عمودين متناسقين */
 .menu-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
 }
 
-/* تصميم أزرار المواد الاحترافية اللامعة الكيوت */
 .menuBtn { 
-    background: rgba(245, 235, 255, 0.5); 
+    background: rgba(245, 235, 255, 0.6); 
     color: #5b21b6; 
     padding: 24px 20px;
-    border: 1px solid rgba(233, 213, 255, 0.7);
+    border: 1px solid rgba(233, 213, 255, 0.8);
     border-radius: 22px;
     cursor: pointer;
     font-size: 16px;
@@ -87,7 +82,6 @@ body {
     box-shadow: 0 4px 15px rgba(124, 58, 237, 0.04);
 } 
 
-/* تأثير البريق الأبيض اللامع السريع عند تحريك الماوس فوق الأزرار والخيارات */
 .menuBtn::after, .option::after, button.action-btn.next::after, button.action-btn.homeBtn::after {
     content: '';
     position: absolute;
@@ -107,7 +101,7 @@ body {
 }
 
 .menuBtn:hover {
-    background: rgba(233, 213, 255, 0.85);
+    background: rgba(233, 213, 255, 0.9);
     transform: translateY(-5px);
     border-color: #c084fc;
     box-shadow: 0 12px 24px rgba(124, 58, 237, 0.12);
@@ -123,13 +117,12 @@ body {
     box-shadow: 0 2px 6px rgba(0,0,0,0.04);
 }
 
-/* خيارات الأسئلة النود المشمشي اللطيف والموزون */
 .option {
     display: block;
     margin: 16px auto;
     padding: 18px 22px;
-    background: rgba(255, 247, 237, 0.65); 
-    border: 1px solid rgba(255, 237, 213, 0.85);
+    background: rgba(255, 247, 237, 0.7); 
+    border: 1px solid rgba(255, 237, 213, 0.95);
     border-radius: 18px;
     cursor: pointer;
     width: 100%;
@@ -145,7 +138,7 @@ body {
 }
 
 .option:hover {
-    background: rgba(255, 237, 213, 0.9);
+    background: rgba(255, 237, 213, 0.95);
     border-color: #fed7aa;
     transform: translateX(4px);
 }
@@ -171,7 +164,6 @@ body {
     box-shadow: 0 4px 12px rgba(251, 113, 133, 0.15);
 }
 
-/* أزرار التحكم بالأسئلة */
 .controls {
     display: flex;
     justify-content: space-between;
@@ -204,7 +196,6 @@ button.action-btn:active {
 .back { background: #e2e8f0; color: #475569; border: 1px solid #cbd5e1; }
 .homeBtn { background: linear-gradient(135deg, #c084fc, #9333ea); color: white; box-shadow: 0 4px 15px rgba(147, 51, 234, 0.25); }
 
-/* نصوص التوضيح والترجمات المريحة */
 .small { font-size: 15px; line-height: 1.6; margin-top: 12px; color: #c2410c; font-weight: 600; direction: rtl; text-align: right; background: rgba(255, 247, 237, 0.5); padding: 10px 15px; border-radius: 12px; }
 .feedback { margin-top: 20px; font-weight: 700; font-size: 16px; padding: 14px; border-radius: 16px; direction: rtl; text-align: right; animation: fadeIn 0.3s ease; }
 
@@ -214,18 +205,6 @@ button.action-btn:active {
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
-}
-
-/* تقرير الأخطاء النهائي المرتب */
-.wrong-report {
-    text-align: right;
-    direction: rtl;
-    background: rgba(254, 242, 242, 0.8);
-    padding: 18px;
-    margin-top: 16px;
-    border-right: 5px solid #f43f5e;
-    border-radius: 16px;
-    box-shadow: 0 2px 8px rgba(244, 63, 94, 0.04);
 }
 </style>
 </head>
@@ -239,15 +218,11 @@ button.action-btn:active {
     <div class="menu-grid">
         <button class="menuBtn" onclick="startQuiz('bio')">
             <span>📊 Biostatistics</span>
-            <span class="badge">83 Qs</span>
+            <span class="badge">50 Qs</span>
         </button>
         <button class="menuBtn" onclick="startQuiz('path')">
             <span>🔬 Pathology</span>
-            <span class="badge">14 Qs</span>
-        </button>
-        <button class="menuBtn" onclick="startQuiz('ip')">
-            <span>💡 الملكية الفكرية</span>
-            <span class="badge">20 Qs</span>
+            <span class="badge">49 Qs</span>
         </button>
         <button class="menuBtn" onclick="startQuiz('cc')">
             <span>💬 Communication</span>
@@ -316,70 +291,278 @@ function playCuteSound() {
 
 const bank = {
 bio: [
-{ q: "1. Hypothesis testing is used to:", ar: "يُستخدم اختبار الفرضيات لاتخاذ قرارات مبنية على البيانات.", options: ["Make decisions from data", "Predict future events", "Collect raw data", "Avoid statistical analysis"], answer: 0 },
-{ q: "2. The null hypothesis (H₀) usually states:", ar: "الفرضية الصفرية تعني عدم وجود تأثير أو فرق.", options: ["There is an effect", "No effect or no difference", "A strong relationship exists", "The sample is biased"], answer: 1 },
-{ q: "3. The alternative hypothesis (H₁) states:", ar: "الفرضية البديلة (H₁) تشير إلى وجود تأثير أو فرق.", options: ["No difference exists", "There is an effect or difference", "Data are invalid", "The test is inconclusive"], answer: 1 },
-{ q: "4. Common significance level (α) used in hypothesis testing:", ar: "مستوى المعنوية الشائع (α) المستخدم في اختبار الفرضيات:", options: ["0.01", "0.05", "0.10", "0.50"], answer: 1 },
-{ q: "5. A right-tailed test is used when:", ar: "يتم استخدام الاختبار ذو الطرف الأيمن عند توقع زيادة أو تحسن.", options: ["Expecting decrease", "Expecting increase/improvement", "Testing any change", "No direction assumed"], answer: 1 },
-{ q: "6. A left-tailed test is used when:", ar: "يتم استخدام الاختبار ذو الطرف الأيسر عند توقع انخفاض أو تقليل.", options: ["Expecting increase", "Expecting decrease/reduction", "Testing any change", "No difference assumed"], answer: 1 },
-{ q: "7. A two-tailed test is used when:", ar: "يتم استخدام الاختبار ذو الطرفين للتحقق من وجود أي اختلاف (زيادة أو نقصان).", options: ["Expecting only increase", "Expecting only decrease", "Checking for any difference (increase or decrease)", "No hypothesis stated"], answer: 2 },
-{ q: "8. Example of two-tailed hypothesis:", ar: "مثال على فرضية ذات طرفين (لا تحدد اتجاه الاختلاف):", options: ["BP > baseline", "BP < baseline", "BP ≠ baseline", "BP = baseline"], answer: 2 },
-{ q: "9. In most studies, which test is preferred?", ar: "في معظم الدراسات الطبية والعلمية، يفضل الاختبار ذو الطرفين.", options: ["One-tailed", "Two-tailed", "No test", "Random test"], answer: 1 },
-{ q: "10. One-tailed tests are risky because:", ar: "الاختبارات ذات الطرف الواحد خطيرة لأنها تزيد من احتمالية الرفض الخاطئ للفرضية الصفرية.", options: ["They are less powerful", "They increase false rejection of H₀", "They require larger samples", "They cannot be used in medicine"], answer: 1 },
-{ q: "11. Example of parametric test:", ar: "مثال على اختبار معلمي (Parametric Test):", options: ["Mann–Whitney U", "Wilcoxon signed-rank", "t-test", "Kruskal–Wallis"], answer: 2 },
-{ q: "12. ANOVA is used to compare:", ar: "يُستخدم تحليل التباين (ANOVA) لمقارنة المتوسطات لثلاث مجموعات أو أكثر.", options: ["Two groups", "Three or more groups", "One group only", "Paired samples"], answer: 1 },
-{ q: "13. Non-parametric tests assume:", ar: "الاختبارات غير المعلمية تفترض عدم وجود توزيع محدد للبيانات.", options: ["Normal distribution", "No specific distribution", "Large sample size", "Interval data only"], answer: 1 },
-{ q: "14. Wilcoxon signed-rank test is alternative to:", ar: "اختبار ويلكوكسون للرتب الموقعة هو البديل غير المعلمي لاختبار t للعينات المرتبطة.", options: ["Independent t-test", "Paired t-test", "ANOVA", "Pearson correlation"], answer: 1 },
-{ q: "15. Kruskal–Wallis test is alternative to:", ar: "اختبار كروسكال واليس هو البديل غير المعلمي لتحليل التباين أحادي الاتجاه (ANOVA).", options: ["ANOVA", "t-test", "Chi-square", "Pearson correlation"], answer: 0 },
-{ q: "16. Advantage of non-parametric tests:", ar: "من مزايا الاختبارات غير المعلمية أنها قوية ومتينة في التعامل مع القيم المتطرفة (Outliers).", options: ["Require normality", "Robust to outliers", "Always more precise", "Use mean values"], answer: 1 },
-{ q: "17. The Chi-square test is primarily used for:", ar: "يُستخدم اختبار كاي تربيع (Chi-square) بشكل أساسي لاختبار الارتباط بين المتغيرات الفئوية.", options: ["Continuous data like blood pressure", "Comparing means between two groups", "Testing association between categorical variables", "Measuring correlation between two continuous variables"], answer: 2 },
-{ q: "18. In a 2×2 contingency table, the expected frequency for each cell is calculated as:", ar: "طريقة حساب التكرار المتوقع في جدول التوافق 2x2.", options: ["(Row total × Column total) ÷ Grand total", "(Row total ÷ Column total) × Grand total", "(Observed frequency ÷ Expected frequency) × 100", "(Row total + Column total) ÷ Grand total"], answer: 0 },
-{ q: "19. When should Fisher’s Exact Test be used instead of Chi-square?", ar: "يُستخدم اختبار فيشر الدقيق بدلاً من كاي تربيع عندما تكون التكرارات المتوقعة في أي خلية أقل من 5.", options: ["When sample size is large", "When expected frequencies are all ≥ 5", "When expected frequencies in any cell are < 5", "When data are continuous"], answer: 2 },
-{ q: "20. The Chi-square test is most appropriate for:", ar: "اختبار كاي تربيع هو الأكثر ملاءمة لفحص العلاقات بين المتغيرات الفئوية (Categorical Variables).", options: ["Comparing two means", "Testing association between categorical variables", "Measuring correlation between continuous variables", "Predicting regression coefficients"], answer: 1 },
-{ q: "21. Which of the following is a categorical variable?", ar: "أي مما يلي يعتبر متغيراً فئويًا (Categorical)؟", options: ["Blood pressure", "Cholesterol level", "Gender", "Height"], answer: 2 },
-{ q: "22. The Chi-square statistic formula is:", ar: "الصيغة الرياضية لحساب قيمة إحصاء كاي تربيع.", options: ["∑(O−E)² / E", "∑(E−O)² / E", "(O−E)² / O", "(O/E)²"], answer: 0 },
-{ q: "23. The Chi-square goodness-of-fit test is used to:", ar: "يُستخدم اختبار جودة المطابقة لكاي تربيع لمعرفة مدى تطابق التوزيع الملاحظ مع التوزيع المتوقع.", options: ["Test if two categorical variables are independent", "Test if observed distribution matches expected distribution", "Compare two proportions", "Test correlation between variables"], answer: 1 },
-{ q: "24. Fisher’s Exact Test is preferred when:", ar: "يُفضل اختبار فيشر الدقيق في الجداول الصغيرة 2x2 عندما يقل التكرار المتوقع عن 5.", options: ["Sample size is large", "Expected frequencies are ≥ 5", "Expected frequencies are < 5 in a 2×2 table", "Data are continuous"], answer: 2 },
-{ q: "25. A t-test is used to:", ar: "يُستخدم اختبار t لمقارنة المتوسطات بين المجموعات.", options: ["Measure correlation", "Compare means", "Calculate variance only", "Classify data"], answer: 1 },
-{ q: "26. The null hypothesis (H₀) states:", ar: "الفرضية الصفرية تفترض دائماً عدم وجود فرق أو علاقة.", options: ["There is a difference", "No difference exists", "Data is normal", "Data is independent"], answer: 1 },
-{ q: "27. The alternative hypothesis (H₁) suggests:", ar: "الفرضية البديلة تشير إلى وجود فرق حقيقي بين المجموعات.", options: ["No change", "Equal means", "There is a difference", "No data"], answer: 2 },
-{ q: "28. One-sample t-test compares:", ar: "اختبار t لعينة واحدة يقارن متوسط العينة بقيمة معلومة أو معيارية.", options: ["Two groups", "One group to a known value", "Three groups", "Variables"], answer: 1 },
-{ q: "29. Independent t-test is used for:", ar: "اختبار t للعينات المستقلة يقارن بين مجموعتين غير مرتبطتين تماماً.", options: ["Same group before/after", "Two unrelated groups", "Multiple groups", "One variable only"], answer: 1 },
-{ q: "30. Paired t-test is used when:", ar: "اختبار t الأزواج المرتبطة يُستخدم عند قياس نفس الأشخاص مرتين (قبل وبعد).", options: ["Groups are independent", "Data is categorical", "Same subjects are measured twice", "No measurements"], answer: 2 },
-{ q: "31. Comparing smokers vs non-smokers requires:", ar: "مقارنة المدخنين بغير المدخنين تتطلب اختبار t للعينات المستقلة لأن المجموعتين منفصلتان.", options: ["Paired t-test", "One-sample t-test", "Independent t-test", "Sign test"], answer: 2 },
-{ q: "32. t-test cannot compare:", ar: "لا يمكن لاختبار t مقارنة ثلاث مجموعات أو أكثر في نفس الوقت.", options: ["Two groups", "Three or more groups", "Means", "Continuous data"], answer: 1 },
-{ q: "33. Which test replaces t-test for 3+ groups?", ar: "الاختبار البديل لاختبار t عند مقارنة 3 مجموعات أو أكثر هو تحليل التباين (ANOVA).", options: ["Correlation", "ANOVA", "Regression", "Median test"], answer: 1 },
-{ q: "34. The sign test focuses on:", ar: "يركز اختبار الإشارة على اتجاه التغيير فقط (إيجابي أو سلبي) وليس القيم الدقيقة.", options: ["Exact values", "Direction (+ / −)", "Mean values", "Variance"], answer: 1 },
-{ q: "35. A typical confidence level used is:", ar: "مستوى الثقة النموذجي والأكثر شيوعاً هو 95٪.", options: ["10%", "50%", "95%", "5%"], answer: 2 },
-{ q: "36. ANOVA analyzes:", ar: "تحليل ANOVA يحلل التباين بين المجموعات وداخل المجموعات للوصول للمقارنة.", options: ["Only means", "Only medians", "Variance (between and within groups)", "Percentages"], answer: 2 },
-{ q: "37. The null hypothesis (H₀) in ANOVA states:", ar: "الفرضية الصفرية في ANOVA تنص على أن جميع متوسطات المجموعات متساوية.", options: ["All means are different", "At least one mean is different", "All group means are equal", "No data exists"], answer: 2 },
-{ q: "38. Two-way ANOVA is used to:", ar: "تحليل ANOVA ثنائي الاتجاه يدرس تأثير عاملين مستقلين وتفاعلهما المشترك.", options: ["Test one factor only", "Test two factors and interaction", "Remove variables", "Calculate mean"], answer: 1 },
-{ q: "39. Factorial ANOVA includes:", ar: "تحليل ANOVA العاملي يتضمن دراسة عدة عوامل مستقلة وتأثيراتها.", options: ["Only one-way ANOVA", "Only two-way ANOVA", "All ANOVA with multiple factors", "Only three-way ANOVA"], answer: 2 },
-{ q: "40. One-way ANOVA requires:", ar: "تحليل التباين أحادي الاتجاه يتطلب وجود ثلاث مجموعات أو أكثر لمقارنتها.", options: ["Two groups", "Three or more groups", "One group", "No groups"], answer: 1 },
-{ q: "41. ANOVA can be used to compare:", ar: "يمكن استخدام تحليل ANOVA عند مقارنة تأثير ثلاثة أنواع مختلفة من الأدوية.", options: ["One drug effect", "Three drug types", "No treatments", "Only medians"], answer: 1 },
-{ q: "42. ANCOVA combines:", ar: "تحليل ANCOVA يجمع بين تحليل التباين (ANOVA) وتحليل الانحدار (Regression).", options: ["ANOVA and correlation", "ANOVA and regression", "Mean and median", "Variance only"], answer: 1 },
-{ q: "43. ANCOVA adjusts results based on:", ar: "تحليل ANCOVA يقوم بتعديل وتحييد أثر المتغيرات المصاحبة الخارجية (Covariates).", options: ["Group size", "External variables (covariates)", "Means only", "Sample type"], answer: 1 },
-{ q: "44. The main advantage of ANCOVA is:", ar: "الميزة الأساسية لتحليل ANCOVA هي إزالة أثر المتغيرات المربكة لضمان مقارنة عادلة.", options: ["Simplicity only", "Comparing two groups only", "Providing a fair comparison by removing confounders", "Increasing error"], answer: 2 },
-{ q: "45. Correlation describes:", ar: "الارتباط يصف طبيعة وقوة العلاقة بين المتغيرات بدون تحديد السبب والنتيجة.", options: ["A cause-and-effect relationship", "The relationship between variables", "Only differences between groups", "Experimental results"], answer: 1 },
-{ q: "46. The value of correlation coefficient (r) ranges between:", ar: "تتراوح قيمة معامل الارتباط (r) دائماً بين -1.0 و +1.0.", options: ["0 to 100", "−10 to +10", "−1.0 to +1.0", "0 to 1 only"], answer: 2 },
-{ q: "47. Positive correlation means:", ar: "الارتباط الطردي الإيجابي يعني حركة المتغيرين في نفس الاتجاه معاً (يزيدان معاً).", options: ["One variable increases, the other decreases", "Both variables move in opposite directions", "Both variables move in the same direction", "No relationship"], answer: 2 },
-{ q: "48. Negative correlation means:", ar: "الارتباط العكسي السلبي يعني أنه عندما يرتفع متغير ينخفض الآخر.", options: ["Both variables increase", "One increases while the other decreases", "No change in variables", "Variables are equal"], answer: 1 },
-{ q: "49. A correlation of 0.75 is considered:", ar: "قيمة الارتباط 0.75 تعتبر ارتباطاً قوياً (Strong).", options: ["Weak", "Moderate", "Strong", "Very weak"], answer: 2 },
-{ q: "50. A correlation of 0.10 is:", ar: "قيمة الارتباط 0.10 تعتبر ارتباطاً ضعيفاً جداً أو يكاد ينعدم.", options: ["Very strong", "Weak or none", "Moderate", "Strong"], answer: 1 },
-{ q: "51. Which value indicates very strong correlation?", ar: "أي من القيم التالية تشير إلى ارتباط قوي جداً؟", options: ["0.25", "0.45", "0.85", "0.10"], answer: 2 },
-{ q: "52. Phi coefficient (φ) is used when:", ar: "يُستخدم معامل فاي عندما يكون كلا المتغيرين ثنائيين (Binary Variables).", options: ["Both variables are continuous", "Both variables are binary", "Data is ranked", "Data is normal"], answer: 1 },
-{ q: "53. Pearson correlation (r) is used when:", ar: "ارتباط بيرسون يُستخدم عندما تكون البيانات رقمية مستمرة وموزعة طبيعياً.", options: ["Data is ordinal only", "Data is binary only", "Data is continuous and normally distributed", "Data is random"], answer: 2 },
-{ q: "54. Point-biserial correlation is used when:", ar: "الارتباط النقطي ثنائي السلسلة يُستخدم عندما يكون أحد المتغيرين ثنائياً والآخر مستمراً.", options: ["Both variables are continuous", "Both variables are binary", "One binary and one continuous variable", "Data is ranked only"], answer: 2 },
-{ q: "55. What is the primary goal of medical bioinformatics?", ar: "الهدف الأساسي للمعلوماتية الحيوية الطبية هو استخدام الأدوات الحوسبية لتحسين التشخيص والعلاج وفهم الأمراض.", options: ["To replace doctors with computers", "To use computational tools to improve understanding, diagnosis, and treatment of diseases", "To store patient records only", "To eliminate the need for laboratory testing"], answer: 1 },
-{ q: "56. Machine learning in medical bioinformatics can be used to:", ar: "يمكن استخدام التعلم الآلي في هذا مجال لتحليل وتفسير الصور الطبية مثل الأشعة السينية.", options: ["Analyze X-ray images", "Replace DNA sequencing machines", "Store patient health records", "Manufacture drugs directly"], answer: 0 },
-{ q: "57. Personalized medicine in bioinformatics is based on:", ar: "الطب الشخصي والمفصل يقوم بالأساس على التركيب الجيني الفريد لكل مريض.", options: ["Patient’s lifestyle only", "Patient’s genetic makeup", "Doctor’s experience", "Hospital resources"], answer: 1 },
-{ q: "58. AI helps drug discovery by:", ar: "الذكاء الاصطناعي يسرع اكتشاف الأدوية عبر فحص وتحليل ملايين المركبات الكيميائية بسرعة فائقة.", options: ["Analyzing millions of chemical compounds", "Manufacturing drugs automatically", "Eliminating clinical trials", "Replacing pharmacists"], answer: 0 },
-{ q: "59. Why is medical bioinformatics important in modern medicine?", ar: "أهميتها تكمن في قدرتها على تحليل كميات ضخمة من البيانات الطبية المعقدة لتحسين جودة الرعاية.", options: ["It reduces the need for doctors", "It helps analyze massive medical data to improve diagnosis and treatment", "It eliminates the need for patient history", "It focuses only on psychology"], answer: 1 },
-{ q: "60. Which of the following is a common data type in medical bioinformatics?", ar: "نوع البيانات الأكثر شيوعاً في المعلوماتية الحيوية هو تتابعات الـ DNA والـ RNA.", options: ["DNA/RNA sequences", "Weather patterns", "Traffic flow data", "Economic statistics"], answer: 0 },
-{ q: "61. AI can assist in medical imaging by:", ar: "يساعد الذكاء الاصطناعي في الكشف عن الأورام بدقة داخل الأشعة المقطعية أو الرنين المغناطيسي.", options: ["Detecting tumors in CT or MRI scans", "Replacing radiologists entirely", "Designing hospital buildings", "Managing patient billing"], answer: 0 },
-{ q: "62. Machine learning models can predict diseases by analyzing:", ar: "يمكن للنماذج التنبؤ بالأمراض عبر ربط وتحليل البيانات الجينية والسريرية ونمط الحياة.", options: ["Patient’s favorite food", "Genetic, clinical, and lifestyle data", "Hospital budgets", "Doctor’s handwriting"], answer: 1 },
-{ q: "63. Which of the following is a limitation of AI in medicine?", ar: "من عيوب وحدود الذكاء الاصطناعي في الطب أنه يعتمد كلياً على جودة ونظافة البيانات المدخلة.", options: ["It requires high-quality data", "It eliminates the need for doctors", "It guarantees perfect accuracy", "It never inherits bias"], answer: 0 },
-{ q: "64. What is one major challenge in medical bioinformatics?", ar: "التحدي الأكبر هو الحجم الضخم جداً والهائل للبيانات الناتجة والتي تحتاج لتحليل دقيق.", options: ["Lack of diseases", "Large amount of data", "Too few computers", "No need for analysis"], answer: 1 },
-{ q: "65. Why is understanding genes difficult?", ar: "دراسة وفهم الجينات صعبة جداً نظراً للتعقيد البالغ والتشابك في الأنظمة الجينية.", options: ["They are too small to study", "They change daily", "They are very complex", "They are not important"], answer: 2 },
-{ q: "66. Why must patient data be protected?", ar: "يجب حماية بيانات المرضى بقوة لأنها معلومات جينية وسريرية شديدة الخصوصية والحساسية.", options: ["To reduce computer usage", "Because it is cheap", "Because it is private and sensitive", "To share it publicly"], answer: 2 },
-{ q: "67. One challenge of Medical Bioinformatics is:", ar: "من أبرز التحديات الحالية النقص الشديد في الكوادر والمتخصصين الذين يجمعون بين الطب والحوسبة.", options:
+{ q: "1. Why is organizing data important?", ar: "لماذا يعد تنظيم البيانات مهماً؟", options: ["To make data more complicated", "Because large data sets are easy to understand", "To summarize data for better understanding", "To remove all data", "To increase data size"], answer: 2 },
+{ q: "2. A histogram is used for:", ar: "يستخدم المدرج التكراري (Histogram) لـ:", options: ["Categorical data only", "Continuous data", "Text data", "Random data", "Images"], answer: 1 },
+{ q: "3. Bars in a bar chart are separated to show that data are:", ar: "الأعمدة في المخطط الستوني تكون منفصلة لتوضيح أن البيانات:", options: ["Continuous", "Categorical or discrete", "Random", "Numerical only", "Unlimited"], answer: 1 },
+{ q: "4. Clustered bar charts are used for:", ar: "تستخدم المخططات الستونية العنقودية لـ:", options: ["One variable only", "Showing multiple variables", "Continuous data only", "Text data", "Percentages only"], answer: 1 },
+{ q: "5. Which is the correct sequence in steps of statistical reasoning?", ar: "ما هو التسلسل الصحيح لخطوات الاستدلال الإحصائي؟", options: ["Data collection → Problem identification → Interpretation → Study design", "Study design → Hypothesis formulation → Data collection → Statistical analysis → Interpretation", "Interpretation → Data collection → Study design → Problem identification", "Statistical analysis → Decision making → Problem identification → Study design", "Hypothesis formulation → Decision making → Data collection → Study design"], answer: 1 },
+{ q: "6. Why are samples usually used instead of entire populations?", ar: "لماذا تستخدم العينات عادة بدلاً من المجتمع بأكمله؟", options: ["Samples are always more accurate", "Populations are too small to study", "Populations are often too large or costly to measure completely", "Samples do not have any errors", "Populations change too quickly"], answer: 2 },
+{ q: "7. Which of the following is a quantitative variable?", ar: "أي مما يلي يمثل متغيراً كمياً؟", options: ["Eye color", "Blood type", "Weight in kilograms", "Marital status", "Gender"], answer: 2 },
+{ q: "8. A variable that can take any value within a range is:", ar: "المتغير الذي يمكن أن يأخذ أي قيمة ضمن نطاق معين هو متغيّر:", options: ["Discrete", "Continuous", "Qualitative", "Nominal", "Ordinal"], answer: 1 },
+{ q: "9. Which scale of measurement has a true zero point?", ar: "أي مقياس قياس يحتوي على نقطة صفر حقيقية؟", options: ["Nominal", "Ordinal", "Interval", "Ratio", "Categorical"], answer: 3 },
+{ q: "10. In a survey, satisfaction rated as 'Low, Medium, High' is an example of:", ar: "في الاستبيان، تقييم الرضا كـ (منخفض، متوسط، مرتفع) هو مثال على مقياس:", options: ["Nominal scale", "Interval scale", "Ratio scale", "Ordinal scale", "Continuous scale"], answer: 3 },
+{ q: "11. Frequency distribution shows:", ar: "يوضح التوزيع التكراري:", options: ["Only the highest number", "How often each value occurs in a dataset", "The average of data", "The difference between values", "The total size of population"], answer: 1 },
+{ q: "12. The formula for relative frequency is:", ar: "صيغة التكرار النسبي هي:", options: ["Frequency × Total Number", "Frequency ÷ Total Number", "Total Number ÷ Frequency", "Frequency + Total Number", "Frequency − Total Number"], answer: 1 },
+{ q: "13. Cumulative frequency is calculated by:", ar: "يتم حساب التكرار المتراكم عن طريق:", options: ["Subtracting frequencies", "Multiplying frequencies", "Adding frequencies successively", "Dividing frequencies", "Squaring frequencies"], answer: 2 },
+{ q: "14. Midpoint of a class interval is calculated by:", ar: "يتم حساب منتصف فئة معينة عن طريق:", options: ["(Lower limit × Upper limit) / 2", "(Lower limit + Upper limit) / 2", "Upper limit − Lower limit", "Lower limit + Upper limit", "Upper limit / Lower limit"], answer: 1 },
+{ q: "15. Pie charts are best used for showing:", ar: "تُستخدم المخططات الدائرية بشكل أفضل لإظهار:", options: ["Continuous data over time", "Proportions of a whole (percentages)", "Large ranges of numbers", "Random data", "Complex statistics"], answer: 1 },
+{ q: "16. In a frequency distribution table, class intervals must be:", ar: "في جدول التوزيع التكراري، يجب أن تكون الفئات:", options: ["Overlapping", "Non-overlapping and mutually exclusive", "Open-ended only", "Randomly sized", "Equal to zero"], answer: 1 },
+{ q: "17. Relative frequency always sum up to:", ar: "مجموع التكرارات النسبية دائماً يساوي:", options: ["0", "0.5", "1 (or 100%)", "10", "Dependent on sample size"], answer: 2 },
+{ q: "18. What type of graph is best for showing trends over time?", ar: "ما هو نوع الرسم البياني الأفضل لإظهار الاتجاهات بمرور الوقت؟", options: ["Bar chart", "Pie chart", "Line graph", "Histogram", "Scatter plot"], answer: 2 },
+{ q: "19. Which of the following can be used to display continuous data?", ar: "أي مما يلي يمكن استخدامه لعرض البيانات المستمرة؟", options: ["Bar chart", "Histogram", "Pie chart", "Frequency polygon and Histogram", "Pictogram"], answer: 3 },
+{ q: "20. The primary purpose of a summary table is to:", ar: "الهدف الأساسي من جدول التلخيص هو:", options: ["Hide information", "Display raw data completely", "Present data in a concise, readable form", "Increase data complexity", "Make errors in data"], answer: 2 },
+{ q: "21. What is the definition of the mean?", ar: "ما هو تعريف المتوسط الحسابي (Mean)؟", options: ["The middle value in a sorted list", "The most frequent value", "The sum of values divided by the total number of values", "The difference between highest and lowest values", "The square root of variance"], answer: 2 },
+{ q: "22. To find the median, the first step is to:", ar: "لإيجاد الوسيط (Median)، الخطوة الأولى هي:", options: ["Add all numbers", "Arrange the data in ascending or descending order", "Divide by two", "Find the most frequent number", "Subtract the lowest number"], answer: 1 },
+{ q: "23. The mode is defined as:", ar: "المنوال (Mode) يُعرّف بأنه:", options: ["The average value", "The middle number", "The value that appears most frequently", "The geometric mean", "The range divider"], answer: 2 },
+{ q: "24. If a dataset has two modes, it is called:", ar: "إذا كان لمجموعة البيانات منوالان، يطلق عليها:", options: ["Unimodal", "Bimodal", "Multimodal", "No mode", "Symmetric"], answer: 1 },
+{ q: "25. Which measure of central tendency is most affected by extreme values (outliers)?", ar: "أي من مقاييس النزعة المركزية يتأثر أكثر بالقيم المتطرفة؟", options: ["Median", "Mean", "Mode", "Geometric mean", "Harmonic mean"], answer: 1 },
+{ q: "26. For nominal data (like blood group), which measure of central tendency is appropriate?", ar: "للبيانات الاسمية (مثل فصيلة الدم)، أي مقياس نزعة مركزية يكون مناسباً؟", options: ["Mean", "Median", "Mode", "Range", "Standard deviation"], answer: 2 },
+{ q: "27. If a dataset of patient recovery times is found to be \"negatively skewed\" (skewed to the left), what is the most likely relationship between the central tendency measures?", ar: "إذا تبين أن بيانات أوقات شفاء المرضى ملتوية سلباً (ملتوية لليسار)، فما العلاقة المرجحة بين مقاييس النزعة المركزية؟", options: ["Mode < Median < Mean", "Mean < Median < Mode", "Mean = Median = Mode", "The mean is exactly equal to the range.", "The median is higher than the mode."], answer: 1 },
+{ q: "28. Which of the following is TRUE about a symmetric distribution?", ar: "أي مما يلي صحيح حول التوزيع المتماثل؟", options: ["Mean > Median", "Mean < Median", "Mean = Median = Mode", "Only median exists", "Mode is always highest"], answer: 2 },
+{ q: "29. Which of the following is an example of a symmetric (normal) distribution?", ar: "أي مما يلي هو مثال على التوزيع المتماثل المتناسق الطبيعي؟", options: ["Hospital stay duration", "Medical costs", "IQ scores in the general population", "Liver enzyme levels in hepatitis", "ICU stay length"], answer: 2 },
+{ q: "30. A good table should have:", ar: "الجدول الجيد يجب أن يحتوي على:", options: ["No title", "A clear and precise title", "Only numbers", "No labels", "Only symbols"], answer: 1 },
+{ q: "31. The simplest measure of dispersion is:", ar: "أبسط مقاييس التشتت هو:", options: ["Variance", "Standard deviation", "Range", "Mean deviation", "Coefficient of variation"], answer: 2 },
+{ q: "32. The range is calculated as:", ar: "يتم حساب المدى عن طريق:", options: ["Highest value + Lowest value", "Highest value − Lowest value", "Highest value × Lowest value", "Highest value / Lowest value", "Average of all values"], answer: 1 },
+{ q: "33. Variance is:", ar: "التباين (Variance) هو:", options: ["The square root of standard deviation", "The average of squared deviations from the mean", "The difference between range and mean", "The sum of absolute differences", "The highest value cubed"], answer: 1 },
+{ q: "34. Standard deviation is calculated by:", ar: "يتم حساب الانحراف المعياري عن طريق:", options: ["Squaring the variance", "Taking the square root of the variance", "Dividing variance by 2", "Multiplying variance by sample size", "Adding mean to the variance"], answer: 1 },
+{ q: "35. If the variance of a sample is 25, the standard deviation is:", ar: "إذا كان تباين العينة هو 25، فإن الانحراف المعياري هو:", options: ["5", "50", "12.5", "625", "0.5"], answer: 0 },
+{ q: "36. Standard deviation is preferred over variance because:", ar: "يُفضل الانحراف المعياري على التباين لأن:", options: ["It is always smaller", "It is measured in the same units as the original data", "It is easier to multiply", "It removes negative numbers only", "It does not use the mean"], answer: 1 },
+{ q: "37. Coefficient of Variation (CV) is expressed as:", ar: "يتم التعبير عن معامل الاختلاف (CV) كـ:", options: ["(Mean / SD) × 100", "(SD / Mean) × 100", "(Variance / Mean) × 100", "(Mean / Variance) × 100", "SD × Mean"], answer: 1 },
+{ q: "38. Coefficient of Variation is useful for:", ar: "معامل الاختلاف مفيد لـ:", options: ["Comparing variability between groups with different units or scales", "Finding the middle value", "Calculating the exact range", "Showing categorical frequencies", "Measuring text variables"], answer: 0 },
+{ q: "39. High standard deviation indicates that:", ar: "الانحراف المعياري العالي يشير إلى أن:", options: ["Data points are very close to the mean", "Data points are spread out over a wider range around the mean", "There are no outliers", "The mean is zero", "Sample size is small"], answer: 1 },
+{ q: "40. If all values in a dataset are identical (e.g., 5, 5, 5, 5), the standard deviation is:", ar: "إذا كانت جميع القيم في مجموعة البيانات متطابقة، فإن الانحراف المعياري يكون:", options: ["5", "1", "0", "Dependent on sample size", "Cannot be calculated"], answer: 2 },
+{ q: "41. What is the definition of probability?", ar: "ما هو تعريف الاحتمال؟", options: ["A certain event outcome", "A measure of the likelihood that an event will occur, between 0 and 1", "The number of variables in a study", "The average of a distribution", "The difference between sample and population"], answer: 1 },
+{ q: "42. The probability of an impossible event is:", ar: "احتمال وقوع حدث مستحيل هو:", options: ["1", "0.5", "−1", "0", "100"], answer: 3 },
+{ q: "43. The probability of a certain (guaranteed) event is:", ar: "احتمال وقوع حدث مؤكد هو:", options: ["0", "0.5", "1", "95", "Infinity"], answer: 2 },
+{ q: "44. Two events are mutually exclusive if:", ar: "يكون الحدثان متنافيين (Mutually Exclusive) إذا:", options: ["They can happen at the same time", "They cannot happen at the same time", "One event depends on the other", "Their probabilities add up to 2", "They have the same frequency"], answer: 1 },
+{ q: "45. If events A and B are independent, the probability of both occurring P(A and B) is:", ar: "إذا كان الحدثان مستقلين، فإن احتمال وقوعهما معاً هو:", options: ["P(A) + P(B)", "P(A) − P(B)", "P(A) × P(B)", "P(A) / P(B)", "1 − P(A)"], answer: 2 },
+{ q: "46. In a normal distribution, approximately what percentage of data falls within ±1 standard deviation?", ar: "في التوزيع الطبيعي، تقع حوالي كم من البيانات ضمن انحراف معياري واحد ±1؟", options: ["50%", "68%", "95%", "99.7%", "100%"], answer: 1 },
+{ q: "47. In a normal distribution, approximately what percentage of data falls within ±2 standard deviations?", ar: "في التوزيع الطبيعي، تقع حوالي كم من البيانات ضمن انحرافين معياريين ±2؟", options: ["68%", "90%", "95%", "99.7%", "75%"], answer: 2 },
+{ q: "48. The total area under the normal distribution curve is equal to:", ar: "المساحة الإجمالية تحت منحنى التوزيع الطبيعي تساوي:", options: ["0", "0.5", "1", "100", "Dependent on standard deviation"], answer: 2 },
+{ q: "49. A Z-score tells us:", ar: "درجة Z (Z-score) تخبرنا بـ:", options: ["The exact mean of data", "How many standard deviations a value is away from the mean", "The probability of an event being zero", "The total range of distribution", "The sample size needed"], answer: 1 },
+{ q: "50. If a patient's weight corresponds to a Z-score of +3.0, this means the patient's weight is:", ar: "إذا كان وزن المريض يقابل درجة Z تبلغ +3.0، فهذا يعني أن وزن المريض:", options: ["3 kg above the mean", "3 kg below the mean", "3 standard deviations above the mean", "3 standard deviations below the mean", "Equal to the average weight"], answer: 2 }
+],
+path: [
+{ q: "1. Approximately what percentage of body weight is water?", ar: "ما هي النسبة المئوية التقريبية للماء في وزن الجسم ؟", options: ["40%", "50%", "60%", "70%"], answer: 2 },
+{ q: "2. Non-pitting edema occurs in which condition?", ar: "في أي حالة يحدث الوذمة غير التجويفية؟", options: ["Cardiac edema", "Renal edema", "Nutritional edema", "Lymphatic edema"], answer: 3 },
+{ q: "3. Which of the following is an example of physiological hyperemia?", ar: "أي مما يلي هو مثال على فرط الدم الفسيولوجي؟", options: ["Hyperemia in acute inflammation", "Hyperemia in skeletal muscles during exercise", "Hyperemia in congestive heart failure", "Hyperemia in venous obstruction"], answer: 1 },
+{ q: "4. Which type of thrombus is most common in the human body?", ar: "أي نوع من الجلطة الدموية هو الأكثر شيوعا في جسم الإنسان؟", options: ["Arterial thrombus", "Capillary thrombus", "Venous thrombus", "Cardiac mural thrombus"], answer: 2 },
+{ q: "5. A thrombus that contains pyogenic bacteria is called:", ar: "تسمى الجلطة الدموية التي تحتوي على بكتيريا صديدية بـ:", options: ["Aseptic thrombus", "Red thrombus", "Septic thrombus", "Mixed thrombus"], answer: 2 },
+{ q: "6. Which type of shock is most likely to affect a patient with massive hemorrhage?", ar: "أي نوع من الصدمة من المرجح أن يصيب مريضا يعاني من نزيف حاد؟", options: ["Cardiogenic shock", "Hypovolemic shock", "Anaphylactic shock", "Neurogenic shock"], answer: 1 },
+{ q: "7. Amniotic fluid embolism typically occurs during:", ar: "يحدث انسداد السائل السلوي (الأمينوسي) عادة أثناء:", options: ["Early pregnancy", "Labor and delivery", "Postpartum period after 1 month", "Abdominal trauma in first trimester"], answer: 1 },
+{ q: "8. Fat embolism is most commonly associated with:", ar: "يرتبط الانسداد الدهني بشكل شائع بـ:", options: ["Deep vein thrombosis", "Fractures of long bones", "Bacterial endocarditis", "Air bubble injection"], answer: 1 },
+{ q: "9. Pale (white) infarcts typically occur in which of the following organs?", ar: "تحدث الاحتشاءات الشاحبة البيضاء عادة في أي من الأعضاء التالية؟", options: ["Lungs", "Small intestine", "Heart and Spleen", "Liver"], answer: 2 },
+{ q: "10. Red (hemorrhagic) infarcts are typically seen in:", ar: "تظهر الاحتشاءات الحمراء (النزفية) عادة في:", options: ["Kidneys", "Spleen", "Lungs and Gastrointestinal tract", "Heart"], answer: 2 },
+{ q: "11. Septic shock is primarily caused by:", ar: "تحدث الصدمة التسممية بشكل أساسي بسبب:", options: ["Severe allergic reaction", "Gram-negative or Gram-positive bacterial infections", "Acute myocardial infarction", "Spinal cord injury"], answer: 1 },
+{ q: "12. What is the definition of ischemia?", ar: "ما هو تعريف نقص التروية (الإقفار)؟", options: ["Inability of cells to use oxygen", "Inadequate blood supply to a tissue or organ", "Increase in venous blood flow", "Excessive oxygenation of tissues"], answer: 1 },
+{ q: "13. In decompression sickness, the bubbles are composed of:", ar: "في مرض تخفيف الضغط ، تتكون الفقاعات من:", options: ["Oxygen", "Carbon dioxide", "Nitrogen", "Helium"], answer: 2 },
+{ q: "14. Chronic passive congestion of the liver leads to:", ar: "الاحتقان المزمن في الكبد يؤدي إلى مظهر كبد جوزة الطيب.", options: ["Nutmeg liver", "Fatty liver", "Cirrhosis", "Infarction"], answer: 0 },
+{ q: "15. All of the following are examples of intracellular accumulations EXCEPT:", ar: "كل ما يلي أمثلة على التراكمات داخل الخلايا عدا:", options: ["Fatty change", "Cholesterol accumulation", "Amyloid deposits", "Glycogen accumulation"], answer: 2 },
+{ q: "16. Which type of calcification occurs in normal tissues due to hypercalcemia?", ar: "أي نوع من التكلس يحدث في الأنسجة الطبيعية بسبب ارتفاع الكالسيوم في الدم؟", options: ["Dystrophic calcification", "Metastatic calcification", "Apoptotic calcification", "Necrotic calcification"], answer: 1 },
+{ q: "17. Dystrophic calcification is typically associated with:", ar: "يرتبط التكلس الضموري (Dystrophic) عادة بـ:", options: ["Normal serum calcium levels and necrotic tissue", "Hypercalcemia and normal tissue", "Vitamin D deficiency", "Hyperparathyroidism"], answer: 0 },
+{ q: "18. Cellular aging is primarily driven by:", ar: "الشيخوخة الخلوية مدفوعة بشكل أساسي بـ:", options: ["Accumulation of DNA damage and telomere shortening", "Increased mitotic activity", "Decreased lysosomal activity", "Enhanced protein synthesis"], answer: 0 },
+{ q: "19. Which pigment is known as the 'wear-and-tear' pigment of aging?", ar: "أي صبغة تُعرف بصبغة الشيخوخة أو 'الاستهلاك والتآكل'؟", options: ["Melanin", "Hemosiderin", "Lipofuscin", "Bilirubin"], answer: 2 },
+{ q: "20. Anthracosis is an accumulation of which exogenous pigment?", ar: "مرض Anthracosis ينتج عن تراكم أي صبغة خارجية؟", options: ["Lead", "Carbon (coal dust)", "Iron", "Silica"], answer: 1 },
+{ q: "21. Fatty change (steatosis) is most commonly observed in which organ?", ar: "التغير الدهني يُلاحظ بشكل شائع في أي عضو؟", options: ["Kidneys", "Heart", "Liver", "Spleen"], answer: 2 },
+{ q: "22. russell bodies are accumulations of:", ar: "أجسام راسل (Russell bodies) هي تراكمات لـ:", options: ["Lipids in macrophages", "Immunoglobulins in plasma cells", "Glycogen in hepatocytes", "Carbon in lung tissue"], answer: 1 },
+{ q: "23. Which condition is associated with metastatic calcification?", ar: "أي حالة ترتبط بالتكلس النقيلي (Metastatic)؟", options: ["Atherosclerotic plaques", "Chronic renal failure / Hyperparathyroidism", "Tuberculous lymphadenitis", "Healed heart valves"], answer: 1 },
+{ q: "24. Telomere shortening leads to cellular:", ar: "قصر التيلومير يؤدي إلى الشيخوخة الخلوية:", options: ["Hyperplasia", "Hypertrophy", "Senescence", "Transformation"], answer: 2 },
+{ q: "25. The brown color of a chronic hematoma is due to which endogenous pigment?", ar: "اللون البني للورم الدموي المزمن يعود لصبغة:", options: ["Bilirubin", "Melanin", "Hemosiderin", "Lipofuscin"], answer: 2 },
+{ q: "26. Which of the following is considered a benign tumor?", ar: "أي مما يلي يعتبر ورماً حميداً؟", options: ["Adenocarcinoma", "Fibrosarcoma", "Leiomyoma", "Melanoma"], answer: 2 },
+{ q: "27. Malignant tumors of epithelial origin are called:", ar: "الأورام الخبيثة ذات الأصل الطلائي تسمى:", options: ["Sarcomas", "Carcinomas", "Lymphomas", "Adenomas"], answer: 1 },
+{ q: "28. Malignant tumors of mesenchymal (connective tissue) origin are called:", ar: "الأورام الخبيثة ذات أصل النسيج الضام تسمى:", options: ["Carcinomas", "Sarcomas", "Blastomas", "Papillomas"], answer: 1 },
+{ q: "29. What is the definition of anaplasia?", ar: "ما هو تعريف الـ Anaplasia؟", options: ["Increased size of cells", "Lack of differentiation", "Orderly replacement of cell types", "Premalignant change"], answer: 1 },
+{ q: "30. Metaplasia is defined as:", ar: "الـ Metaplasia هي:", options: ["Uncontrolled cell proliferation", "Reversible replacement of one adult cell type by another", "Complete lack of cellular differentiation", "Increased cell numbers"], answer: 1 },
+{ q: "31. Dysplasia represents:", ar: "الـ Dysplasia تمثل:", options: ["A benign neoplasm", "Disordered growth and maturation, often premalignant", "Complete regression of tissue", "Metastatic spread"], answer: 1 },
+{ q: "32. The most definitive feature distinguishing a malignant tumor from a benign tumor is:", ar: "الميزة الأكثر حسماً للتفريق بين الورم الخبيث والحميد هي:", options: ["Rapid growth rate", "Cellular atypia", "Metastasis and local invasion", "Large tumor size"], answer: 2 },
+{ q: "33. A benign tumor of smooth muscle is known as:", ar: "الورم الحميد في العضلات الملساء يسمى:", options: ["Rhabdomyoma", "Leiomyoma", "Lipoma", "Hemangioma"], answer: 1 },
+{ q: "34. A malignant tumor of skeletal muscle is called:", ar: "الورم الخبيث في العضلات الهيكلية يسمى:", options: ["Leiomyosarcoma", "Rhabdomyosarcoma", "Fibrosarcoma", "Osteosarcoma"], answer: 1 },
+{ q: "35. Which of the following tumors sounds benign but is actually malignant?", ar: "أي من الأورام التالية يبدو حميداً بالاسم لكنه خبيث في الواقع؟", options: ["Fibroma", "Chondroma", "Melanoma", "Osteoma"], answer: 2 },
+{ q: "36. Carcinoma in situ implies that:", ar: "السرطانة في الموضع (Carcinoma in situ) تعني أن:", options: ["The tumor has metastasized to lymph nodes", "Malignant cells have not breached the basement membrane", "The tumor is entirely benign", "The basement membrane is completely destroyed"], answer: 1 },
+{ q: "37. What is cachexia?", ar: "ما هو الدنف (Cachexia)؟", options: ["Local tumor invasion", "Wasting syndrome with weight loss and muscle atrophy in cancer patients", "A type of benign skin lesion", "Hormone secretion by non-endocrine tumors"], answer: 1 },
+{ q: "38. Paraneoplastic syndromes are:", ar: "متلازمات نظير الورم (Paraneoplastic syndromes) هي:", options: ["Symptoms caused by local tumor growth", "Symptom complexes not explained by local or metastatic tumor spread", "Complications of cancer chemotherapy", "Psychological reactions to cancer diagnosis"], answer: 1 },
+{ q: "39. Tumor staging (e.g., TNM system) evaluates:", ar: "تحديد مرحلة الورم (نظام TNM) يقيم:", options: ["The degree of differentiation under microscope", "The size, extent of local spread, and metastasis", "The mitotic rate of tumor cells", "The tissue of origin"], answer: 1 },
+{ q: "40. Tumor grading evaluates:", ar: "درجة الورم (Grading) تقيم:", options: ["The anatomical spread of the tumor", "The degree of cellular differentiation and atypia under microscope", "The duration of symptoms", "The age of the patient"], answer: 1 },
+{ q: "41. The 'T' in the TNM staging system stands for:", ar: "حرف 'T' في نظام TNM يشير إلى:", options: ["Tumor size or local extent", "Total nodes involved", "Time of onset", "Type of cancer"], answer: 0 },
+{ q: "42. The 'N' in the TNM staging system stands for:", ar: "حرف 'N' في نظام TNM يشير إلى:", options: ["Necrosis within tumor", "Regional lymph node involvement", "Number of metastases", "Nuclear grade"], answer: 1 },
+{ q: "43. The 'M' in the TNM staging system stands for:", ar: "حرف 'M' في نظام TNM يشير إلى:", options: ["Mitotic rate", "Metaplasia degree", "Distant metastasis", "Mutation type"], answer: 2 },
+{ q: "44. Which of the following is a classic clinical sign of tumor cachexia?", ar: "أي مما يلي علامة سريرية كلاسيكية لدنف الأورام؟", options: ["Weight gain", "Unintentional weight loss and wasting", "Increased appetite", "Fluid retention and edema"], answer: 1 },
+{ q: "45. An example of a paraneoplastic syndrome is:", ar: "مثال على متلازمة نظير الورم هو:", options: ["Anemia due to chronic bleeding", "Cushing syndrome caused by ACTH secretion from lung small cell carcinoma", "Jaundice due to common bile duct obstruction", "Bone pain from osteosarcoma"], answer: 1 },
+{ q: "46. A patient presents with a suspicious breast lump. Which cytology technique is minimally invasive, rapid, and low-cost?", ar: "مريض يعاني من كتلة مشبوهة في الثدي. أي تقنية فحص خلوي هي أقل تدخلا، سريعة، ومنخفضة التكلفة؟", options: ["Excisional biopsy", "Fine Needle Aspiration Cytology (FNAC)", "Endoscopic biopsy", "Liquid biopsy"], answer: 1 },
+{ q: "47. Which immunohistochemistry (IHC) marker would be most useful to confirm a carcinoma (epithelial origin)?", ar: "أي علامة من علامات الكيمياء المناعية النسيجية ستكون الأكثر فائدة لتأكيد وجود سرطانة ذات أصل طلائي؟", options: ["Vimentin", "Cytokeratin", "CD34", "Ki-67"], answer: 1 },
+{ q: "48. A high Ki-67 proliferation index on IHC suggests:", ar: "ماذا يشير ارتفاع مؤشر التكاثر Ki-67 في الكيمياء المناعية النسيجية؟", options: ["Benign tumor", "Low-grade malignancy", "High proliferative activity", "Hormone receptor positivity"], answer: 2 },
+{ q: "49. Flow cytometry is particularly useful in diagnosing:", ar: "يعتبر تحليل التدفق الخلوي (Flow cytometry) مفيدا بشكل خاص في تشخيص:", options: ["Liver cirrhosis", "Lung adenocarcinoma", "Leukemias and lymphomas", "Breast carcinoma"], answer: 2 }
+],
+cc: [
+{ q: "1) Therapeutic communication is best defined as", ar: "يُعرّف التواصل العلاجي بأفضل شكل على أنه:", options: ["Casual conversation between paramedic and patient", "A planned, deliberate, professional act using communication techniques", "Giving medical instructions only", "Talking to calm the patient"], answer: 1 },
+{ q: "2) Shared understanding of information helps to", ar: "الفهم المشترك للمعلومات يساعد على:", options: ["Achieve desired patient-care goals", "Reduce documentation", "Save time only", "Limit patient interaction"], answer: 0 },
+{ q: "3) Using silence in communication allows the patient", ar: "استخدام الصمت في التواصل يسمح للمريض بـ:", options: ["Feel ignored", "Think and gain insight", "Lose interest", "End the conversation"], answer: 1 },
+{ q: "4) Exploring is best described as", ar: "الاستكشاف (Exploring) يوصف بأفضل شكل بأنه:", options: ["Changing the subject", "Delving further into a topic", "Giving medical advice", "Summarizing data"], answer: 1 },
+{ q: "5) Clarification is used when the paramedic wants to", ar: "التوضيح (Clarification) يُستخدم عندما يريد المسعف أن:", options: ["Check understanding", "Challenge the patient", "Give instructions", "End communication"], answer: 0 },
+{ q: "6) Example of clarification is", ar: "مثال على التوضيح هو قيدك لـ:", options: ["“Why did you do that?”", "“Tell me everything again.”", "“What do you mean by ‘sicker than usual’?”", "“You are wrong.”"], answer: 2 },
+{ q: "7) Reflecting focuses on", ar: "الانعكاس (Reflecting) يركز على:", options: ["Only medical facts", "Client’s feelings and content", "Paramedic’s opinion", "Documentation"], answer: 1 },
+{ q: "8) Functional-professional touch is used primarily for", ar: "اللمس المهني-الوظيفي يُستخدم في المقام الأول لـ:", options: ["Clinical care", "Emotional bonding", "Social greetings", "Intimacy"], answer: 0 },
+{ q: "9) When explaining procedures, paramedics should consider", ar: "عند شرح الإجراءات، يجب على المسعفين مراعاة:", options: ["Only time constraints", "Documentation only", "Personal opinions", "Age and language barriers"], answer: 3 },
+{ q: "10) Therapeutic impasses are best described as", ar: "المآزق العلاجية توصف بأفضل شكل بأنها:", options: ["Blocks in the progress of the nurse-patient relationship", "Successful outcomes", "Fast medical interventions", "Standard protocols"], answer: 0 },
+{ q: "11) Active listening involves", ar: "الاستماع النشط يتضمن:", options: ["Thinking about what to say next", "Paying close attention to verbal and non-verbal cues", "Interrupting frequently", "Ignoring patient's posture"], answer: 1 },
+{ q: "12) Non-verbal communication includes", ar: "التواصل غير اللفظي يشمل:", options: ["Spoken words", "Written reports", "Facial expressions, gestures, and posture", "Radio transmissions"], answer: 2 },
+{ q: "13) Open-ended questions are useful because they", ar: "الأسئلة المفتوحة مفيدة لأنها:", options: ["Can be answered with 'Yes' or 'No'", "Encourage patients to share detailed information", "Limit patient response time", "Are only used for children"], answer: 1 },
+{ q: "14) Closed-ended questions are best used to", ar: "الأسئلة المغلقة تُستخدم بشكل أفضل لـ:", options: ["Gather specific, focused information quickly", "Explore patient's feelings", "Build a deep relationship", "Prolong the conversation"], answer: 0 },
+{ q: "15) An example of an open-ended question is", ar: "مثال على سؤال مفتوح هو:", options: ["“Are you in pain?”", "“What brought you to the hospital today?”", "“Is your name John?”", "“Do you take medications?”"], answer: 1 },
+{ q: "16) An example of a closed-ended question is", ar: "مثال على سؤال مغلق هو:", options: ["“Tell me about your medical history.”", "“How does the pain feel?”", "“Did you take your medication this morning?”", "“Describe the incident.”"], answer: 2 },
+{ q: "17) Restating helps the paramedic to", ar: "إعادة الصياغة (Restating) تساعد المسعف على:", options: ["Validate that the correct message was received", "Change the topic", "Correct the patient's grammar", "Show lack of interest"], answer: 0 },
+{ q: "18) Giving broad openings allows the patient to", ar: "إعطاء فواتح واسعة يسمح للمريض بـ:", options: ["Answer only with 'Yes'", "Lead the direction of the conversation", "Feel limited in options", "Stop talking immediately"], answer: 1 },
+{ q: "19) Summarizing is useful to", ar: "التلخيص مفيد لـ:", options: ["Introduce new topics", "Review main points and bring closure to a discussion", "Confuse the patient", "Avoid documentation"], answer: 1 },
+{ q: "20) Empathy is best defined as", ar: "التعاطف (Empathy) يُعرّف بأفضل شكل على أنه:", options: ["Feeling sorry for the patient", "Understanding and sharing another person's experiences and emotions", "Ignoring emotional cues", "Agreeing with everything the patient says"], answer: 1 },
+{ q: "21) Sympathy differs from empathy because sympathy involves", ar: "التعاطف الوجداني (Sympathy) يختلف عن التقمص الوجداني لأنه يتضمن:", options: ["Objective understanding", "Taking on the patient's distress as one's own feeling pitiful", "Professional distance", "Effective active listening"], answer: 1 },
+{ q: "22) Barriers to effective communication include", ar: "عوائق التواصل الفعال تشمل:", options: ["Using clear language", "Active listening", "Medical jargon, high noise levels, and bias", "Maintaining eye contact"], answer: 2 },
+{ q: "23) Using medical jargon with a patient can lead to", ar: "استخدام المصطلحات الطبية المعقدة مع المريض يمكن أن يؤدي إلى:", options: ["Better understanding", "Confusion and anxiety", "Faster recovery", "Improved trust"], answer: 1 },
+{ q: "24) Non-therapeutic communication includes", ar: "التواصل غير العلاجي يشمل:", options: ["Giving false reassurance and judging", "Using open-ended questions", "Reflecting feelings", "Clarifying details"], answer: 0 },
+{ q: "25) Saying “Everything will be fine” is an example of", ar: "قولك 'كل شيء سيكون على ما يرام' هو مثال على:", options: ["Therapeutic reassurance", "False reassurance", "Active listening", "Validating feelings"], answer: 1 },
+{ q: "26) Asking “Why” questions aggressively can make the patient feel", ar: "طرح أسئلة تبدأ بـ 'لماذا' بشكل هجومي قد يجعل المريض يشعر بـ:", options: ["Defensive and judged", "Comfortable and open", "Appreciated", "Independent"], answer: 0 },
+{ q: "27) Interpersonal communication occurs", ar: "التواصل بين الأشخاص (Interpersonal) يحدث:", options: ["Within oneself", "Between two or more people", "Across a whole nation", "Only via text messages"], answer: 1 },
+{ q: "28) Intrapersonal communication occurs", ar: "التواصل داخل الذات (Intrapersonal) يحدث:", options: ["Between a doctor and nurse", "Within an individual’s own mind", "During a team meeting", "Through a presentation"], answer: 1 },
+{ q: "29) The sender’s role in communication is to", ar: "دور المرسل في التواصل هو:", options: ["Decode the message", "Encode and transmit the message", "Provide feedback only", "Block the channel"], answer: 1 },
+{ q: "30) The receiver’s role in communication is to", ar: "دور المستقبل في التواصل هو:", options: ["Create the message", "Decode and interpret the message", "Ignore non-verbal cues", "Select the medium"], answer: 1 },
+{ q: "31) Feedback in communication is important because it", ar: "التغذية الراجعة (Feedback) مهمة في التواصل لأنها:", options: ["Ends the conversation immediately", "Confirms that the message was understood correctly", "Increases noise", "Changes the sender"], answer: 1 },
+{ q: "32) Noise in communication refers to", ar: "الضوضاء (Noise) في التواصل تشير إلى:", options: ["Only loud sounds", "Any interference that distorts or blocks the message", "Music in the background", "The sender’s voice"], answer: 1 },
+{ q: "33) Proxemics is the study of", ar: "علم القرب (Proxemics) هو دراسة:", options: ["Body language", "Personal space and distance in communication", "Voice tone", "Eye contact"], answer: 1 },
+{ q: "34) Intimate distance is typically reserved for", ar: "المسافة الحميمة تكون عادة محجوزة لـ:", options: ["Public speaking", "Close relationships and physical examination (0-18 inches)", "Casual conversations", "Business meetings"], answer: 1 },
+{ q: "35) Personal distance is usually used for", ar: "المسافة الشخصية تُستخدم عادة لـ:", options: ["Crowds", "Conversations with friends and colleagues (1.5 - 4 feet)", "Performing CPR", "Shouting commands"], answer: 1 },
+{ q: "36) Social distance is common in", ar: "المسافة الاجتماعية شائعة في:", options: ["Physical touch", "Business and formal interactions (4-12 feet)", "Whispering secrets", "Family gatherings"], answer: 1 },
+{ q: "37) Public distance is used for", ar: "المسافة العامة تُستخدم لـ:", options: ["Private consulting", "Lectures and public speaking (12+ feet)", "Patient assessment", "Handshakes"], answer: 1 },
+{ q: "38) Kinesics is the study of", ar: "علم الحركة (Kinesics) هو دراسة:", options: ["Spoken words", "Body movement, gestures, and posture", "Touch frequency", "Time management"], answer: 1 },
+{ q: "39) Paralanguage includes", ar: "شبه اللغة (Paralanguage) تشمل:", options: ["Written text", "Tone, pitch, speed, and volume of voice", "Sign language", "Choice of vocabulary"], answer: 1 },
+{ q: "40) Maintaining appropriate eye contact shows", ar: "الحفاظ على التواصل البصري المناسب يُظهر:", options: ["Aggression", "Interest, attentiveness, and respect", "Disregard", "Boredom"], answer: 1 },
+{ q: "41) Communication with pediatric patients requires", ar: "التواصل مع الأطفال يتطلب:", options: ["Using complex medical terms", "Getting down to their eye level and using simple words", "Ignoring the parents", "Speaking very loudly"], answer: 1 },
+{ q: "42) When communicating with geriatric patients, paramedics should", ar: "عند التواصل مع كبار السن، يجب على المسعفين:", options: ["Assume they are all deaf", "Speak clearly, face them, and show patience", "Rush through the assessment", "Talk only to their family members"], answer: 1 },
+{ q: "43) For a patient with a hearing impairment, it is helpful to", ar: "للمريض الذي يعاني من ضعف السمع، من المفيد:", options: ["Shout directly into their ear", "Face the patient so they can read lips, and use written notes", "Turn away while speaking", "Use complex language"], answer: 1 },
+{ q: "44) Cultural competence in communication means", ar: "الكفاءة الثقافية في التواصل تعني:", options: ["Ignoring cultural differences", "Being aware of and respecting diverse cultural beliefs and practices", "Forcing the patient to adapt to your culture", "Speaking only one language"], answer: 1 },
+{ q: "45) An example of a non-verbal barrier is", ar: "مثال على حاجز غير لفظي هو:", options: ["Speaking slowly", "Crossing arms and looking away", "Nodding during conversation", "Leaning forward towards the patient"], answer: 1 },
+{ q: "46) Validation is a technique used to", ar: "التحقق (Validation) هو أسلوب يُستخدم لـ:", options: ["Check if the patient is lying", "Acknowledge and confirm the patient’s feelings or expressions", "Disapprove of patient actions", "End the interview"], answer: 1 },
+{ q: "47) Directing or focusing is useful when the patient", ar: "التوجيه أو التركيز يكون مفيداً عندما يكون المريض:", options: ["Is silent", "Is rambling or disconnected, to bring them back to the main topic", "Answers clearly", "Is unconscious"], answer: 1 },
+{ q: "48) Confrontation in therapeutic communication should be used", ar: "المواجهة في التواصل العلاجي يجب أن تُستخدم:", options: ["Angrily to challenge the patient", "Carefully to point out inconsistencies in information, constructively", "To prove the patient wrong", "Never, under any circumstance"], answer: 1 },
+{ q: "49) Sharing observations involves", ar: "مشاركة الملاحظات تتضمن:", options: ["Judging the patient’s lifestyle", "Commenting on how the patient looks or behaves without judging", "Making fun of the patient", "Writing secret notes"], answer: 1 },
+{ q: "50) Self-disclosure by a paramedic should be", ar: "الإفصاح الذاتي من قبل المسعف يجب أن يكون:", options: ["Used frequently to talk about personal problems", "Minimal and strictly focused on benefiting the patient", "Avoided completely even if helpful", "Used to show off expertise"], answer: 1 },
+{ q: "51) The primary goal of a patient interview is to", ar: "الهدف الأساسي من المقابلة مع المريض هو:", options: ["Complete documentation quickly", "Gather accurate clinical and psychosocial history", "Make friends with the patient", "Bill the patient"], answer: 1 },
+{ q: "52) Formal communication follows", ar: "التواصل الرسمي يتبع:", options: ["Gossip paths", "Prescribed, official organizational channels", "Random networks", "No rules"], answer: 1 },
+{ q: "53) Horizontal communication occurs between", ar: "التواصل الأفقي يحدث بين:", options: ["Managers and subordinates", "Peers or individuals at the same organizational level", "Customers and suppliers", "Different companies"], answer: 1 },
+{ q: "54) What is an advantage of formal communication?", ar: "ما هي ميزة التواصل الرسمي؟", options: ["Leakage of confidential information", "Orderly flow of information", "Possibility of rumor", "Speed of transmission"], answer: 1 },
+{ q: "55) What is a disadvantage of formal communication?", ar: "ما هي سيئة التواصل الرسمي؟", options: ["It is fast", "It is expensive", "It maintains discipline", "It ensures answerability"], answer: 1 },
+{ q: "56) What is downward communication?", ar: "ما هو التواصل الهابط (Downward)؟", options: ["Information flowing from employees to higher management", "Information flowing from higher management to employees", "Information flowing between peers", "Information flowing between different departments"], answer: 1 },
+{ q: "57) What is upward communication?", ar: "ما هو التواصل الصاعد (Upward)؟", options: ["Information flowing from higher management to employees", "Information flowing from employees to higher management", "Information flowing between peers", "Information flowing between different departments"], answer: 1 },
+{ q: "58) What is the purpose of horizontal communication?", ar: "ما هو الغرض من التواصل الأفقي؟", options: ["To request support or coordinate activities", "To spread rumors", "To inform employees about decisions", "To notify upper management of complaints"], answer: 0 },
+{ q: "59) What is diagonal communication?", ar: "ما هو التواصل المائل (Diagonal)؟", options: ["Communication between employees of the same department", "Communication between employees of different departments at different levels", "Communication between employees and customers", "Communication between managers and subordinates"], answer: 1 },
+{ q: "60) What is informal communication?", ar: "ما هو التواصل غير الرسمي؟", options: ["Communication that follows a prescribed path", "Communication that occurs outside the formal network", "Communication that uses professional language", "Communication that is slow and orderly"], answer: 1 }
+]
+};
+
+function startQuiz(sub) {
+    subject = sub;
+    current = 0;
+    answered = {};
+    isShowingFeedback = false;
+    playCuteSound();
+    
+    document.getElementById("menu").classList.remove("active");
+    document.getElementById("quiz").classList.add("active");
+    
+    showQuestion();
+}
+
+function showQuestion() {
+    const qList = bank[subject];
+    if (!qList || qList.length === 0) {
+        alert("No questions found!");
+        return;
+    }
+    
+    const qData = qList[current];
+    document.getElementById("progressBadge").innerText = `${current + 1} / ${qList.length}`;
+    document.getElementById("question").innerText = qData.q;
+    document.getElementById("translation").innerText = qData.ar || "";
+    
+    const optionsDiv = document.getElementById("options");
+    optionsDiv.innerHTML = "";
+    
+    document.getElementById("feedback").style.display = "none";
+    document.getElementById("feedback").className = "feedback";
+    isShowingFeedback = false;
+    
+    qData.options.forEach((opt, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "option";
+        btn.innerText = opt;
+        
+        if (answered[current] !== undefined) {
+            if (idx === qData.answer) {
+                btn.classList.add("correct-flash");
+            } else if (idx === answered[current]) {
+                btn.classList.add("wrong-flash");
+            }
+        } else {
+            btn.onclick = () => selectOption(idx);
+        }
+        
+        optionsDiv.appendChild(btn);
+    });
+}
+
+function selectOption(idx) {
+    if (answered[current] !== undefined || isShowingFeedback) return;
+    
+    const qData = bank[subject][current];
+    answered[current] = idx;
+    isShowingFeedback = true;
+    
+    const optionsDiv = document.getElementById("options");
+    const buttons = optionsDiv.getElementsByClassName("option");
+    
+    if (idx === qData.answer) {
+        buttons[idx].classList.add("correct-flash");
+        showFeedback(true, "إجابة صحيحة مذهلة! ✨👏");
+    } else {
+        buttons[idx].classList.add("wrong-flash");
+        buttons[qData.answer].classList.add("correct-flash");
+        showFeedback(false, "إجابة خاطئة، حاول في السؤال القادم 🌸");
+    }
+}
+
+function showFeedback(isCorrect, text) {
+    const fb = document.getElementById("feedback");
+    fb.style.display = "block";
+    fb.innerText = text;
+    if (isCorrect) {
+        fb.style.background = "#d1fae5";
+        fb.style.color = "#065f46";
+    } else {
+        fb.style.background = "#ffe4e6";
+        fb.style.color = "#9f1239";
+    }
+}
+
+function nextQuestion() {
+    const qList = bank[subject];
+    if (current < qList.length - 1) {
+        current++;
+        showQuestion();
+    } else {
+        alert("🎉 لقد أكملت الاختبار بنجاح يا بطل!");
+        goMenu();
+    }
+}
+
+function backQuestion() {
+    if (current > 0) {
+        current--;
+        showQuestion();
+    }
+}
+
+function goMenu() {
+    document.getElementById("quiz").classList.remove("active");
+    document.getElementById("menu").classList.add("active");
+}
+</script>
+</body>
+</html>
