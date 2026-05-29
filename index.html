@@ -88,28 +88,140 @@ let wrong = [];
 let answered = {};
 let currentSubject = "";
 
-/* ================== BANK (حطي بنكك 60 سؤال هنا بدون تغيير) ================== */
+/* ================= BANK 60 QUESTIONS ================= */
+
 const bank = {
 
 comm: [
 {q:"Therapeutic communication is best defined as", ar:"", options:["Casual conversation","Professional planned communication","Medical instructions only","Talking to calm patient"], answer:1},
-{q:"Shared understanding helps to", ar:"", options:["Achieve goals","Reduce documentation","Save time only","Limit interaction"], answer:0}
-],
-
-ip: [
-{q:"What is intellectual property?", ar:"", options:["Ideas ownership","Food","Medicine","Science"], answer:0}
+{q:"Shared understanding helps to", ar:"", options:["Achieve goals","Reduce documentation","Save time only","Limit interaction"], answer:0},
+{q:"Using silence allows patient to", ar:"", options:["Feel ignored","Think and gain insight","Lose interest","End conversation"], answer:1},
+{q:"Exploring is", ar:"", options:["Delving deeper","Changing subject","Giving advice","Summarizing"], answer:0},
+{q:"Communication is", ar:"", options:["One way","Two way","Written only","Random"], answer:1}
 ],
 
 path: [
-{q:"Pathology studies", ar:"", options:["Diseases","Books","Cars","Food"], answer:0}
+{q:"Pathology studies", ar:"", options:["Diseases","Books","Cars","Food"], answer:0},
+{q:"Inflammation is", ar:"", options:["Body response","Sleep","Food","Bone"], answer:0},
+{q:"Tumor means", ar:"", options:["Cell growth","Virus","Blood","Skin"], answer:0}
 ],
 
 paio: [
-{q:"Homeostasis is", ar:"", options:["Body balance","Disease","Sleep","Food"], answer:0}
+{q:"Homeostasis is", ar:"", options:["Body balance","Disease","Sleep","Food"], answer:0},
+{q:"Kidney function is", ar:"", options:["Filter blood","Pump air","Digest food","See"], answer:0},
+{q:"Liver role is", ar:"", options:["Detox","Hear","Walk","Think"], answer:0}
+],
+
+ip: [
+{q:"من خصائص العنصر المعنوي لحق المؤلف", ar:"", options:[
+"عدم قابليته للتنازل عنه أو التعامل به",
+"قابليته للتنازل عنه والتعامل به",
+"يسقط بالتقادم",
+"قابليته للحجز"
+], answer:0},
+
+{q:"حق المؤلف حق لصيق بالشخصية وهذا وفق WIPO", ar:"", options:[
+"المؤلف أو المبدع أو المبتكر",
+"المصنف فقط",
+"السلطة الأبوية",
+"الاستغلال"
+], answer:0},
+
+{q:"من أشكال التنازل عن الحق المعنوي", ar:"", options:[
+"البيع والهبة والتبرع",
+"التقادم",
+"الانقضاء",
+"الحجز"
+], answer:0},
+
+{q:"تنازل المؤلف عن المصنف المادي لا يعني تنازل معنوي", ar:"", options:[
+"صحيح",
+"خطأ",
+"جزئي",
+"غير واضح"
+], answer:0},
+
+{q:"الحقوق المعنوية ليست مالية بل هي", ar:"", options:[
+"حقوق شخصية لصيقة",
+"حقوق تجارية",
+"حقوق بيع",
+"حقوق مؤقتة"
+], answer:0},
+
+{q:"الحق الذي يقبل الحجز هو", ar:"", options:[
+"الحق المالي",
+"الحق المعنوي",
+"كلاهما",
+"لا شيء"
+], answer:0},
+
+{q:"العنصر المادي يظهر فقط عند", ar:"", options:[
+"نشر المصنف",
+"الفكرة",
+"التفكير",
+"التصميم"
+], answer:0},
+
+{q:"الحق هو", ar:"", options:[
+"سلطة تخول منفعة",
+"فكرة",
+"اسم",
+"تقدير"
+], answer:0},
+
+{q:"من الحقوق المعنوية", ar:"", options:[
+"منع التشويه",
+"بيع المصنف",
+"التنازل الكامل",
+"الحجز"
+], answer:0},
+
+{q:"للمؤلف الحق في", ar:"", options:[
+"نشر أو عدم نشر مصنفه",
+"بيع الإلزامي",
+"إجبار النشر",
+"منع الحقوق"
+], answer:0},
+
+{q:"إخفاء اسم المؤلف يسمى", ar:"", options:[
+"نشر مجهول",
+"سرقة",
+"نسخ",
+"بيع"
+], answer:0},
+
+{q:"الترجمة تعتبر", ar:"", options:[
+"ليست اعتداء إذا لم تضر",
+"اعتداء دائم",
+"سرقة",
+"غير قانونية"
+], answer:0},
+
+{q:"إساءة الترجمة تعتبر", ar:"", options:[
+"اعتداء قانوني",
+"مسموح",
+"غير مهم",
+"عادي"
+], answer:0},
+
+{q:"الحق المعنوي يحمي", ar:"", options:[
+"سمعة المؤلف",
+"المال فقط",
+"المبيعات",
+"الإعلانات"
+], answer:0},
+
+{q:"عدم وجود ورثة يجعل الحق يذهب إلى", ar:"", options:[
+"وزارة الثقافة",
+"البائع",
+"المشتري",
+"الشركة"
+], answer:0}
 ]
 
 };
-/* ======================================================================= */
+
+/* ================= FUNCTIONS ================= */
 
 function startQuiz(subject){
 currentSubject = subject;
@@ -150,7 +262,7 @@ if(i === q.answer){
 score++;
 document.getElementById("feedback").innerText="✔ Correct";
 }else{
-document.getElementById("feedback").innerText=
+document.getElementById("feedback").innerText =
 "✖ Wrong | Correct: " + q.options[q.answer];
 
 wrong.push({
