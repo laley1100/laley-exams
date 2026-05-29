@@ -59,7 +59,86 @@ button{
     <button class="next" onclick="nextQuestion()">Next</button>
 </div>
 
-<script src="script.js"></script>
+<script>
+let current = 0;
+let score = 0;
+let wrong = [];
+
+const questions = [
+{
+q: "Therapeutic communication is best defined as",
+options: ["Casual conversation", "Professional planned communication", "Medical orders", "Talking only"],
+answer: 1
+},
+{
+q: "Shared understanding helps to",
+options: ["Achieve goals", "Waste time", "Reduce care", "Ignore patient"],
+answer: 0
+},
+{
+q: "Using silence allows patient to",
+options: ["Feel ignored", "Think and reflect", "Stop talking", "Confuse"],
+answer: 1
+}
+];
+
+function showQuestion(){
+let q = questions[current];
+
+document.getElementById("question").innerText =
+(current+1) + ". " + q.q;
+
+let optionsDiv = document.getElementById("options");
+optionsDiv.innerHTML = "";
+
+q.options.forEach((opt,i)=>{
+let btn = document.createElement("button");
+btn.className = "option";
+btn.innerText = opt;
+
+btn.onclick = ()=>{
+checkAnswer(i);
+};
+
+optionsDiv.appendChild(btn);
+});
+}
+
+function checkAnswer(i){
+let q = questions[current];
+
+if(i === q.answer){
+score++;
+document.getElementById("heart").innerText = "💗 Correct!";
+} else {
+wrong.push({
+question: q.q,
+correct: q.options[q.answer]
+});
+document.getElementById("heart").innerText = "💔 Wrong!";
+}
+}
+
+function nextQuestion(){
+if(current < questions.length-1){
+current++;
+showQuestion();
+document.getElementById("heart").innerText = "🤍 Quiz Platform";
+}else{
+showResult();
+}
+}
+
+function backQuestion(){
+if(current > 0){
+current--;
+showQuestion();
+}
+}
+
+function showQuestion();
+showQuestion();
+</script>
 
 </body>
 </html>
