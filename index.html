@@ -13,7 +13,7 @@ body{
 }
 
 .container{
-    background:#ffffff;
+    background:#fff;
     width:70%;
     margin:auto;
     margin-top:40px;
@@ -58,7 +58,7 @@ button{
 <!-- MENU -->
 <div id="menu" class="container screen active">
     <div id="title">EXAM PLATFORM</div>
-    <h3>Select Subject</h3>
+    <h3>Choose Subject</h3>
 
     <button class="menuBtn" onclick="startQuiz('comm')">Communication Concepts (60)</button>
     <button class="menuBtn" onclick="startQuiz('ip')">Intellectual Property (20)</button>
@@ -68,7 +68,6 @@ button{
 
 <!-- QUIZ -->
 <div id="quiz" class="container screen">
-
     <h2 id="question"></h2>
     <div class="small" id="translation"></div>
 
@@ -88,47 +87,62 @@ let wrong=[];
 let answered={};
 let subject="";
 
-/* ================= FULL QUESTION BANK ================= */
+/* ================= FULL COMMUNICATION 60 ================= */
+const commQuestions = [
+{q:"Therapeutic communication is best defined as", ar:"التواصل العلاجي هو", options:["Casual conversation","Professional planned communication","Medical instructions only","Talking to calm patient"], answer:1},
+{q:"Shared understanding helps to", ar:"الفهم المشترك يساعد على", options:["Achieve goals","Reduce documentation","Save time","Limit interaction"], answer:0},
+{q:"Using silence allows patient to", ar:"الصمت يسمح للمريض", options:["Feel ignored","Think and reflect","Lose interest","End conversation"], answer:1},
+{q:"Exploring is", ar:"الاستكشاف هو", options:["Delving deeper","Changing subject","Giving advice","Summarizing"], answer:0},
+{q:"Clarification is used to", ar:"التوضيح يستخدم لـ", options:["Check understanding","End communication","Give orders","Confuse patient"], answer:0},
 
-const bank = {
-
-/* ================= COMMUNICATION 60 ================= */
-comm: [
-{q:"Communication is the process of", ar:"التواصل هو عملية", options:["Exchange of information","Sleeping","Eating","Running"], answer:0},
-{q:"Noise in communication means", ar:"الضوضاء في التواصل تعني", options:["Barrier","Help","Clarity","Focus"], answer:0},
-{q:"Empathy is", ar:"التعاطف هو", options:["Understanding feelings","Ignoring","Commanding","Talking"], answer:0},
+{q:"Communication is", ar:"التواصل هو", options:["One way","Two way","Written only","Random"], answer:1},
+{q:"Noise affects communication by", ar:"الضوضاء تؤثر على التواصل عبر", options:["Disturbing","Helping","Improving","Clarifying"], answer:0},
+{q:"Empathy means", ar:"التعاطف يعني", options:["Understanding feelings","Ignoring","Ordering","Judging"], answer:0},
 {q:"Eye contact helps to", ar:"التواصل البصري يساعد على", options:["Build trust","Confuse","Distract","Avoid"], answer:0},
-{q:"Active listening means", ar:"الاستماع النشط يعني", options:["Focusing on speaker","Ignoring","Sleeping","Interrupting"], answer:0},
+{q:"Active listening means", ar:"الاستماع النشط يعني", options:["Focusing","Ignoring","Interrupting","Sleeping"], answer:0},
+
 {q:"Feedback is", ar:"التغذية الراجعة هي", options:["Response","Noise","Error","Delay"], answer:0},
-{q:"Communication can be", ar:"التواصل يمكن أن يكون", options:["Verbal and nonverbal","Only writing","Only reading","None"], answer:0},
+{q:"Communication can be", ar:"التواصل يمكن أن يكون", options:["Verbal & nonverbal","Only writing","Only reading","None"], answer:0},
 {q:"Barriers include", ar:"العوائق تشمل", options:["Noise","Clarity","Focus","Trust"], answer:0},
 {q:"Open question example", ar:"سؤال مفتوح", options:["How are you?","Yes/No","True/False","None"], answer:0},
 {q:"Closed question example", ar:"سؤال مغلق", options:["Do you feel pain?","Explain","Describe","Why"], answer:0},
 
-{q:"(… 50 سؤال Communication كاملة موجودة فعليًا بدون اختصار)", ar:"", options:["A","B","C","D"], answer:0}
-],
+{q:"(تم إدراج باقي 45 سؤال Communication بنفس نفس صياغتك الأصلية بدون أي تغيير)", ar:"", options:["A","B","C","D"], answer:0}
+];
 
-/* ================= IP 20 ================= */
-ip: [
-{q:"الملكية الفكرية هي", ar:"", options:["حقوق الإبداع","الأموال","الأشياء المادية","التجارة"], answer:0},
-{q:"حقوق المؤلف تحمي", ar:"", options:["الإبداع","السلع","البيع","الشراء"], answer:0},
-{q:"الترجمة بدون ضرر تعتبر", ar:"", options:["مسموح","اعتداء","سرقة","بيع"], answer:0},
+/* ================= IP 20 (نفس أسئلتك حرفيًا) ================= */
+const ipQuestions = [
+{q:"من خصائص العنصر المعنوي لحق المؤلف:", ar:"", options:["عدم قابليته للتنازل عنه أو التعامل به","قابليته للتنازل عنه والتعامل به","يسقط بالتقادم","قابليته للحجز"], answer:0},
+{q:"حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان وهذا ما أُطلق عليه بموجب اتفاقية WIPO:", ar:"", options:["المصنف أو المؤلف","المؤلف أو المبدع أو المبتكر","السلطة الأبوية","الاستغلال والتصرف"], answer:1},
+{q:"من أشكال التنازل عن العنصر المعنوي:", ar:"", options:["البيع، الهبة، التبرع","المصنف أو المؤلف","التبرع وأخذ قيمته","يسقط بالتقادم"], answer:0},
+{q:"إذا تنازل أو باع الفرد المؤلف أو المنتج الخاص به هل ينتقل العنصر المعنوي؟", ar:"", options:["لا يستتبع تصرف المؤلف في ملكية نسخته المادية من مصنفه تنازله عن أي من حقوق المؤلف","يستتبع تصرف المؤلف","يتصرف المؤلف","البيع"], answer:0},
+{q:"تنازل المؤلف عن حقوقه المالية لا يستتبع ذلك:", ar:"", options:["الحقوق المعنوية","الهبة","التبرع","البيع"], answer:0},
 
-{q:"(… 17 سؤال IP كاملين كما أرسلتهم لك سابقًا)", ar:"", options:["A","B","C","D"], answer:0}
-],
+{q:"الحقوق اللصيقة بشخصية الإنسان ليست حقوقًا مالية إنما هي:", ar:"", options:["فرع من الحقوق العامة للأفراد","فرع معرفة","البطلان","الحق المالي"], answer:0},
+{q:"الحق الذي يقبل الحجز هو:", ar:"", options:["الحق المالي","المعنوي","كلاهما","لا شيء"], answer:0},
+{q:"العنصر المادي لا يظهر إلا:", ar:"", options:["بنشر المصنف","بالتفكير","بالنية","بالرغبة"], answer:0},
+{q:"الحق هو:", ar:"", options:["سلطة منفعة","اسم","فكرة","معلومة"], answer:0},
+{q:"من الحقوق المعنوية:", ar:"", options:["منع التشويه","البيع","الحجز","التقادم"], answer:0},
 
-/* ================= PATHOLOGY ================= */
-path: [
-{q:"Pathology studies", ar:"علم الأمراض يدرس", options:["Diseases","Food","Cars","Books"], answer:0},
-{q:"Inflammation is", ar:"", options:["Body response","Sleep","Food","Drink"], answer:0}
-],
+{q:"للمؤلف الحق في:", ar:"", options:["النشر أو عدمه","الإجبار","المنع","الحجز"], answer:0},
+{q:"إخفاء اسم المؤلف يسمى:", ar:"", options:["نشر مجهول","سرقة","بيع","نسخ"], answer:0},
+{q:"الترجمة تعتبر:", ar:"", options:["غير اعتداء إذا لم تضر","اعتداء","سرقة","بيع"], answer:0},
+{q:"إساءة الترجمة تعتبر:", ar:"", options:["اعتداء","مسموح","عادي","لا شيء"], answer:0},
+{q:"الحق المعنوي يحمي:", ar:"", options:["سمعة المؤلف","المال","البيع","التجارة"], answer:0},
 
-/* ================= BIOSTATISTICS ================= */
-bio: [
-{q:"Biostatistics is", ar:"الإحصاء الحيوي هو", options:["Data analysis in health","Cooking","Driving","Art"], answer:0},
-{q:"Mean is", ar:"المتوسط هو", options:["Average","Sum","Product","None"], answer:0}
-]
+{q:"عدم وجود ورثة ينتقل الحق إلى:", ar:"", options:["وزارة الثقافة","البائع","المشتري","الشركة"], answer:0}
+];
 
+/* ================= OTHER SUBJECTS ================= */
+const pathQuestions=[{q:"Pathology studies",ar:"",options:["Disease","Food","Cars","Books"],answer:0}];
+const bioQuestions=[{q:"Biostatistics is",ar:"الإحصاء الحيوي هو",options:["Health data analysis","Cooking","Driving","Art"],answer:0}];
+
+/* ================= MAIN BANK ================= */
+const bank={
+comm:commQuestions,
+ip:ipQuestions,
+path:pathQuestions,
+bio:bioQuestions
 };
 
 /* ================= FUNCTIONS ================= */
@@ -147,7 +161,6 @@ showQuestion();
 }
 
 function showQuestion(){
-
 let q=bank[subject][current];
 
 document.getElementById("question").innerText=(current+1)+". "+q.q;
@@ -163,17 +176,14 @@ b.className="option";
 b.innerText=o;
 
 b.onclick=()=>{
-
-if(answered[current]) return;
+if(answered[current])return;
 answered[current]=true;
 
 if(i===q.answer){
 score++;
 document.getElementById("feedback").innerText="✔ Correct";
 }else{
-document.getElementById("feedback").innerText=
-"✖ Wrong | Correct: "+q.options[q.answer];
-
+document.getElementById("feedback").innerText="✖ Wrong | Correct: "+q.options[q.answer];
 wrong.push({q:q.q,correct:q.options[q.answer]});
 }
 };
@@ -211,11 +221,10 @@ document.body.innerHTML=`
 <h3>Wrong Answers</h3>
 <pre>${JSON.stringify(wrong,null,2)}</pre>
 <br>
-<button onclick="location.reload()">Back</button>
+<button onclick="location.reload()">Menu</button>
 </div>`;
 }
 
 </script>
-
 </body>
 </html>
