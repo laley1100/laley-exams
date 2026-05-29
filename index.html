@@ -62,6 +62,10 @@ button{
 
     <button class="menuBtn" onclick="startQuiz('bio')">Biostatistics (82)</button>
     <button class="menuBtn" onclick="startQuiz('path')">Pathology (50)</button>
+    <button class="menuBtn" onclick="startQuiz('ip')">حقوق الملكية الفكرية (20)</button>
+    <button class="menuBtn" onclick="startQuiz('cc')">Communication Concept (60)</button>
+
+
 </div>
 
 <!-- ================= QUIZ ================= -->
@@ -731,3 +735,150 @@ answer:3
 },
 
 ];
+    const ccQuestions = [
+
+{q:"Therapeutic communication is best defined as:", ar:"أفضل تعريف للتواصل العلاجي هو:", options:["Casual conversation between paramedic and patient","A planned, deliberate, professional act using communication techniques","Giving medical instructions only","Talking to calm the patient"], answer:1},
+
+{q:"Shared understanding of information helps to:", ar:"الفهم المشترك للمعلومات يساعد على:", options:["Achieve desired patient-care goals","Reduce documentation","Save time only","Limit patient interaction"], answer:0},
+
+{q:"Using silence in communication allows the patient to:", ar:"استخدام الصمت في التواصل يسمح للمريض بأن:", options:["Feel ignored","Think and gain insight","Lose interest","End the conversation"], answer:1},
+
+{q:"Exploring is best described as:", ar:"أفضل وصف لأسلوب الاستكشاف هو:", options:["Changing the subject","Delving further into a topic","Giving medical advice","Summarizing data"], answer:1},
+
+{q:"Clarification is used when the paramedic wants to:", ar:"يُستخدم التوضيح عندما يريد المسعف أن:", options:["Check understanding","Challenge the patient","Give instructions","End communication"], answer:0},
+
+{q:"Example of clarification:", ar:"مثال على التوضيح:", options:["Why did you do that?","Tell me everything again.","What do you mean by ‘sicker than usual’?","You are wrong."], answer:2},
+
+{q:"Reflecting focuses on:", ar:"الانعكاس يركز على:", options:["Only medical facts","Client’s feelings and content","Paramedic’s opinion","Documentation"], answer:1},
+
+{q:"Functional-professional touch is used primarily for:", ar:"اللمس المهني الوظيفي يُستخدم أساسًا لـ:", options:["Clinical care","Emotional bonding","Social greetings","Intimacy"], answer:0},
+
+{q:"When explaining procedures, paramedics should consider:", ar:"عند شرح الإجراءات يجب على المسعفين مراعاة:", options:["Only time constraints","Documentation only","Personal opinions","Age and language barriers"], answer:3},
+
+{q:"Therapeutic impasses are:", ar:"العوائق العلاجية هي:", options:["Successful interactions","Blocks in the paramedic-client relationship","Legal issues","Communication goals"], answer:1},
+
+{q:"Communication failures mainly lead to:", ar:"فشل التواصل يؤدي غالبًا إلى:", options:["Improved teamwork","Faster discharge","Adverse patient events","Reduced workload"], answer:2},
+
+{q:"Communication is best described as:", ar:"أفضل وصف للتواصل هو:", options:["One-way process","Two-way process","Written only","Technological process"], answer:1},
+
+{q:"Which factor negatively affects patient handover:", ar:"أي عامل يؤثر سلبًا على تسليم المريض:", options:["Noise and interruptions","Clear documentation","Structured tools","Team collaboration"], answer:0},
+
+{q:"Patient handover refers to the transfer of:", ar:"يشير تسليم المريض إلى نقل:", options:["Medical equipment","Responsibility and accountability of patient care","Hospital policies","Financial records"], answer:1},
+
+{q:"NOT a benefit of effective handover:", ar:"ليس من فوائد التسليم الفعّال:", options:["Accurate information transfer","Enhanced patient safety","Increased workload","Faster prioritization of care"], answer:2},
+
+{q:"Recommended pause during critical handover:", ar:"مدة التوقف الموصى بها أثناء تسليم الحالات الحرجة:", options:["5–10 seconds","20–30 seconds","1–2 minutes","No pause required"], answer:1},
+
+{q:"SBAR stands for:", ar:"اختصار SBAR يعني:", options:["Signs, Background, Action, Response","Situation, Background, Assessment, Recommendation","Symptoms, Baseline, Assessment, Report","Status, Body, Airway, Response"], answer:1},
+
+{q:"IMIST-AMBO includes all the following EXCEPT:", ar:"يشمل IMIST-AMBO كل ما يلي ما عدا:", options:["Mechanism of injury","Treatments and trends","Allergies","Financial status"], answer:3},
+
+{q:"Limitation of SBAR:", ar:"من محدوديات SBAR:", options:["Too complex","Lacks prehospital-specific details","Too long","Not structured"], answer:1},
+
+{q:"Tool emphasizing patient identification:", ar:"الأداة التي تركز على تحديد هوية المريض:", options:["SBAR","ISBAR","SOAP","ATMIST"], answer:1},
+
+{q:"What should you avoid with a hard-of-hearing patient?", ar:"ما الذي يجب تجنبه مع مريض ضعيف السمع؟", options:["Using paper and pen","Shouting","Facing the patient while speaking","Asking short questions"], answer:1},
+
+{q:"How should a paramedic handle an overly talkative patient?", ar:"كيف يتعامل المسعف مع مريض كثير الكلام؟", options:["Let them talk endlessly","Politely interrupt and refocus","Ignore their stories","Avoid further questions"], answer:1},
+
+{q:"Common pitfall paramedics should avoid:", ar:"خطأ شائع يجب على المسعفين تجنبه:", options:["Providing false reassurance","Using open-ended questions","Showing empathy","Staying calm"], answer:0},
+
+{q:"Key component of building rapport with a child:", ar:"مكوّن أساسي لبناء علاقة مع طفل:", options:["Ignore the child","Use complex medical terms","Get to the child's eye level","Ask child to leave"], answer:2},
+
+{q:"Why maintain eye contact with elderly patients?", ar:"لماذا الحفاظ على التواصل البصري مع كبار السن؟", options:["Assert dominance","Make them feel rushed","Help them feel respected","Simplify interview"], answer:2},
+
+{q:"Interviewing a patient with low health literacy:", ar:"مقابلة مريض ذو معرفة صحية منخفضة:", options:["Use medical jargon","Avoid written materials","Speak slowly and simply","Skip interview"], answer:2},
+
+{q:"Effective strategy with visually impaired patient:", ar:"استراتيجية فعّالة مع مريض ضعيف البصر:", options:["Shout","Avoid touch","Explain everything you do","Use sign language"], answer:2},
+
+{q:"Handling a patient under influence:", ar:"التعامل مع مريض تحت تأثير المخدرات:", options:["Confront them","Ask simple direct questions","Ignore statements","Show disgust"], answer:1},
+
+{q:"Avoid when dealing with angry patient:", ar:"ما يجب تجنبه مع مريض غاضب:", options:["Raising your voice","Restating cause","Offering solution","Empathizing"], answer:0},
+
+{q:"Interviewing a hostile patient:", ar:"مقابلة مريض عدواني:", options:["Stay calm and ignore insults","Argue","Match tone","Interview alone"], answer:0},
+
+{q:"Why communication systems are crucial:", ar:"لماذا أنظمة التواصل مهمة؟", options:["Reduce paperwork","Ensure scene safety and coordination","Entertain responders","Replace assessment"], answer:1},
+
+{q:"Detection phase refers to:", ar:"تشير مرحلة الاكتشاف إلى:", options:["Detecting need for EMS","Event occurrence","Arrival and treatment","Preparation for next response"], answer:0},
+
+{q:"Base station radio is:", ar:"محطة الراديو الأساسية هي:", options:["Handheld","Vehicle-mounted","Fixed with powerful antenna","Used only in aircraft"], answer:2},
+
+{q:"Mobile transceiver range:", ar:"مدى جهاز الإرسال والاستقبال المتنقل:", options:["1–3 miles","5–7 miles","10–15 miles","50+ miles"], answer:2},
+
+{q:"Portable transceivers mainly used when:", ar:"تُستخدم أجهزة الاتصال المحمولة عندما:", options:["Dispatching","Away from vehicle","Hospital communication","ECG only"], answer:1},
+
+{q:"Advantage of multiplex transmission:", ar:"ميزة الإرسال المتعدد:", options:["Short messages","Better privacy","Voice + ECG simultaneously","Lower cost"], answer:2},
+
+{q:"Role of emergency dispatcher:", ar:"دور المرسل الطبي:", options:["On-scene direction","Relay physician orders","Give pre-arrival instructions","Choose hospital"], answer:2},
+
+{q:"Primary role of EMD:", ar:"الدور الأساسي للمرسل الطبي:", options:["Collect info, dispatch units, give instructions","Hospital care","Drive ambulance","Patient assessment"], answer:0},
+
+{q:"Trunked radio systems are:", ar:"أنظمة الراديو المجمعة هي:", options:["Single-frequency","Computer-controlled with multiple repeaters","Satellite-based","Portable only"], answer:1},
+
+{q:"Principal reason for radio communication:", ar:"السبب الرئيسي للتواصل عبر الراديو:", options:["Entertainment","Communicate with medical control","Weather updates","Personal calls"], answer:1},
+
+{q:"Successful patient interview is:", ar:"المقابلة الناجحة للمريض هي:", options:["Less important","Only for medical cases","As important as physical exam","Only non-emergency"], answer:2},
+
+{q:"Interview is a contract because it includes:", ar:"تُعد المقابلة عقدًا لأنها تشمل:", options:["Time, place, purpose, confidentiality","Diagnosis only","Exam steps","Legal documentation"], answer:0},
+
+{q:"Purpose of patient interview:", ar:"هدف مقابلة المريض:", options:["Replace exam","Build trust","Save time","Avoid family"], answer:1},
+
+{q:"Observation, conversation, exploration assess:", ar:"الملاحظة والمحادثة والاستكشاف تقيم:", options:["Pain","Injuries","Mental status","Medication compliance"], answer:2},
+
+{q:"Repeating patient words is called:", ar:"تكرار كلمات المريض يسمى:", options:["Echoing","Summarization","Validation","Transition"], answer:0},
+
+{q:"OLD CARTS is used to:", ar:"يُستخدم OLD CARTS لـ:", options:["Assess mental status","Clarify emotions","Describe symptoms","Check allergies"], answer:2},
+
+{q:"Before interview paramedic should:", ar:"قبل المقابلة يجب على المسعف:", options:["Start exam","Take meds history","Self-reflect","Call control"], answer:2},
+
+{q:"Open-ended question:", ar:"سؤال مفتوح النهاية:", options:["Are you in pain?","Does your chest hurt?","How old are you?","Can you tell me how this started?"], answer:3},
+
+{q:"Why avoid 'Why' questions:", ar:"لماذا يجب تجنب أسئلة 'لماذا'؟", options:["Waste time","Confuse patient","Sound accusatory","Too technical"], answer:2},
+
+{q:"Patient interviews should be:", ar:"يجب أن تكون مقابلات المريض:", options:["Early and ongoing","After exam","Once only","Avoided in trauma"], answer:0},
+
+{q:"'Communicare' means:", ar:"تعني كلمة 'Communicare':", options:["To communicate","To share","To talk","To write"], answer:1},
+
+{q:"NOT a type of communication:", ar:"ليس نوعًا من التواصل:", options:["Formal","Social","Therapeutic","Grapevine"], answer:3},
+
+{q:"Example of formal communication:", ar:"مثال على التواصل الرسمي:", options:["Gossip","Lectures","Phone texts","Rumors"], answer:1},
+
+{q:"Advantage of formal communication:", ar:"ميزة التواصل الرسمي:", options:["Quick","Leak info","Orderly flow","Rumors"], answer:2},
+
+{q:"Disadvantage of formal communication:", ar:"عيب التواصل الرسمي:", options:["Fast","Expensive","Maintains discipline","Ensures answerability"], answer:1},
+
+{q:"Downward communication is:", ar:"التواصل الهابط هو:", options:["Employees → management","Management → employees","Between peers","Between departments"], answer:1},
+
+{q:"Upward communication is:", ar:"التواصل الصاعد هو:", options:["Management → employees","Employees → management","Between peers","Between departments"], answer:1},
+
+{q:"Purpose of horizontal communication:", ar:"هدف التواصل الأفقي:", options:["Coordinate activities","Spread rumors","Inform decisions","Notify complaints"], answer:0},
+
+{q:"Diagonal communication is:", ar:"التواصل القطري هو:", options:["Same department","Different departments & levels","Employees & customers","Managers & subordinates"], answer:1},
+
+{q:"Informal communication is:", ar:"التواصل غير الرسمي هو:", options:["Prescribed path","Outside formal network","Professional language","Slow"], answer:1},
+
+];
+/* ============================
+   QUESTIONS
+============================ */
+
+const biostatQuestions = [ … ];
+
+const pathologyQuestions = [ … ];
+
+const ipQuestions = [ … ];
+
+const ccQuestions = [ … ];   // ← المادة الرابعة هنا
+
+/* ============================
+   BANK
+============================ */
+
+const bank = {
+    bio: biostatQuestions,
+    path: pathologyQuestions,
+    ip: ipQuestions,
+    cc: ccQuestions
+};
+
+
