@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>EXAM platform </title>
+<title>اقزام بلاتفورم</title>
 
 <style>
 body{
@@ -47,6 +47,7 @@ button{
     font-size:12px;
     opacity:0.8;
 }
+
 .feedback{
     margin-top:10px;
     font-weight:bold;
@@ -115,7 +116,33 @@ const questions = [
 {q:"Closed question example", ar:"مثال على سؤال مغلق", options:["How are you?","Do you have pain?","Tell me more","Explain"], answer:1},
 {q:"Interview starts with", ar:"المقابلة تبدأ بـ", options:["Physical exam","Greeting & rapport","Medication","Diagnosis"], answer:1},
 {q:"Effective communication reduces", ar:"التواصل الفعال يقلل", options:["Errors","Teamwork","Documentation","Training"], answer:0},
-{q:"Patient centered communication means", ar:"التواصل المتمحور حول المريض يعني", options:["Focus patient needs","Doctor decides","Ignore patient","Fast treatment"], answer:0}
+{q:"Patient centered communication means", ar:"التواصل المتمحور حول المريض يعني", options:["Focus patient needs","Doctor decides","Ignore patient","Fast treatment"], answer:0},
+
+{q:"Barriers to communication include", ar:"عوائق التواصل تشمل", options:["Noise","Trust","Clarity","Understanding"], answer:0},
+{q:"Nonverbal communication includes", ar:"التواصل غير اللفظي يشمل", options:["Speech only","Body language","Writing only","Reports"], answer:1},
+{q:"Probing question is used to", ar:"السؤال الاستقصائي يستخدم لـ", options:["End conversation","Get more details","Give orders","Ignore patient"], answer:1},
+{q:"Paraphrasing means", ar:"إعادة الصياغة تعني", options:["Repeating same words","Restating meaning","Changing topic","Ignoring"], answer:1},
+{q:"Validation means", ar:"التحقق يعني", options:["Ignoring feelings","Confirming understanding","Changing subject","Interrupting"], answer:1},
+
+{q:"Cultural barriers affect communication by", ar:"الحواجز الثقافية تؤثر على التواصل عبر", options:["Improving understanding","Misinterpretation","Clarity","Speed"], answer:1},
+{q:"Assertive communication is", ar:"التواصل الحازم هو", options:["Passive","Clear and respectful","Aggressive","Silent"], answer:1},
+{q:"Passive communication is", ar:"التواصل السلبي هو", options:["Direct expression","Avoiding expression","Aggressive speech","Clear speech"], answer:1},
+{q:"Aggressive communication is", ar:"التواصل العدواني هو", options:["Respectful","Hostile and dominating","Calm","Silent"], answer:1},
+{q:"Documentation is important because", ar:"التوثيق مهم لأنه", options:["Unnecessary","Ensures continuity","Slows work","Confuses staff"], answer:1},
+
+{q:"Feedback in communication is", ar:"التغذية الراجعة هي", options:["Ignoring response","Response to message","Sending message only","Writing notes"], answer:1},
+{q:"Miscommunication can cause", ar:"سوء الفهم قد يسبب", options:["Safety improvement","Medical errors","Trust increase","Clarity"], answer:1},
+{q:"Patient confidentiality means", ar:"سرية المريض تعني", options:["Sharing data freely","Protecting patient info","Public data","Ignoring records"], answer:1},
+{q:"Informed consent requires", ar:"الموافقة المستنيرة تتطلب", options:["No explanation","Patient understanding","Ignoring risks","Fast decision"], answer:1},
+{q:"Rapport building means", ar:"بناء العلاقة يعني", options:["Breaking trust","Creating trust","Ignoring patient","Ordering"], answer:1},
+
+{q:"Pre-interaction phase is", ar:"مرحلة ما قبل التفاعل هي", options:["Before meeting patient","During interview","After discharge","Diagnosis phase"], answer:0},
+{q:"Orientation phase involves", ar:"مرحلة التوجيه تشمل", options:["End of care","Introduction and trust building","Surgery","Billing"], answer:1},
+{q:"Working phase focuses on", ar:"مرحلة العمل تركز على", options:["Ending relationship","Problem solving","Ignoring patient","Paperwork only"], answer:1},
+{q:"Termination phase means", ar:"مرحلة الإنهاء تعني", options:["Start care","End relationship","Diagnosis","Admission"], answer:1},
+{q:"Communication cycle includes", ar:"دورة التواصل تشمل", options:["Sender and receiver","Only sender","Only message","Only noise"], answer:0},
+
+{q:"Effective communication requires", ar:"التواصل الفعال يتطلب", options:["Confusion","Clarity","Noise","Speed only"], answer:1}
 ];
 
 function showQuestion(){
@@ -140,7 +167,7 @@ if(i === q.answer){
 score++;
 document.getElementById("feedback").innerText="✔ Correct";
 }else{
-document.getElementById("feedback").innerText=
+document.getElementById("feedback").innerText =
 "✖ Wrong | Correct Answer: " + q.options[q.answer];
 
 wrong.push({
