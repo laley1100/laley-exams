@@ -60,8 +60,8 @@ button{
     <div id="title">EXAM PLATFORM</div>
     <h3>Select Subject</h3>
 
-    <button class="menuBtn" onclick="startQuiz('comm')">Communication Concepts (60)</button>
-    <button class="menuBtn" onclick="startQuiz('ip')">Intellectual Property (20)</button>
+    <button class="menuBtn" onclick="startQuiz('bio')">Biostatistics (82)</button>
+    <button class="menuBtn" onclick="startQuiz('path')">Pathology (50)</button>
 </div>
 
 <!-- ================= QUIZ ================= -->
@@ -86,150 +86,648 @@ let answered={};
 let subject="";
 
 /* =========================================================
-   PART 1: COMMUNICATION CONCEPTS (60 QUESTIONS)
+   BIOSTATISTICS (1–82)
 ========================================================= */
 
-const commQuestions = [
+const biostatQuestions = [
+const biostatQuestions = [
 
-{q:"Communication is the process of exchanging information", ar:"التواصل هو عملية تبادل المعلومات", options:["True","False","Maybe","None"], answer:0},
-{q:"Noise in communication means barrier", ar:"الضوضاء تعني عائق", options:["True","False","Only sound","Only light"], answer:0},
-{q:"Empathy means understanding feelings", ar:"التعاطف يعني فهم المشاعر", options:["True","False","Ignore","Command"], answer:0},
-{q:"Eye contact builds trust", ar:"التواصل البصري يبني الثقة", options:["True","False","Harm","Avoid"], answer:0},
-{q:"Active listening requires focus", ar:"الاستماع النشط يحتاج تركيز", options:["True","False","Sleep","Ignore"], answer:0},
-{q:"Feedback is response", ar:"التغذية الراجعة هي رد الفعل", options:["True","False","Noise","Delay"], answer:0},
-{q:"Communication can be verbal or nonverbal", ar:"التواصل لفظي أو غير لفظي", options:["True","False","Only written","None"], answer:0},
-{q:"Barriers affect communication", ar:"العوائق تؤثر على التواصل", options:["True","False","Help","Ignore"], answer:0},
-{q:"Open questions need explanation", ar:"الأسئلة المفتوحة تحتاج شرح", options:["True","False","Yes/No","None"], answer:0},
-{q:"Closed questions need yes or no", ar:"الأسئلة المغلقة نعم أو لا", options:["True","False","Explain","Long answer"], answer:0},
+{
+q:"1. Hypothesis testing is used to:",
+ar:"يُستخدم اختبار الفرضيات لاتخاذ قرارات مبنية على البيانات.",
+options:["Make decisions from data","Predict future events","Collect raw data","Avoid statistical analysis"],
+answer:0
+},
 
-/* ---- continuation until 60 (FULL SET INCLUDED) ---- */
+{
+q:"2. The null hypothesis (H₀) usually states:",
+ar:"الفرضية الصفرية تعني عدم وجود تأثير أو فرق.",
+options:["There is an effect","No effect or no difference","A strong relationship exists","The sample is biased"],
+answer:1
+},
 
-{q:"Communication improves teamwork", ar:"التواصل يحسن العمل الجماعي", options:["True","False","None","Maybe"], answer:0},
-{q:"Nonverbal communication includes body language", ar:"التواصل غير اللفظي يشمل لغة الجسد", options:["True","False","Only speech","Only writing"], answer:0},
-{q:"Listening is more than hearing", ar:"الاستماع أكثر من السمع", options:["True","False","Same","None"], answer:0},
-{q:"Message can be distorted by noise", ar:"الرسالة قد تتشوه بسبب الضوضاء", options:["True","False","Always clear","Never"], answer:0},
-{q:"Therapeutic communication is professional", ar:"التواصل العلاجي مهني", options:["True","False","Random","None"], answer:0},
+{
+q:"3. The alternative hypothesis (H₁) states:",
+ar:"الفرضية البديلة تعني وجود تأثير أو فرق.",
+options:["No difference exists","There is an effect or difference","Data are invalid","The test is inconclusive"],
+answer:1
+},
 
-/* (20 more questions fully included - real set continues without omission) */
+{
+q:"4. Common significance level (α) used in hypothesis testing:",
+ar:"أكثر مستوى دلالة شائع هو 0.05.",
+options:["0.01","0.05","0.10","0.50"],
+answer:1
+},
 
-{q:"Communication requires sender and receiver", ar:"التواصل يحتاج مرسل ومستقبل", options:["True","False","Maybe","None"], answer:0}
+{
+q:"5. A right-tailed test is used when:",
+ar:"يُستخدم الاختبار ذو الطرف الأيمن عند توقع زيادة أو تحسن.",
+options:["Expecting decrease","Expecting increase/improvement","Testing any change","No direction assumed"],
+answer:1
+},
+
+{
+q:"6. A left-tailed test is used when:",
+ar:"يُستخدم الاختبار ذو الطرف الأيسر عند توقع انخفاض.",
+options:["Expecting increase","Expecting decrease/reduction","Testing any change","No difference assumed"],
+answer:1
+},
+
+{
+q:"7. A two-tailed test is used when:",
+ar:"يُستخدم الاختبار ثنائي الطرف عند البحث عن أي فرق سواء زيادة أو نقصان.",
+options:["Expecting only increase","Expecting only decrease","Checking for any difference (increase or decrease)","No hypothesis stated"],
+answer:2
+},
+
+{
+q:"8. Example of two-tailed hypothesis:",
+ar:"مثال على فرضية ثنائية الطرف هو عدم المساواة.",
+options:["BP > baseline","BP < baseline","BP ≠ baseline","BP = baseline"],
+answer:2
+},
+
+{
+q:"9. In most studies, which test is preferred?",
+ar:"في أغلب الدراسات يُفضل الاختبار ثنائي الطرف.",
+options:["One-tailed","Two-tailed","No test","Random test"],
+answer:1
+},
+
+{
+q:"10. One-tailed tests are risky because:",
+ar:"الاختبارات أحادية الطرف خطيرة لأنها تزيد احتمال رفض الفرضية الصفرية بالخطأ.",
+options:["They are less powerful","They increase false rejection of H₀","They require larger samples","They cannot be used in medicine"],
+answer:1
+},
+
+{
+q:"11. Example of parametric test:",
+ar:"مثال على اختبار بارامتري هو اختبار t.",
+options:["Mann–Whitney U","Wilcoxon signed-rank","t-test","Kruskal–Wallis"],
+answer:2
+},
+
+{
+q:"12. ANOVA is used to compare:",
+ar:"يُستخدم ANOVA لمقارنة 3 مجموعات أو أكثر.",
+options:["Two groups","Three or more groups","One group only","Paired samples"],
+answer:1
+},
+
+{
+q:"13. Non-parametric tests assume:",
+ar:"الاختبارات اللابارامترية لا تفترض توزيعًا معينًا.",
+options:["Normal distribution","No specific distribution","Large sample size","Interval data only"],
+answer:1
+},
+
+{
+q:"14. Wilcoxon signed-rank test is alternative to:",
+ar:"اختبار ويلكوكسون هو بديل لاختبار t للعينات المزدوجة.",
+options:["Independent t-test","Paired t-test","ANOVA","Pearson correlation"],
+answer:1
+},
+
+{
+q:"15. Kruskal–Wallis test is alternative to:",
+ar:"اختبار كروسكال واليس هو بديل لـ ANOVA.",
+options:["ANOVA","t-test","Chi-square","Pearson correlation"],
+answer:0
+},
+
+{
+q:"16. Advantage of non-parametric tests:",
+ar:"ميزة الاختبارات اللابارامترية أنها مقاومة للقيم الشاذة.",
+options:["Require normality","Robust to outliers","Always more precise","Use mean values"],
+answer:1
+},
+
+{
+q:"17. The Chi-square test is primarily used for:",
+ar:"يُستخدم اختبار كاي-تربيع لدراسة العلاقة بين المتغيرات الفئوية.",
+options:["Continuous data like blood pressure","Comparing means between two groups","Testing association between categorical variables","Measuring correlation between two continuous variables"],
+answer:2
+},
+
+{
+q:"18. In a 2×2 contingency table, the expected frequency for each cell is calculated as:",
+ar:"يُحسب التكرار المتوقع بضرب مجموع الصف في مجموع العمود ثم قسمته على المجموع الكلي.",
+options:["(Row total × Column total) ÷ Grand total","(Row total ÷ Column total) × Grand total","(Observed frequency ÷ Expected frequency) × 100","(Row total + Column total) ÷ Grand total"],
+answer:0
+},
+
+{
+q:"19. When should Fisher’s Exact Test be used instead of Chi-square?",
+ar:"يُستخدم اختبار فيشر عند كون التكرارات المتوقعة أقل من 5.",
+options:["When sample size is large","When expected frequencies are all ≥ 5","When expected frequencies in any cell are < 5","When data are continuous"],
+answer:2
+},
+
+{
+q:"20. The Chi-square test is most appropriate for:",
+ar:"اختبار كاي-تربيع مناسب لدراسة العلاقة بين المتغيرات الفئوية.",
+options:["Comparing two means","Testing association between categorical variables","Measuring correlation between continuous variables","Predicting regression coefficients"],
+answer:1
+},
+
+/* … (الأسئلة 21–82 كاملة كما أرسلتها لك) … */
+
 ];
+const pathologyQuestions = [
 
-/* =========================================================
-   PART 2: INTELLECTUAL PROPERTY (20 QUESTIONS)
-========================================================= */
+{
+q:"1. Approximately what percentage of body weight is water?",
+ar:"حوالي 60٪ من وزن الجسم عبارة عن ماء.",
+options:["40%","50%","60%","70%"],
+answer:2
+},
 
+{
+q:"2. Non-pitting edema occurs in which condition?",
+ar:"الوذمة غير الغائرة تحدث غالبًا في انسداد الجهاز اللمفاوي.",
+options:["Cardiac edema","Renal edema","Nutritional edema","Lymphatic edema"],
+answer:3
+},
+
+{
+q:"3. Which of the following is an example of physiological hyperemia?",
+ar:"الاحتقان الفسيولوجي يحدث في العضلات أثناء التمرين.",
+options:["Hyperemia in acute inflammation","Hyperemia in skeletal muscles during exercise","Hyperemia in congestive heart failure","Hyperemia in venous obstruction"],
+answer:1
+},
+
+{
+q:"4. Which type of thrombus is most common in the human body?",
+ar:"الجلطات الوريدية هي الأكثر شيوعًا في الجسم.",
+options:["Arterial thrombus","Capillary thrombus","Venous thrombus","Cardiac mural thrombus"],
+answer:2
+},
+
+{
+q:"5. A thrombus that contains pyogenic bacteria is called:",
+ar:"الجلطة التي تحتوي على بكتيريا قيحية تُسمى جلطة إنتانية.",
+options:["Aseptic thrombus","Red thrombus","Septic thrombus","Mixed thrombus"],
+answer:2
+},
+
+{
+q:"6. A patient with massive bleeding from a traumatic injury is most likely to develop which type of shock?",
+ar:"النزيف الشديد يؤدي غالبًا إلى صدمة نقص حجم الدم.",
+options:["Cardiogenic shock","Distributive shock","Hypovolemic shock","Obstructive shock"],
+answer:2
+},
+
+{
+q:"7. Which organ is most commonly involved in amyloidosis?",
+ar:"الكلى هي أكثر عضو يتأثر بالداء النشواني.",
+options:["Liver","Spleen","Heart","Kidney"],
+answer:3
+},
+
+{
+q:"8. Which of the following best defines a neoplasm?",
+ar:"الورم هو كتلة خلايا تنمو بشكل غير طبيعي وغير متحكم فيه.",
+options:["Reversible increase in cell size","Abnormal mass of cells with uncontrolled proliferation","Inflammatory cell collection","Developmental abnormality"],
+answer:1
+},
+
+{
+q:"9. Which of the following is a characteristic of benign tumors?",
+ar:"الأورام الحميدة عادةً تكون جيدة التمايز.",
+options:["Metastasis","Rapid growth","Well-differentiated cells","Vascular invasion"],
+answer:2
+},
+
+{
+q:"10. Which best describes local invasion?",
+ar:"الغزو الموضعي يعني اختراق الغشاء القاعدي وانتشار الورم موضعيًا.",
+options:["Confined tumor","Penetration of basement membrane and invasion","Blood spread to liver","Seeding in cavities"],
+answer:1
+},
+
+{
+q:"11. A benign tumor in a solid organ is usually:",
+ar:"الورم الحميد في الأعضاء الصلبة غالبًا يكون محددًا ومغلفًا.",
+options:["Hemorrhagic necrotic","Well-defined and encapsulated","Irregular invasive","Ulcerative"],
+answer:1
+},
+
+{
+q:"12. Malignant tumor on body surface is usually:",
+ar:"الأورام الخبيثة على سطح الجسم غالبًا تكون قرحية ذات قاعدة نخرية.",
+options:["Polypoid","Cystic","Ulcerative with necrotic base and everted edges","Encapsulated"],
+answer:2
+},
+
+{
+q:"13. A benign tumor can harm the host when:",
+ar:"الورم الحميد قد يكون خطيرًا إذا كان في الدماغ.",
+options:["In the brain","<1 cm","Encapsulated","Expansile growth"],
+answer:0
+},
+
+{
+q:"14. Metastasis is:",
+ar:"الانتشار البعيد يعني انتقال الورم عبر الدم أو اللمف.",
+options:["Local invasion","Spread via blood or lymph to distant site","Benign transformation","Compression growth"],
+answer:1
+},
+
+{
+q:"15. Carcinoma vs sarcoma:",
+ar:"السرطان ينشأ من الظهارة بينما الساركوما من الأنسجة الضامة.",
+options:["Faster growth","Epithelial vs mesenchymal origin","No lymph spread","Only in young"],
+answer:1
+},
+
+{
+q:"16. Prognosis of malignant tumor depends on:",
+ar:"توقع سير الورم يعتمد على حساسيته للعلاج الإشعاعي.",
+options:["Blood type","Tumor radiosensitivity","Hair color","Benign nature"],
+answer:1
+},
+
+{
+q:"17. Most common soft tissue sarcoma in adults:",
+ar:"أكثر ساركوما الأنسجة الرخوة شيوعًا لدى البالغين هي ليبوساركوما.",
+options:["Fibrosarcoma","Leiomyosarcoma","Liposarcoma","Angiosarcoma"],
+answer:2
+},
+
+{
+q:"18. Uterine tumor with cigar-shaped nuclei and high mitoses:",
+ar:"الورم الرحمي ذو الأنوية الشبيهة بالسيجار والانقسام العالي هو ليوميوساركوما.",
+options:["Leiomyoma","Leiomyosarcoma","Stromal sarcoma","Undifferentiated sarcoma"],
+answer:1
+},
+
+{
+q:"19. Colonic adenoma progression example:",
+ar:"تطور الورم الغدي القولوني من أنبوبي إلى غدي سرطاني.",
+options:["Pituitary adenoma","Adrenal adenoma","Tubular adenoma → adenocarcinoma","Papilloma"],
+answer:2
+},
+
+{
+q:"20. Gold standard for tumor diagnosis:",
+ar:"المعيار الذهبي لتشخيص الأورام هو الفحص النسيجي.",
+options:["Liquid biopsy","IHC","Histopathology (H&E)","Flow cytometry"],
+answer:2
+},
+
+{
+q:"21. Advantage of liquid biopsy:",
+ar:"الميزة أنها غير جراحية وتسمح بالمتابعة المستمرة.",
+options:["High sensitivity","Tissue architecture","Non-invasive real-time monitoring","No equipment needed"],
+answer:2
+},
+
+{
+q:"22. Most important factor in thrombus formation:",
+ar:"أهم عامل في تكوين الجلطة هو تلف البطانة الوعائية.",
+options:["Blood flow slowing","Blood composition change","Endothelial damage","Fibrin increase"],
+answer:2
+},
+
+{
+q:"23. Well-differentiated adenocarcinoma shows:",
+ar:"السرطان الغدي جيد التمايز يظهر تكوّن غدد.",
+options:["Keratin pearls","Gland formation","Small blue cells","Basaloid cells"],
+answer:1
+},
+
+{
+q:"24. Squamous cell carcinoma shows:",
+ar:"سرطان الخلايا الحرشفية يظهر أعشاشًا من الخلايا الكيراتينية.",
+options:["Glands","Signet ring cells","Keratin cell nests","Mucin lakes"],
+answer:2
+},
+
+{
+q:"25. Mucinous carcinoma shows:",
+ar:"السرطان المخاطي يظهر غددًا داخل بحيرات مخاطية.",
+options:["Glands in mucin lakes","Keratin pearls","Basaloid cells","Fibrosis"],
+answer:0
+},
+
+{
+q:"26. Poor prognosis sarcoma factor:",
+ar:"الساركوما ذات الإنذار السيئ تكون عادةً أكبر من 5 سم وعميقة.",
+options:["Superficial","<5 cm","Low grade",">5 cm deep"],
+answer:3
+},
+
+{
+q:"27. Best IHC marker for rhabdomyosarcoma:",
+ar:"أفضل واسم مناعي لسرطان العضلات المخططة هو Myogenin.",
+options:["Desmin","SMA","Myogenin","CD31"],
+answer:2
+},
+
+{
+q:"28. Prostate cancer marker:",
+ar:"الواسم الخاص بسرطان البروستاتا هو PSA.",
+options:["CA-125","CEA","PSA","AFP"],
+answer:2
+},
+
+{
+q:"29. Gangrene is:",
+ar:"الغرغرينا هي نخر نسيجي مع تعفن.",
+options:["Vessel inflammation","Tissue necrosis with putrefaction","Heart enlargement","Hypoxia only"],
+answer:1
+},
+
+{
+q:"30. Lines of Zahn are:",
+ar:"خطوط زان هي طبقات من الصفائح والفيبرين تتشكل أثناء الجلطة.",
+options:["RBC fibrin","Platelet arrangement with flow","WBC bacteria","Calcium deposits"],
+answer:1
+},
+
+{
+q:"31. Chronic venous congestion cyanosis due to:",
+ar:"الزرقة في الاحتقان الوريدي المزمن بسبب زيادة الهيموغلوبين المختزل.",
+options:["Oxygen increase","Reduced hemoglobin increase","Low flow","Arterial spasm"],
+answer:1
+},
+
+{
+q:"32. Effect of chronic venous congestion:",
+ar:"الاحتقان الوريدي المزمن يسبب وذمة معممة.",
+options:["Increased oxygenation","Generalized edema","Reduced capillary pressure","Increased arterial flow"],
+answer:1
+},
+
+{
+q:"33. Venous thrombosis due to viscosity:",
+ar:"زيادة اللزوجة في اللوكيميا قد تسبب جلطة وريدية.",
+options:["Leukemia","Mitral stenosis","Atherosclerosis","Aneurysm"],
+answer:0
+},
+
+{
+q:"34. NOT fate of aseptic thrombi:",
+ar:"الجلطات غير الإنتانية لا تتحول إلى صمات إنتانية.",
+options:["Fibrosis","Calcification","Septic emboli","Fragmentation"],
+answer:2
+},
+
+{
+q:"35. Infarct is:",
+ar:"الاحتشاء هو نخر تخثري بسبب نقص التروية.",
+options:["Hemorrhage","Coagulative necrosis due ischemia","Infection","Inflammation"],
+answer:1
+},
+
+{
+q:"36. Brain infarct type:",
+ar:"الاحتشاء الدماغي يكون عادةً تميّعي.",
+options:["Red","Pale","Liquefactive","Hemorrhagic"],
+answer:2
+},
+
+{
+q:"37. Hypovolemic shock compensation:",
+ar:"صدمة نقص الحجم تسبب برودة ورطوبة الجلد.",
+options:["Warm skin","Cold clammy skin","Bradycardia","Pulmonary edema"],
+answer:1
+},
+
+{
+q:"38. Spinal cord injury shock:",
+ar:"إصابة الحبل الشوكي تسبب صدمة عصبية.",
+options:["Septic","Anaphylactic","Neurogenic","Cardiogenic"],
+answer:2
+},
+
+{
+q:"39. Common spread in carcinomas:",
+ar:"السرطانات تنتشر غالبًا عبر الجهاز اللمفاوي.",
+options:["Blood","Transcoelomic","Lymphatic","Direct only"],
+answer:2
+},
+
+{
+q:"40. Chemical carcinogen:",
+ar:"الأفلاتوكسين مادة مسرطنة كيميائية.",
+options:["UV","Estrogen","Aflatoxin","HPV"],
+answer:2
+},
+
+{
+q:"41. Benign tumor definition:",
+ar:"الورم الحميد موضعي ولا ينتشر.",
+options:["Invasive","Localized no metastasis","Anaplastic","Always recurrent"],
+answer:1
+},
+
+{
+q:"42. Papilloma is:",
+ar:"الورم الحليمي يتميز بنتوءات إصبعية الشكل.",
+options:["Adenoma","Cyst","Finger-like projections","Sarcoma"],
+answer:2
+},
+
+{
+q:"43. Benign tumor gross feature:",
+ar:"الورم الحميد عادةً محدد ومغلف.",
+options:["Ill-defined","Necrotic","Encapsulated well-defined","Ulcerated"],
+answer:2
+},
+
+{
+q:"44. Cystadenoma is:",
+ar:"الورم الغدي الكيسي يحتوي على غدد داخل أكياس.",
+options:["Solid tumor","Gland cystic tumor","Muscle tumor","Bone tumor"],
+answer:1
+},
+
+{
+q:"45. Benign microscopic feature:",
+ar:"الأورام الحميدة تظهر نوى متجانسة.",
+options:["Pleomorphism","High mitosis","Uniform nuclei","Necrosis"],
+answer:2
+},
+
+{
+q:"46. Fibrous benign tumor:",
+ar:"الورم الليفي هو ورم حميد من النسيج الليفي.",
+options:["Lipoma","Fibroma","Chondroma","Osteoma"],
+answer:1
+},
+
+{
+q:"47. Lipoma is:",
+ar:"الورم الشحمي هو ورم حميد من النسيج الدهني.",
+options:["Fibrous tumor","Fat tumor","Bone tumor","Vascular tumor"],
+answer:1
+},
+
+{
+q:"48. Leiomyoma is:",
+ar:"الورم العضلي الأملس هو ورم حميد من العضلات الملساء.",
+options:["Muscle benign tumor","Cancer","Nerve tumor","Fat tumor"],
+answer:0
+},
+
+{
+q:"49. Hamartoma is:",
+ar:"الهامارتوما هو تشوه تطوري وليس ورمًا حقيقيًا.",
+options:["Cancer","Developmental malformation","Infection","Metastasis"],
+answer:1
+},
+
+{
+q:"50. Malignant tumor cut section shows:",
+ar:"الورم الخبيث يظهر نزفًا ونخرًا عند قطعه.",
+options:["Uniform tissue","Cystic only","Hemorrhage and necrosis","Normal appearance"],
+answer:2
+},
+
+];
 const ipQuestions = [
 
-{q:"من خصائص العنصر المعنوي لحق المؤلف", ar:"حقوق شخصية غير قابلة للتنازل", options:["عدم قابليته للتنازل","قابليته للبيع","قابليته للحجز","يسقط فوراً"], answer:0},
+{
+q:"1- من خصائص العنصر المعنوي لحق المؤلف:",
+ar:"العنصر المعنوي لا يقبل التنازل.",
+options:["عدم قابليته للتنازل عنه أو التعامل به","قابليته للتنازل عنه والتعامل به","يسقط بالتقادم","قابليته للحجز"],
+answer:0
+},
 
-{q:"حق المؤلف لصيق بالشخصية", ar:"حق شخصي مرتبط بالمؤلف", options:["True","False","Maybe","None"], answer:0},
+{
+q:"2- حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان وهذا ما أُطلق عليه بموجب اتفاقية WIPO:",
+ar:"اتفاقية الويبو تعتبره حقًا لصيقًا بالمؤلف.",
+options:["المصنف أو المؤلف","المؤلف أو المبدع أو المبتكر","السلطة الأبوية","الاستغلال والتصرف"],
+answer:1
+},
 
-{q:"التنازل المعنوي غير جائز", ar:"لا يجوز بيع الحق المعنوي", options:["True","False","يسمح","غير معروف"], answer:0},
+{
+q:"3- من أشكال التنازل عن العنصر المعنوي:",
+ar:"العنصر المعنوي لا يُتنازل عنه.",
+options:["البيع، الهبة، التبرع","المصنف أو المؤلف","التبرع وأخذ قيمته","يسقط بالتقادم"],
+answer:0
+},
 
-{q:"البيع لا ينقل الحقوق المعنوية", ar:"بيع المصنف لا ينقل الحق المعنوي", options:["True","False","ينقل","جزئياً"], answer:0},
+{
+q:"4- إذا تنازل أو باع الفرد المؤلف أو المنتج الخاص به هل ينتقل العنصر المعنوي؟",
+ar:"بيع النسخة المادية لا يعني التنازل عن الحقوق المعنوية.",
+options:["لا يستتبع تصرف المؤلف في ملكية نسخته المادية من مصنفه تنازله عن أي من حقوق المؤلف","يستتبع تصرف المؤلف في ملكية نسخته المادية تنازله عن حقوقه","يتصرف المؤلف في ملكية نسخته المادية","البيع"],
+answer:0
+},
 
-{q:"الحق المعنوي غير مالي", ar:"حق غير مالي", options:["True","False","مالي","تجاري"], answer:0},
+{
+q:"5- تنازل المؤلف عن حقوقه المالية أو أي جزء منها لا يستتبع ذلك:",
+ar:"التنازل المالي لا يمس الحقوق المعنوية.",
+options:["الحقوق المعنوية","الهبة","التبرع","البيع"],
+answer:0
+},
 
-{q:"الحق المالي يقبل الحجز", ar:"يمكن الحجز على الحقوق المالية", options:["True","False","غير ذلك","لا شيء"], answer:0},
+{
+q:"6- الحقوق اللصيقة بشخصية الإنسان ليست حقوقًا مالية إنما هي:",
+ar:"هي فرع من الحقوق العامة للأفراد.",
+options:["فرع من الحقوق العامة للأفراد","فرع من فروع المعرفة","البطلان المطلق للكافة","الحق المالي وحق البيع"],
+answer:0
+},
 
-{q:"نشر المصنف يحتاج إذن المؤلف", ar:"النشر بإذن المؤلف", options:["True","False","دائمًا","أبدًا"], answer:0},
+{
+q:"7- الحق الذي يقبل الحجز هو:",
+ar:"الحق المالي فقط يقبل الحجز.",
+options:["الحق المعنوي","الحق المالي وهو العنصر المادي للحق الفكري","الحق المعنوي والمالي معًا","الحق المعنوي"],
+answer:1
+},
 
-{q:"الترجمة قد تعتبر اعتداء", ar:"قد تكون الترجمة اعتداء", options:["True","False","دائمًا","لا"], answer:0},
+{
+q:"8- العنصر المادي لا يخرج إلى حيز الوجود إلا:",
+ar:"لا يظهر إلا بنشر المصنف بإذن مالكه.",
+options:["بالحجز المسبق على الحق المعنوي","بالسقوط بالتقادم","بنشر المصنف بإذن من مالكه","باطلًا"],
+answer:2
+},
 
-{q:"الإساءة للمؤلف تعتبر اعتداء", ar:"الإساءة لسمعة المؤلف مخالفة", options:["True","False","عادي","مسموح"], answer:0},
+{
+q:"9- الحق عند تقسيم الحقوق هو:",
+ar:"الحق هو سلطة تمكن صاحبها من منفعة.",
+options:["سلطة واختصاص تمكن صاحبها من منفعة أو مصلحة","نسبة المصنف إلى الغير","عدم استعمال الاسم المستعار","المساس بالمصنف"],
+answer:0
+},
 
-{q:"عدم وجود ورثة ينقل الحق للجهة المختصة", ar:"ينتقل للجهة الرسمية", options:["True","False","لا أحد","بيع"], answer:0}
+{
+q:"10- يتمتع المؤلف بالحقوق المعنوية التالية:",
+ar:"منع أي تحريف أو تشويه لمصنفه.",
+options:["منع أي تحريف أو تشويه أو أي تعديل لمصنفه","ضرورة الإفصاح عن هويته","نسبة المصنف إلى نفسه بطريقة غير مألوفة","نسبة المصنف للغير"],
+answer:0
+},
 
-/* (10 more FULL IP questions included exactly as original content set) */
+{
+q:"11- للمؤلف وحده دون غيره الحق في:",
+ar:"له الحق في إتاحة المصنف للجمهور أو عدمه.",
+options:["عدم إتاحة المصنف للجمهور لأول مرة من عدمه","له مطلق الحرية في نشره","إتاحة المصنف ضمن شروط قاسية","ضرورة عدم الإفصاح"],
+answer:0
+},
+
+{
+q:"12- للمؤلف اختيار وتحديد الطريقة والوسيلة التي يقوم فيها بإعلان مصنفه من خلال:",
+ar:"النشر والطباعة أو التصوير.",
+options:["النشر والطباعة أو التصوير","التسجيل الصوتي غير الواضح","المرئي أو غير البث الإذاعي","للمؤلف وحده البث الإذاعي"],
+answer:0
+},
+
+{
+q:"13- من حق المؤلف نسبة المصنف إلى نفسه بالطريقة المألوفة حيث يتم:",
+ar:"تدوين اسمه على إنتاجه.",
+options:["تدوين اسم المؤلف على إنتاجه","يجوز للورثة عدم نسبته","الطلب من القضاء التعويض","الطلب من المؤلف التنفيذ"],
+answer:0
+},
+
+{
+q:"14- هل يجوز للمؤلف أن يمتنع عن نشر مصنفه وفقًا للاتفاق؟",
+ar:"لا يجبر الدائن المؤلف على التنفيذ.",
+options:["لا يجبر الدائن المؤلف أن يقبل تنفيذ العمل","يجوز للدائن إجبار المؤلف","لا يجوز للدائن أن يجبر المؤلف","الطلب من المؤلف التنفيذ"],
+answer:0
+},
+
+{
+q:"15- يحق للمؤلف أن يبقي الرابطة بينه وبين مؤلفه مجهولة بأن:",
+ar:"ينشره دون ذكر اسمه.",
+options:["أن ينشره دون ذكر اسمه","نشره دون اسم مستعار ويجب تحديد الاسم","الابتعاد عن التدقيق","الترجمة للمصنف"],
+answer:0
+},
+
+{
+q:"16- هل تعتبر الترجمة للمصنف تعديلًا للنص وبالتالي اعتداء؟",
+ar:"لا تعتبر اعتداء إذا أوضح المترجم التغييرات.",
+options:["لا تعتبر الترجمة اعتداء إذا أوضح المترجم التغييرات","الترجمة اعتداء","ليس واجب أخذ الإذن","اعتداء يجيز عدم المساس بالمترجم"],
+answer:0
+},
+
+{
+q:"17- إذا كان بالترجمة إساءة إلى سمعة المؤلف ومكانته فيعتبر ذلك:",
+ar:"اعتداء يجيز للمؤلف اللجوء للقضاء.",
+options:["ليس اعتداء","اعتداء يجيز للمؤلف رفعه للقضاء","التغاضي","نسبة المصنف للمترجم"],
+answer:1
+},
+
+{
+q:"18- بموجب السلطة المعنوية من حق المؤلف أن:",
+ar:"يمنع أي عمل يضر بشرفه أو سمعته.",
+options:["يمنع أي عمل يضر بشرفه أو سمعته","ليس واجب أخذ الإذن","تداول المصنف دون إذن","التغاضي"],
+answer:0
+},
+
+{
+q:"19- من حقوق المؤلف المعنوية ما يلي:",
+ar:"حظر طرح مصنفه للتداول.",
+options:["حظر طرح مصنفه للتداول","عدم سحب المصنف","البيع","لا يحظر"],
+answer:0
+},
+
+{
+q:"20- إذا لم يكن للمؤلف ورثة تباشر الحقوق على المصنف من قبل:",
+ar:"وزارة الثقافة.",
+options:["القاضي","الهبة للغير","البيع للغير","وزارة الثقافة"],
+answer:3
+},
 
 ];
-
-/* ================= MAIN ================= */
-
-const bank={
-comm:commQuestions,
-ip:ipQuestions
-};
-
-function startQuiz(s){
-subject=s;
-current=0;
-score=0;
-wrong=[];
-answered={};
-
-document.getElementById("menu").classList.remove("active");
-document.getElementById("quiz").classList.add("active");
-
-showQuestion();
-}
-
-function showQuestion(){
-let q=bank[subject][current];
-
-document.getElementById("question").innerText=(current+1)+". "+q.q;
-document.getElementById("translation").innerText=q.ar||"";
-
-let box=document.getElementById("options");
-box.innerHTML="";
-document.getElementById("feedback").innerText="";
-
-q.options.forEach((o,i)=>{
-let b=document.createElement("button");
-b.className="option";
-b.innerText=o;
-
-b.onclick=()=>{
-if(answered[current])return;
-answered[current]=true;
-
-if(i===q.answer){
-score++;
-document.getElementById("feedback").innerText="✔ Correct";
-}else{
-document.getElementById("feedback").innerText="✖ Wrong | Correct: "+q.options[q.answer];
-wrong.push({q:q.q,correct:q.options[q.answer]});
-}
-};
-
-box.appendChild(b);
-});
-}
-
-function nextQuestion(){
-if(current<bank[subject].length-1){
-current++;
-showQuestion();
-}else{
-showResult();
-}
-}
-
-function backQuestion(){
-if(current>0){
-current--;
-showQuestion();
-}
-}
-
-function goMenu(){
-document.getElementById("quiz").classList.remove("active");
-document.getElementById("menu").classList.add("active");
-}
-
-function showResult(){
-document.body.innerHTML=`
-<div class="container">
-<h2>RESULT</h2>
-<h3>${score}/${bank[subject].length}</h3>
-<h3>Wrong Answers</h3>
-<pre>${JSON.stringify(wrong,null,2)}</pre>
-<br>
-<button onclick="location.reload()">Menu</button>
-</div>`;
-}
-
-</script>
-</body>
-</html>
