@@ -1,8 +1,8 @@
-<!DOCTYPE html>   
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title> 🤍EXAM platform</title>
+<title>EXAM Platform</title>
 
 <style>
 body{
@@ -22,15 +22,12 @@ body{
 }
 
 button{
-    padding:10px 20px;
+    padding:12px 20px;
     margin:10px;
     border:none;
     border-radius:10px;
     cursor:pointer;
 }
-
-.next{background:#7c3aed;color:white;}
-.back{background:#ec4899;color:white;}
 
 .option{
     display:block;
@@ -41,24 +38,37 @@ button{
     border-radius:10px;
 }
 
-#heart{font-size:30px;}
+.next{background:#7c3aed;color:white;}
+.back{background:#ec4899;color:white;}
+.menuBtn{background:#111;color:white;}
 
-.small{
-    font-size:12px;
-    opacity:0.8;
-}
+#heart{font-size:28px;}
+.small{font-size:12px;opacity:0.8;}
+.feedback{margin-top:10px;font-weight:bold;}
 
-.feedback{
-    margin-top:10px;
-    font-weight:bold;
-}
+.screen{display:none;}
+.active{display:block;}
 </style>
 </head>
 
 <body>
 
-<div class="container">
-    <div id="heart">🤍 اقزام بلاتفورم</div>
+<!-- ================= MENU ================= -->
+<div id="menu" class="container screen active">
+    <h1>🤍 EXAM Platform</h1>
+    <h3>Choose Subject</h3>
+
+    <button class="menuBtn" onclick="startQuiz('comm')">Communication Concept</button>
+    <button class="menuBtn" onclick="startQuiz('ip')">Intellectual Property</button>
+    <button class="menuBtn" onclick="startQuiz('path')">Pathology</button>
+    <button class="menuBtn" onclick="startQuiz('paio')">Paistatic</button>
+</div>
+
+<!-- ================= QUIZ ================= -->
+<div id="quiz" class="container screen">
+
+    <div id="heart">🤍 EXAM Platform</div>
+
     <h2 id="question"></h2>
     <div class="small" id="translation"></div>
 
@@ -67,6 +77,7 @@ button{
 
     <button class="back" onclick="backQuestion()">Back</button>
     <button class="next" onclick="nextQuestion()">Next</button>
+    <button class="menuBtn" onclick="goMenu()">Home</button>
 </div>
 
 <script>
@@ -75,91 +86,63 @@ let current = 0;
 let score = 0;
 let wrong = [];
 let answered = {};
+let currentSubject = "";
 
-const questions = [
-{q:"Therapeutic communication is best defined as", ar:"التواصل العلاجي يُعرّف بأنه", options:["Casual conversation","Professional planned communication","Medical instructions only","Talking to calm patient"], answer:1},
-{q:"Shared understanding helps to", ar:"الفهم المشترك يساعد على", options:["Achieve goals","Reduce documentation","Save time only","Limit interaction"], answer:0},
-{q:"Using silence allows patient to", ar:"استخدام الصمت يسمح للمريض بـ", options:["Feel ignored","Think and gain insight","Lose interest","End conversation"], answer:1},
-{q:"Exploring is", ar:"الاستكشاف هو", options:["Changing subject","Delving deeper","Giving advice","Summarizing"], answer:1},
-{q:"Clarification is used to", ar:"التوضيح يُستخدم لـ", options:["Check understanding","End communication","Give orders","Confuse patient"], answer:0},
-{q:"Example of clarification", ar:"مثال على التوضيح", options:["Why did you do that?","Tell me everything again","What do you mean by sicker than usual?","You are wrong"], answer:2},
-{q:"Reflecting focuses on", ar:"الانعكاس يركز على", options:["Facts only","Feelings and content","Doctor opinion","Reports"], answer:1},
-{q:"Functional-professional touch is used for", ar:"اللمس المهني يستخدم لـ", options:["Clinical care","Emotion","Greeting","Intimacy"], answer:0},
-{q:"Communication failure leads to", ar:"فشل التواصل يؤدي إلى", options:["Better teamwork","Adverse events","Faster discharge","Less work"], answer:1},
-{q:"Communication is", ar:"التواصل هو", options:["One way","Two way","Written only","Random"], answer:1},
+/* ================== BANK (حطي بنكك 60 سؤال هنا بدون تغيير) ================== */
+const bank = {
 
-{q:"Handover refers to", ar:"التسليم يعني", options:["Equipment only","Transfer responsibility","Money","Reports"], answer:1},
-{q:"Noise affects handover by", ar:"الضوضاء تؤثر على التسليم عبر", options:["Improving","Disturbing","Helping","Speeding"], answer:1},
-{q:"SBAR stands for", ar:"SBAR تعني", options:["Signs Background Action Response","Situation Background Assessment Recommendation","Simple Basic Alert Report","None"], answer:1},
-{q:"EMD role is", ar:"دور EMD هو", options:["Drive ambulance","Collect info & dispatch","Surgery","Admin"], answer:1},
-{q:"Portable transceiver used when", ar:"يستخدم جهاز الاتصال المحمول عندما", options:["At hospital","Away from vehicle","Dispatch","Billing"], answer:1},
+comm: [
+{q:"Therapeutic communication is best defined as", ar:"", options:["Casual conversation","Professional planned communication","Medical instructions only","Talking to calm patient"], answer:1},
+{q:"Shared understanding helps to", ar:"", options:["Achieve goals","Reduce documentation","Save time only","Limit interaction"], answer:0}
+],
 
-{q:"Therapeutic interview is", ar:"المقابلة العلاجية هي", options:["Less important","Equal important","Not needed","Optional"], answer:1},
-{q:"Purpose of interview", ar:"هدف المقابلة", options:["Replace exam","Build trust","Delay care","Avoid questions"], answer:1},
-{q:"OLD CARTS used for", ar:"OLD CARTS تستخدم لـ", options:["Diagnosis","Symptom analysis","Billing","Surgery"], answer:1},
-{q:"Open ended question", ar:"السؤال المفتوح", options:["Yes/no","How did it start?","Pain yes?","Age"], answer:1},
-{q:"Why questions avoided because", ar:"تجنب أسئلة لماذا لأن", options:["Accusation feeling","Short","Hard","Fast"], answer:0},
+ip: [
+{q:"What is intellectual property?", ar:"", options:["Ideas ownership","Food","Medicine","Science"], answer:0}
+],
 
-{q:"Patient interview should be", ar:"مقابلة المريض يجب أن تكون", options:["Once only","Continuous","Never","End only"], answer:1},
-{q:"Communicare means", ar:"Communicare تعني", options:["Write","Share","Talk","Code"], answer:1},
-{q:"Formal communication example", ar:"مثال على التواصل الرسمي", options:["Gossip","Lecture","Rumor","Chat"], answer:1},
-{q:"Downward communication", ar:"التواصل الهابط", options:["Employees to managers","Managers to employees","Peers","Public"], answer:1},
-{q:"Upward communication", ar:"التواصل الصاعد", options:["Managers to staff","Staff to managers","Public","None"], answer:1},
+path: [
+{q:"Pathology studies", ar:"", options:["Diseases","Books","Cars","Food"], answer:0}
+],
 
-{q:"Horizontal communication", ar:"التواصل الأفقي", options:["Same level coordination","Different levels","External","None"], answer:0},
-{q:"Informal communication", ar:"التواصل غير الرسمي", options:["Structured","Outside formal network","Official","Written"], answer:1},
-{q:"Therapeutic impasse means", ar:"الانسداد العلاجي يعني", options:["Successful interaction","Communication block","Diagnosis","Treatment"], answer:1},
-{q:"Eye contact helps", ar:"التواصل البصري يساعد على", options:["Distract","Build trust","Confuse","Ignore"], answer:1},
-{q:"Empathy means", ar:"التعاطف يعني", options:["Ignoring feelings","Understanding feelings","Giving orders","Diagnosis"], answer:1},
+paio: [
+{q:"Homeostasis is", ar:"", options:["Body balance","Disease","Sleep","Food"], answer:0}
+]
 
-{q:"Active listening includes", ar:"الاستماع النشط يشمل", options:["Interrupting","Focusing speaker","Ignoring","Multitasking"], answer:1},
-{q:"Closed question example", ar:"مثال على سؤال مغلق", options:["How are you?","Do you have pain?","Tell me more","Explain"], answer:1},
-{q:"Interview starts with", ar:"المقابلة تبدأ بـ", options:["Physical exam","Greeting & rapport","Medication","Diagnosis"], answer:1},
-{q:"Effective communication reduces", ar:"التواصل الفعال يقلل", options:["Errors","Teamwork","Documentation","Training"], answer:0},
-{q:"Patient centered communication means", ar:"التواصل المتمحور حول المريض يعني", options:["Focus patient needs","Doctor decides","Ignore patient","Fast treatment"], answer:0},
+};
+/* ======================================================================= */
 
-{q:"Barriers to communication include", ar:"عوائق التواصل تشمل", options:["Noise","Trust","Clarity","Understanding"], answer:0},
-{q:"Nonverbal communication includes", ar:"التواصل غير اللفظي يشمل", options:["Speech only","Body language","Writing only","Reports"], answer:1},
-{q:"Probing question is used to", ar:"السؤال الاستقصائي يستخدم لـ", options:["End conversation","Get more details","Give orders","Ignore patient"], answer:1},
-{q:"Paraphrasing means", ar:"إعادة الصياغة تعني", options:["Repeating same words","Restating meaning","Changing topic","Ignoring"], answer:1},
-{q:"Validation means", ar:"التحقق يعني", options:["Ignoring feelings","Confirming understanding","Changing subject","Interrupting"], answer:1},
+function startQuiz(subject){
+currentSubject = subject;
+current = 0;
+score = 0;
+wrong = [];
+answered = {};
 
-{q:"Cultural barriers affect communication by", ar:"الحواجز الثقافية تؤثر على التواصل عبر", options:["Improving understanding","Misinterpretation","Clarity","Speed"], answer:1},
-{q:"Assertive communication is", ar:"التواصل الحازم هو", options:["Passive","Clear and respectful","Aggressive","Silent"], answer:1},
-{q:"Passive communication is", ar:"التواصل السلبي هو", options:["Direct expression","Avoiding expression","Aggressive speech","Clear speech"], answer:1},
-{q:"Aggressive communication is", ar:"التواصل العدواني هو", options:["Respectful","Hostile and dominating","Calm","Silent"], answer:1},
-{q:"Documentation is important because", ar:"التوثيق مهم لأنه", options:["Unnecessary","Ensures continuity","Slows work","Confuses staff"], answer:1},
+document.getElementById("menu").classList.remove("active");
+document.getElementById("quiz").classList.add("active");
 
-{q:"Feedback in communication is", ar:"التغذية الراجعة هي", options:["Ignoring response","Response to message","Sending message only","Writing notes"], answer:1},
-{q:"Miscommunication can cause", ar:"سوء الفهم قد يسبب", options:["Safety improvement","Medical errors","Trust increase","Clarity"], answer:1},
-{q:"Patient confidentiality means", ar:"سرية المريض تعني", options:["Sharing data freely","Protecting patient info","Public data","Ignoring records"], answer:1},
-{q:"Informed consent requires", ar:"الموافقة المستنيرة تتطلب", options:["No explanation","Patient understanding","Ignoring risks","Fast decision"], answer:1},
-{q:"Rapport building means", ar:"بناء العلاقة يعني", options:["Breaking trust","Creating trust","Ignoring patient","Ordering"], answer:1},
-
-{q:"Pre-interaction phase is", ar:"مرحلة ما قبل التفاعل هي", options:["Before meeting patient","During interview","After discharge","Diagnosis phase"], answer:0},
-{q:"Orientation phase involves", ar:"مرحلة التوجيه تشمل", options:["End of care","Introduction and trust building","Surgery","Billing"], answer:1},
-{q:"Working phase focuses on", ar:"مرحلة العمل تركز على", options:["Ending relationship","Problem solving","Ignoring patient","Paperwork only"], answer:1},
-{q:"Termination phase means", ar:"مرحلة الإنهاء تعني", options:["Start care","End relationship","Diagnosis","Admission"], answer:1},
-{q:"Communication cycle includes", ar:"دورة التواصل تشمل", options:["Sender and receiver","Only sender","Only message","Only noise"], answer:0},
-
-{q:"Effective communication requires", ar:"التواصل الفعال يتطلب", options:["Confusion","Clarity","Noise","Speed only"], answer:1}
-];
+showQuestion();
+}
 
 function showQuestion(){
-let q = questions[current];
+
+let q = bank[currentSubject][current];
+
 document.getElementById("question").innerText = (current+1)+". "+q.q;
-document.getElementById("translation").innerText = q.ar;
+document.getElementById("translation").innerText = q.ar || "";
 
 let optionsDiv = document.getElementById("options");
 optionsDiv.innerHTML = "";
 document.getElementById("feedback").innerText = "";
 
 q.options.forEach((opt,i)=>{
+
 let btn = document.createElement("button");
 btn.className="option";
 btn.innerText=opt;
 
 btn.onclick=()=>{
+
 if(answered[current]) return;
 answered[current]=true;
 
@@ -167,8 +150,8 @@ if(i === q.answer){
 score++;
 document.getElementById("feedback").innerText="✔ Correct";
 }else{
-document.getElementById("feedback").innerText =
-"✖ Wrong | Correct Answer: " + q.options[q.answer];
+document.getElementById("feedback").innerText=
+"✖ Wrong | Correct: " + q.options[q.answer];
 
 wrong.push({
 question:q.q,
@@ -182,7 +165,7 @@ optionsDiv.appendChild(btn);
 }
 
 function nextQuestion(){
-if(current < questions.length-1){
+if(current < bank[currentSubject].length-1){
 current++;
 showQuestion();
 }else{
@@ -197,18 +180,23 @@ showQuestion();
 }
 }
 
+function goMenu(){
+document.getElementById("quiz").classList.remove("active");
+document.getElementById("menu").classList.add("active");
+}
+
 function showResult(){
 document.body.innerHTML = `
 <div class="container">
 <h2>Result 💗</h2>
-<h3>Score: ${score}/${questions.length}</h3>
+<h3>Score: ${score}/${bank[currentSubject].length}</h3>
 <h3>Wrong Answers:</h3>
 <pre>${JSON.stringify(wrong,null,2)}</pre>
+<br>
+<button onclick="location.reload()">Back to Menu</button>
 </div>
 `;
 }
-
-showQuestion();
 
 </script>
 
