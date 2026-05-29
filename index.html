@@ -64,23 +64,271 @@ let current = 0;
 let score = 0;
 let wrong = [];
 
+<script>
+let current = 0;
+let score = 0;
+let wrong = [];
+
 const questions = [
 {
 q: "Therapeutic communication is best defined as",
-options: ["Casual conversation", "Professional planned communication", "Medical orders", "Talking only"],
+options: ["Casual conversation", "Professional planned communication", "Medical instructions only", "Talking to calm patient"],
 answer: 1
 },
 {
 q: "Shared understanding helps to",
-options: ["Achieve goals", "Waste time", "Reduce care", "Ignore patient"],
+options: ["Achieve goals", "Reduce documentation", "Save time only", "Limit interaction"],
 answer: 0
 },
 {
 q: "Using silence allows patient to",
-options: ["Feel ignored", "Think and reflect", "Stop talking", "Confuse"],
+options: ["Feel ignored", "Think and gain insight", "Lose interest", "End conversation"],
+answer: 1
+},
+{
+q: "Exploring is",
+options: ["Changing subject", "Delving deeper", "Giving advice", "Summarizing"],
+answer: 1
+},
+{
+q: "Clarification is used to",
+options: ["Check understanding", "End communication", "Give orders", "Confuse patient"],
+answer: 0
+},
+{
+q: "Example of clarification",
+options: ["Why did you do that?", "Tell me everything again", "What do you mean by sicker than usual?", "You are wrong"],
+answer: 2
+},
+{
+q: "Reflecting focuses on",
+options: ["Facts only", "Feelings and content", "Doctor opinion", "Reports"],
+answer: 1
+},
+{
+q: "Functional-professional touch is used for",
+options: ["Clinical care", "Emotion", "Greeting", "Intimacy"],
+answer: 0
+},
+{
+q: "When explaining procedures consider",
+options: ["Time only", "Language and age", "Documentation only", "Opinion"],
+answer: 1
+},
+{
+q: "Communication failure leads to",
+options: ["Better teamwork", "Adverse events", "Faster discharge", "Less work"],
+answer: 1
+},
+
+{
+q: "Communication is",
+options: ["One way", "Two way", "Written only", "Random"],
+answer: 1
+},
+{
+q: "Handover refers to",
+options: ["Equipment only", "Transfer of responsibility", "Money", "Reports only"],
+answer: 1
+},
+{
+q: "Noise affects handover by",
+options: ["Improving", "Disturbing", "Helping", "Speeding"],
+answer: 1
+},
+{
+q: "SBAR stands for",
+options: ["Signs Background Action Response", "Situation Background Assessment Recommendation", "Simple Basic Alert Report", "None"],
+answer: 1
+},
+{
+q: "EMD role is",
+options: ["Drive ambulance", "Collect info & dispatch", "Perform surgery", "Admin only"],
+answer: 1
+},
+{
+q: "Portable transceiver used when",
+options: ["At hospital", "Away from vehicle", "Dispatch center", "Billing"],
+answer: 1
+},
+{
+q: "Therapeutic interview is",
+options: ["Less important", "Equal important", "Not needed", "Optional"],
+answer: 1
+},
+{
+q: "Purpose of interview",
+options: ["Replace exam", "Build trust", "Delay care", "Avoid questions"],
+answer: 1
+},
+{
+q: "OLD CARTS used for",
+options: ["Diagnosis", "Symptom analysis", "Billing", "Surgery"],
+answer: 1
+},
+{
+q: "Open ended question",
+options: ["Yes/no", "How did it start?", "Pain yes?", "Age?"],
+answer: 1
+},
+
+{
+q: "Why questions avoided because",
+options: ["Accusation feeling", "Short", "Hard", "Fast"],
+answer: 0
+},
+{
+q: "Patient interview should be",
+options: ["Once only", "Continuous", "Never", "End only"],
+answer: 1
+},
+{
+q: "Communicare means",
+options: ["Write", "Share", "Talk", "Code"],
+answer: 1
+},
+{
+q: "Formal communication example",
+options: ["Gossip", "Lecture", "Rumor", "Chat"],
+answer: 1
+},
+{
+q: "Downward communication",
+options: ["Employees to managers", "Managers to employees", "Peers", "Public"],
+answer: 1
+},
+
+{
+q: "Upward communication",
+options: ["Managers to staff", "Staff to managers", "Public", "None"],
+answer: 1
+},
+{
+q: "Horizontal communication",
+options: ["Same level coordination", "Different levels", "External", "None"],
+answer: 0
+},
+{
+q: "Informal communication",
+options: ["Structured", "Outside formal network", "Official", "Written only"],
+answer: 1
+},
+
+{
+q: "Therapeutic impasse means",
+options: ["Successful interaction", "Communication block", "Diagnosis", "Treatment"],
+answer: 1
+},
+{
+q: "Handover goal is",
+options: ["Confusion", "Patient safety", "Delay care", "Ignore info"],
+answer: 1
+},
+
+{
+q: "Effective communication reduces",
+options: ["Errors", "Teamwork", "Documentation", "Training"],
+answer: 0
+},
+{
+q: "Eye contact helps",
+options: ["Distract", "Build trust", "Confuse", "Ignore"],
+answer: 1
+},
+{
+q: "Clarifying question example",
+options: ["What do you mean?", "Yes", "No", "Ok"],
+answer: 0
+},
+
+{
+q: "Patient centered communication means",
+options: ["Focus on patient needs", "Doctor only decides", "Ignore patient", "Fast treatment"],
+answer: 0
+},
+{
+q: "Empathy means",
+options: ["Ignoring feelings", "Understanding feelings", "Giving orders", "Diagnosis"],
+answer: 1
+},
+{
+q: "Active listening includes",
+options: ["Interrupting", "Focusing on speaker", "Ignoring", "Multitasking"],
+answer: 1
+},
+{
+q: "Closed question example",
+options: ["How are you?", "Do you have pain?", "Tell me more", "Explain"],
+answer: 1
+},
+{
+q: "Interview starts with",
+options: ["Physical exam", "Greeting & rapport", "Medication", "Diagnosis"],
 answer: 1
 }
 ];
+
+function showQuestion(){
+let q = questions[current];
+
+document.getElementById("question").innerText =
+(current+1) + ". " + q.q;
+
+let optionsDiv = document.getElementById("options");
+optionsDiv.innerHTML = "";
+
+q.options.forEach((opt,i)=>{
+let btn = document.createElement("button");
+btn.className="option";
+btn.innerText=opt;
+
+btn.onclick=()=>{
+if(i === q.answer){
+score++;
+document.getElementById("heart").innerText="💗 Correct";
+} else {
+wrong.push({
+question:q.q,
+correct:q.options[q.answer]
+});
+document.getElementById("heart").innerText="💔 Wrong";
+}
+};
+
+optionsDiv.appendChild(btn);
+});
+}
+
+function nextQuestion(){
+if(current < questions.length-1){
+current++;
+showQuestion();
+document.getElementById("heart").innerText="🤍 Quiz Platform";
+}else{
+showResult();
+}
+}
+
+function backQuestion(){
+if(current > 0){
+current--;
+showQuestion();
+}
+}
+
+function showResult(){
+document.body.innerHTML = `
+<div class="container">
+<h2>Result 💗</h2>
+<h3>Score: ${score}/${questions.length}</h3>
+<h3>Wrong Answers:</h3>
+<pre>${JSON.stringify(wrong,null,2)}</pre>
+</div>
+`;
+}
+
+showQuestion();
+</script>
 
 function showQuestion(){
 let q = questions[current];
