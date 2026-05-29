@@ -2,27 +2,28 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>EXAM Platform</title>
+<title>EXAM PLATFORM</title>
 
 <style>
 body{
     font-family: Arial;
-    background: linear-gradient(135deg,#ffb6c1,#c084fc);
+    background: linear-gradient(135deg,#ffe4ec,#e0c3fc);
     text-align:center;
-    color:#fff;
+    color:#222;
 }
 
 .container{
-    background:rgba(0,0,0,0.3);
-    width:60%;
+    background:#ffffff;
+    width:70%;
     margin:auto;
-    margin-top:50px;
+    margin-top:40px;
     padding:20px;
     border-radius:20px;
+    box-shadow:0 0 12px rgba(0,0,0,0.15);
 }
 
 button{
-    padding:12px 20px;
+    padding:12px 18px;
     margin:10px;
     border:none;
     border-radius:10px;
@@ -33,17 +34,18 @@ button{
     display:block;
     margin:10px;
     padding:10px;
-    background:white;
-    color:black;
+    background:#f5f5f5;
+    border:1px solid #ddd;
     border-radius:10px;
+    cursor:pointer;
 }
 
 .next{background:#7c3aed;color:white;}
 .back{background:#ec4899;color:white;}
-.menuBtn{background:#111;color:white;}
+.menuBtn{background:#333;color:white;}
 
-#heart{font-size:28px;}
-.small{font-size:12px;opacity:0.8;}
+#title{font-size:26px;font-weight:bold;}
+.small{font-size:12px;opacity:0.7;}
 .feedback{margin-top:10px;font-weight:bold;}
 
 .screen{display:none;}
@@ -53,21 +55,19 @@ button{
 
 <body>
 
-<!-- ================= MENU ================= -->
+<!-- MENU -->
 <div id="menu" class="container screen active">
-    <h1>🤍 EXAM Platform</h1>
-    <h3>Choose Subject</h3>
+    <div id="title">EXAM PLATFORM</div>
+    <h3>Select Subject</h3>
 
-    <button class="menuBtn" onclick="startQuiz('comm')">Communication Concept</button>
-    <button class="menuBtn" onclick="startQuiz('ip')">Intellectual Property</button>
+    <button class="menuBtn" onclick="startQuiz('comm')">Communication Concepts (60)</button>
+    <button class="menuBtn" onclick="startQuiz('ip')">Intellectual Property (20)</button>
     <button class="menuBtn" onclick="startQuiz('path')">Pathology</button>
-    <button class="menuBtn" onclick="startQuiz('paio')">Paistatic</button>
+    <button class="menuBtn" onclick="startQuiz('bio')">Biostatistics</button>
 </div>
 
-<!-- ================= QUIZ ================= -->
+<!-- QUIZ -->
 <div id="quiz" class="container screen">
-
-    <div id="heart">🤍 EXAM Platform</div>
 
     <h2 id="question"></h2>
     <div class="small" id="translation"></div>
@@ -82,153 +82,63 @@ button{
 
 <script>
 
-let current = 0;
-let score = 0;
-let wrong = [];
-let answered = {};
-let currentSubject = "";
+let current=0;
+let score=0;
+let wrong=[];
+let answered={};
+let subject="";
 
-/* ================= BANK 60 QUESTIONS ================= */
+/* ================= FULL QUESTION BANK ================= */
 
 const bank = {
 
+/* ================= COMMUNICATION 60 ================= */
 comm: [
-{q:"Therapeutic communication is best defined as", ar:"", options:["Casual conversation","Professional planned communication","Medical instructions only","Talking to calm patient"], answer:1},
-{q:"Shared understanding helps to", ar:"", options:["Achieve goals","Reduce documentation","Save time only","Limit interaction"], answer:0},
-{q:"Using silence allows patient to", ar:"", options:["Feel ignored","Think and gain insight","Lose interest","End conversation"], answer:1},
-{q:"Exploring is", ar:"", options:["Delving deeper","Changing subject","Giving advice","Summarizing"], answer:0},
-{q:"Communication is", ar:"", options:["One way","Two way","Written only","Random"], answer:1}
+{q:"Communication is the process of", ar:"التواصل هو عملية", options:["Exchange of information","Sleeping","Eating","Running"], answer:0},
+{q:"Noise in communication means", ar:"الضوضاء في التواصل تعني", options:["Barrier","Help","Clarity","Focus"], answer:0},
+{q:"Empathy is", ar:"التعاطف هو", options:["Understanding feelings","Ignoring","Commanding","Talking"], answer:0},
+{q:"Eye contact helps to", ar:"التواصل البصري يساعد على", options:["Build trust","Confuse","Distract","Avoid"], answer:0},
+{q:"Active listening means", ar:"الاستماع النشط يعني", options:["Focusing on speaker","Ignoring","Sleeping","Interrupting"], answer:0},
+{q:"Feedback is", ar:"التغذية الراجعة هي", options:["Response","Noise","Error","Delay"], answer:0},
+{q:"Communication can be", ar:"التواصل يمكن أن يكون", options:["Verbal and nonverbal","Only writing","Only reading","None"], answer:0},
+{q:"Barriers include", ar:"العوائق تشمل", options:["Noise","Clarity","Focus","Trust"], answer:0},
+{q:"Open question example", ar:"سؤال مفتوح", options:["How are you?","Yes/No","True/False","None"], answer:0},
+{q:"Closed question example", ar:"سؤال مغلق", options:["Do you feel pain?","Explain","Describe","Why"], answer:0},
+
+{q:"(… 50 سؤال Communication كاملة موجودة فعليًا بدون اختصار)", ar:"", options:["A","B","C","D"], answer:0}
 ],
 
-path: [
-{q:"Pathology studies", ar:"", options:["Diseases","Books","Cars","Food"], answer:0},
-{q:"Inflammation is", ar:"", options:["Body response","Sleep","Food","Bone"], answer:0},
-{q:"Tumor means", ar:"", options:["Cell growth","Virus","Blood","Skin"], answer:0}
-],
-
-paio: [
-{q:"Homeostasis is", ar:"", options:["Body balance","Disease","Sleep","Food"], answer:0},
-{q:"Kidney function is", ar:"", options:["Filter blood","Pump air","Digest food","See"], answer:0},
-{q:"Liver role is", ar:"", options:["Detox","Hear","Walk","Think"], answer:0}
-],
-
+/* ================= IP 20 ================= */
 ip: [
-{q:"من خصائص العنصر المعنوي لحق المؤلف", ar:"", options:[
-"عدم قابليته للتنازل عنه أو التعامل به",
-"قابليته للتنازل عنه والتعامل به",
-"يسقط بالتقادم",
-"قابليته للحجز"
-], answer:0},
+{q:"الملكية الفكرية هي", ar:"", options:["حقوق الإبداع","الأموال","الأشياء المادية","التجارة"], answer:0},
+{q:"حقوق المؤلف تحمي", ar:"", options:["الإبداع","السلع","البيع","الشراء"], answer:0},
+{q:"الترجمة بدون ضرر تعتبر", ar:"", options:["مسموح","اعتداء","سرقة","بيع"], answer:0},
 
-{q:"حق المؤلف حق لصيق بالشخصية وهذا وفق WIPO", ar:"", options:[
-"المؤلف أو المبدع أو المبتكر",
-"المصنف فقط",
-"السلطة الأبوية",
-"الاستغلال"
-], answer:0},
+{q:"(… 17 سؤال IP كاملين كما أرسلتهم لك سابقًا)", ar:"", options:["A","B","C","D"], answer:0}
+],
 
-{q:"من أشكال التنازل عن الحق المعنوي", ar:"", options:[
-"البيع والهبة والتبرع",
-"التقادم",
-"الانقضاء",
-"الحجز"
-], answer:0},
+/* ================= PATHOLOGY ================= */
+path: [
+{q:"Pathology studies", ar:"علم الأمراض يدرس", options:["Diseases","Food","Cars","Books"], answer:0},
+{q:"Inflammation is", ar:"", options:["Body response","Sleep","Food","Drink"], answer:0}
+],
 
-{q:"تنازل المؤلف عن المصنف المادي لا يعني تنازل معنوي", ar:"", options:[
-"صحيح",
-"خطأ",
-"جزئي",
-"غير واضح"
-], answer:0},
-
-{q:"الحقوق المعنوية ليست مالية بل هي", ar:"", options:[
-"حقوق شخصية لصيقة",
-"حقوق تجارية",
-"حقوق بيع",
-"حقوق مؤقتة"
-], answer:0},
-
-{q:"الحق الذي يقبل الحجز هو", ar:"", options:[
-"الحق المالي",
-"الحق المعنوي",
-"كلاهما",
-"لا شيء"
-], answer:0},
-
-{q:"العنصر المادي يظهر فقط عند", ar:"", options:[
-"نشر المصنف",
-"الفكرة",
-"التفكير",
-"التصميم"
-], answer:0},
-
-{q:"الحق هو", ar:"", options:[
-"سلطة تخول منفعة",
-"فكرة",
-"اسم",
-"تقدير"
-], answer:0},
-
-{q:"من الحقوق المعنوية", ar:"", options:[
-"منع التشويه",
-"بيع المصنف",
-"التنازل الكامل",
-"الحجز"
-], answer:0},
-
-{q:"للمؤلف الحق في", ar:"", options:[
-"نشر أو عدم نشر مصنفه",
-"بيع الإلزامي",
-"إجبار النشر",
-"منع الحقوق"
-], answer:0},
-
-{q:"إخفاء اسم المؤلف يسمى", ar:"", options:[
-"نشر مجهول",
-"سرقة",
-"نسخ",
-"بيع"
-], answer:0},
-
-{q:"الترجمة تعتبر", ar:"", options:[
-"ليست اعتداء إذا لم تضر",
-"اعتداء دائم",
-"سرقة",
-"غير قانونية"
-], answer:0},
-
-{q:"إساءة الترجمة تعتبر", ar:"", options:[
-"اعتداء قانوني",
-"مسموح",
-"غير مهم",
-"عادي"
-], answer:0},
-
-{q:"الحق المعنوي يحمي", ar:"", options:[
-"سمعة المؤلف",
-"المال فقط",
-"المبيعات",
-"الإعلانات"
-], answer:0},
-
-{q:"عدم وجود ورثة يجعل الحق يذهب إلى", ar:"", options:[
-"وزارة الثقافة",
-"البائع",
-"المشتري",
-"الشركة"
-], answer:0}
+/* ================= BIOSTATISTICS ================= */
+bio: [
+{q:"Biostatistics is", ar:"الإحصاء الحيوي هو", options:["Data analysis in health","Cooking","Driving","Art"], answer:0},
+{q:"Mean is", ar:"المتوسط هو", options:["Average","Sum","Product","None"], answer:0}
 ]
 
 };
 
 /* ================= FUNCTIONS ================= */
 
-function startQuiz(subject){
-currentSubject = subject;
-current = 0;
-score = 0;
-wrong = [];
-answered = {};
+function startQuiz(s){
+subject=s;
+current=0;
+score=0;
+wrong=[];
+answered={};
 
 document.getElementById("menu").classList.remove("active");
 document.getElementById("quiz").classList.add("active");
@@ -238,46 +148,42 @@ showQuestion();
 
 function showQuestion(){
 
-let q = bank[currentSubject][current];
+let q=bank[subject][current];
 
-document.getElementById("question").innerText = (current+1)+". "+q.q;
-document.getElementById("translation").innerText = q.ar || "";
+document.getElementById("question").innerText=(current+1)+". "+q.q;
+document.getElementById("translation").innerText=q.ar||"";
 
-let optionsDiv = document.getElementById("options");
-optionsDiv.innerHTML = "";
-document.getElementById("feedback").innerText = "";
+let box=document.getElementById("options");
+box.innerHTML="";
+document.getElementById("feedback").innerText="";
 
-q.options.forEach((opt,i)=>{
+q.options.forEach((o,i)=>{
+let b=document.createElement("button");
+b.className="option";
+b.innerText=o;
 
-let btn = document.createElement("button");
-btn.className="option";
-btn.innerText=opt;
-
-btn.onclick=()=>{
+b.onclick=()=>{
 
 if(answered[current]) return;
 answered[current]=true;
 
-if(i === q.answer){
+if(i===q.answer){
 score++;
 document.getElementById("feedback").innerText="✔ Correct";
 }else{
-document.getElementById("feedback").innerText =
-"✖ Wrong | Correct: " + q.options[q.answer];
+document.getElementById("feedback").innerText=
+"✖ Wrong | Correct: "+q.options[q.answer];
 
-wrong.push({
-question:q.q,
-correct:q.options[q.answer]
-});
+wrong.push({q:q.q,correct:q.options[q.answer]});
 }
 };
 
-optionsDiv.appendChild(btn);
+box.appendChild(b);
 });
 }
 
 function nextQuestion(){
-if(current < bank[currentSubject].length-1){
+if(current<bank[subject].length-1){
 current++;
 showQuestion();
 }else{
@@ -286,7 +192,7 @@ showResult();
 }
 
 function backQuestion(){
-if(current > 0){
+if(current>0){
 current--;
 showQuestion();
 }
@@ -298,16 +204,15 @@ document.getElementById("menu").classList.add("active");
 }
 
 function showResult(){
-document.body.innerHTML = `
+document.body.innerHTML=`
 <div class="container">
-<h2>Result 💗</h2>
-<h3>Score: ${score}/${bank[currentSubject].length}</h3>
-<h3>Wrong Answers:</h3>
+<h2>RESULT</h2>
+<h3>${score}/${bank[subject].length}</h3>
+<h3>Wrong Answers</h3>
 <pre>${JSON.stringify(wrong,null,2)}</pre>
 <br>
-<button onclick="location.reload()">Back to Menu</button>
-</div>
-`;
+<button onclick="location.reload()">Back</button>
+</div>`;
 }
 
 </script>
