@@ -6,10 +6,10 @@
 <title>EXAM PLATFORM 🤍</title>
 
 <style>
-/* إعدادات الخلفية والنعومة العامة المحترفة */
+/* إعدادات الخلفية المتدرجة والناعمة البعيدة عن البياض التقليدي */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #fff0f5 0%, #f1e4ff 50%, #e8f5ff 100%);
+    background: linear-gradient(135deg, #fff0f6 0%, #f2e7fe 50%, #e6f2ff 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -19,18 +19,21 @@ body {
     box-sizing: border-box;
 }
 
-/* حاوية العرض الرئيسية الكيوت بتأثير الزجاج اللامع */
+/* حاوية العرض الرئيسية بتأثير الإطار الزجاجي المضيء والمحترف */
 .container {
-    background: rgba(255, 255, 255, 0.85); 
+    background: rgba(255, 255, 255, 0.82); 
     width: 100%;
     max-width: 700px;
     padding: 40px 30px;
-    border-radius: 30px;
-    border: 2px solid rgba(255, 255, 255, 0.6); 
-    box-shadow: 0 20px 50px rgba(219, 39, 119, 0.08), 
-                0 4px 12px rgba(139, 92, 246, 0.04);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    border-radius: 32px;
+    /* إطار زجاجي ناعم ومحترف */
+    border: 2px solid rgba(255, 255, 255, 0.7); 
+    /* ظلال مضيئة بألوان الكيوت المحترفة لتبدو الواجهة طافية */
+    box-shadow: 0 20px 45px rgba(219, 39, 119, 0.08), 
+                0 8px 20px rgba(139, 92, 246, 0.06),
+                inset 0 0 12px rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     position: relative;
 }
@@ -40,9 +43,9 @@ body {
     font-size: 34px; 
     font-weight: 900; 
     color: #db2777; 
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     margin-bottom: 8px;
-    text-shadow: 2px 2px 4px rgba(219, 39, 119, 0.15);
+    text-shadow: 2px 2px 5px rgba(219, 39, 119, 0.12);
     text-align: center;
 }
 
@@ -65,10 +68,10 @@ body {
 
 /* تصميم أزرار المواد الاحترافية اللامعة الكيوت */
 .menuBtn { 
-    background: rgba(243, 232, 255, 0.6); 
+    background: rgba(245, 235, 255, 0.5); 
     color: #5b21b6; 
     padding: 24px 20px;
-    border: 1px solid rgba(233, 213, 255, 0.8);
+    border: 1px solid rgba(233, 213, 255, 0.7);
     border-radius: 22px;
     cursor: pointer;
     font-size: 16px;
@@ -81,10 +84,10 @@ body {
     position: relative;
     overflow: hidden;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.05);
+    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.04);
 } 
 
-/* تأثير البريق اللامع عند تمرير الماوس */
+/* تأثير البريق الأبيض اللامع السريع عند تحريك الماوس فوق الأزرار والخيارات */
 .menuBtn::after, .option::after, button.action-btn.next::after, button.action-btn.homeBtn::after {
     content: '';
     position: absolute;
@@ -104,10 +107,10 @@ body {
 }
 
 .menuBtn:hover {
-    background: rgba(233, 213, 255, 0.9);
+    background: rgba(233, 213, 255, 0.85);
     transform: translateY(-5px);
     border-color: #c084fc;
-    box-shadow: 0 12px 24px rgba(124, 58, 237, 0.15);
+    box-shadow: 0 12px 24px rgba(124, 58, 237, 0.12);
 }
 
 .menuBtn span.badge {
@@ -117,16 +120,16 @@ body {
     border-radius: 50px;
     color: #6d28d9;
     font-weight: 800;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
 }
 
-/* خيارات الأسئلة النود المشمشي والوردي المتناسقة والموزونة */
+/* خيارات الأسئلة النود المشمشي اللطيف والموزون */
 .option {
     display: block;
     margin: 16px auto;
     padding: 18px 22px;
-    background: rgba(255, 247, 237, 0.7); 
-    border: 1px solid rgba(255, 237, 213, 0.9);
+    background: rgba(255, 247, 237, 0.65); 
+    border: 1px solid rgba(255, 237, 213, 0.85);
     border-radius: 18px;
     cursor: pointer;
     width: 100%;
@@ -138,11 +141,11 @@ body {
     position: relative;
     overflow: hidden;
     transition: all 0.25s ease;
-    box-shadow: 0 2px 8px rgba(251, 146, 60, 0.03);
+    box-shadow: 0 2px 8px rgba(251, 146, 60, 0.02);
 }
 
 .option:hover {
-    background: #ffedd5;
+    background: rgba(255, 237, 213, 0.9);
     border-color: #fed7aa;
     transform: translateX(4px);
 }
@@ -151,21 +154,21 @@ body {
     background: #fce7f3; 
     border-color: #f472b6;
     color: #9d174d;
-    box-shadow: 0 4px 12px rgba(244, 114, 182, 0.2);
+    box-shadow: 0 4px 12px rgba(244, 114, 182, 0.15);
 }
 
 .option.correct-flash {
     background: #ecfdf5;
     border-color: #10b981;
     color: #065f46;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
 }
 
 .option.wrong-flash {
     background: #fff1f2;
     border-color: #fb7185;
     color: #9f1239;
-    box-shadow: 0 4px 12px rgba(251, 113, 133, 0.2);
+    box-shadow: 0 4px 12px rgba(251, 113, 133, 0.15);
 }
 
 /* أزرار التحكم بالأسئلة */
@@ -197,9 +200,9 @@ button.action-btn:active {
     transform: scale(0.97);
 }
 
-.next { background: linear-gradient(135deg, #f472b6, #db2777); color: white; box-shadow: 0 4px 15px rgba(219, 39, 119, 0.3); } 
+.next { background: linear-gradient(135deg, #f472b6, #db2777); color: white; box-shadow: 0 4px 15px rgba(219, 39, 119, 0.25); } 
 .back { background: #e2e8f0; color: #475569; border: 1px solid #cbd5e1; }
-.homeBtn { background: linear-gradient(135deg, #c084fc, #9333ea); color: white; box-shadow: 0 4px 15px rgba(147, 51, 234, 0.3); }
+.homeBtn { background: linear-gradient(135deg, #c084fc, #9333ea); color: white; box-shadow: 0 4px 15px rgba(147, 51, 234, 0.25); }
 
 /* نصوص التوضيح والترجمات المريحة */
 .small { font-size: 15px; line-height: 1.6; margin-top: 12px; color: #c2410c; font-weight: 600; direction: rtl; text-align: right; background: rgba(255, 247, 237, 0.5); padding: 10px 15px; border-radius: 12px; }
@@ -222,14 +225,13 @@ button.action-btn:active {
     margin-top: 16px;
     border-right: 5px solid #f43f5e;
     border-radius: 16px;
-    box-shadow: 0 2px 8px rgba(244, 63, 94, 0.05);
+    box-shadow: 0 2px 8px rgba(244, 63, 94, 0.04);
 }
 </style>
 </head>
 
 <body>
 
-<!-- صفحة الواجهة والقائمة الرئيسية الافتراضية الكيوت -->
 <div id="menu" class="container screen active">
     <div id="title">EXAM PLATFORM 🤍</div>
     <div class="subtitle">Select Your Subject To Start ✨</div>
@@ -254,7 +256,6 @@ button.action-btn:active {
     </div>
 </div>
 
-<!-- صفحة الأسئلة والاختبار -->
 <div id="quiz" class="container screen">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
         <span style="font-weight: 800; color: #db2777; font-size: 14px; letter-spacing: 0.5px;">EXAM PLATFORM 🤍</span>
@@ -313,7 +314,6 @@ function playCuteSound() {
     }
 }
 
-/* بنك الأسئلة الخاص بك بالكامل */
 const bank = {
 bio: [
 { q: "1. Hypothesis testing is used to:", ar: "يُستخدم اختبار الفرضيات لاتخاذ قرارات مبنية على البيانات.", options: ["Make decisions from data", "Predict future events", "Collect raw data", "Avoid statistical analysis"], answer: 0 },
@@ -364,7 +364,7 @@ bio: [
 { q: "46. The value of correlation coefficient (r) ranges between:", ar: "تتراوح قيمة معامل الارتباط (r) دائماً بين -1.0 و +1.0.", options: ["0 to 100", "−10 to +10", "−1.0 to +1.0", "0 to 1 only"], answer: 2 },
 { q: "47. Positive correlation means:", ar: "الارتباط الطردي الإيجابي يعني حركة المتغيرين في نفس الاتجاه معاً (يزيدان معاً).", options: ["One variable increases, the other decreases", "Both variables move in opposite directions", "Both variables move in the same direction", "No relationship"], answer: 2 },
 { q: "48. Negative correlation means:", ar: "الارتباط العكسي السلبي يعني أنه عندما يرتفع متغير ينخفض الآخر.", options: ["Both variables increase", "One increases while the other decreases", "No change in variables", "Variables are equal"], answer: 1 },
-{ q: "49. A correlation of 0.75 is considered:", ar: "قيمة الارتباط 0.75 تعتبر ارتباطاً قوياً (Strong).", options: ["Weak", "Moderate", "Strong", "Very weak"], confidence: 2, answer: 2 },
+{ q: "49. A correlation of 0.75 is considered:", ar: "قيمة الارتباط 0.75 تعتبر ارتباطاً قوياً (Strong).", options: ["Weak", "Moderate", "Strong", "Very weak"], answer: 2 },
 { q: "50. A correlation of 0.10 is:", ar: "قيمة الارتباط 0.10 تعتبر ارتباطاً ضعيفاً جداً أو يكاد ينعدم.", options: ["Very strong", "Weak or none", "Moderate", "Strong"], answer: 1 },
 { q: "51. Which value indicates very strong correlation?", ar: "أي من القيم التالية تشير إلى ارتباط قوي جداً؟", options: ["0.25", "0.45", "0.85", "0.10"], answer: 2 },
 { q: "52. Phi coefficient (φ) is used when:", ar: "يُستخدم معامل فاي عندما يكون كلا المتغيرين ثنائيين (Binary Variables).", options: ["Both variables are continuous", "Both variables are binary", "Data is ranked", "Data is normal"], answer: 1 },
@@ -382,154 +382,4 @@ bio: [
 { q: "64. What is one major challenge in medical bioinformatics?", ar: "التحدي الأكبر هو الحجم الضخم جداً والهائل للبيانات الناتجة والتي تحتاج لتحليل دقيق.", options: ["Lack of diseases", "Large amount of data", "Too few computers", "No need for analysis"], answer: 1 },
 { q: "65. Why is understanding genes difficult?", ar: "دراسة وفهم الجينات صعبة جداً نظراً للتعقيد البالغ والتشابك في الأنظمة الجينية.", options: ["They are too small to study", "They change daily", "They are very complex", "They are not important"], answer: 2 },
 { q: "66. Why must patient data be protected?", ar: "يجب حماية بيانات المرضى بقوة لأنها معلومات جينية وسريرية شديدة الخصوصية والحساسية.", options: ["To reduce computer usage", "Because it is cheap", "Because it is private and sensitive", "To share it publicly"], answer: 2 },
-{ q: "67. One challenge of Medical Bioinformatics is:", ar: "من أبرز التحديات الحالية النقص الشديد في الكوادر والمتخصصين الذين يجمعون بين الطب والحوسبة.", options: ["Too many specialists", "Lack of specialists", "No data", "No diseases"], answer: 1 },
-{ q: "68. Errors in medical bioinformatics analysis may lead to:", ar: "حدوث أي خطأ في التحليل الجيني قد يتسبب في تشخيص خاطئ أو إعطاء علاج غير مناسب للمريض.", options: ["Faster recovery", "Correct diagnosis", "Wrong diagnosis or treatment", "No effect"], answer: 2 },
-{ q: "69. Personalized medicine is based on:", ar: "يقوم الطب الشخصي على مواءمة العلاج مع جينات المريض وحالته الصحية الدقيقة.", options: ["Age only", "Random selection", "Patient genes and condition", "Doctor preference"], answer: 2 },
-{ q: "70. Bioinformatics helps develop new drugs by:", ar: "تساهم المعلوماتية الحيوية في تقليص الوقت والتكلفة اللازمين لتطوير واختبار الأدوية الجديدة.", options: ["Increasing cost", "Reducing time and cost", "Avoiding research", "Using animals only"], answer: 1 },
-{ q: "71. Targeted cancer therapy is based on:", ar: "يعتمد العلاج الموجه للسرطان على استهدف طفرات جينية محددة وخاصة بالورم (مثل EGFR).", options: ["Symptoms only", "Genetic mutations (e.g., EGFR)", "Age", "Diet"], answer: 1 },
-{ q: "72. Bioinformatics helps doctors to:", ar: "تساعد الأطباء في اختيار الدواء والجرعة المناسبة تماماً بناءً على استجابة الجسم الجينية.", options: ["Delay treatment", "Give the same drug to all", "Choose the right drug and dose", "Avoid diagnosis"], answer: 2 },
-{ q: "73. Bioinformatics improves diagnosis by:", ar: "تحسين التشخيص يتم عبر توظيف المؤشرات الحيوية وتقنيات الذكاء الاصطناعي المتقدمة.", options: ["Ignoring patient data", "Using biomarkers and AI", "Using manual methods only", "Removing lab tests"], answer: 1 },
-{ q: "74. A biomarker is:", ar: "المؤشر الحيوي هو علامة بيولوجية قابلة للقياس تدل على وجود أو تطور المرض.", options: ["A type of drug", "A measurable indicator of disease", "A machine", "A symptom"], answer: 1 },
-{ q: "75. Genetic data should be protected because:", ar: "البيانات الجينية حساسة وشخصية للغاية ويجب حمايتها لمنع إساءة استخدامها.", options: ["It is unimportant", "It is temporary", "It is sensitive and personal", "It changes daily"], answer: 2 },
-{ q: "76. Genetic discrimination may occur when:", ar: "التمييز الجيني يحدث عندما يستغل أصحاب العمل أو الشركات المخاطر الجينية بشكل غير عادل.", options: ["Data is deleted", "Employers use genetic risk unfairly", "Data is hidden", "Patients refuse treatment"], answer: 1 },
-{ q: "77. Informed consent means:", ar: "الموافقة المستنيرة تعني الفهم الكامل والواضح من المريض لكيفية استخدام بياناته الجينية.", options: ["Signing without reading", "Full understanding of data use", "Doctor decides alone", "No permission needed"], answer: 1 },
-{ q: "78. Genetic data affects family members because:", ar: "المعلومات الجينية تؤثر على العائلة بأكملها نظراً لوجود جينات مشتركة ومورثة بينهم.", options: ["It is private only", "It is shared genetically", "It is unrelated", "It is temporary"], answer: 1 },
-{ q: "79. One psychological impact of genetic testing is:", ar: "من التأثيرات النفسية المحتملة للفحص الجيني حدوث القلق أو التوتر بانتظار النتائج.", options: ["Happiness only", "Anxiety or stress", "No effect", "Memory loss"], answer: 1 },
-{ q: "80. Data ownership concerns relate to:", ar: "مخاوف ملكية البيانات ترتبط بتحديد من يملك ومن له حق التحكم في البيانات الجينية المخزنة.", options: ["Weather changes", "Who controls genetic data", "Machine speed", "Virus infections"], answer: 1 },
-{ q: "81. Bias in AI can cause:", ar: "التحيز في نماذج الذكاء الاصطناعي قد يؤدي إلى عدم المساواة والتمييز في تقديم الرعاية الصحية.", options: ["Equal outcomes", "Perfect results", "Inequality in healthcare", "Faster drugs"], answer: 2 },
-{ q: "82. CRISPR raises concerns about:", ar: "تقنية تعديل الجينات كريسبر (CRISPR) تثير مخاوف أخلاقية حول إمكانية تصميم أطفال بمواصفات معينة (Designer babies).", options: ["Faster computers", "Designer babies", "Data storage", "Internet speed"], answer: 1 },
-{ q: "83. Genetic data security risk includes:", ar: "مخاطر أمن البيانات تتضمن احتمالية التعرض للاختراق وتسريب البيانات الحساسة.", options: ["Data deletion", "Hacking and data breaches", "Slow analysis", "Lack of genes"], answer: 1 }
-],
-path: [
-{ q: "1. Approximately what percentage of body weight is water?", ar: "ما هي النسبة المئوية التقريبية للماء في وزن الجسم ؟", options: ["40%", "50%", "60%", "70%"], answer: 2 },
-{ q: "2. Non-pitting edema occurs in which condition?", ar: "في أي حالة يحدث الوذمة غير التجويفية؟", options: ["Cardiac edema", "Renal edema", "Nutritional edema", "Lymphatic edema"], answer: 3 },
-{ q: "3. Which of the following is an example of physiological hyperemia?", ar: "أي مما يلي هو مثال على فرط الدم الفسيولوجي؟", options: ["Hyperemia in acute inflammation", "Hyperemia in skeletal muscles during exercise", "Hyperemia in congestive heart failure", "Hyperemia in venous obstruction"], answer: 1 },
-{ q: "4. Which type of thrombus is most common in the human body?", ar: "أي نوع من الجلطة الدموية هو الأكثر شيوعا في جسم الإنسان؟", options: ["Arterial thrombus", "Capillary thrombus", "Venous thrombus", "Cardiac mural thrombus"], answer: 2 },
-{ q: "5. A thrombus that contains pyogenic bacteria is called:", ar: "تسمى الجلطة الدموية التي تحتوي على بكتيريا صديدية بـ:", options: ["Aseptic thrombus", "Red thrombus", "Septic thrombus", "Mixed thrombus"], answer: 2 },
-{ q: "6. Which type of shock is most likely to affect a patient with massive hemorrhage?", ar: "أي نوع من الصدمة من المرجح أن يصيب مريضا يعاني من نزيف حاد؟", options: ["Cardiogenic shock", "Hypovolemic shock", "Anaphylactic shock", "Neurogenic shock"], answer: 1 },
-{ q: "7. Amniotic fluid embolism typically occurs during:", ar: "يحدث انسداد السائل السلوي (الأمينوسي) عادة أثناء:", options: ["Early pregnancy", "Labor and delivery", "Postpartum period after 1 month", "Abdominal trauma in first trimester"], answer: 1 },
-{ q: "8. Fat embolism is most commonly associated with:", ar: "يرتبط الانسداد الدهني بشكل شائع بـ:", options: ["Deep vein thrombosis", "Fractures of long bones", "Bacterial endocarditis", "Air bubble injection"], answer: 1 },
-{ q: "9. Pale (white) infarcts typically occur in which of the following organs?", ar: "تحدث الاحتشاءات الشاحبة البيضاء عادة في أي من الأعضاء التالية؟", options: ["Lungs", "Small intestine", "Heart and Spleen", "Liver"], answer: 2 },
-{ q: "10. Red (hemorrhagic) infarcts are typically seen in:", ar: "تظهر الاحتشاءات الحمراء (النزفية) عادة في:", options: ["Kidneys", "Spleen", "Lungs and Gastrointestinal tract", "Heart"], answer: 2 },
-{ q: "11. Septic shock is primarily caused by:", ar: "تحدث الصدمة التسممية بشكل أساسي بسبب:", options: ["Severe allergic reaction", "Gram-negative or Gram-positive bacterial infections", "Acute myocardial infarction", "Spinal cord injury"], answer: 1 },
-{ q: "12. What is the definition of ischemia?", ar: "ما هو تعريف نقص التروية (الإقفار)؟", options: ["Inability of cells to use oxygen", "Inadequate blood supply to a tissue or organ", "Increase in venous blood flow", "Excessive oxygenation of tissues"], answer: 1 },
-{ q: "13. In decompression sickness, the bubbles are composed of:", ar: "في مرض تخفيف الضغط ، تتكون الفقاعات من:", options: ["Oxygen", "Carbon dioxide", "Nitrogen", "Helium"], answer: 2 },
-{ q: "14. Chronic passive congestion of the liver leads to:", ar: "الاحتقان المزمن في الكبد يؤدي إلى مظهر كبد جوزة الطيب.", options: ["Nutmeg liver", "Fatty liver", "Cirrhosis", "Infarction"], answer: 0 }
-],
-ip: [
-{ q: "1. IP stands for:", ar: "الملكية الفكرية ترمز لـ Intellectual Property", options: ["Intellectual Property", "Internet Protocol", "Internal Process", "International Patent"], answer: 0 }
-],
-cc: [
-{ q: "1. Communication is:", ar: "التواصل هو تبادل المعلومات.", options: ["Exchanging information", "Speaking only", "Writing only", "Shouting"], answer: 0 }
-]
-};
-
-function startQuiz(sub) {
-    subject = sub;
-    current = 0;
-    answered = {};
-    isShowingFeedback = false;
-    playCuteSound();
-    
-    document.getElementById("menu").classList.remove("active");
-    document.getElementById("quiz").classList.add("active");
-    
-    showQuestion();
-}
-
-function showQuestion() {
-    const qList = bank[subject];
-    if (!qList || qList.length === 0) {
-        alert("No questions found!");
-        return;
-    }
-    
-    const qData = qList[current];
-    document.getElementById("progressBadge").innerText = `${current + 1} / ${qList.length}`;
-    document.getElementById("question").innerText = qData.q;
-    document.getElementById("translation").innerText = qData.ar || "";
-    
-    const optionsDiv = document.getElementById("options");
-    optionsDiv.innerHTML = "";
-    
-    document.getElementById("feedback").style.display = "none";
-    document.getElementById("feedback").className = "feedback";
-    isShowingFeedback = false;
-    
-    qData.options.forEach((opt, idx) => {
-        const btn = document.createElement("button");
-        btn.className = "option";
-        btn.innerText = opt;
-        
-        if (answered[current] !== undefined) {
-            if (idx === qData.answer) {
-                btn.classList.add("correct-flash");
-            } else if (idx === answered[current]) {
-                btn.classList.add("wrong-flash");
-            }
-        } else {
-            btn.onclick = () => selectOption(idx);
-        }
-        
-        optionsDiv.appendChild(btn);
-    });
-}
-
-function selectOption(idx) {
-    if (answered[current] !== undefined || isShowingFeedback) return;
-    
-    const qData = bank[subject][current];
-    answered[current] = idx;
-    isShowingFeedback = true;
-    
-    const optionsDiv = document.getElementById("options");
-    const buttons = optionsDiv.getElementsByClassName("option");
-    
-    if (idx === qData.answer) {
-        buttons[idx].classList.add("correct-flash");
-        showFeedback(true, "إجابة صحيحة بيرفكت! ✨👏");
-    } else {
-        buttons[idx].classList.add("wrong-flash");
-        buttons[qData.answer].classList.add("correct-flash");
-        showFeedback(false, "إجابة خاطئة، اوبس  🌸");
-    }
-}
-
-function showFeedback(isCorrect, text) {
-    const fb = document.getElementById("feedback");
-    fb.style.display = "block";
-    fb.innerText = text;
-    if (isCorrect) {
-        fb.style.background = "#d1fae5";
-        fb.style.color = "#065f46";
-    } else {
-        fb.style.background = "#ffe4e6";
-        fb.style.color = "#9f1239";
-    }
-}
-
-function nextQuestion() {
-    const qList = bank[subject];
-    if (current < qList.length - 1) {
-        current++;
-        showQuestion();
-    } else {
-        alert("🎉 لقد أكملت الاختبار  !");
-        goMenu();
-    }
-}
-
-function backQuestion() {
-    if (current > 0) {
-        current--;
-        showQuestion();
-    }
-}
-
-function goMenu() {
-    document.getElementById("quiz").classList.remove("active");
-    document.getElementById("menu").classList.add("active");
-}
-</script>
-</body>
-</html>
+{ q: "67. One challenge of Medical Bioinformatics is:", ar: "من أبرز التحديات الحالية النقص الشديد في الكوادر والمتخصصين الذين يجمعون بين الطب والحوسبة.", options:
