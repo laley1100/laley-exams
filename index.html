@@ -391,7 +391,6 @@ function showQuestion() {
             button.classList.add("selected");
         }
         
-        // دعم التوجيه من اليمين لليسار إذا كانت الخيارات باللغة العربية
         if (/[\u0600-\u06FF]/.test(optionText)) {
             button.style.textAlign = "right";
             button.style.direction = "rtl";
