@@ -74,7 +74,7 @@
     { q: "33. Which test replaces t-test for 3+ groups?", ar: "الاختبار البديل هو ANOVA:", options: ["Correlation", "ANOVA", "Regression", "Median test"], answer: 1 },
     { q: "34. The sign test focuses on:", ar: "يركز على اتجاه التغيير فقط:", options: ["Exact values", "Direction (+ / −)", "Mean values", "Variance"], answer: 1 },
     { q: "35. A typical confidence level used is:", ar: "مستوى الثقة النموذجي 95٪:", options: ["10%", "50%", "95%", "5%"], answer: 2 },
-    { q: "36. ANOVA analyzes:", ar: "يحلل التباين بين وداخل المجموعات:", options: ["Only means", "Only medians", "Variance (between and within groups)", "Percentages // تكملة مصفوفة Pathology (من 11 إلى 50)
+    { q: "36. ANOVA analyzes:", ar: "يحلل التباين بين وداخل المجموعات:", options: ["Only means", "Only medians", "Variance (between and within groups)", "Percentages "Variance (between and within groups)", "Percentages"],
     { q: "11. Septic shock is primarily caused by:", ar: "تحدث الصدمة التسممية بشكل أساسي بسبب:", options: ["Allergic reaction", "Bacterial infections", "Myocardial infarction", "Spinal injury"], answer: 1 },
     { q: "12. What is the definition of ischemia?", ar: "ما هو تعريف نقص التروية (الإقفار)؟", options: ["Inability to use oxygen", "Inadequate blood supply", "Increase in venous blood flow", "Excessive oxygenation"], answer: 1 },
     { q: "13. In decompression sickness, the bubbles are composed of:", ar: "في مرض تخفيف الضغط، تتكون الفقاعات من:", options: ["Oxygen", "Carbon dioxide", "Nitrogen", "Helium"], answer: 2 },
@@ -115,8 +115,8 @@
     { q: "48. Necrosis is:", ar: "النخر (Necrosis) هو:", options: ["Unprogrammed cell death", "Programmed cell death", "Cell growth", "None"], answer: 0 },
     { q: "49. The main cause of infarction is:", ar: "السبب الرئيسي للاحتشاء هو:", options: ["Ischemia", "Inflammation", "Infection", "Cancer"], answer: 0 },
     { q: "50. Which organ is commonly affected by embolism?", ar: "أي عضو يتأثر عادة بالانصمام؟", options: ["Lung", "Bone", "Skin", "Hair"], answer: 0 }
-); // مصفوفة أسئلة Communication (60 سؤال)
-cc : [
+{ q: "50. Which organ is commonly affected by embolism?", ... answer: 0 }
+],cc : [
     { q: "1. Communication is defined as:", ar: "يُعرّف التواصل بأنه:", options: ["Sending messages", "Exchanging information", "Speaking only", "Writing"], answer: 1 },
     { q: "2. The primary goal of therapeutic communication is:", ar: "الهدف الرئيسي من التواصل العلاجي هو:", options: ["Patient well-being", "Passing time", "Giving orders", "Friendly chat"], answer: 0 },
     { q: "3. Active listening involves:", ar: "الاستماع النشط يتضمن:", options: ["Interrupting", "Ignoring", "Full attention", "Daydreaming"], answer: 2 },
@@ -199,7 +199,7 @@ ip : [
     { q: "18- بموجب السلطة المعنوية من حق المؤلف أن:", ar: "", options: ["أ- يمنع أي عمل يتعلق بمصنفه فيه إضرار بشرفه أو سمعته", "ب- ليس واجب أخذ الإذن من المؤلف", "ج- تداول المصنف وطباعته من غير إذن المؤلف", "د- التغاضي عن ذلك"], answer: 0 },
     { q: "19- من حقوق المؤلف المعنوية ما يلي:", ar: "", options: ["أ- حظر طرح مصنفه للتداول", "ب- عدم سحب مصنفه الذي تم تداوله", "ج- البيع", "د- لا يحظر"], answer: 0 },
     { q: "20- إذا لم يكن للمؤلف ورثة تباشر الحقوق على المصنف من قبل:", ar: "", options: ["أ- القاضي", "ب- الهبة للغير", "ج- البيع للغير", "د- وزارة الثقافة"], answer: 3 }
-];};
+]};
     let currentSub = "", currentIdx = 0;
 
     function startQuiz(sub) {
