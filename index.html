@@ -1,627 +1,382 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EXAM PLATFORM 🤍</title>
-
-<style>
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #fff0f6 0%, #f2e7fe 50%, #e6f2ff 100%);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-.container {
-    background: rgba(255, 255, 255, 0.85); 
-    width: 100%;
-    max-width: 750px;
-    padding: 40px 30px;
-    border-radius: 32px;
-    border: 2px solid rgba(255, 255, 255, 0.8); 
-    box-shadow: 0 20px 45px rgba(219, 39, 119, 0.08), 
-                0 8px 20px rgba(139, 92, 246, 0.06),
-                inset 0 0 12px rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    position: relative;
-}
-
-#title { 
-    font-size: 34px; 
-    font-weight: 900; 
-    color: #db2777; 
-    letter-spacing: 0.5px;
-    margin-bottom: 8px;
-    text-shadow: 2px 2px 5px rgba(219, 39, 119, 0.12);
-    text-align: center;
-}
-
-.subtitle {
-    color: #7c3aed; 
-    font-size: 16px; 
-    font-weight: 600; 
-    margin-top: 0;
-    margin-bottom: 35px;
-    text-align: center;
-    opacity: 0.85;
-}
-
-.menu-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-.menuBtn { 
-    background: rgba(245, 235, 255, 0.6); 
-    color: #5b21b6; 
-    padding: 24px 20px;
-    border: 1px solid rgba(233, 213, 255, 0.8);
-    border-radius: 22px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 700;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.04);
-} 
-
-.menuBtn::after, .option::after, button.action-btn.next::after, button.action-btn.homeBtn::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -60%;
-    width: 30%;
-    height: 200%;
-    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 100%);
-    transform: rotate(30deg);
-    transition: none;
-    pointer-events: none;
-}
-
-.menuBtn:hover::after, .option:hover::after, button.action-btn.next:hover::after, button.action-btn.homeBtn:hover::after {
-    left: 140%;
-    transition: all 0.75s ease-in-out;
-}
-
-.menuBtn:hover {
-    background: rgba(233, 213, 255, 0.9);
-    transform: translateY(-5px);
-    border-color: #c084fc;
-    box-shadow: 0 12px 24px rgba(124, 58, 237, 0.12);
-}
-
-.menuBtn span.badge {
-    font-size: 12px;
-    background: #ffffff;
-    padding: 4px 12px;
-    border-radius: 50px;
-    color: #6d28d9;
-    font-weight: 800;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-}
-
-.option {
-    display: block;
-    margin: 16px auto;
-    padding: 18px 22px;
-    background: rgba(255, 247, 237, 0.7); 
-    border: 1px solid rgba(255, 237, 213, 0.95);
-    border-radius: 18px;
-    cursor: pointer;
-    width: 100%;
-    box-sizing: border-box;
-    text-align: left;
-    font-size: 15px;
-    font-weight: 600;
-    color: #4a3e56;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.25s ease;
-    box-shadow: 0 2px 8px rgba(251, 146, 60, 0.02);
-}
-
-.option:hover {
-    background: rgba(255, 237, 213, 0.95);
-    border-color: #fed7aa;
-    transform: translateX(4px);
-}
-
-.option.correct-flash {
-    background: #ecfdf5;
-    border-color: #10b981;
-    color: #065f46;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
-}
-
-.option.wrong-flash {
-    background: #fff1f2;
-    border-color: #fb7185;
-    color: #9f1239;
-    box-shadow: 0 4px 12px rgba(251, 113, 133, 0.15);
-}
-
-.controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 30px;
-}
-
-button.action-btn {
-    padding: 14px 28px;
-    border: none;
-    border-radius: 18px;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-button.action-btn:hover {
-    opacity: 0.95;
-    transform: translateY(-2px);
-}
-
-.next { background: linear-gradient(135deg, #f472b6, #db2777); color: white; box-shadow: 0 4px 15px rgba(219, 39, 119, 0.25); } 
-.back { background: #e2e8f0; color: #475569; border: 1px solid #cbd5e1; }
-.homeBtn { background: linear-gradient(135deg, #c084fc, #9333ea); color: white; box-shadow: 0 4px 15px rgba(147, 51, 234, 0.25); }
-
-.small { font-size: 15px; line-height: 1.6; margin-top: 12px; color: #c2410c; font-weight: 600; direction: rtl; text-align: right; background: rgba(255, 247, 237, 0.5); padding: 10px 15px; border-radius: 12px; }
-.feedback { margin-top: 20px; font-weight: 700; font-size: 16px; padding: 14px; border-radius: 16px; direction: rtl; text-align: right; animation: fadeIn 0.3s ease; }
-
-.screen { display: none; }
-.active { display: block; animation: fadeIn 0.4s ease-out; }
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-</style>
+    <meta charset="UTF-8">
+    <title>منصة الاختبارات الشاملة 🤍</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: #f4f4f9; direction: rtl; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #333; }
+        .subject-title { background: #e74c3c; color: white; padding: 10px; border-radius: 5px; margin-top: 20px; }
+        .q-box { margin-bottom: 15px; padding: 10px; border-bottom: 1px solid #ccc; }
+    </style>
 </head>
-
 <body>
-
-<div id="menu" class="container screen active">
-    <div id="title">EXAM PLATFORM 🤍</div>
-    <div class="subtitle">Select Your Subject To Start ✨</div>
-
-    <div class="menu-grid">
-        <button class="menuBtn" onclick="startQuiz('bio')">
-            <span>📊 Biostatistics</span>
-            <span class="badge">83 Qs</span>
-        </button>
-        <button class="menuBtn" onclick="startQuiz('path')">
-            <span>🔬 Pathology</span>
-            <span class="badge">50 Qs</span>
-        </button>
-        <button class="menuBtn" onclick="startQuiz('ip')">
-            <span>💡 الملكية الفكرية</span>
-            <span class="badge">20 Qs</span>
-        </button>
-        <button class="menuBtn" onclick="startQuiz('cc')">
-            <span>💬 Communication</span>
-            <span class="badge">60 Qs</span>
-        </button>
-    </div>
-</div>
-
-<div id="quiz" class="container screen">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-        <span style="font-weight: 800; color: #db2777; font-size: 14px; letter-spacing: 0.5px;">EXAM PLATFORM 🤍</span>
-        <span id="progressBadge" style="font-size: 13px; color: #7c3aed; font-weight: bold; background: #f3e8ff; padding: 5px 12px; border-radius: 12px; box-shadow: 0 2px 5px rgba(124, 58, 237, 0.05);"></span>
-    </div>
-    
-    <h2 id="question" style="margin-top: 20px; font-size: 21px; color: #3b0764; line-height: 1.5; font-weight: 700;"></h2>
-    <div class="small" id="translation"></div>
-
-    <div id="options" style="margin-top: 25px;"></div>
-    <div class="feedback" id="feedback"></div>
-
-    <hr style="border: 0; border-top: 1px solid #fce7f3; margin: 30px 0;">
-    
-    <div class="controls">
-        <button class="action-btn back" id="backBtn" onclick="backQuestion()">Back</button>
-        <button class="action-btn homeBtn" onclick="goMenu()">Home</button>
-        <button class="action-btn next" id="nextBtn" onclick="nextQuestion()">Next</button>
-    </div>
+<div class="container">
+    <h1>منصة الاختبارات 🤍</h1>
+    <div id="quiz-container"></div>
 </div>
 
 <script>
-let current = 0;
-let answered = {}; 
-let subject = "";
-let isShowingFeedback = false;
-
-function playCuteSound() {
-    try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc1 = audioCtx.createOscillator();
-        const gain1 = audioCtx.createGain();
-        osc1.type = 'sine';
-        osc1.frequency.setValueAtTime(523.25, audioCtx.currentTime);
-        gain1.gain.setValueAtTime(0.08, audioCtx.currentTime);
-        gain1.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-        osc1.connect(gain1);
-        gain1.connect(audioCtx.destination);
-        osc1.start();
-        osc1.stop(audioCtx.currentTime + 0.1);
-
-        setTimeout(() => {
-            const osc2 = audioCtx.createOscillator();
-            const gain2 = audioCtx.createGain();
-            osc2.type = 'sine';
-            osc2.frequency.setValueAtTime(659.25, audioCtx.currentTime);
-            gain2.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            gain2.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
-            osc2.connect(gain2);
-            gain2.connect(audioCtx.destination);
-            osc2.start();
-            osc2.stop(audioCtx.currentTime + 0.15);
-        }, 60);
-    } catch (e) {
-        console.log("Audio not supported");
+    const questions = [
+        { subject: "Biostatistics", q: "1. Hypothesis testing is used to: A) Make decisions from data B) Predict future events C) Collect raw data D) Avoid statistical analysis", answer: "A" },
+    { subject: "Biostatistics", q: "2. The null hypothesis (H₀) usually states: A) There is an effect B) No effect or no difference C) A strong relationship exists D) The sample is biased", answer: "B" },
+    { subject: "Biostatistics", q: "3. The alternative hypothesis (H₁) states: A) No difference exists B) There is an effect or difference C) Data are invalid D) The test is inconclusive", answer: "B" },
+    { subject: "Biostatistics", q: "4. Common significance level (α) used in hypothesis testing: A) 0.01 B) 0.05 C) 0.10 D) 0.50", answer: "B" },
+    { subject: "Biostatistics", q: "5. A right-tailed test is used when: A) Expecting decrease B) Expecting increase/improvement C) Testing any change D) No direction assumed", answer: "B" },
+    { subject: "Biostatistics", q: "6. A left-tailed test is used when: A) Expecting increase B) Expecting decrease/reduction C) Testing any change D) No difference assumed", answer: "B" },
+    { subject: "Biostatistics", q: "7. A two-tailed test is used when: A) Expecting only increase B) Expecting only decrease C) Checking for any difference D) No hypothesis stated", answer: "C" },
+    { subject: "Biostatistics", q: "8. Example of two-tailed hypothesis: A) BP > baseline B) BP < baseline C) BP ≠ baseline D) BP = baseline", answer: "C" },
+    { subject: "Biostatistics", q: "9. In most studies, which test is preferred? A) One-tailed B) Two-tailed C) No test D) Random test", answer: "B" },
+    { subject: "Biostatistics", q: "10. One-tailed tests are risky because: A) They are less powerful B) They increase false rejection of H₀ C) They require larger samples D) They cannot be used in medicine", answer: "B" },
+    { subject: "Biostatistics", q: "11. Example of parametric test: A) Mann–Whitney U B) Wilcoxon signed-rank C) t-test D) Kruskal–Wallis", answer: "C" },
+    { subject: "Biostatistics", q: "12. ANOVA is used to compare: A) Two groups B) Three or more groups C) One group only D) Paired samples", answer: "B" },
+    { subject: "Biostatistics", q: "13. Non-parametric tests assume: A) Normal distribution B) No specific distribution C) Large sample size D) Interval data only", answer: "B" },
+    { subject: "Biostatistics", q: "14. Wilcoxon signed-rank test is alternative to: A) Independent t-test B) Paired t-test C) ANOVA D) Pearson correlation", answer: "B" },
+    { subject: "Biostatistics", q: "15. Kruskal–Wallis test is alternative to: A) ANOVA B) t-test C) Chi-square D) Pearson correlation", answer: "A" },
+    { subject: "Biostatistics", q: "16. Advantage of non-parametric tests: A) Require normality B) Robust to outliers C) Always more precise D) Use mean values", answer: "B" },
+    { subject: "Biostatistics", q: "17. The Chi-square test is primarily used for: A) Continuous data B) Comparing means C) Testing association between categorical variables D) Measuring correlation", answer: "C" },
+    { subject: "Biostatistics", q: "18. In a 2×2 contingency table, the expected frequency for each cell is calculated as: A) (Row total × Column total) ÷ Grand total B) (Row total ÷ Column total) × Grand total C) (Observed ÷ Expected) × 100 D) (Row total + Column total) ÷ Grand total", answer: "A" },
+    { subject: "Biostatistics", q: "19. When should Fisher’s Exact Test be used instead of Chi-square? A) When sample size is large B) When expected frequencies are ≥ 5 C) When expected frequencies are < 5 D) When data are continuous", answer: "C" },
+    { subject: "Biostatistics", q: "20. The Chi-square test is most appropriate for: A) Comparing two means B) Testing association between categorical variables C) Measuring correlation D) Predicting regression", answer: "B" },
+    { subject: "Biostatistics", q: "21. Which of the following is a categorical variable? A) Blood pressure B) Cholesterol level C) Gender D) Height", answer: "C" },
+    { subject: "Biostatistics", q: "22. The Chi-square statistic formula is: A) ∑(O−E)² / E B) ∑(E−O)² / E C) (O−E)² / O D) (O/E)²", answer: "A" },
+    { subject: "Biostatistics", q: "23. The Chi-square goodness-of-fit test is used to: A) Test if two variables are independent B) Test if observed matches expected C) Compare two proportions D) Test correlation", answer: "B" },
+    { subject: "Biostatistics", q: "24. Fisher’s Exact Test is preferred when: A) Sample size is large B) Expected frequencies are ≥ 5 C) Expected frequencies are < 5 D) Data are continuous", answer: "C" },
+    { subject: "Biostatistics", q: "25. A t-test is used to: A) Measure correlation B) Compare means C) Calculate variance only D) Classify data", answer: "B" },
+    { subject: "Biostatistics", q: "26. The null hypothesis (H₀) states: A) There is a difference B) No difference exists C) Data is normal D) Data is independent", answer: "B" },
+    { subject: "Biostatistics", q: "27. The alternative hypothesis (H₁) suggests: A) No change B) Equal means C) There is a difference D) No data", answer: "C" },
+    { subject: "Biostatistics", q: "28. One-sample t-test compares: A) Two groups B) One group to a known value C) Three groups D) Variables", answer: "B" },
+    { subject: "Biostatistics", q: "29. Independent t-test is used for: A) Same group before/after B) Two unrelated groups C) Multiple groups D) One variable only", answer: "B" },
+    { subject: "Biostatistics", q: "30. Paired t-test is used when: A) Groups are independent B) Data is categorical C) Same subjects are measured twice D) No measurements", answer: "C" },
+    { subject: "Biostatistics", q: "31. Comparing smokers vs non-smokers requires: A) Paired t-test B) One-sample t-test C) Independent t-test D) Sign test", answer: "C" },
+    { subject: "Biostatistics", q: "32. t-test cannot compare: A) Two groups B) Three or more groups C) Means D) Continuous data", answer: "B" },
+    { subject: "Biostatistics", q: "33. Which test replaces t-test for 3+ groups? A) Correlation B) ANOVA C) Regression D) Median test", answer: "B" },
+    { subject: "Biostatistics", q: "34. The sign test focuses on: A) Exact values B) Direction (+ / −) C) Mean values D) Variance", answer: "B" },
+    { subject: "Biostatistics", q: "35. A typical confidence level used is: A) 10% B) 50% C) 95% D) 5%", answer: "C" },
+    { subject: "Biostatistics", q: "36. ANOVA analyzes: A) Only means B) Only medians C) Variance (between and within) D) Percentages", answer: "C" },
+    { subject: "Biostatistics", q: "37. The null hypothesis (H₀) in ANOVA states: A) All means are different B) At least one mean is different C) All group means are equal D) No data exists", answer: "C" },
+    { subject: "Biostatistics", q: "38. Two-way ANOVA is used to: A) Test one factor B) Test two factors and interaction C) Remove variables D) Calculate mean", answer: "B" },
+    { subject: "Biostatistics", q: "39. Factorial ANOVA includes: A) One-way B) Two-way C) All ANOVA with multiple factors D) Three-way", answer: "C" },
+    { subject: "Biostatistics", q: "40. One-way ANOVA requires: A) Two groups B) Three or more groups C) One group D) No groups", answer: "B" },
+    { subject: "Biostatistics", q: "41. ANOVA can be used to compare: A) One drug B) Three drug types C) No treatments D) Medians", answer: "B" },
+    { subject: "Biostatistics", q: "42. ANCOVA combines: A) ANOVA and correlation B) ANOVA and regression C) Mean and median D) Variance", answer: "B" },
+    { subject: "Biostatistics", q: "43. ANCOVA adjusts results based on: A) Group size B) External variables (covariates) C) Means D) Sample type", answer: "B" },
+    { subject: "Biostatistics", q: "44. The main advantage of ANCOVA is: A) Simplicity B) Comparing two groups C) Fair comparison by removing confounders D) Increasing error", answer: "C" },
+    { subject: "Biostatistics", q: "45. Correlation describes: A) Cause-and-effect B) Relationship between variables C) Differences D) Experimental results", answer: "B" },
+    { subject: "Biostatistics", q: "46. The value of correlation (r) ranges between: A) 0 to 100 B) −10 to +10 C) −1.0 to +1.0 D) 0 to 1", answer: "C" },
+    { subject: "Biostatistics", q: "47. Positive correlation means: A) One increases, one decreases B) Opposite directions C) Same direction D) No relationship", answer: "C" },
+    { subject: "Biostatistics", q: "48. Negative correlation means: A) Both increase B) One increases, one decreases C) No change D) Variables equal", answer: "B" },
+    { subject: "Biostatistics", q: "49. A correlation of 0.75 is considered: A) Weak B) Moderate C) Strong D) Very weak", answer: "C" },
+    { subject: "Biostatistics", q: "50. A correlation of 0.10 is: A) Very strong B) Weak/none C) Moderate D) Strong", answer: "B" },
+    { subject: "Biostatistics", q: "51. Very strong correlation value: A) 0.25 B) 0.45 C) 0.85 D) 0.10", answer: "C" },
+    { subject: "Biostatistics", q: "52. Phi coefficient (φ) is used when: A) Both continuous B) Both binary C) Ranked D) Normal", answer: "B" },
+    { subject: "Biostatistics", q: "53. Pearson correlation (r) is used when: A) Ordinal B) Binary C) Continuous and normal D) Random", answer: "C" },
+    { subject: "Biostatistics", q: "54. Point-biserial correlation is used when: A) Both continuous B) Both binary C) One binary and one continuous D) Ranked", answer: "C" },
+    { subject: "Biostatistics", q: "55. Primary goal of medical bioinformatics: A) Replace doctors B) Use computational tools to improve diagnosis C) Store records D) Eliminate labs", answer: "B" },
+    { subject: "Biostatistics", q: "56. Machine learning in medical bioinformatics used to: A) Analyze X-ray B) Replace sequencing C) Store records D) Manufacture drugs", answer: "A" },
+    { subject: "Biostatistics", q: "57. Personalized medicine based on: A) Lifestyle B) Genetic makeup C) Experience D) Resources", answer: "B" },
+    { subject: "Biostatistics", q: "58. AI helps drug discovery by: A) Analyzing compounds B) Manufacturing C) Eliminating trials D) Replacing pharmacists", answer: "A" },
+    { subject: "Biostatistics", q: "59. Medical bioinformatics important because: A) Reduces doctors B) Analyzes massive data C) Eliminates history D) Psychology focus", answer: "B" },
+    { subject: "Biostatistics", q: "60. Common data in bioinformatics: A) DNA/RNA B) Weather C) Traffic D) Economics", answer: "A" },
+    { subject: "Biostatistics", q: "61. AI in medical imaging: A) Detecting tumors B) Replacing radiologists C) Buildings D) Billing", answer: "A" },
+    { subject: "Biostatistics", q: "62. ML models predict disease by: A) Food B) Genetic/clinical/lifestyle data C) Budgets D) Handwriting", answer: "B" },
+    { subject: "Biostatistics", q: "63. Limitation of AI: A) Requires high-quality data B) Eliminates doctors C) Guarantees perfection D) Never inherits bias", answer: "A" },
+    { subject: "Biostatistics", q: "64. Major bioinformatics challenge: A) Lack of disease B) Large amount of data C) Few computers D) No analysis needed", answer: "B" },
+    { subject: "Biostatistics", q: "65. Why is gene study hard? A) Small B) Daily change C) Complex D) Not important", answer: "C" },
+    { subject: "Biostatistics", q: "66. Patient data protected because: A) Reduce usage B) Cheap C) Private/sensitive D) Public", answer: "C" },
+    { subject: "Biostatistics", q: "67. Bioinformatics challenge: A) Too many specialists B) Lack of specialists C) No data D) No diseases", answer: "B" },
+    { subject: "Biostatistics", q: "68. Errors in bioinformatics lead to: A) Recovery B) Diagnosis C) Wrong diagnosis/treatment D) No effect", answer: "C" },
+    { subject: "Biostatistics", q: "69. Personalized medicine based on: A) Age B) Random C) Genes and condition D) Preference", answer: "C" },
+    { subject: "Biostatistics", q: "70. Bioinformatics helps drugs by: A) Cost B) Reducing time and cost C) Avoiding research D) Animals", answer: "B" },
+    { subject: "Biostatistics", q: "71. Targeted cancer therapy based on: A) Symptoms B) Genetic mutations C) Age D) Diet", answer: "B" },
+    { subject: "Biostatistics", q: "72. Bioinformatics helps doctors: A) Delay B) Same drug C) Right drug/dose D) Avoid", answer: "C" },
+    { subject: "Biostatistics", q: "73. Bioinformatics improves diagnosis: A) Ignoring data B) Using biomarkers and AI C) Manual D) Removing tests", answer: "B" },
+    { subject: "Biostatistics", q: "74. Biomarker is: A) Drug B) Measurable disease indicator C) Machine D) Symptom", answer: "B" },
+    { subject: "Biostatistics", q: "75. Genetic data protected because: A) Unimportant B) Temporary C) Sensitive/personal D) Changes", answer: "C" },
+    { subject: "Biostatistics", q: "76. Genetic discrimination: A) Deleted B) Employer unfair use C) Hidden D) Refusal", answer: "B" },
+    { subject: "Biostatistics", q: "77. Informed consent means: A) Signing B) Understanding use C) Doctor choice D) No permission", answer: "B" },
+    { subject: "Biostatistics", q: "78. Genetic data affects family: A) Private B) Shared genetically C) Unrelated D) Temporary", answer: "B" },
+    { subject: "Biostatistics", q: "79. Psychological impact of testing: A) Happiness B) Anxiety/stress C) No effect D) Loss", answer: "B" },
+    { subject: "Biostatistics", q: "80. Ownership concerns: A) Weather B) Who controls C) Speed D) Virus", answer: "B" },
+    { subject: "Biostatistics", q: "81. AI bias causes: A) Equal B) Perfect C) Inequality D) Faster", answer: "C" },
+    { subject: "Biostatistics", q: "82. CRISPR concerns: A) Faster computers B) Designer babies C) Storage D) Internet", answer: "B" },
+    { subject: "Biostatistics", q: "83. Genetic security risk: A) Deletion B) Hacking/breaches C) Slow D) Lack of genes", answer: "B" },
+    { subject: "Pathology", q: "1. Approximately what percentage of body weight is water? A. 40% B. 50% C. 60% D. 70%", answer: "C" },
+    { subject: "Pathology", q: "2. Non-pitting edema occurs in which condition? A. Cardiac B. Renal C. Nutritional D. Lymphatic", answer: "D" },
+    { subject: "Pathology", q: "3. Physiological hyperemia example: A. Acute inflammation B. Exercise C. CHF D. Venous obstruction", answer: "B" },
+    { subject: "Pathology", q: "4. Most common thrombus: A. Arterial B. Capillary C. Venous D. Cardiac", answer: "C" },
+    { subject: "Pathology", q: "5. Thrombus with pyogenic bacteria: A. Aseptic B. Red C. Septic D. Mixed", answer: "C" },
+    { subject: "Pathology", q: "6. Massive bleeding injury causes: A. Cardiogenic B. Distributive C. Hypovolemic D. Obstructive", answer: "C" },
+    { subject: "Pathology", q: "7. Amyloidosis organ: A. Liver B. Spleen C. Heart D. Kidney", answer: "D" },
+    { subject: "Pathology", q: "8. Neoplasm: A. Reversible size B. Abnormal proliferation C. Inflammatory D. Developmental", answer: "B" },
+    { subject: "Pathology", q: "9. Benign tumor characteristic: A. Metastasis B. Rapid growth C. Well-differentiated D. Invasion", answer: "C" },
+    { subject: "Pathology", q: "10. Local invasion: A. Confined B. Basement membrane penetration C. Blood spread D. Seeding", answer: "B" },
+    { subject: "Pathology", q: "11. Benign tumor in solid organ: A. Hemorrhagic B. Well-defined/encapsulated C. Invasive D. Ulcerative", answer: "B" },
+    { subject: "Pathology", q: "12. Malignant body surface tumor: A. Polypoid B. Cystic C. Ulcerative/everted D. Encapsulated", answer: "C" },
+    { subject: "Pathology", q: "13. Benign tumor harm: A. In brain B. <1 cm C. Encapsulated D. Expansile", answer: "A" },
+    { subject: "Pathology", q: "14. Metastasis is: A. Local B. Spread C. Benign D. Compression", answer: "B" },
+    { subject: "Pathology", q: "15. Carcinoma vs sarcoma: A. Speed B. Epithelial vs mesenchymal C. No lymph D. Young", answer: "B" },
+    { subject: "Pathology", q: "16. Prognosis depends on: A. Blood B. Radiosensitivity C. Hair D. Benign", answer: "B" },
+    { subject: "Pathology", q: "17. Common soft tissue sarcoma: A. Fibro B. Leio C. Lipo D. Angio", answer: "C" },
+    { subject: "Pathology", q: "18. Uterine tumor cigar nuclei: A. Leio B. Leiomyosarcoma C. Stromal D. Undiff", answer: "B" },
+    { subject: "Pathology", q: "19. Colonic progression: A. Pituitary B. Adrenal C. Tubular adenoma D. Papilloma", answer: "C" },
+    { subject: "Pathology", q: "20. Gold standard: A. Liquid B. IHC C. Histopath D. Flow", answer: "C" },
+    { subject: "Pathology", q: "21. Liquid biopsy advantage: A. Sensitivity B. Architecture C. Non-invasive monitoring D. No equipment", answer: "C" },
+    { subject: "Pathology", q: "22. Important thrombus factor: A. Slow flow B. Composition C. Endothelial damage D. Fibrin", answer: "C" },
+    { subject: "Pathology", q: "23. Well-diff adenocarcinoma: A. Keratin B. Gland C. Blue D. Basal", answer: "B" },
+    { subject: "Pathology", q: "24. Squamous cell carcinoma: A. Glands B. Signet C. Keratin nests D. Mucin", answer: "C" },
+    { subject: "Pathology", q: "25. Mucinous carcinoma: A. Glands in mucin B. Keratin C. Basal D. Fibrosis", answer: "A" },
+    { subject: "Pathology", q: "26. Poor sarcoma factor: A. Superficial B. <5cm C. Low grade D. >5cm deep", answer: "D" },
+    { subject: "Pathology", q: "27. Rhabdomyosarcoma marker: A. Desmin B. SMA C. Myogenin D. CD31", answer: "C" },
+    { subject: "Pathology", q: "28. Prostate cancer marker: A. CA-125 B. CEA C. PSA D. AFP", answer: "C" },
+    { subject: "Pathology", q: "29. Gangrene: A. Vessel inflammation B. Putrefaction necrosis C. Enlargement D. Hypoxia", answer: "B" },
+    { subject: "Pathology", q: "30. Lines of Zahn: A. RBC fibrin B. Platelet arrangement C. WBC D. Calcium", answer: "B" },
+    { subject: "Pathology", q: "31. Chronic venous congestion cyanosis: A. O2 B. Reduced Hb increase C. Flow D. Spasm", answer: "B" },
+    { subject: "Pathology", q: "32. Chronic congestion effect: A. Oxygen B. Generalized edema C. Capillary D. Arterial", answer: "B" },
+    { subject: "Pathology", q: "33. Venous thrombosis viscosity: A. Leukemia B. Mitral C. Athero D. Aneurysm", answer: "A" },
+    { subject: "Pathology", q: "34. NOT fate of aseptic thrombi: A. Fibrosis B. Calcification C. Septic emboli D. Frag", answer: "C" },
+    { subject: "Pathology", q: "35. Infarct: A. Hemorrhage B. Coagulative necrosis C. Infection D. Inflame", answer: "B" },
+    { subject: "Pathology", q: "36. Brain infarct: A. Red B. Pale C. Liquefactive D. Hemorrhagic", answer: "C" },
+    { subject: "Pathology", q: "37. Hypovolemic compensation: A. Warm B. Cold clammy C. Brady D. Pulmonary", answer: "B" },
+    { subject: "Pathology", q: "38. Spinal cord injury shock: A. Septic B. Anaphylactic C. Neurogenic D. Cardio", answer: "C" },
+    { subject: "Pathology", q: "39. Carcinoma spread: A. Blood B. Transcoelomic C. Lymphatic D. Direct", answer: "C" },
+    { subject: "Pathology", q: "40. Chemical carcinogen: A. UV B. Estrogen C. Aflatoxin D. HPV", answer: "C" },
+    { subject: "Pathology", q: "41. Benign tumor definition: A. Invasive B. Localized/no metastasis C. Anaplastic D. Recurrent", answer: "B" },
+    { subject: "Pathology", q: "42. Papilloma: A. Adeno B. Cyst C. Finger-like projections D. Sarcoma", answer: "C" },
+    { subject: "Pathology", q: "43. Benign gross: A. Ill-defined B. Necrotic C. Encapsulated well-defined D. Ulcer", answer: "C" },
+    { subject: "Pathology", q: "44. Cystadenoma: A. Solid B. Gland cystic C. Muscle D. Bone", answer: "B" },
+    { subject: "Pathology", q: "45. Benign microscopic: A. Pleomorphism B. Mitosis C. Uniform nuclei D. Necrosis", answer: "C" },
+    { subject: "Pathology", q: "46. Fibrous benign: A. Lipo B. Fibroma C. Chondro D. Osteo", answer: "B" },
+    { subject: "Pathology", q: "47. Lipoma: A. Fibrous B. Fat C. Bone D. Vascular", answer: "B" },
+    { subject:
+        { subject: "Biostatistics", q: "1. Hypothesis testing is used to: A) Make decisions from data B) Predict future events C) Collect raw data D) Avoid statistical analysis", answer: "A" },
+    { subject: "Biostatistics", q: "2. The null hypothesis (H₀) usually states: A) There is an effect B) No effect or no difference C) A strong relationship exists D) The sample is biased", answer: "B" },
+    { subject: "Biostatistics", q: "3. The alternative hypothesis (H₁) states: A) No difference exists B) There is an effect or difference C) Data are invalid D) The test is inconclusive", answer: "B" },
+    { subject: "Biostatistics", q: "4. Common significance level (α) used in hypothesis testing: A) 0.01 B) 0.05 C) 0.10 D) 0.50", answer: "B" },
+    { subject: "Biostatistics", q: "5. A right-tailed test is used when: A) Expecting decrease B) Expecting increase/improvement C) Testing any change D) No direction assumed", answer: "B" },
+    { subject: "Biostatistics", q: "6. A left-tailed test is used when: A) Expecting increase B) Expecting decrease/reduction C) Testing any change D) No difference assumed", answer: "B" },
+    { subject: "Biostatistics", q: "7. A two-tailed test is used when: A) Expecting only increase B) Expecting only decrease C) Checking for any difference D) No hypothesis stated", answer: "C" },
+    { subject: "Biostatistics", q: "8. Example of two-tailed hypothesis: A) BP > baseline B) BP < baseline C) BP ≠ baseline D) BP = baseline", answer: "C" },
+    { subject: "Biostatistics", q: "9. In most studies, which test is preferred? A) One-tailed B) Two-tailed C) No test D) Random test", answer: "B" },
+    { subject: "Biostatistics", q: "10. One-tailed tests are risky because: A) They are less powerful B) They increase false rejection of H₀ C) They require larger samples D) They cannot be used in medicine", answer: "B" },
+    { subject: "Biostatistics", q: "11. Example of parametric test: A) Mann–Whitney U B) Wilcoxon signed-rank C) t-test D) Kruskal–Wallis", answer: "C" },
+    { subject: "Biostatistics", q: "12. ANOVA is used to compare: A) Two groups B) Three or more groups C) One group only D) Paired samples", answer: "B" },
+    { subject: "Biostatistics", q: "13. Non-parametric tests assume: A) Normal distribution B) No specific distribution C) Large sample size D) Interval data only", answer: "B" },
+    { subject: "Biostatistics", q: "14. Wilcoxon signed-rank test is alternative to: A) Independent t-test B) Paired t-test C) ANOVA D) Pearson correlation", answer: "B" },
+    { subject: "Biostatistics", q: "15. Kruskal–Wallis test is alternative to: A) ANOVA B) t-test C) Chi-square D) Pearson correlation", answer: "A" },
+    { subject: "Biostatistics", q: "16. Advantage of non-parametric tests: A) Require normality B) Robust to outliers C) Always more precise D) Use mean values", answer: "B" },
+    { subject: "Biostatistics", q: "17. The Chi-square test is primarily used for: A) Continuous data B) Comparing means C) Testing association between categorical variables D) Measuring correlation", answer: "C" },
+    { subject: "Biostatistics", q: "18. In a 2×2 contingency table, the expected frequency for each cell is calculated as: A) (Row total × Column total) ÷ Grand total B) (Row total ÷ Column total) × Grand total C) (Observed ÷ Expected) × 100 D) (Row total + Column total) ÷ Grand total", answer: "A" },
+    { subject: "Biostatistics", q: "19. When should Fisher’s Exact Test be used instead of Chi-square? A) When sample size is large B) When expected frequencies are ≥ 5 C) When expected frequencies are < 5 D) When data are continuous", answer: "C" },
+    { subject: "Biostatistics", q: "20. The Chi-square test is most appropriate for: A) Comparing two means B) Testing association between categorical variables C) Measuring correlation D) Predicting regression", answer: "B" },
+    { subject: "Biostatistics", q: "21. Which of the following is a categorical variable? A) Blood pressure B) Cholesterol level C) Gender D) Height", answer: "C" },
+    { subject: "Biostatistics", q: "22. The Chi-square statistic formula is: A) ∑(O−E)² / E B) ∑(E−O)² / E C) (O−E)² / O D) (O/E)²", answer: "A" },
+    { subject: "Biostatistics", q: "23. The Chi-square goodness-of-fit test is used to: A) Test if two variables are independent B) Test if observed matches expected C) Compare two proportions D) Test correlation", answer: "B" },
+    { subject: "Biostatistics", q: "24. Fisher’s Exact Test is preferred when: A) Sample size is large B) Expected frequencies are ≥ 5 C) Expected frequencies are < 5 D) Data are continuous", answer: "C" },
+    { subject: "Biostatistics", q: "25. A t-test is used to: A) Measure correlation B) Compare means C) Calculate variance only D) Classify data", answer: "B" },
+    { subject: "Biostatistics", q: "26. The null hypothesis (H₀) states: A) There is a difference B) No difference exists C) Data is normal D) Data is independent", answer: "B" },
+    { subject: "Biostatistics", q: "27. The alternative hypothesis (H₁) suggests: A) No change B) Equal means C) There is a difference D) No data", answer: "C" },
+    { subject: "Biostatistics", q: "28. One-sample t-test compares: A) Two groups B) One group to a known value C) Three groups D) Variables", answer: "B" },
+    { subject: "Biostatistics", q: "29. Independent t-test is used for: A) Same group before/after B) Two unrelated groups C) Multiple groups D) One variable only", answer: "B" },
+    { subject: "Biostatistics", q: "30. Paired t-test is used when: A) Groups are independent B) Data is categorical C) Same subjects are measured twice D) No measurements", answer: "C" },
+    { subject: "Biostatistics", q: "31. Comparing smokers vs non-smokers requires: A) Paired t-test B) One-sample t-test C) Independent t-test D) Sign test", answer: "C" },
+    { subject: "Biostatistics", q: "32. t-test cannot compare: A) Two groups B) Three or more groups C) Means D) Continuous data", answer: "B" },
+    { subject: "Biostatistics", q: "33. Which test replaces t-test for 3+ groups? A) Correlation B) ANOVA C) Regression D) Median test", answer: "B" },
+    { subject: "Biostatistics", q: "34. The sign test focuses on: A) Exact values B) Direction (+ / −) C) Mean values D) Variance", answer: "B" },
+    { subject: "Biostatistics", q: "35. A typical confidence level used is: A) 10% B) 50% C) 95% D) 5%", answer: "C" },
+    { subject: "Biostatistics", q: "36. ANOVA analyzes: A) Only means B) Only medians C) Variance (between and within) D) Percentages", answer: "C" },
+    { subject: "Biostatistics", q: "37. The null hypothesis (H₀) in ANOVA states: A) All means are different B) At least one mean is different C) All group means are equal D) No data exists", answer: "C" },
+    { subject: "Biostatistics", q: "38. Two-way ANOVA is used to: A) Test one factor B) Test two factors and interaction C) Remove variables D) Calculate mean", answer: "B" },
+    { subject: "Biostatistics", q: "39. Factorial ANOVA includes: A) One-way B) Two-way C) All ANOVA with multiple factors D) Three-way", answer: "C" },
+    { subject: "Biostatistics", q: "40. One-way ANOVA requires: A) Two groups B) Three or more groups C) One group D) No groups", answer: "B" },
+    { subject: "Biostatistics", q: "41. ANOVA can be used to compare: A) One drug B) Three drug types C) No treatments D) Medians", answer: "B" },
+    { subject: "Biostatistics", q: "42. ANCOVA combines: A) ANOVA and correlation B) ANOVA and regression C) Mean and median D) Variance", answer: "B" },
+    { subject: "Biostatistics", q: "43. ANCOVA adjusts results based on: A) Group size B) External variables (covariates) C) Means D) Sample type", answer: "B" },
+    { subject: "Biostatistics", q: "44. The main advantage of ANCOVA is: A) Simplicity B) Comparing two groups C) Fair comparison by removing confounders D) Increasing error", answer: "C" },
+    { subject: "Biostatistics", q: "45. Correlation describes: A) Cause-and-effect B) Relationship between variables C) Differences D) Experimental results", answer: "B" },
+    { subject: "Biostatistics", q: "46. The value of correlation (r) ranges between: A) 0 to 100 B) −10 to +10 C) −1.0 to +1.0 D) 0 to 1", answer: "C" },
+    { subject: "Biostatistics", q: "47. Positive correlation means: A) One increases, one decreases B) Opposite directions C) Same direction D) No relationship", answer: "C" },
+    { subject: "Biostatistics", q: "48. Negative correlation means: A) Both increase B) One increases, one decreases C) No change D) Variables equal", answer: "B" },
+    { subject: "Biostatistics", q: "49. A correlation of 0.75 is considered: A) Weak B) Moderate C) Strong D) Very weak", answer: "C" },
+    { subject: "Biostatistics", q: "50. A correlation of 0.10 is: A) Very strong B) Weak/none C) Moderate D) Strong", answer: "B" },
+    { subject: "Biostatistics", q: "51. Very strong correlation value: A) 0.25 B) 0.45 C) 0.85 D) 0.10", answer: "C" },
+    { subject: "Biostatistics", q: "52. Phi coefficient (φ) is used when: A) Both continuous B) Both binary C) Ranked D) Normal", answer: "B" },
+    { subject: "Biostatistics", q: "53. Pearson correlation (r) is used when: A) Ordinal B) Binary C) Continuous and normal D) Random", answer: "C" },
+    { subject: "Biostatistics", q: "54. Point-biserial correlation is used when: A) Both continuous B) Both binary C) One binary and one continuous D) Ranked", answer: "C" },
+    { subject: "Biostatistics", q: "55. Primary goal of medical bioinformatics: A) Replace doctors B) Use computational tools to improve diagnosis C) Store records D) Eliminate labs", answer: "B" },
+    { subject: "Biostatistics", q: "56. Machine learning in medical bioinformatics used to: A) Analyze X-ray B) Replace sequencing C) Store records D) Manufacture drugs", answer: "A" },
+    { subject: "Biostatistics", q: "57. Personalized medicine based on: A) Lifestyle B) Genetic makeup C) Experience D) Resources", answer: "B" },
+    { subject: "Biostatistics", q: "58. AI helps drug discovery by: A) Analyzing compounds B) Manufacturing C) Eliminating trials D) Replacing pharmacists", answer: "A" },
+    { subject: "Biostatistics", q: "59. Medical bioinformatics important because: A) Reduces doctors B) Analyzes massive data C) Eliminates history D) Psychology focus", answer: "B" },
+    { subject: "Biostatistics", q: "60. Common data in bioinformatics: A) DNA/RNA B) Weather C) Traffic D) Economics", answer: "A" },
+    { subject: "Biostatistics", q: "61. AI in medical imaging: A) Detecting tumors B) Replacing radiologists C) Buildings D) Billing", answer: "A" },
+    { subject: "Biostatistics", q: "62. ML models predict disease by: A) Food B) Genetic/clinical/lifestyle data C) Budgets D) Handwriting", answer: "B" },
+    { subject: "Biostatistics", q: "63. Limitation of AI: A) Requires high-quality data B) Eliminates doctors C) Guarantees perfection D) Never inherits bias", answer: "A" },
+    { subject: "Biostatistics", q: "64. Major bioinformatics challenge: A) Lack of disease B) Large amount of data C) Few computers D) No analysis needed", answer: "B" },
+    { subject: "Biostatistics", q: "65. Why is gene study hard? A) Small B) Daily change C) Complex D) Not important", answer: "C" },
+    { subject: "Biostatistics", q: "66. Patient data protected because: A) Reduce usage B) Cheap C) Private/sensitive D) Public", answer: "C" },
+    { subject: "Biostatistics", q: "67. Bioinformatics challenge: A) Too many specialists B) Lack of specialists C) No data D) No diseases", answer: "B" },
+    { subject: "Biostatistics", q: "68. Errors in bioinformatics lead to: A) Recovery B) Diagnosis C) Wrong diagnosis/treatment D) No effect", answer: "C" },
+    { subject: "Biostatistics", q: "69. Personalized medicine based on: A) Age B) Random C) Genes and condition D) Preference", answer: "C" },
+    { subject: "Biostatistics", q: "70. Bioinformatics helps drugs by: A) Cost B) Reducing time and cost C) Avoiding research D) Animals", answer: "B" },
+    { subject: "Biostatistics", q: "71. Targeted cancer therapy based on: A) Symptoms B) Genetic mutations C) Age D) Diet", answer: "B" },
+    { subject: "Biostatistics", q: "72. Bioinformatics helps doctors: A) Delay B) Same drug C) Right drug/dose D) Avoid", answer: "C" },
+    { subject: "Biostatistics", q: "73. Bioinformatics improves diagnosis: A) Ignoring data B) Using biomarkers and AI C) Manual D) Removing tests", answer: "B" },
+    { subject: "Biostatistics", q: "74. Biomarker is: A) Drug B) Measurable disease indicator C) Machine D) Symptom", answer: "B" },
+    { subject: "Biostatistics", q: "75. Genetic data protected because: A) Unimportant B) Temporary C) Sensitive/personal D) Changes", answer: "C" },
+    { subject: "Biostatistics", q: "76. Genetic discrimination: A) Deleted B) Employer unfair use C) Hidden D) Refusal", answer: "B" },
+    { subject: "Biostatistics", q: "77. Informed consent means: A) Signing B) Understanding use C) Doctor choice D) No permission", answer: "B" },
+    { subject: "Biostatistics", q: "78. Genetic data affects family: A) Private B) Shared genetically C) Unrelated D) Temporary", answer: "B" },
+    { subject: "Biostatistics", q: "79. Psychological impact of testing: A) Happiness B) Anxiety/stress C) No effect D) Loss", answer: "B" },
+    { subject: "Biostatistics", q: "80. Ownership concerns: A) Weather B) Who controls C) Speed D) Virus", answer: "B" },
+    { subject: "Biostatistics", q: "81. AI bias causes: A) Equal B) Perfect C) Inequality D) Faster", answer: "C" },
+    { subject: "Biostatistics", q: "82. CRISPR concerns: A) Faster computers B) Designer babies C) Storage D) Internet", answer: "B" },
+    { subject: "Biostatistics", q: "83. Genetic security risk: A) Deletion B) Hacking/breaches C) Slow D) Lack of genes", answer: "B" },
+    { subject: "Pathology", q: "1. Approximately what percentage of body weight is water? A. 40% B. 50% C. 60% D. 70%", answer: "C" },
+    { subject: "Pathology", q: "2. Non-pitting edema occurs in which condition? A. Cardiac B. Renal C. Nutritional D. Lymphatic", answer: "D" },
+    { subject: "Pathology", q: "3. Physiological hyperemia example: A. Acute inflammation B. Exercise C. CHF D. Venous obstruction", answer: "B" },
+    { subject: "Pathology", q: "4. Most common thrombus: A. Arterial B. Capillary C. Venous D. Cardiac", answer: "C" },
+    { subject: "Pathology", q: "5. Thrombus with pyogenic bacteria: A. Aseptic B. Red C. Septic D. Mixed", answer: "C" },
+    { subject: "Pathology", q: "6. Massive bleeding injury causes: A. Cardiogenic B. Distributive C. Hypovolemic D. Obstructive", answer: "C" },
+    { subject: "Pathology", q: "7. Amyloidosis organ: A. Liver B. Spleen C. Heart D. Kidney", answer: "D" },
+    { subject: "Pathology", q: "8. Neoplasm: A. Reversible size B. Abnormal proliferation C. Inflammatory D. Developmental", answer: "B" },
+    { subject: "Pathology", q: "9. Benign tumor characteristic: A. Metastasis B. Rapid growth C. Well-differentiated D. Invasion", answer: "C" },
+    { subject: "Pathology", q: "10. Local invasion: A. Confined B. Basement membrane penetration C. Blood spread D. Seeding", answer: "B" },
+    { subject: "Pathology", q: "11. Benign tumor in solid organ: A. Hemorrhagic B. Well-defined/encapsulated C. Invasive D. Ulcerative", answer: "B" },
+    { subject: "Pathology", q: "12. Malignant body surface tumor: A. Polypoid B. Cystic C. Ulcerative/everted D. Encapsulated", answer: "C" },
+    { subject: "Pathology", q: "13. Benign tumor harm: A. In brain B. <1 cm C. Encapsulated D. Expansile", answer: "A" },
+    { subject: "Pathology", q: "14. Metastasis is: A. Local B. Spread C. Benign D. Compression", answer: "B" },
+    { subject: "Pathology", q: "15. Carcinoma vs sarcoma: A. Speed B. Epithelial vs mesenchymal C. No lymph D. Young", answer: "B" },
+    { subject: "Pathology", q: "16. Prognosis depends on: A. Blood B. Radiosensitivity C. Hair D. Benign", answer: "B" },
+    { subject: "Pathology", q: "17. Common soft tissue sarcoma: A. Fibro B. Leio C. Lipo D. Angio", answer: "C" },
+    { subject: "Pathology", q: "18. Uterine tumor cigar nuclei: A. Leio B. Leiomyosarcoma C. Stromal D. Undiff", answer: "B" },
+    { subject: "Pathology", q: "19. Colonic progression: A. Pituitary B. Adrenal C. Tubular adenoma D. Papilloma", answer: "C" },
+    { subject: "Pathology", q: "20. Gold standard: A. Liquid B. IHC C. Histopath D. Flow", answer: "C" },
+    { subject: "Pathology", q: "21. Liquid biopsy advantage: A. Sensitivity B. Architecture C. Non-invasive monitoring D. No equipment", answer: "C" },
+    { subject: "Pathology", q: "22. Important thrombus factor: A. Slow flow B. Composition C. Endothelial damage D. Fibrin", answer: "C" },
+    { subject: "Pathology", q: "23. Well-diff adenocarcinoma: A. Keratin B. Gland C. Blue D. Basal", answer: "B" },
+    { subject: "Pathology", q: "24. Squamous cell carcinoma: A. Glands B. Signet C. Keratin nests D. Mucin", answer: "C" },
+    { subject: "Pathology", q: "25. Mucinous carcinoma: A. Glands in mucin B. Keratin C. Basal D. Fibrosis", answer: "A" },
+    { subject: "Pathology", q: "26. Poor sarcoma factor: A. Superficial B. <5cm C. Low grade D. >5cm deep", answer: "D" },
+    { subject: "Pathology", q: "27. Rhabdomyosarcoma marker: A. Desmin B. SMA C. Myogenin D. CD31", answer: "C" },
+    { subject: "Pathology", q: "28. Prostate cancer marker: A. CA-125 B. CEA C. PSA D. AFP", answer: "C" },
+    { subject: "Pathology", q: "29. Gangrene: A. Vessel inflammation B. Putrefaction necrosis C. Enlargement D. Hypoxia", answer: "B" },
+    { subject: "Pathology", q: "30. Lines of Zahn: A. RBC fibrin B. Platelet arrangement C. WBC D. Calcium", answer: "B" },
+    { subject: "Pathology", q: "31. Chronic venous congestion cyanosis: A. O2 B. Reduced Hb increase C. Flow D. Spasm", answer: "B" },
+    { subject: "Pathology", q: "32. Chronic congestion effect: A. Oxygen B. Generalized edema C. Capillary D. Arterial", answer: "B" },
+    { subject: "Pathology", q: "33. Venous thrombosis viscosity: A. Leukemia B. Mitral C. Athero D. Aneurysm", answer: "A" },
+    { subject: "Pathology", q: "34. NOT fate of aseptic thrombi: A. Fibrosis B. Calcification C. Septic emboli D. Frag", answer: "C" },
+    { subject: "Pathology", q: "35. Infarct: A. Hemorrhage B. Coagulative necrosis C. Infection D. Inflame", answer: "B" },
+    { subject: "Pathology", q: "36. Brain infarct: A. Red B. Pale C. Liquefactive D. Hemorrhagic", answer: "C" },
+    { subject: "Pathology", q: "37. Hypovolemic compensation: A. Warm B. Cold clammy C. Brady D. Pulmonary", answer: "B" },
+    { subject: "Pathology", q: "38. Spinal cord injury shock: A. Septic B. Anaphylactic C. Neurogenic D. Cardio", answer: "C" },
+    { subject: "Pathology", q: "39. Carcinoma spread: A. Blood B. Transcoelomic C. Lymphatic D. Direct", answer: "C" },
+    { subject: "Pathology", q: "40. Chemical carcinogen: A. UV B. Estrogen C. Aflatoxin D. HPV", answer: "C" },
+    { subject: "Pathology", q: "41. Benign tumor definition: A. Invasive B. Localized/no metastasis C. Anaplastic D. Recurrent", answer: "B" },
+    { subject: "Pathology", q: "42. Papilloma: A. Adeno B. Cyst C. Finger-like projections D. Sarcoma", answer: "C" },
+    { subject: "Pathology", q: "43. Benign gross: A. Ill-defined B. Necrotic C. Encapsulated well-defined D. Ulcer", answer: "C" },
+    { subject: "Pathology", q: "44. Cystadenoma: A. Solid B. Gland cystic C. Muscle D. Bone", answer: "B" },
+    { subject: "Pathology", q: "45. Benign microscopic: A. Pleomorphism B. Mitosis C. Uniform nuclei D. Necrosis", answer: "C" },
+    { subject: "Pathology", q: "46. Fibrous benign: A. Lipo B. Fibroma C. Chondro D. Osteo", answer: "B" },
+    { subject: "Pathology", q: "47. Lipoma: A. Fibrous B. Fat C. Bone D. Vascular", answer: "B" },
+    { subject: "Pathology", q: "48. Leiomyoma: A. Muscle B. Cancer C. Nerve D. Fat", answer: "A" },
+    { subject: "Pathology", q: "49. Hamartoma: A. Cancer B. Developmental malformation C. Infection D. Metastasis", answer: "B" },
+    { subject: "Pathology", q: "50. Malignant cut section: A. Uniform B. Cystic C. Hemorrhage and necrosis D. Normal", answer: "C" },
+    { subject: "حقوق الملكية الفكرية", q: "1- من خصائص العنصر المعنوي لحق المؤلف: أ- عدم قابليته للتنازل ب- قابليته للتنازل ج- يسقط د- حجز", answer: "أ" },
+    { subject: "حقوق الملكية الفكرية", q: "2- حق لصيق بشخصية الإنسان اتفاقية WIPO: أ- المصنف ب- المؤلف ج- السلطة د- استغلال", answer: "ب" },
+    { subject: "حقوق الملكية الفكرية", q: "3- أشكال التنازل عن المعنوي: أ- بيع/هبة ب- مصنف ج- تبرع د- تقادم", answer: "أ" },
+    { subject: "حقوق الملكية الفكرية", q: "4- هل ينتقل المعنوي عند بيع النسخة: أ- لا ب- نعم ج- تصرف د- بيع", answer: "أ" },
+    { subject: "حقوق الملكية الفكرية", q: "5- تنازل عن المالي لا يستتبع: أ- الحقوق المعنوية ب- هبة ج- تبرع د- بيع", answer: "أ" },
+    { subject: "حقوق الملكية الفكرية", q: "6- الحقوق اللصيقة ليست مالية إنما: أ- فرع حقوق عامة ب- فرع معرفة ج- بطلان د- مالي", answer: "أ" },
+    { subject: "حقوق الملكية الفكرية", q: "7- الحق الذي يقبل الحجز: أ- معنوي ب- المالي ج- معًا د- لا شيء", answer: "ب" },
+    { subject: "حقوق الملكية الفكرية", q: "8- العنصر المادي يخرج للوجود: أ- حجز ب- تقادم ج- نشر المصنف د- باطل", answer: "ج" },
+    { subject: "حقوق الملكية الفكرية", q: "9- الحق هو: أ- سلطة واختصاص ب- نسبة ج- عدم استعمال د- مساس", answer: "أ" },
+    { subject: "حقوق الملكية الفكرية", q: "10- المؤلف يتمتع بـ: أ- منع تحريف ب- اسم مستعار ج- نسبة د- غير", answer: "أ" },
+    { subject: "حقوق الملكية الفكرية", q: "11- للمؤلف وحده الحق في: أ- عدم إتاحة ب- إظهار/نشر ج- إتاحة د- عدم إفصاح", answer: "ب" },
+    { subject: "حقوق الملكية الفكرية", q: "12- اختيار وسيلة إعلان: أ- نشر ب- صوت ج- مرئي د- إذاعة", answer: "أ" },
+    { subject: "حقوق الملكية الفكرية", q: "13- نسبة المصنف: أ- تدوين اسم ب- ورثة ج- تعويض د- تنفيذ", answer: "أ" },
+    { subject: "حقوق الملكية الفكرية", q: "14- هل يمتنع عن النشر: أ- لا يجبر ب- يجوز ج- لا يجوز د- تنفيذ", answer: "ج" },
+    { subject: "حقوق الملكية الفكرية", q: "15- إبقاء الرابطة مجهولة: أ- نشر بدون اسم ب- مستعار ج- تدقيق د- ترجمة", answer: "أ" },
+    { subject: "حقوق الملكية الفكرية", q: "16- الترجمة تعديل/اعتداء: أ- لا ب- نعم ج- ليس واجب د- اعتداء", answer: "أ" },
+    { subject: "حقوق الملكية الفكرية", q: "17- الإساءة بالترجمة: أ- ليس ب- اعتداء ج- تغاضي د- نسبة", answer: "ب" },
+    { subject: "حقوق الملكية الفكرية", q: "18- سلطة منع الإضرار: أ- منع عمل ب- ليس واجب ج- تداول د- تغاضي", answer: "أ" },
+    { subject: "حقوق الملكية الفكرية", q: "19- حق حظر التداول: أ- حظر ب- عدم سحب ج- بيع د- لا", answer: "أ" },
+    { subject: "حقوق الملكية الفكرية", q: "20- لا يوجد ورثة: أ- قاضي ب- هبة ج- بيع د- وزارة الثقافة", answer: "د" },
+    { subject: "Communication Concepts", q: "1) Therapeutic communication defined as: A. Casual B. Planned/professional C. Medical only D. Calm", answer: "B" },
+    { subject: "Communication Concepts", q: "2) Shared understanding: A. Goals B. Documentation C. Save time D. Limit", answer: "A" },
+    { subject: "Communication Concepts", q: "3) Silence: A. Ignored B. Think/insight C. Interest D. End", answer: "B" },
+    { subject: "Communication Concepts", q: "4) Exploring: A. Subject B. Delving further C. Advice D. Sum", answer: "B" },
+    { subject: "Communication Concepts", q: "5) Clarification: A. Check understanding B. Challenge C. Instructions D. End", answer: "A" },
+    { subject: "Communication Concepts", q: "6) Example clarification: A. Why B. Tell again C. Meaning of sicker D. Wrong", answer: "C" },
+    { subject: "Communication Concepts", q: "7) Reflecting focuses on: A. Facts B. Feelings/content C. Opinion D. Docs", answer: "B" },
+    { subject: "Communication Concepts", q: "8) Functional touch: A. Clinical B. Bonding C. Social D. Intimacy", answer: "A" },
+    { subject: "Communication Concepts", q: "9) Explaining procedures consider: A. Time B. Docs C. Opinion D. Age/language", answer: "D" },
+    { subject: "Communication Concepts", q: "10) Impasses: A. Success B. Blocks C. Legal D. Goals", answer: "B" },
+    { subject: "Communication Concepts", q: "11) Communication failures: A. Teamwork B. Discharge C. Adverse events D. Workload", answer: "C" },
+    { subject: "Communication Concepts", q: "12) Communication: A. One-way B. Two-way C. Written D. Tech", answer: "B" },
+    { subject: "Communication Concepts", q: "13) Negatively affect handover: A. Noise B. Docs C. Tools D. Collaboration", answer: "A" },
+    { subject: "Communication Concepts", q: "14) Handover: A. Equipment B. Responsibility C. Policies D. Financial", answer: "B" },
+    { subject: "Communication Concepts", q: "15) NOT benefit of handover: A. Accurate B. Safety C. Workload D. Prioritization", answer: "C" },
+    { subject: "Communication Concepts", q: "16) Critical handover pause: A. 5-10s B. 20-30s C. 1-2m D. None", answer: "B" },
+    { subject: "Communication Concepts", q: "17) SBAR: A. Signs B. Situation/Background/Assessment/Rec C. Symptoms D. Status", answer: "B" },
+    { subject: "Communication Concepts", q: "18) IMIST-AMBO EXCEPT: A. Mechanism B. Treatments C. Allergies D. Finance", answer: "D" },
+    { subject: "Communication Concepts", q: "19) Limitation of SBAR: A. Complex B. Lacks prehospital details C. Long D. Unstructured", answer: "B" },
+    { subject: "Communication Concepts", q: "20) Emphasizes ID: A. SBAR B. ISBAR C. SOAP D. ATMIST", answer: "B" },
+    { subject: "Communication Concepts", q: "21) Avoid hard-of-hearing: A. Paper B. Shouting C. Face D. Short Qs", answer: "B" },
+    { subject: "Communication Concepts", q: "22) Talkative patient: A. Allow all B. Interrupt/focus C. Ignore D. Avoid", answer: "B" },
+    { subject: "Communication Concepts", q: "23) Interview pitfall: A. False reassurance B. Open-ended C. Empathizing D. Calm", answer: "A" },
+    { subject: "Communication Concepts", q: "24) Child rapport: A. Ignore B. Complex terms C. Eye level D. Leave", answer: "C" },
+    { subject: "Communication Concepts", q: "25) Elderly eye contact: A. Dominance B. Rushed C. Respect D. Simplify", answer: "C" },
+    { subject: "Communication Concepts", q: "26) Low health literacy: A. Jargon B. Avoid writing C. Simple language D. Skip", answer: "C" },
+    { subject: "Communication Concepts", q: "27) Visually impaired: A. Shouting B. Avoid contact C. Explain actions D. Sign", answer: "C" },
+    { subject: "Communication Concepts", q: "28) Drugs/Alcohol: A. Confront B. Simple questions C. Ignore D. Disgust", answer: "B" },
+    { subject: "Communication Concepts", q: "29) Hostile patient avoid: A. Matching tone B. Restate C. Solution D. Empathize", answer: "A" },
+    { subject: "Communication Concepts", q: "30) Hostile patient: A. Stay calm B. Argue C. Match tone D. Alone", answer: "A" },
+    { subject: "Communication Concepts", q: "31) Radio importance: A. Paperwork B. Safety/Coordination C. Entertain D. Replace assessment", answer: "B" },
+    { subject: "Communication Concepts", q: "32) Detect need phase: A. Detection B. Occurrence C. Arrival D. Prep", answer: "A" },
+    { subject: "Communication Concepts", q: "33) Base station: A. Handheld B. Vehicle C. Fixed powerful D. Aircraft", answer: "C" },
+    { subject: "Communication Concepts", q: "34) Mobile range: A. 1-3 B. 5-7 C. 10-15 D. 50", answer: "C" },
+    { subject: "Communication Concepts", q: "35) Portable used when: A. Dispatch B. Away from vehicle C. Hospitals D. ECG", answer: "B" },
+    { subject: "Communication Concepts", q: "36) Multiplex advantage: A. Shorter B. Privacy C. Simultaneous voice/ECG D. Cost", answer: "C" },
+    { subject: "Communication Concepts", q: "37) Dispatcher role: A. Direction B. Relay C. Pre-arrival instructions D. Hospital", answer: "C" },
+    { subject: "Communication Concepts", q: "38) EMD primary role: A. Collect/dispatch/instructions B. Care C. Drive D. Assessment", answer: "A" },
+    { subject: "Communication Concepts", q: "39) Trunked: A. Single B. Multi-repeater computer C. Satellite D. Portable", answer: "B" },
+    { subject: "Communication Concepts", q: "40) Principal radio reason: A. Entertain B. Med control communication C. Weather D. Personal", answer: "B" },
+    { subject: "Communication Concepts", q: "41) Interview: A. Less important B. Medical only C. As important as physical D. Non-emergency only", answer: "C" },
+    { subject: "Communication Concepts", q: "42) Contract: A. Time/place/purpose/confidentiality B. Diagnosis C. Exam D. Legal", answer: "A" },
+    { subject: "Communication Concepts", q: "43) Purpose: A. Replace exam B. Trusting relationship C. Save time D. Avoid family", answer: "B" },
+    { subject: "Communication Concepts", q: "44) Observe/conv/explore assess: A. Pain B. Injury C. Mental status D. Medication", answer: "C" },
+    { subject: "Communication Concepts", q: "45) Echoing: A. Echoing B. Summarize C. Validate D. Transition", answer: "A" },
+    { subject: "Communication Concepts", q: "46) OLD CARTS: A. Mental B. Emotion C. Symptom D. Allergies", answer: "C" },
+    { subject: "Communication Concepts", q: "47) Before interview: A. Physical B. Med history C. Self-reflection D. Call", answer: "C" },
+    { subject: "Communication Concepts", q: "48) Open-ended: A. Pain B. Chest C. Age D. How started", answer: "D" },
+    { subject: "Communication Concepts", q: "49) Why questions: A. Time B. Confuse C. Accusations D. Technical", answer: "C" },
+    { subject: "Communication Concepts", q: "50) Interviews: A. Early/Throughout B. After C. Once D. Avoid", answer: "A" },
+    { subject: "Communication Concepts", q: "51) Communicare: A. Comm B. Share C. Talk D. Write", answer: "B" },
+    { subject: "Communication Concepts", q: "52) NOT communication type: A. Formal B. Social C. Therapeutic D. Grapevine", answer: "D" },
+    { subject: "Communication Concepts", q: "53) Formal example: A. Gossip B. Lectures C. Texts D. Rumors", answer: "B" },
+    { subject: "Communication Concepts", q: "54) Formal advantage: A. Quick B. Leak C. Orderly flow D. Rumor", answer: "C" },
+    { subject: "Communication Concepts", q: "55) Formal disadvantage: A. Fast B. Expensive C. Discipline D. Answerability", answer: "B" },
+    { subject: "Communication Concepts", q: "56) Downward: A. Employee to mgmt B. Mgmt to employee C. Peers D. Depts", answer: "B" },
+    { subject: "Communication Concepts", q: "57) Upward: A. Mgmt to employee B. Employee to mgmt C. Peers D. Depts", answer: "B" },
+    { subject: "Communication Concepts", q: "58) Horizontal purpose: A. Coordinate B. Rumors C. Decisions D. Complaints", answer: "A" },
+    { subject: "Communication Concepts", q: "59) Diagonal: A. Same dept B. Different dept/level C. Customer D. Manager", answer: "B" },
+    { subject: "Communication Concepts", q: "60) Informal: A. Prescribed B. Outside network C. Professional D. Slow", answer: "B" }
+];
+    function renderQuestions() {
+        const container = document.getElementById('quiz-container');
+        questions.forEach((item, index) => {
+            container.innerHTML += `
+                <div class="subject-title">${item.subject}</div>
+                <div class="q-box">
+                    <p><strong>${index + 1})</strong> ${item.q}</p>
+                    <p style="color: #27ae60; font-weight: bold;">الإجابة الصحيحة: ${item.answer}</p>
+                </div>
+            `;
+        });
     }
-}
-
-const bank = {
-ip: [
-    { q: "1. ما هو الهدف الأساسي من حماية الملكية الفكرية؟", ar: "الهدف الرئيسي لحماية حقوق الابتكار والإبداع الإنساني.", options: ["تشجيع الإبداع والابتكار من خلال حماية حقوق المبدعين", "منع انتشار العلوم والمعارف بين الناس", "زيادة الضرائب على الشركات الناشئة", "احتكار السلع الأساسية للأبد"], answer: 0 },
-    { q: "2. أي مما يلي يندرج تحت حماية براءات الاختراع؟", ar: "المنتجات والأفكار الصناعية والتقنية الجديدة القابلة للتطبيق.", options: ["الاختراعات والحلول التقنية والصناعية الجديدة", "الروايات والقصص الأدبية والقصائد", "الأسماء والشعارات التجارية للشركات", "الأسرار التجارية وعقود الموظفين"], answer: 0 },
-    { q: "3. ما هي المدة الزمنية المعتادة لحماية براءة الاختراع في معظم الدول؟", ar: "المدة القانونية الدولية لحماية البراءات من تاريخ إيداعها.", options: ["5 سنوات", "10 سنوات", "20 سنة", "مدى حياة المخترع"], answer: 2 },
-    { q: "4. تهدف العلامات التجارية بشكل أساسي إلى:", ar: "الهدف الأساسي من تسجيل الشعارات والأسماء التجارية.", options: ["تمييز منتجات أو خدمات شركة عن شركات أخرى", "حماية الصيغ الكيميائية للأدوية", "منع نسخ الكتب واللوحات الفنية", "تشفير البيانات البرمجية داخل المنصات"], answer: 0 },
-    { q: "5. أي من الخيارات التالية يُعد مثالاً على علامة تجارية؟", ar: "أمثلة على رموز الهوية البصرية للشركات العالمية.", options: ["شعار شركة نايكي أو آبل", "صيغة دواء الأسبرين المبتكرة", "رواية 'هاري بوتر' الشهيرة", "طريقة تصنيع محركات السيارات"], answer: 0 },
-    { q: "6. حقوق المؤلف وحقوق النشر تحمي:", ar: "نوع المصنفات المشمولة بنظام حماية حقوق المؤلف.", options: ["المصنفات الأدبية والفنية مثل الكتب والموسيقى والأفلام", "الآلات الميكانيكية وقطع الغيار", "المعادلات الرياضية والنظريات العلمية المجردة", "طرق التعبئة والتغليف اللوجستية"], answer: 0 },
-    { q: "7. متى تبدأ حماية حقوق المؤلف للمصنف الأدبي أو الفني?", ar: "التوقيت القانوني الفعلي لبدء سريان حماية حق المؤلف.", options: ["بمجرد ابتكار المصنف والتعبير عنه in شكل مادي", "بعد تقديم طلب رسمي للبلدية ونشر الإعلان", "بعد مرور 5 سنوات من التوزيع التجاري", "عند الحصول على أرباح مالية تتجاوز حداً معيناً"], answer: 0 },
-    { q: "8. تستمر حماية حقوق المؤلف في معظم التشريعات لمدة:", ar: "المدة القانونية لحماية المصنفات بعد وفاة صاحبها.", options: ["10 سنوات فقط", "طوال حياة المؤلف بالإضافة إلى 50 أو 70 سنة بعد وفاته", "حتى يقرر المؤلف بيعها للجمهور", "20 سنة من تاريخ النشر الأول فقط"], answer: 1 },
-    { q: "9. ما الذي يُقصد بـ 'الأسرار التجارية'؟", ar: "المعلومات السرية التي تمنح المنشأة ميزة تنافسية.", options: ["معلومات تجارية سرية تمنح الشركة ميزة تنافسية ولا يجوز إفشاؤها", "الأسماء التجارية المسجلة في الغرف الصناعية", "الكتيبات الإرشادية الموزعة مجاناً مع المنتجات", "القوانين الحكومية المنشورة في الجريدة الرسمية"], answer: 0 },
-    { q: "10. خلطة شركة كوكاكولا السرية تُعد مثالاً على:", ar: "نوع الحماية القانونية الأنسب للمعلومات غير المفصح عنها.", options: ["براءة اختراع منتهية الصلاحية", "حقوق مؤلف فنية", "الأسرار التجارية (Trade Secrets)", "مؤشر جغرافي محلي"], answer: 2 },
-    { q: "11. ما هي 'التصاميم الصناعية' في مجال الملكية الفكرية?", ar: "الجانب الجمالي أو الزخرفي الذي يعطي المنتج مظهراً فريداً.", options: ["المظهر الخارجي أو الجمالي والزخرفي للمنتج", "الآلية البرمجية لتشغيل الآلات", "التقارير المالية السنوية للشركات والمصانع", "عقود تأسيس الشركات المساهمة"], answer: 0 },
-    { q: "12. تندرج 'المؤشرات الجغرافية' تحت الملكية الفكرية لتدل على:", ar: "المنشأ الجغرافي المرتبط بجودة أو سمعة المنتج.", options: ["منشأ المنتج المرتبط بجودته أو سمعته نظراً لبيئته الجغرافية", "إحداثيات نظام الـ GPS للمصنع الرئيسي", "عدد الفروع المتاحة للشركة حول العالم", "المسافة اللوجستية بين المورد والمستهلك"], answer: 0 },
-    { q: "13. أي مما يلي يُعد مثالاً شهيراً على المؤشرات الجغرافية؟", ar: "منتجات ارتبطت أسماؤها بجودة مناطقها الجغرافية.", options: ["جبنة البارميزان أو الشاي السيلاني", "برنامج التشغيل ويندوز", "هاتف الآيفون الحديث", "محرك البحث جوجل"], answer: 0 },
-    { q: "14. المنظمة الدولية المسؤولة عن حماية الملكية الفكرية عالمياً هي:", ar: "المنظمة التابعة للأمم المتحدة والمعنية بالملكية الفكرية.", options: ["منظمة الصحة العالمية (WHO)", "المنظمة العالمية للملكية الفكرية (WIPO)", "منظمة التجارة العالمية (WTO)", "منظمة اليونسكو للثقافة والعلوم"], answer: 1 },
-    { q: "15. قرصنة البرمجيات تعني بالضرورة:", ar: "المفهوم القانوني لانتهاك حقوق البرامج الرقمية.", options: ["تحميل واستخدام وتوزيع البرمجيات المحمية بحقوق النشر بدون إذن أو ترخيص", "تحديث نظام التشغيل بشكل دوري وقانوني", "شراء النسخ الأصلية من المتجر المعتمد", "صناعة الحواسيب محلياً بأدوات مفتوحة المصدر"], answer: 0 },
-    { q: "16. الاستخدام العادل (Fair Use) في حقوق النشر يسمح باستخدام جزء من المصنف بدون إذن في حالة:", ar: "الحالات الاستثنائية المسموح بها قانوناً للاقتباس بدون ترخيص.", options: ["الأغراض التعليمية، النقد، والبحث العلمي غير التجاري", "إعادة بيع الكتاب بالكامل لتحقيق أرباح شخصية", "نسب العمل بالكامل لشخص آخر يدعي ابتكاره", "عرض الفيلم السينمائي كاملاً في القنوات التجارية"], answer: 0 },
-    { q: "17. إذا قام شخص بنسخ اختراع محمي ببراءة اختراع سارية وصنعه تجارياً دون إذن، يُسمى هذا:", ar: "الوصف القانوني للتعدي على البراءات السارية.", options: ["انتهاك وتعدي على براءة الاختراع (Infringement)", "استخدام عادل ومشروع", "تطوير تكنولوجي حر", "إيداع قانوني دولي"], answer: 0 },
-    { q: "18. أي من العناصر التالية لا يمكن حمايته بموجب براءات الاختراع؟", ar: "الأشياء المستبعدة من الحماية بالبراءات لعدم صفتها الابتكارية الصناعية.", options: ["النظريات العلمية والاكتشافات الطبيعية المجردة", "الأجهزة الإلكترونية المبتكرة", "التركيبات الدوائية الكيميائية الجديدة", "الآلات الميكانيكية الموفرة للطاقة"], answer: 0 },
-    { q: "19. الهيئة السعودية للملكية الفكرية ترمز بـ:", ar: "الاختصار الرسمي للجهة التنظيمية للملكية الفكرية بالمملكة.", options: ["SAIP", "SDAIA", "SFDA", "SAMA"], answer: 0 },
-    { q: "20. تسجيل العلامة التجارية يمنح صاحبها حقاً:", ar: "طبيعة الحق القانوني الممنوح لمالك العلامة.", options: ["استئثارياً لمنع الآخرين من استخدام علامات مطابقة أو مشاهدة تسبب اللبس", "مؤقتاً لمدة شهرين فقط غير قابلة للتجديد", "مطلقاً في منع الناس من بيع أي سلع بالأسواق", "في إغلاق الشركات المنافسة بدون أمر قضائي"], answer: 0 }
-],
-
-path: [
-    { q: "1. Pathology is formally defined as the scientific study of:", ar: "يُعرّف علم الأمراض رسمياً بأنه الدراسة العلمية لـ:", options: ["Normal human anatomy and physiological parameters", "Diseases, including their essential causes, mechanisms of development, and structural/functional changes", "The synthesis and manufacturing of pharmaceutical agents", "Human psychiatric behavior and social interactions"], answer: 1 },
-    { q: "2. Cell injury transition from reversible to irreversible is marked by:", ar: "يتعبر انتقال إصابة الخلية من مرحلة المرتجعة (العكوسة) إلى غير المرتجعة بـ:", options: ["Severe, permanent damage to mitochondrial function and cell membrane integrity", "Mild, transient intracellular swelling and blebbing", "A temporary reduction in the overall rate of protein synthesis", "The accumulation of glycogen particles in the cytoplasm"], answer: 0 },
-    { q: "3. Apoptosis is characteristically described as:", ar: "يُوصف الموت الخلوي المبرمج (Apoptosis) مميزاً بـأنه:", options: ["Accidental and unregulated cell death resulting from severe external trauma", "Programmed, highly regulated cell death that eliminates unwanted cells without inducing inflammation", "Cellular death caused exclusively by a severe acute lack of oxygen (ischemia)", "The rapid and uncontrolled malignant proliferation of altered cells"], answer: 1 },
-    { q: "4. Necrosis is a process that is always considered:", ar: "عملية التنخر (Necrosis) هي عملية تُعتبر دائماً:", options: ["A normal, programmed physiological mechanism for tissue remodeling", "A pathological process resulting from severe irreversible injury, always accompanied by inflammation", "A reversible phase of cellular adaptation to stressful conditions", "Beneficial to the survival and function of adjacent cell networks"], answer: 1 },
-    { q: "5. Coagulative necrosis is the characteristic pattern typically seen in:", ar: "التنخر التجلطي هو النمط المميز الذي يُرى عادةً في:", options: ["Ischemic infarctions of the central nervous system (brain)", "Ischemic infarctions of solid visceral organs such as the heart, kidney, and spleen", "Severe localized acute bacterial and fungal infections", "Granulomatous lesions associated with pulmonary tuberculosis"], answer: 1 },
-    { q: "6. Liquefactive necrosis is typically characteristic of:", ar: "التنخر التميعي هو نموذجي ومميز لـ:", options: ["Myocardial infarctions and renal ischemic events", "Infarctions within the central nervous system (brain) and focal suppurative bacterial infections", "Chronic mycobacterial infections like tuberculosis", "Acute enzymatic destruction seen in acute pancreatitis"], answer: 1 },
-    { q: "7. Caseous necrosis is a distinct form found characteristically in:", ar: "التنخر الجبني هو شكل متميز يوجد بشكل خاص في:", options: ["Ischemic myocardial necrosis", "Infections caused by Mycobacterium tuberculosis (Tuberculosis)", "Acute pancreatic fat necrosis secondary to enzyme leakage", "Tertiary syphilitic lesions known as gummas"], answer: 1 },
-    { q: "8. Acute inflammation is clinically and histologically characterized by:", ar: "الالتهاب الحاد يتميز سريرياً ونسيجياً بـ:", options: ["A slow, insidious onset dominated by lymphocytes and tissue fibrosis", "Rapid onset (minutes/hours), fluid exudation (edema), and extensive neutrophil accumulation", "The formation of structured epithelioid granulomas", "The replacement of normal tissue architecture with permanent dense scar tissue"], answer: 1 },
-    { q: "9. The five cardinal signs of acute inflammation include:", ar: "تشمل العلامات الخمس الأساسية للالتهاب الحاد:", options: ["Pallor, hypothermia, tissue shrinkage, numbness, and rigid immobility", "Heat (calor), redness (rubor), swelling (tumor), pain (dolor), and loss of function (functio laesa)", "Fibrosis, intracellular calcification, atrophy, apoptosis, and amyloidosis", "Atrophy, hypertrophy, hyperplasia, metaplasia, and dysplasia"], answer: 1 },
-    { q: "10. The predominant cellular components involved in chronic inflammation are:", ar: "المكونات الخلوية السائدة المشاركة في الالتهاب المزمن هي:", options: ["Neutrophils and blood platelets", "Macrophages, lymphocytes, and plasma cells", "Eosinophils and basophilic granulocytes", "Erythrocytes and endothelial cells"], answer: 1 },
-    { q: "11. Granulomatous inflammation is a specialized morphological pattern of:", ar: "الالتهاب الحبيبي هو نمط شكلي متخصص من:", options: ["Acute inflammation responding to pyogenic bacteria", "Chronic inflammation characterized by collections of activated macrophages or epithelioid cells", "Reversible adaptive responses seen in epithelial tissues", "Malignant cellular transformations in connective tissues"], answer: 1 },
-    { q: "12. Hypertrophy is formally defined as an:", ar: "الضخامة (Hypertrophy) تُعرّف رسمياً بأنها:", options: ["Increase in the total absolute number of cells within a tissue", "Increase in the size of individual cells, leading to an increase in the size of the organ", "Reversible substitution of one mature cell type by another adult cell type", "Abnormal, disordered cellular development and architectural loss"], answer: 1 },
-    { q: "13. Hyperplasia is formally defined as an:", ar: "فرط التنسج (Hyperplasia) يُعرّف رسمياً بأنه:", options: ["Increase in the volume and structural size of individual cells", "Increase in the absolute number of cells within an organ or tissue in response to a stimulus", "Disordered, pre-cancerous cellular growth pattern", "Shrinkage in cell size due to a loss of nutritional support"], answer: 1 },
-    { q: "14. Metaplasia represents a cellular adaptation characterized by:", ar: "الحؤول النسيجي (Metaplasia) يمثل تكيفاً خلوياً يتميز بـ:", options: ["An uncontrolled, autonomous malignant cellular proliferation", "A reversible change in which one adult cell type is replaced by another adult cell type", "A progressive decrease in cell number and size within a tissue", "A complete failure of a primitive organ to develop during embryonic life"], answer: 1 },
-    { q: "15. Dysplasia is histologically characterized by:", ar: "عسر التنسج (Dysplasia) يتميز نسيجياً بـ:", options: ["Perfectly coordinated adaptive tissue restructuring", "Disordered growth, atypical cellular features, and loss of architectural orientation (pre-cancerous)", "A fully benign, non-progressive adaptive process that never transforms", "Programmed cell death designed to clean up defective cells"], answer: 1 },
-    { q: "16. Benign neoplasms are typically characterized as being:", ar: "الأورام الحميدة تتميز عادةً بأنها:", options: ["Highly invasive, rapidly growing, and capable of widespread metastasis", "Slow-growing, well-circumscribed, encapsulated, and remaining localized without metastasis", "Inevititably fatal within a short period if not treated with aggressive chemotherapy", "Lacking any differentiated cellular structures under standard microscopic review"], answer: 1 },
-    { q: "17. Malignant neoplasms characteristically display:", ar: "الأورام الخبيثة تظهر بشكل مميز:", options: ["Slow, expansile growth restricted within a fibrous protective capsule", "Invasive growth, destruction of adjacent normal tissues, and the capacity for distant metastasis", "A perfectly normal cellular morphology and architectural arrangement", "An absence of clinical impact on the patient's physiological state"], answer: 1 },
-    { q: "18. Metastasis explicitly refers to the process of:", ar: "الانتقال/الانتشار (Metastasis) يشير صراحةً إلى عملية:", options: ["Local tumor expansion within the primary organ of origin", "The spread of tumor cells to distant, discontinuous anatomical sites", "The reversible differentiation of benign cells into normal structures", "The acute inflammatory reaction surrounding a necrotic tumor core"], answer: 1 },
-    { q: "19. A Carcinoma is precisely defined as a malignant neoplasm arising from:", ar: "الكارسينوما تُعرّف بدقة بأنها ورم خبيث ينشأ من:", options: ["Mesenchymal or connective tissue elements", "Epithelial cell origin (including squamous, glandular, or transitional surfaces)", "Lymphoid cells and bone marrow precursors", "Glial supportive cells of the central nervous system"], answer: 1 },
-    { q: "20. A Sarcoma is precisely defined as a malignant neoplasm arising from:", ar: "الساركوما تُعرّف بدقة بأنها ورم خبيث ينشأ من:", options: ["Surface epithelial cell linings", "Mesenchymal or connective tissue origin (such as bone, cartilage, muscle, or fat)", "Glandular epithelial tissues and structures", "The protective coverings of the brain and spinal cord"], answer: 1 },
-    { q: "21. Edema is defined as the accumulation of excess fluid within:", ar: "الوذمة تُعرّف بأنها تجمع السوائل الزائدة داخل:", options: ["The intravascular space increasing total blood volume", "The interstitial tissue spaces or body cavities", "The intracellular cytoplasm causing universal cell bursting", "The main lymphatic ducts exclusively"], answer: 1 },
-    { q: "22. A Thrombus is defined as:", ar: "الجلطة/الخثرة تُعرّف بأنها:", options: ["A detached piece of material traveling freely through the bloodstream", "An intravascular solid or semi-solid mass formed from blood constituents within the living cardiovascular system", "A benign vascular tumor commonly found in the skin layers", "An accumulation of free serous fluid within the lower lungs"], answer: 1 },
-    { q: "23. An Embolus is defined as a:", ar: "الصمة تُعرّف بأنها:", options: ["Stationary blood clot tightly attached to an injured vessel wall", "Detached intravascular solid, liquid, or gaseous mass carried by the blood to a site distant from its point of origin", "Normal regulatory protein found in healthy human plasma", "Type of phagocytic white blood cell migrating into injured tissue"], answer: 1 },
-    { q: "24. Ischemia is defined as:", ar: "نقص التروية يُعرّف بأنه:", options: ["An enhanced and excessive oxygen supply to a metabolic tissue", "A deficiency of arterial blood supply to a tissue or organ, compromising oxygen and nutrient delivery", "The proper and physiological drainage of local interstitial fluid volumes", "A systemic infection caused by blood-borne viable bacteria"], answer: 1 },
-    { q: "25. An Infarction is an anatomical area of:", ar: "الاحتشاء هو منطقة تشريحية من:", options: ["Ischemic necrosis caused by occlusion of either the arterial supply or the venous drainage", "Acute inflammatory suppuration and abscess formation", "Benign neoplastic cellular proliferation and expansion", "Reversible hydropic cellular swelling and glycogen loading"], answer: 0 },
-    { q: "26. Systemic Shock is fundamentally characterized by:", ar: "الصدمة الجهازية تتميز أساساً بـ:", options: ["Severe systemic hypertension and slowed heart rates", "Systemic hypoperfusion resulting from insufficient cardiac output or reduced effective circulating blood volume", "Localized tissue edema restricted to the lower extremities", "A permanent pathologically elevated cardiac output rate"], answer: 1 },
-    { q: "27. Primary tuberculosis characteristically involves the formation of the:", ar: "السل الأولي يتضمن بشكل مميز تكوين:", options: ["Extensive cavitation within the bilateral lung apices", "Ghon complex, which consists of a parenchymal lung lesion combined with involved draining lymph nodes", "Widespread caseous lesions throughout every major systemic organ", "Ischemic infarction zones across the upper renal cortex"], answer: 1 },
-    { q: "28. Secondary tuberculosis typically occurs in a:", ar: "السل الثانوي يحدث عادةً في:", options: ["Completely unexposed, non-immunized pediatric individual", "Previously sensitized host, frequently localized to the lung apices with marked caseous necrosis and cavitation", "Infant population presenting with acute skin lesions only", "Patient's bone marrow without affecting pulmonary air spaces"], answer: 1 },
-    { q: "29. Atherosclerosis is a chronic vascular disease that primarily affects:", ar: "تصلب الشرايين هو مرض وعائي مزمن يؤثر بشكل أساسي على:", options: ["Small microscopic capillaries and thin post-capillary venules", "Large and medium-sized elastic and muscular arteries (e.g., aorta, coronary arteries)", "Systemic veins and specialized deep venules", "The main collecting lymphatic vessels within the limbs"], answer: 1 },
-    { q: "30. The major structural components of an advanced atherosclerotic plaque include:", ar: "تشمل المكونات الهيكلية الرئيسية للعصيدة الشريانية المتقدمة:", options: ["Neutrophils, fibrin networks, and acute serous exudate fluids exclusively", "Smooth muscle cells, macrophages, T lymphocytes, extracellular matrix (collagen), and intracellular/extracellular lipids", "Granulomatous giant cells and widespread caseous necrotic debris", "Pure calcium crystals without any lipid or cellular elements"], answer: 1 },
-    { q: "31. The most common anatomical site for the occurrence of a myocardial infarction is the:", ar: "الموقع التشريحى الأكثر شيوعاً لحدوث احتشاء عضلة القلب هو:", options: ["Free wall of the right atrium", "Anterior or lateral walls of the left ventricle", "Posterior surface of the right ventricle", "Interatrial septum near the sinus node"], answer: 1 },
-    { q: "32. The predominant microscopic change observed 1 to 2 days after a myocardial infarction is:", ar: "التغير المجهري السائد الملاحظ بعد يوم إلى يومين من احتشاء عضلة القلب هو:", options: ["Dense collagenous fibrosis and complete scar consolidation", "Coagulative necrosis of myocytes with a prominent acute neutrophilic infiltrate", "Extensive granulation tissue formation rich in new capillaries", "Complete cellular regeneration of cardiac myocytes back to normal"], answer: 1 },
-    { q: "33. Lobar pneumonia is characterized anatomically by:", ar: "يتميز الالتهاب الرئوي الفصي تشريحياً بـ:", options: ["Patchy, multi-focal consolidation distributed randomly across multiple lobes", "Diffuse, uniform consolidation and hepatization involving an entire anatomical lobe of the lung", "The presence of chronic caseating granulomas centered within the lung apices", "Severe fibrotic thickening and scarring confined to the bronchiolar walls"], answer: 1 },
-    { q: "34. Bronchopneumonia is histopathologically distinguished by:", ar: "يتميز الالتهاب الرئوي القصبي نسيجياً بـ:", options: ["A homogenous, continuous consolidation of an entire single pulmonary lobe", "Patchy, acute suppurative inflammatory consolidation centered directly on bronchioles and adjacent alveoli", "Universal caseous necrosis of the alveolar septa without cellular response", "Diffuse, non-suppurative interstitial infiltration by mature lymphocytes"], answer: 1 },
-    { q: "35. Chronic bronchitis is clinically diagnosed and defined based on:", ar: "يتم تشخيص وتعريف التهاب الشعب الهوائية المزمن سريرياً بناءً على:", options: ["An acute viral destruction of the main large bronchial epithelial linings", "A persistent productive cough for at least 3 consecutive months in at least 2 successive years", "The permanent anatomical destruction of the interalveolar walls", "The finding of structured non-caseating granulomas along the respiratory tract"], answer: 1 },
-    { q: "36. Emphysema is histopathologically characterized by:", ar: "يتميز نفاخ الرئتين نسيجياً بـ:", options: ["Acute, completely reversible smooth muscle bronchospasm inside the airways", "Permanent, abnormal enlargement of airspaces distal to terminal bronchioles, accompanied by destruction of alveolar walls", "Massive fluid accumulation and transudation within the local pleural cavity space", "Extensive dense fibrotic scarring and architectural obliteration of the visceral pleura"], answer: 1 },
-    { q: "37. The defining histopathological triad of liver cirrhosis features:", ar: "الثلاثية النسيجية المحددة لتليف الكبد تشمل:", options: ["Universal simple fatty change, mild portal edema, and normal lobular veins", "Diffuse fibrosis, conversion of normal liver architecture into regenerative nodules, and vascular rearrangement", "A localized benign epithelial adenoma expanding slowly without altering architecture", "Acute neutrophilic lobular infiltration with complete absence of collagen deposition"], answer: 1 },
-    { q: "38. The primary global risk factor for developing primary hepatocellular carcinoma is:", ar: "عامل الخطر العالمي الرئيسي لتطور سرطان الكبد الأولي هو:", options: ["The regular long-term use of standard over-the-counter aspirin", "Chronic infection with Hepatitis B or C virus (HBV/HCV) and underlying liver cirrhosis", "An acute episode of uncomplicated bacterial cholecystitis", "The presence of isolated congenital Gilbert syndrome"], answer: 1 },
-    { q: "39. The major causative etiological agent responsible for chronic gastritis and peptic ulcers is:", ar: "العامل المسبب الرئيسي المسؤول عن التهاب المعدة المزمن والقرحة الهضمية هو:", options: ["High dietary intake of insoluble vegetable fibers", "Infection with the Gram-negative spiral bacterium Helicobacter pylori", "Excessive daily consumption of pure filtered water", "Chronic deficiency in vitamin C dietary supplementation"], answer: 1 },
-    { q: "40. Peptic ulcer disease occurs most commonly within which anatomical locations?", ar: "تحدث القرحة الهضمية بشكل أكثر شيوعاً في أي المواقع التشريحية؟", options: ["The distal esophagus and the descending colon segments", "The stomach (antrum/lesser curvature) and the proximal first part of the duodenum", "The mid-jejunum and the distal areas of the ileum", "The vermiform appendix lumen exclusively"], answer: 1 },
-    { q: "41. The histological gold standard required to establish a diagnosis of acute appendicitis is:", ar: "المعيار الذهبي النسيجي المطلوب لتأكيد تشخيص التهاب الزائدة الدودية الحاد هو:", options: ["The presence of dense clusters of mature lymphocytes in the mucosal layer", "Neutrophilic infiltration within the muscularis propria layer of the appendix wall", "Well-formed granulomas presenting inside the outer serosal coverings", "Extensive lamellar fibrosis completely obliterating the central appendiceal lumen"], answer: 1 },
-    { q: "42. The primary screening and diagnostic procedure recommended for colorectal carcinoma is:", ar: "الإجراء الفحصي والتشخيصي الرئيسي الموصى به لسرطان القولون والمستقيم هو:", options: ["A standard plain abdominal flat-plate X-ray scan", "Full colonoscopy combined with direct tissue biopsy and histopathological review", "A series of routine baseline serum liver function blood panels", "The assessment of total serum amylase and lipase concentration levels"], answer: 1 },
-    { q: "43. Nephrotic syndrome is clinically and biochemically defined by which constellation?", ar: "المتلازمة الكلوية تُعرّف سريرياً وحيوياً بـ:", options: ["Gross hematuria, acute oliguria, and significant systemic hypertension", "Heavy proteinuria (>3.5 g/day), hypoalbuminemia, hyperlipidemia, and severe generalized edema", "Anuria, high fever, widespread skin rash, and joint pain", "Isolated glycosuria combined with profound polyuria and weight loss"], answer: 1 },
-    { q: "44. Nephritic syndrome is clinically distinguished from nephrotic syndrome by presenting with:", ar: "تتميز المتلازمة الكلوية الالتهابية عن المتلازمة الكلوية بوجود:", options: ["Massive isolated proteinuria without any cellular elements in urine", "Hematuria (blood in urine), azotemia, hypertension, and mild-to-moderate proteinuria", "A completely normal glomerular filtration rate and zero urinary changes", "Pathologically elevated blood glucose and massive fluid intake requirements"], answer: 1 },
-    { q: "45. The most common benign neoplasm of the breast in young adult women is:", ar: "الورم الحميد الأكثر شيوعاً في الثدي لدى النساء الشابات هو:", options: ["Infiltrating ductal adenocarcinoma of the breast", "Fibroadenoma, a well-defined fibroepithelial tumor", "Intraductal papilloma localized within the primary lactiferous ducts", "Malignant phyllodes tumor expanding rapidly into the chest wall"], answer: 1 },
-    { q: "46. The most common morphological type of malignant breast cancer is:", ar: "النوع الشكلي الأكثر شيوعاً لسرطان الثدي الخبيث هو:", options: ["Lobular carcinoma in situ remaining confined to the terminal lobules", "Infiltrating (invasive) ductal carcinoma", "Medullary carcinoma presenting with dense lymphoid tissue", "Mucinous (colloid) carcinoma forming large gelatinous lakes"], answer: 1 },
-    { q: "47. Osteosarcoma is histologically characterized by the explicit production of:", ar: "تتميز الساركوما العظمية نسيجياً بالإنتاج الصريح لـ:", options: ["Purely benign, mature hyaline cartilage matrices", "Malignant osteoid (immature bone matrix) directly synthesized by neoplastic spindle cells", "Chronic granulomatous bone destruction and secondary repair tissue", "Uric acid crystal deposition creating localized tophi formations"], answer: 1 },
-    { q: "48. Rheumatoid arthritis is pathologically characterized as a chronic:", ar: "يتميز التهاب المفاصل الروماتويدي مرضياً بأنه مرض مزمن:", options: ["Degenerative wear-and-tear disease of the articular hyaline cartilage layers", "Chronic autoimmune synovitis leading to joint destruction, pannus formation, and ankylosis", "Acute purulent joint infection secondary to direct hematogenous bacterial seeding", "Metabolic disorder caused by monosodium urate crystal precipitation in joint cavities"], answer: 1 },
-    { q: "49. The classic clinical and pathological triad describing acute bacterial meningitis consists of:", ar: "تتكون الثلاثية السريرية المرضية الكلاسيكية التي تصف التهاب السحايا البكتيري الحاد من:", options: ["Severe hypotension, diffuse maculopapular rash, and watery diarrhea", "Fever, headache, and nuchal rigidity (stiff neck representing meningeal irritation)", "Generalized grand mal seizures, sudden total blindness, and massive polyuria", "Acute crushing chest pain, productive purulent cough, and severe dyspnea"], answer: 1 },
-    { q: "50. Glaucoma is pathologically characterized by:", ar: "يتميز مرض المياه الزرقاء (الجلوكوما) مرضياً بـ:", options: ["A progressive opacity of the crystalline lens matrix", "An abnormal increase in intraocular pressure leading to progressive optic nerve damage and visual field loss", "Severe acute purulent inflammation of the outer conjunctiva", "The sudden accumulation of subretinal fluid causing total detachment"], answer: 1 }
-],
-
-bio: [
-    { q: "1. Hypothesis testing is a statistical method used to:", ar: "اختبار الفرضيات هو طريقة إحصائية تُستخدم لاتخاذ القرارات أو استخلاص الاستنتاجات حول المجتمع بناءً على بيانات العينة.", options: ["Make decisions or draw conclusions about a population based on sample data", "Predict future financial trends without any data", "Collect and clean raw data from the field", "Avoid any kind of statistical analysis"], answer: 0 },
-    { q: "2. The null hypothesis (H₀) usually states that:", ar: "الفرضية الصفرية (H₀) تنص عادةً على عدم وجود تأثير أو عدم وجود فرق حقيقي بين المجموعات.", options: ["There is a strong and significant effect", "There is no effect or no real difference between groups", "A strong relationship exists between variables", "The sample data is biased and completely invalid"], answer: 1 },
-    { q: "3. The alternative hypothesis (H₁) states that:", ar: "الفرضية البديلة (H₁) تشير إلى وجود تأثير حقيقي، أو اختلاف، أو علاقة بين المتغيرات محل الدراسة.", options: ["No difference exists between the studied groups", "There is a real effect, difference, or relationship in the population", "The study data are totally invalid and corrupt", "The statistical test is inconclusive"], answer: 1 },
-    { q: "4. The common significance level (α) used in hypothesis testing is:", ar: "مستوى المعنوية الشائع (ألفا) المستخدم في اختبار الفرضيات هو 0.05، وهو ما يعني نسبة خطأ مقبولة 5%.", options: ["0.01", "0.05", "0.10", "0.50"], answer: 1 },
-    { q: "5. A right-tailed test is appropriate when the alternative hypothesis predicts a:", ar: "يكون اختبار الطرف الأيمن مناسباً عندما تتوقع الفرضية البديلة زيادة أو قيمة أكبر من القيمة المرجعية.", options: ["Decrease in the outcome parameter", "Increase or a value higher than the baseline reference", "Any change regardless of its direction", "No difference or zero change at all"], answer: 1 },
-    { q: "6. A left-tailed test is appropriate when the alternative hypothesis predicts a:", ar: "يكون اختبار الطرف الأيسر مناسباً عندما تتوقع الفرضية البديلة نقصاناً أو انخفاضاً عن القيمة المرجعية.", options: ["Increase in the outcome parameter", "Decrease or a value lower than the baseline reference", "Any change regardless of its direction", "No difference or zero change at all"], answer: 1 },
-    { q: "7. A two-tailed test is used when the alternative hypothesis predicts:", ar: "يُستخدم الاختبار ذو الطرفين عندما تتوقع الفرضية البديلة وجود أي اختلاف أو تغير، بغض النظر عن اتجاهه (زيادة أو نقصان).", options: ["Only an increase in the parameter value", "Only a decrease in the parameter value", "Any difference or change in either direction from the baseline", "No hypothesis is formally stated"], answer: 2 },
-    { q: "8. An example of a two-tailed hypothesis statement is:", ar: "مثال على الفرضية ذات الطرفين: ضغط الدم بعد تناول الدواء لا يساوي ضغط الدم المرجعي (قد يكون أعلى أو أقل).", options: ["Blood pressure is greater than baseline", "Blood pressure is strictly less than baseline", "Blood pressure is not equal to baseline (BP ≠ baseline)", "Blood pressure is exactly equal to baseline"], answer: 2 },
-    { q: "9. In most biomedical research studies, which type of test is standard and preferred?", ar: "في معظم أبحاث الطب الحيوي، يُعتبر الاختبار ذو الطرفين (Two-tailed) هو المعيار المفضل لتجنب التحيز.", options: ["One-tailed test", "Two-tailed test", "Random statistical test", "No hypothesis testing at all"], answer: 1 },
-    { q: "10. One-tailed tests are generally considered risky because they:", ar: "تُعتبر الاختبارات ذات الطرف الواحد خطيرة عموماً لأنها قد تؤدي إلى رفع معدل الرفض الخاطئ وتتجاهل التغيرات في الاتجاه المعاكس.", options: ["Are less statistically powerful", "Can overlook unexpected differences in the opposite direction and increase error rates", "Require massive sample sizes to be valid", "Cannot be computed by standard software"], answer: 1 },
-    { q: "11. Which of the following is a classic example of a parametric statistical test?", ar: "أي مما يلي يُعد مثالاً كلاسيكياً على الاختبارات الإحصائية المعلمية (التي تفترض التوزيع الطبيعي)؟", options: ["Mann–Whitney U test", "Wilcoxon signed-rank test", "Student's t-test", "Kruskal–Wallis test"], answer: 2 },
-    { q: "12. The Analysis of Variance (ANOVA) is primarily used to compare means among:", ar: "تحليل التباين (ANOVA) يُستخدم أساساً لمقارنة المتوسطات الحسابية بين ثلاث مجموعات مستقلة أو أكثر.", options: ["Two groups only", "Three or more independent groups", "One group measured at a single time point", "Paired or matched clinical samples"], answer: 1 },
-    { q: "13. Non-parametric statistical tests are selected when data assumes:", ar: "يتم اختيار الاختبارات غير المعلمية عندما لا تتبع البيانات توزيعاً محدداً (مثل التوزيع الطبيعي)، أو تكون رتبية.", options: ["A strict normal distribution", "No specific underlying distribution (Distribution-free data)", "An extremely large and clean sample size", "Interval or ratio level scale data exclusively"], answer: 1 },
-    { q: "14. The Wilcoxon signed-rank test is the non-parametric alternative to the:", ar: "اختبار ويلكوكسون للرتب الموقعة هو البديل غير المعلمي لاختبار t للعينات المرتبطة (قبل وبعد).", options: ["Independent samples t-test", "Paired samples t-test", "One-way ANOVA", "Pearson correlation test"], answer: 1 },
-    { q: "15. The Kruskal–Wallis test serves as the non-parametric alternative to the:", ar: "اختبار كروسكال واليس هو البديل غير المعلمي لتحليل التباين أحادي الاتجاه (One-way ANOVA).", options: ["One-way ANOVA", "Independent samples t-test", "Chi-square test of independence", "Pearson linear correlation"], answer: 0 },
-    { q: "16. A major advantage of non-parametric tests over parametric tests is that they are:", ar: "الميزة الكبرى للاختبارات غير المعلمية هي أنها قوية ولا تتأثر بالقيم المتطرفة أو الالتواء الشديد في البيانات.", options: ["Dependent on strict normality assumptions", "Robust to outliers and highly skewed distribution scales", "Always more precise and powerful", "Based purely on calculating mean values"], answer: 1 },
-    { q: "17. The Chi-square test of independence is primarily applied to examine association between:", ar: "يُطبق اختبار كاي تربيع للاستقلالية بشكل أساسي لفحص العلاقة أو الارتباط بين المتغيرات الفئوية (Categorical).", options: ["Continuous data variables", "Comparing means of multiple groups", "Categorical variables", "Measuring correlation between continuous variables"], answer: 2 },
-    { q: "18. Type I error in hypothesis testing occurs when we:", ar: "يحدث خطأ من النوع الأول عندما نرفض الفرضية الصفرية وهي صحيحة في الواقع.", options: ["Reject the null hypothesis when it is actually true", "Accept the null hypothesis when it is actually false", "Fail to reject an incorrect alternative hypothesis", "Use a sample size that is too small for analysis"], answer: 0 },
-    { q: "19. Type II error in hypothesis testing occurs when we:", ar: "يحدث خطأ من النوع الثاني عندما نفشل في رفض الفرضية الصفرية وهي خاطئة في الواقع.", options: ["Reject the null hypothesis when it is true", "Fail to reject the null hypothesis when it is actually false", "Set the alpha level exactly at 0.05", "Correctly accept a true alternative hypothesis"], answer: 1 },
-    { q: "20. The probability of committing a Type I error is equal to:", ar: "احتمالية ارتكاب خطأ من النوع الأول تساوي مستوى المعنوية المحدد (Alpha).", options: ["The significance level (alpha)", "The power of the statistical test", "The beta level of error", "The confidence interval width"], answer: 0 },
-    { q: "21. The power of a statistical test is mathematically defined as:", ar: "قوة الاختبار الإحصائي تُعرف رياضياً بأنها القدرة على رفض الفرضية الصفرية الخاطئة بشكل صحيح (1 - Beta).", options: ["1 - alpha", "1 - beta", "alpha + beta", "alpha / beta"], answer: 1 },
-    { q: "22. To increase the power of a statistical study, researchers should:", ar: "لزيادة قوة الدراسة الإحصائية، يجب على الباحثين زيادة حجم العينة المعالجة.", options: ["Decrease the sample size", "Increase the sample size", "Increase the rate of Type II errors", "Avoid using any parametric testing procedures"], answer: 1 },
-    { q: "23. If the computed p-value is less than or equal to the alpha level (p ≤ α), we:", ar: "إذا كانت القيمة الاحتمالية المحسوبة أقل من أو تساوي مستوى ألفا، فإننا نرفض الفرضية الصفرية.", options: ["Accept the null hypothesis as absolutely true", "Reject the null hypothesis in favor of the alternative", "Fail to reject the null hypothesis altogether", "Declare the data completely corrupted and invalid"], answer: 1 },
-    { q: "24. If the computed p-value is greater than the alpha level (p > α), we:", ar: "إذا كانت القيمة الاحتمالية المحسوبة أكبر من مستوى ألفا، فإننا نفشل في رفض الفرضية الصفرية.", options: ["Reject the alternative hypothesis completely", "Fail to reject the null hypothesis", "Prove that there is a massive clinical effect", "Change the raw data to match our prediction"], answer: 1 },
-    { q: "25. P-value stands for:", ar: "يرمز مصطلح P-value إلى القيمة الاحتمالية (Probability value).", options: ["Population value", "Parametric value", "Probability value", "Prediction value"], answer: 2 },
-    { q: "26. In a standard normal distribution (Z-distribution), the mean and standard deviation are:", ar: "في التوزيع الطبيعي المعياري، يكون المتوسط دائماً صفر والانحراف المعياري واحداً.", options: ["Mean = 1, SD = 0", "Mean = 0, SD = 1", "Mean = 0, SD = 0", "Mean = 1, SD = 1"], answer: 1 },
-    { q: "27. The critical Z-value for a two-tailed test at an alpha level of 0.05 is:", ar: "قيمة Z الحرجة لاختبار ذو طرفين عند مستوى معنوية 0.05 هي 1.96.", options: ["1.64", "1.96", "2.58", "3.29"], answer: 1 },
-    { q: "28. The paired t-test is specifically designed to compare means from:", ar: "اختبار t للعينات المرتبطة مصمم لمقارنة المتوسطات الناتجة عن نفس المجموعة قبل وبعد التدخل العلاجي.", options: ["Two entirely independent groups of subjects", "The same group of subjects measured at two different times (e.g., before and after)", "Three or more completely separate clinical trial groups", "A single group compared against a global population mean"], answer: 1 },
-    { q: "29. The independent samples t-test compares the means of:", ar: "اختبار t للعينات المستقلة يقارن بين متوسطات مجموعتين منفصلتين تماماً عن بعضهما.", options: ["Two unrelated or independent groups", "The same group under two distinct treatments sequentially", "A group before and after taking a clinical medication", "Multiple variables within a single individual over time"], answer: 0 },
-    { q: "30. Which test is the non-parametric equivalent to the independent samples t-test?", ar: "ما هو الاختبار غير المعلمي البديل لاختبار t للعينات المستقلة؟", options: ["Wilcoxon signed-rank test", "Mann–Whitney U test (Wilcoxon rank-sum test)", "Kruskal–Wallis test", "Friedman test"], answer: 1 },
-    { q: "31. Linear regression analysis is primarily utilized to:", ar: "تحليل الانحدار الخطي يُستخدم أساساً للتنبؤ بقيمة متغير تابع بناءً على متغير مستقل.", options: ["Predict the value of a dependent variable based on an independent variable", "Check if a distribution is perfectly symmetrical", "Calculate the simple mode of a categorical data set", "Classify continuous data into qualitative groups"], answer: 0 },
-    { q: "32. In the linear equation y = mx + c, 'm' represents the:", ar: "في المعادلة الخطية، يمثل الرمز 'm' ميل الخط المستقيم (Slope).", options: ["Y-intercept value", "Independent variable data", "Slope of the regression line", "Residual error margin"], answer: 2 },
-    { q: "33. In the linear equation y = mx + c, 'c' represents the:", ar: "في المعادلة الخطية، يمثل الرمز 'c' نقطة التقاطع مع محور الصادات (Y-intercept).", options: ["Slope of the line", "Y-intercept where x equals zero", "Dependent variable value", "Correlation coefficient index"], answer: 1 },
-    { q: "34. The Pearson correlation coefficient (r) measures the strength and direction of a:", ar: "معامل ارتباط بيرسون يقيس قوة واتجاه العلاقة الخطية بين متغيرين مستمرين.", options: ["Non-linear non-parametric association", "Linear relationship between two continuous variables", "Difference between multiple independent sample variances", "Categorical dependency between qualitative traits"], answer: 1 },
-    { q: "35. A Pearson correlation coefficient value of r = -1 indicates a:", ar: "قيمة معامل ارتباط بيرسون عند -1 تدل على وجود ارتباط خطي عكسي تام.", options: ["Perfect positive linear relationship", "Perfect negative linear relationship", "Complete absence of any linear relationship", "Weak non-significant inverse association"], answer: 1 },
-    { q: "36. A Pearson correlation coefficient value of r = 0 indicates:", ar: "قيمة معامل ارتباط بيرسون عند صفر تدل على عدم وجود أي ارتباط خطي بين المتغيرات.", options: ["A perfect inverse linear association", "No linear relationship or correlation at all", "A strong and highly valid causal mechanism", "An error in entering data points"], answer: 1 },
-    { q: "37. The coefficient of determination (R²) indicates:", ar: "معامل التحديد (R²) يوضح نسبة التباين في المتغير التابع التي يمكن تفسيرها بواسطة المتغير المستقل.", options: ["The absolute error rate in linear equations", "The proportion of variance in the dependent variable explained by the independent variable", "The probability of committing a critical Type I error", "The exact slope degree of a multi-variable curve"], answer: 1 },
-    { q: "38. Spearman's rank correlation is chosen instead of Pearson's when:", ar: "يتم اختيار معامل ارتباط سبيرمان للرتب بدلاً من بيرسون عندما تكون البيانات رتبية أو لا تتبع التوزيع الطبيعي.", options: ["Data are strictly normally distributed and continuous", "Data are ordinal, skewed, or the relationship is non-linear but monotonic", "Comparing the means of exactly three separate groups", "The sample size is infinitely massive and clean"], answer: 1 },
-    { q: "39. Which of the following is considered a measure of central tendency?", ar: "أي مما يلي يُعد مثالاً كلاسيكياً على مقاييس النزعة المركزية؟", options: ["Standard deviation", "Variance", "Mean", "Range"], answer: 2 },
-    { q: "40. The middle value in a sorted data set is formally known as the:", ar: "القيمة الوسطى في مجموعة بيانات مرتبة تُعرف رسمياً باسم الوسيط (Median).", options: ["Mean", "Median", "Mode", "Variance"], answer: 1 },
-    { q: "41. The value that appears most frequently in a data set is the:", ar: "القيمة الأكثر تكراراً في مجموعة البيانات تُعرف باسم المنوال (Mode).", options: ["Mean", "Median", "Mode", "Standard deviation"], answer: 2 },
-    { q: "42. The difference between the highest and lowest values in a data set is the:", ar: "الفرق بين أعلى وأقل قيمة في مجموعة البيانات يُسمى المدى (Range).", options: ["Variance", "Standard deviation", "Range", "Interquartile range"], answer: 2 },
-    { q: "43. Standard deviation is mathematically defined as the:", ar: "الانحراف المعياري يُعرف رياضياً بأنه الجذر التربيعي للتباين.", options: ["Square of the variance", "Square root of the variance", "Average of all data points", "Absolute difference between mean and mode"], answer: 1 },
-    { q: "44. The square of the standard deviation is known as the:", ar: "مربع الانحراف المعياري يُعرف باسم التباين (Variance).", options: ["Mean absolute deviation", "Variance", "Range", "Standard error"], answer: 1 },
-    { q: "45. Standard error of the mean (SEM) quantifies:", ar: "الخطأ المعياري للمتوسط (SEM) يقيس مدى دقة متوسط العينة في تقدير متوسط المجتمع.", options: ["The variability within a single sample", "How precisely the sample mean estimates the true population mean", "The total percentage of errors made during data collection", "The probability of rejecting a true null hypothesis"], answer: 1 },
-    { q: "46. As the sample size (n) increases, the Standard Error of the Mean (SEM) will:", ar: "كلما زاد حجم العينة (n)، فإن الخطأ المعياري للمتوسط (SEM) سوف يقل.", options: ["Increase proportionally", "Decrease", "Remain completely unchanged", "Fluctuate randomly in either direction"], answer: 1 },
-    { q: "47. In a perfectly symmetrical normal distribution:", ar: "في التوزيع الطبيعي المتماثل تماماً، يتساوى المتوسط والوسيط والمنوال.", options: ["Mean > Median > Mode", "Mean < Median < Mode", "Mean = Median = Mode", "Mean and Median are equal, but Mode is zero"], answer: 2 },
-    { q: "48. A distribution is considered positively skewed when the tail extends towards the:", ar: "يُعتبر التوزيع ملتوياً بشكل إيجابي (يميني) عندما يمتد الطرف نحو القيم الأكبر (اليمين).", options: ["Left side (lower values)", "Right side (higher values)", "Center from both directions equally", "Top vertical axis exclusively"], answer: 1 },
-    { q: "49. In a positively skewed distribution, the relationship between measures is:", ar: "في التوزيع الملتوي إيجابياً، يكون المتوسط الحسابي أكبر من الوسيط والوسيط أكبر من المنوال.", options: ["Mean < Median < Mode", "Mean > Median > Mode", "Mean = Median = Mode", "Mode is always greater than the Mean"], answer: 1 },
-    { q: "50. A distribution is considered negatively skewed when the tail extends towards the:", ar: "يُعتبر التوزيع ملتوياً بشكل سلبي (يساري) عندما يمتد الطرف نحو القيم الأصغر (اليسار).", options: ["Right side (higher values)", "Left side (lower values)", "Both sides symmetrically", "None of the above"], answer: 1 },
-    { q: "51. In a negatively skewed distribution, the correct order is:", ar: "في التوزيع الملتوي سلبيًا، يكون المتوسط الحسابي أقل من الوسيط والوسيط أقل من المنوال.", options: ["Mean < Median < Mode", "Mean > Median > Mode", "Mean = Median = Mode", "Mode is equal to the Mean"], answer: 0 },
-    { q: "52. The Interquartile Range (IQR) measures the spread of the:", ar: "المدى الربيعي (IQR) يقيس مدى انتشار الـ 50% الوسطى من البيانات.", options: ["Entire data set from start to end", "Middle 50% of the data points", "Highest 10% of the sample values", "Lowest 25% of the ranked parameters"], answer: 1 },
-    { q: "53. The Interquartile Range (IQR) is calculated as:", ar: "يُحسب المدى الربيعي بطرح الربيع الأول من الربيع الثالث (Q3 - Q1).", options: ["Q3 - Q1", "Q4 - Q1", "Q2 - Q1", "Q3 - Q2"], answer: 0 },
-    { q: "54. An outlier in a data set is formally defined as an observation that:", ar: "القيمة المتطرفة في مجموعة البيانات تُعرف رسمياً بأنها قيمة تبتعد بشكل غير طبيعي عن باقي البيانات.", options: ["Lies very close to the sample mean", "Is abnormally far from the rest of the data points", "Equals exactly zero in all measurements", "Appears frequently in categorical categories"], answer: 1 },
-    { q: "55. According to the empirical rule, what percentage of data falls within 1 standard deviation of the mean in a normal distribution?", ar: "وفقاً للقاعدة التجريبية، تقع حوالي 68% من البيانات ضمن انحراف معياري واحد من المتوسط في التوزيع الطبيعي.", options: ["50%", "68%", "95%", "99.7%"], answer: 1 },
-    { q: "56. What percentage of data falls within 2 standard deviations of the mean in a normal distribution?", ar: "تقع حوالي 95% من البيانات ضمن انحرافين معياريين من المتوسط في التوزيع الطبيعي.", options: ["68%", "90%", "95%", "99.7%"], answer: 2 },
-    { q: "57. What percentage of data falls within 3 standard deviations of the mean in a normal distribution?", ar: "تقع حوالي 99.7% من البيانات ضمن ثلاثة انحرافات معيارية من المتوسط في التوزيع الطبيعي.", options: ["75%", "95%", "98%", "99.7%"], answer: 3 },
-    { q: "58. The Central Limit Theorem states that as sample size grows large, the sampling distribution of the mean approaches a:", ar: "تنص نظرية النهاية المركزية على أنه عندما يصبح حجم العينة كبيراً، يقترب توزيع المعاينة للمتوسط من التوزيع الطبيعي.", options: ["Binomial distribution", "Uniform distribution", "Normal distribution", "Poisson distribution"], answer: 2 },
-    { q: "59. For the Central Limit Theorem to hold true without knowing the population distribution, the sample size is usually recommended to be:", ar: "لتطبيق نظرية النهاية المركزية، يُوصى عادةً بأن يكون حجم العينة 30 أو أكثر.", options: ["n ≥ 5", "n ≥ 15", "n ≥ 30", "n ≥ 100"], answer: 2 },
-    { q: "60. A 95% confidence interval implies that:", ar: "فترة الثقة 95% تعني أننا واثقون بنسبة 95% من أن الفترة تحتوي على متوسط المجتمع الحقيقي.", options: ["95% of all sample data points lie exactly within this designated interval", "We are 95% confident that the calculated interval contains the true population parameter", "There is a 5% chance that our calculated sample mean is completely wrong", "The study has a total power index of exactly 95%"], answer: 1 },
-    { q: "61. If a 95% confidence interval for an odds ratio contains the value 1.0, it indicates:", ar: "إذا احتوت فترة الثقة 95% لنسبة الأرجحية على القيمة 1.0، فهذا يشير إلى عدم وجود دلالة إحصائية.", options: ["A highly significant statistical association", "No statistically significant association or difference", "A critical mistake in math computations", "A strong causal relationship between parameters"], answer: 1 },
-    { q: "62. If a 95% confidence interval for a mean difference contains the value 0, it means:", ar: "إذا احتوت فترة الثقة 95% لفرق المتوسطات على القيمة صفر، فهذا يعني أن الفرق ليس له دلالة إحصائية.", options: ["The difference is statistically significant", "The difference is not statistically significant", "The sample size is too massive to evaluate", "The alpha level must be rejected instantly"], answer: 1 },
-    { q: "63. The probability of an event ranges strictly between:", ar: "تتراوح احتمالية حدوث أي حدث بدقة بين صفر وواحد (0 و 1).", options: ["-1 and +1", "0 and 100 exclusively", "0 and 1", "Any real number without limitations"], answer: 2 },
-    { q: "64. If two events are mutually exclusive, it explicitly means that:", ar: "إذا كان الحدثان مانعين لبعضهما تبادلياً (Mutually exclusive)، فهذا يعني أنهما لا يمكن أن يحدثا معاً في نفس الوقت.", options: ["They can never occur at the same time", "The occurrence of one completely changes the probability of the other", "They always happen together sequentially", "They are fully dependent on external variables"], answer: 0 },
-    { q: "65. In a diagnostic test, Sensitivity is defined as the ability to correctly identify those:", ar: "في الاختبارات التشخيصية، تُعرف الحساسية (Sensitivity) بأنها القدرة على تحديد الأشخاص المصابين بالمرض بشكل صحيح.", options: ["With the disease (True Positive rate)", "Without the disease (True Negative rate)", "Who will develop the condition in the future", "Who are completely immune to the studied disease"], answer: 0 },
-    { q: "66. In a diagnostic test, Specificity is defined as the ability to correctly identify those:", ar: "تُعرف الخصوصية (Specificity) بأنها القدرة على تحديد الأشخاص غير المصابين بالمرض بشكل صحيح.", options: ["With the disease properly", "Without the disease (True Negative rate)", "Who represent false positive readings", "Who require emergency critical care"], answer: 1 },
-    { q: "67. Positive Predictive Value (PPV) indicates the probability that a person:", ar: "القيمة التنبؤية الإيجابية (PPV) تشير إلى احتمالية أن يكون الشخص مصاباً فعلياً بالمرض إذا جاءت نتيجة فحصية إيجابية.", options: ["With a positive test result actually has the disease", "With a negative test result is completely free of disease", "Will test positive again in a future clinical session", "Is a true false-negative outlier case"], answer: 0 },
-    { q: "68. Negative Predictive Value (NPV) indicates the probability that a person:", ar: "القيمة التنبؤية السلبية (NPV) تشير إلى احتمالية أن يكون الشخص خالياً فعلياً من المرض إذا جاءت نتيجة فحصية سلبية.", options: ["With a positive result is healthy", "With a negative test result is actually free of the disease", "Will develop symptoms within a fixed time frame", "Has been misdiagnosed by standard medical staff"], answer: 1 },
-    { q: "69. An epidemiological study that observes a population at a single specific point in time is a:", ar: "الدراسة الوبائية التي تلاحظ مجتمعاً معيناً في نقطة زمنية واحدة محددة تُسمى دراسة مستعرضة (Cross-sectional).", options: ["Cohort study", "Case-control study", "Cross-sectional study", "Randomized controlled trial"], answer: 2 },
-    { q: "70. A study that compares a group of people with a disease to a group without the disease retrospectively is a:", ar: "الدراسة التي تقارن مجموعة من الأشخاص المصابين بمرض مع مجموعة غير مصابة بأثر رجعي تُسمى دراسة الحالات والشواهد (Case-control).", options: ["Cohort study", "Case-control study", "Cross-sectional study", "Clinical trial"], answer: 1 },
-    { q: "71. A prospective study that follows a group of exposed and unexposed individuals over time is a:", ar: "الدراسة المستقبلية التي تتابع مجموعة من الأفراد المعرضين وغير المعرضين لعامل معين بمرور الوقت هي دراسة أتراب (Cohort).", options: ["Case-control study", "Cohort study", "Cross-sectional study", "Meta-analysis panel"], answer: 1 },
-    { q: "72. The measure of association typically calculated in a Case-Control study is the:", ar: "مقياس الارتباط الذي يُحسب عادة في دراسات الحالات والشواهد هو نسبة الأرجحية (Odds Ratio).", options: ["Relative Risk", "Odds Ratio", "Attributable Risk", "Incidence Rate"], answer: 1 },
-    { q: "73. The measure of association typically calculated in a Cohort study is the:", ar: "مقياس الارتباط الذي يُحسب عادة في دراسات الأتراب هو الخطر النسبي (Relative Risk).", options: ["Odds Ratio", "Relative Risk", "Prevalence Rate", "Sensitivity Index"], answer: 1 },
-    { q: "74. The gold standard study design for establishing causal relationships in clinical interventions is the:", ar: "التصميم البحثي المعياري الذهبي لإثبات العلاقات السببية في التدخلات السريرية هو التجربة العشوائية المحكومة (RCT).", options: ["Retrospective cohort study", "Case-control survey", "Randomized Controlled Trial (RCT)", "Cross-sectional descriptive assessment"], answer: 2 },
-    { q: "75. In a double-blind study design:", ar: "في تصميم الدراسة ثنائية التعمية، لا يعرف المريض ولا الطبيب الباحث من يتلقى العلاج الحقيقي ومن يتلقى العلاج الوهمي.", options: ["Only the patient does not know which treatment they receive", "Only the evaluating physician is kept unaware of assignments", "Both the subject and the investigator are kept unaware of the treatment assignment", "The data analyst uses special encrypted access codes"], answer: 2 },
-    { q: "76. Confounding in an epidemiological study occurs when:", ar: "يحدث الاختلاط/الالتباس (Confounding) في الدراسة الوبائية عندما يتدخل متغير خارجي ويسهم في تشويه العلاقة بين السبب والنتيجة.", options: ["The sample size is inadequate to perform proper math tests", "An extraneous variable distorts the true relationship between the exposure and the outcome", "Data entries are mixed up by clerical workers", "The statistical power index reaches its maximum scale"], answer: 1 },
-    { q: "77. Incidence is defined as the number of:", ar: "معدل الحدوث (Incidence) يُعرف بأنه عدد الحالات الجديدة الناشئة في مجتمع معين خلال فترة زمنية محددة.", options: ["Existing cases of a disease in a population at a specific time", "New cases of a disease that develop in a population during a specified time period", "Total deaths resulting directly from a diagnosed clinical condition", "Patients who successfully fully recover from a chronic disease"], answer: 1 },
-    { q: "78. Prevalence is defined as the number of:", ar: "معدل الانتشار (Prevalence) يُعرف بأنه إجمالي عدد الحالات القائمة (القديمة والجديدة) في المجتمع عند نقطة زمنية محددة.", options: ["New cases diagnosed during a fixed monthly period", "All existing cases (old and new) of a disease in a population at a given point in time", "Severe adverse effects caused by experimental medications", "Subjects lost during long prospective follow-up steps"], answer: 1 },
-    { q: "79. The primary goal of a scatter plot diagram is to visualize the:", ar: "الهدف الأساسي من مخطط المخطط المبعثر (Scatter plot) هو إظهار طبيعة العلاقة بين متغيرين مستمرين.", options: ["Proportions of categorical groups within a sample", "Relationship or correlation between two continuous variables", "Frequency distribution of a single ordinal dataset", "Survival rates of clinical subjects over several decades"], answer: 1 },
-    { q: "80. Which chart type is best suited to display the frequency distribution of continuous data divided into intervals?", ar: "أي نوع من المخططات هو الأنسب لعرض التوزيع التكراري للبيانات المستمرة المقسمة إلى فترات؟", options: ["Pie chart", "Bar chart", "Histogram", "Line graph"], answer: 2 },
-    { q: "81. A Pie chart is specifically used to demonstrate:", ar: "يُخدم المخطط الدائري (Pie chart) خصيصاً لتوضيح النسب المئوية أو الأجزاء المكونة للكل.", options: ["The linear progression of values over long years", "Proportions or percentages of a categorical variable relative to a whole", "The residual variance margins around a regression curve", "The direct difference between two matched pair group means"], answer: 1 },
-    { q: "82. Survival analysis methods, like the Kaplan-Meier curve, are unique because they handle:", ar: "طرق تحليل البقاء (مثل منحنى كابلان-ماير) فريدة من نوعها لأنها تتعامل مع البيانات الخاضعة للرقابة/المبتورة (Censored data).", options: ["Strictly symmetrical non-skewed bell curves", "Censored data where the event of interest has not occurred during follow-up", "Qualitative variables that cannot be sorted ranked", "Only sample sets with sizes smaller than ten units"], answer: 1 },
-    { q: "83. A systematic review that uses quantitative methods to combine and contrast results from multiple independent studies is a:", ar: "المراجعة المنهجية التي تستخدم طرقاً كمية لدمج وتحليل نتائج دراسات مستقلة متعددة تُسمى تحليل بعدي (Meta-analysis).", options: ["Cohort overview panel", "Case report description", "Meta-analysis", "Cross-sectional synthesis"], answer: 2 }
-],
-
-cc: [
-    { q: "1. Communication is formally defined as the process of:", ar: "يُعرّف اتساق رسمياً بأنه عملية تبادل وتشارك المعلومات والأفكار والمشاعر بين مرسل ومستقبل.", options: ["Sending information continuously without receiving any response", "Exchanging and sharing information, ideas, and feelings between a sender and a receiver", "Writing academic text panels exclusively", "Speaking loudly in public spaces"], answer: 1 },
-    { q: "2. The person who conceptualizes, encodes, and initiates a message is the:", ar: "الشخص الذي يصيغ الفكرة، ويقوم بتشفيرها، ويبدأ بإرسال الرسالة هو المرسل (Sender).", options: ["Receiver", "Decoder", "Sender", "Channel controller"], answer: 2 },
-    { q: "3. In the communication model, Encoding is the process of:", ar: "في نموذج الاتصال، التشفير (Encoding) هو عملية تحويل الأفكار الذهنية إلى رموز أو كلمات أو إشارات صالحة للإرسال.", options: ["Translating a received signal into internal understanding", "Converting internal thoughts and ideas into symbolic words, gestures, or signs for transmission", "Filtering out environmental noise from channels", "Storing the message inside long-term memory structures"], answer: 1 },
-    { q: "4. The Medium or Channel in communication refers explicitly to the:", ar: "الوسيلة أو القناة في الاتصال تشير صراحة إلى المسار أو الأداة التي تنتقل من خلالها الرسالة.", options: ["The technical meaning contained within thoughts", "The vehicle or pathway through which a message travels from sender to receiver", "The physiological feedback given by an audience", "The psychological background of the sender"], answer: 1 },
-    { q: "5. The person or group intended to decode, interpret, and understand a message is the:", ar: "الشخص أو المجموعة المستهدفة لفك تشفير الرسالة وتفسيرها وفهمها هو المستقبل (Receiver).", options: ["Sender", "Receiver", "Encoder", "Gatekeeper"], answer: 1 },
-    { q: "6. Decoding is defined as the process where the receiver:", ar: "فك التشفير (Decoding) يُعرّف بأنه العملية التي يقوم فيها المستقبل بتفسير وترجمة الرموز المستلمة إلى معنى مفهوم.", options: ["Transmits the final signal over airwaves", "Interprets and translates the received symbols into meaningful mental understanding", "Blocks external noise parameters during interactions", "Creates a completely new alternative channel network"], answer: 1 },
-    { q: "7. Feedback is critically important in communication because it:", ar: "التغذية الراجعة (Feedback) مهمة للغاية لأنها تؤكد للمرسل أن الرسالة وصلت وفُهمت بشكل صحيح.", options: ["Forces the sender to stop talking instantly", "Confirms to the sender that the message was received and properly understood", "Increases the overall cost of interactions", "Guarantees that no physical noise occurs"], answer: 1 },
-    { q: "8. Noise in communication is defined as:", ar: "الضوضاء/التشويش (Noise) في الاتصال يُعرّف بأنه أي عائق يتدخل في عملية الاتصال ويشوه الرسالة.", options: ["Only loud vocal volumes in open areas", "Any interference or barrier that distorts or disrupts the clarity and accuracy of a message", "The speed at which a channel carries data", "The official feedback score of an audience"], answer: 1 },
-    { q: "9. An example of psychological noise during a conversation is:", ar: "مثال على التشويش النفسي أثناء المحادثة هو القلق الشديد أو تشتت الذهن والأفكار المسبقة لدى المتحدث.", options: ["A loud construction machine running outside a window", "Preoccupation, severe anxiety, or holding deep-seated biases during interaction", "Using complex medical jargon during simple descriptions", "A weak mobile network signal dropped calls"], answer: 1 },
-    { q: "10. Physiological noise refers to communication barriers caused by:", ar: "التشويش الفسيولوجي يشير إلى عوائق الاتصال الناتجة عن اعتلالات جسدية مثل الصمم أو المرض أو التعب الشديد.", options: ["Complex language terms and idioms", "Physical impairments such as hearing loss, illness, structural speech difficulties, or extreme fatigue", "Structural poor lighting within small rooms", "Emotional anger or general sadness"], answer: 1 },
-    { q: "11. Semantic noise occurs primarily when there is a barrier involving:", ar: "التشويش الدلالي/اللفظي (Semantic noise) يحدث أساساً عندما يكون هناك عائق يتعلق باختلاف معاني الكلمات أو المصطلحات الصعبة.", options: ["Loud environmental sound parameters", "Misunderstandings caused by language differences, complex jargon, or words with ambiguous meanings", "A biological vision problem in the listener", "Distrust between interaction participants"], answer: 1 },
-    { q: "12. Non-verbal communication encompasses:", ar: "الاتصال غير اللفظي يشمل تعابير الوجه، لغة الجسد، الإيماءات، والتواصل البصري بدون كلمات.", options: ["Written memos and official email documents", "Facial expressions, body language, gestures, eye contact, and posture without spoken words", "Only formal oral presentations and lectures", "Radio broadcasts and audio recordings"], answer: 1 },
-    { q: "13. What percentage of total communication meaning is often attributed to non-verbal cues according to classic studies?", ar: "ما هي النسبة المئوية لإجمالي معنى الاتصال التي تُعزى غالباً للإشارات غير اللفظية وفقاً للدراسات الكلاسيكية الشهيرة؟", options: ["Less than 10%", "Around 25%", "More than 50% (often cited around 65-93%)", "Exactly 0%"], answer: 2 },
-    { q: "14. Proxemics is the formal study of how human beings use:", ar: "علم القرب (Proxemics) هو الدراسة الرسمية لكيفية استخدام البشر للمساحات والمسافات الشخصية أثناء الاتصال.", options: ["Vocal tone patterns during arguments", "Personal space and physical distance during communication interactions", "Time allocations across formal events", "Facial micro-expressions under pressure"], answer: 1 },
-    { q: "15. Chronemics refers specifically to the study of the role of:", ar: "علم الزمن (Chronemics) يشير تحديداً إلى دراسة دور الوقت وتنظيمه في عملية الاتصال.", options: ["Body gestures and hand movements", "Time and punctuality in communication dynamics", "Physical touch interactions between friends", "Vocal pitch inflections and accents"], answer: 1 },
-    { q: "16. Haptics is the specific branch of non-verbal communication that investigates:", ar: "علم اللمس (Haptics) هو فرع محدد من الاتصال غير اللفظي يبحث في استخدام اللمس كوسيلة للتواصل.", options: ["Eye contact patterns", "Communication through physical touch", "The layout of furniture inside offices", "The volume levels of vocal delivery"], answer: 1 },
-    { q: "17. Kinesics is pathologically defined as the study of:", ar: "علم الحركة (Kinesics) يُعرّف بأنه دراسة حركات الجسم، الإيماءات، ولغة الجسد العامة.", options: ["Spoken linguistic syntax rules", "Body movements, gestures, and overall posture elements", "The chemical smells during human proximity", "The design of digital communication screens"], answer: 1 },
-    { q: "18. Active listening involves which of the following sets of actions?", ar: "الإنصات الفعال يتضمن التركيز الكامل، والفهم الكامل، والاستجابة الملائمة للمتحدث ثم التذكر.", options: ["Hearing sounds while planning your next counterargument immediately", "Paying full attention, understanding the message, responding appropriately, and remembering what was said", "Nodding continuously without tracking the speaker's sentences", "Reading a text document while someone delivers an instruction"], answer: 1 },
-    { q: "19. An empathetic listener focuses primarily on:", ar: "المُنصت المتعاطف يركز بشكل أساسي على فهم مشاعر المتحدث ومنظوره ووجهة نظره العاطفية.", options: ["Finding factual logical flaws in the speaker's data", "Understanding the speaker's emotions, feelings, and personal perspective deeply", "Providing immediate solutions before the speaker finishes", "Documenting the exact word-for-word spoken transcript"], answer: 1 },
-    { q: "20. Interpersonal communication occurs strictly between:", ar: "الاتصال بين الأشخاص (Interpersonal) يحدث بدقة بين شخصين أو مجموعة صغيرة من الأفراد.", options: ["An individual talking aloud to themselves inside a room", "Two or a small group of individuals sharing interactive exchanges", "A major news anchor and millions of television viewers", "An entire corporation reading a printed memo panel"], answer: 1 },
-    { q: "21. Intrapersonal communication is best described as:", ar: "الاتصال الذاتي (Intrapersonal) يُوصف بأنه حديث المرء مع نفسه، والتأمل والتفكير الداخلي.", options: ["A dialogue between a doctor and a clinical patient", "Communication that occurs within an individual's own mind (self-talk, reflection)", "A formal team meeting involving distinct departments", "An open press conference addressing global challenges"], answer: 1 },
-    { q: "22. Small group communication typically involves an optimal size of:", ar: "اتصال المجموعات الصغيرة يتضمن عادةً حجماً مثالياً يتراوح بين 3 إلى 15 شخصاً يعملون معاً.", options: ["Exactly 2 individuals only", "3 to 15 individuals collaborating towards a common goal", "50 to 100 participants in an open forum arena", "Thousands of users connected over streaming platforms"], answer: 1 },
-    { q: "23. Public communication is characterized by a dynamic where:", ar: "يتميز الاتصال الجماهيري/العام بديناميكية حيث يقدم متحدث واحد رسالة إلى جمهور كبير مستمع.", options: ["All participants talk simultaneously without structure", "One speaker addresses a large audience, delivering a structured message with limited direct feedback", "Secrets are exchanged privately between two close partners", "Messages are processed purely within internal mental thoughts"], answer: 1 },
-    { q: "24. Mass communication relies explicitly on the use of:", ar: "يعتمد الاتصال الجماهيري الواسع (Mass communication) صراحة على استخدام وسائل الإعلام لنقل الرسائل لجمهور ضخم.", options: ["Private face-to-face Whispers", "Mass media channels (TV, radio, newspapers, digital platforms) to reach vast audiences", "Direct non-verbal haptic touches between coworkers", "Unstructured small team brainstorming interactions"], answer: 1 },
-    { q: "25. Assertive communication is defined as expressing thoughts and feelings while:", ar: "الاتصال الحازم/الواثق (Assertive) يعبر عن الأفكار والمشاعر مع احترام حقوق ومشاعر الآخرين بالكامل.", options: ["Dominating the interaction and ignoring other viewpoints entirely", "Respecting the rights, boundaries, and feelings of others fully", "Hiding your own true needs to avoid any potential argument", "Using sarcastic semantic terms to confuse the audience"], answer: 1 },
-    { q: "26. Aggressive communication typically involves behaviors that are:", ar: "الاتصال العدواني (Aggressive) يتضمن عادةً سلوكيات تسعى للسيطرة والاتهام والتلاعب بالآخرين دون احترام.", options: ["Clear, direct, honest, and highly empathetic", "Dominating, accusing, loud, and violating the rights and dignity of others", "Passive, shy, quiet, and avoiding eye contact at all costs", "Purely reflective and focused on deep analytical listening"], answer: 1 },
-    { q: "27. Passive communication is marked by a tendency to:", ar: "يتميز الاتصال السلبي (Passive) بالميل إلى إخفاء الاحتياجات وتجنب التعبير عن الأفكار خوفاً من الصدام.", options: ["State personal desires firmly and clearly", "Fail to express honest thoughts, needs, and feelings, yielding to others to avoid conflict", "Interrupt others continuously during structural meetings", "Demand immediate compliance with strict operational rules"], answer: 1 },
-    { q: "28. Passive-aggressive communication is characteristically expressed through:", ar: "يُعبر عن الاتصال السلبي العدواني بشكل نموذجي من خلال إظهار القبول ظاهرياً مع ممارسة المقاومة غير المباشرة أو السخرية.", options: ["Direct open hostility and physical threats", "Indirect resistance, hidden sarcasm, backhanded compliments, and masked underlying anger", "Genuine warm empathy and clear collaborative compromise steps", "Total withdrawal from any verbal or non-verbal interaction"], answer: 1 },
-    { q: "29. The ultimate goal of effective therapeutic medical communication is to:", ar: "الهدف الأسمى للاتصال الطبي العلاجي الفعال هو بناء علاقة ثقة قوية مع المريض لتحسين المخرجات الصحية.", options: ["Complete the clinical interview as fast as possible to save costs", "Establish trust, foster a strong therapeutic alliance, and improve patient health outcomes", "Demonstrate superior medical jargon knowledge to impress families", "Document every single baseline data point without look at the subject"], answer: 1 },
-    { q: "30. Which technique is a classic example of open-ended questioning?", ar: "أي من التقنيات التالية يُعد مثالاً كلاسيكياً على الأسئلة المفتوحة التي تتيح للمريض شرح حالته بحرية؟", options: ["'Are you currently feeling any chest pain today?'", "'Can you describe in your own words how the pain feels?'", "'Did you take your medication at exactly 8 AM?'", "'Is the pain localized strictly to your left arm?'"], answer: 1 },
-    { q: "31. A closed-ended question is most useful when a professional needs to:", ar: "تكون الأسئلة المغلقة أكثر فائدة عندما يحتاج المهني إلى جمع معلومات محددة وسريعة أو تأكيد تفاصيل معينة.", options: ["Encourage deep emotional expression and narrative venting", "Gather specific, quick facts or confirm narrow details immediately (e.g., Yes/No responses)", "Explore abstract theoretical possibilities with a large team", "Build a long-term therapeutic bond over multiple months"], answer: 1 },
-    { q: "32. Paraphrasing in communication means:", ar: "إعادة الصياغة (Paraphrasing) تعني إعادة صياغة رسالة المتحدث بكلماتك الخاصة لتأكيد الفهم الصحيح.", options: ["Repeating the exact word-for-word statements of the speaker", "Restating the speaker's main message in your own words to verify accurate understanding", "Interrupting with an entirely different alternative narrative theme", "Correcting the speaker's grammatical and linguistic errors instantly"], answer: 1 },
-    { q: "33. A major barrier to cross-cultural communication is Ethnocentrism, which is:", ar: "من أهم عوائق الاتصال بين الثقافات نزعة 'المركزية العرقية'، وهي اعتقاد المرء أن ثقافته هي الأفضل والمعيار لتقييم الآخرين.", options: ["The ability to speak more than three international languages fluently", "The belief that one's own culture is superior and the correct lens to judge all other cultures", "The practice of adopting local habits during international travel sessions", "A structural breakdown in international global satellite channels"], answer: 1 },
-    { q: "34. High-context cultures rely heavily on what for communication meaning?", ar: "تعتمد الثقافات ذات السياق العالي (High-context) بشكل كبير على الإشارات غير اللفظية، والسياق المحيط، والمكانة الاجتماعية لفهم المعنى.", options: ["Strict, explicit, direct, and literal word choices exclusively", "Non-verbal cues, situational context, underlying relationships, and social status", "Written laws, structured emails, and formal physical contract panels", "Highly technical mathematical statistical definitions"], answer: 1 },
-    { q: "35. Low-context cultures expect communication to be characteristically:", ar: "تتوقع الثقافات ذات السياق المنخفض (Low-context) أن يكون الاتصال صريحاً، مباشراً، وواضحاً بالكلمات الحرفية.", options: ["Ambiguous, deeply symbolic, and hidden behind subtle gestures", "Explicit, direct, clear, and focused on literal spoken words", "Dependent entirely on the ancestral history of families involved", "Slow, indirect, and mediated by community elders over time"], answer: 1 },
-    { q: "36. In organizational communication, Downward communication flows from:", ar: "في الاتصال التنظيمي، يتدفق الاتصال الهبط (Downward) من الإدارة العليا إلى الموظفين في المستويات الأدنى.", options: ["Frontline employees up to executive board members", "Higher management levels down to subordinate or lower-level employees", "Peer-level coworkers working inside the same operational department", "External customers to the internal raw materials supply manager"], answer: 1 },
-    { q: "37. Upward communication in a workplace environment provides managers with:", ar: "يوفر الاتصال الصاعد (Upward) للمدراء في بيئة العمل تقارير الأداء، الملاحظات، والمقترحات من الموظفين.", options: ["Direct operational orders regarding everyday tasks", "Feedback, progress reports, suggestions, and concerns from frontline employees", "Performance evaluations written by competitor market analysts", "Strict guidelines on corporate tax compliance structures"], answer: 1 },
-    { q: "38. Horizontal or Lateral communication takes place between:", ar: "الاتصال الأفقي (Horizontal) يحدث بين الزملاء في نفس المستوى الوظيفي أو الترتيب التنظيمي.", options: ["CEOs and entry-level interns exclusively", "Individuals at the same hierarchical level or peer group within an organization", "Corporate lawyers and federal regulatory oversight boards", "The marketing department and external retail consumers"], answer: 1 },
-    { q: "39. The informal, unofficial communication network within an organization is called the:", ar: "شبكة الاتصال غير الرسمية وغير المعترف بها داخل المنظمة تُسمى شبكة الإشاعات والدردشة (Grapevine).", options: ["Chain of command matrix", "Grapevine", "Official intranet hub", "Downward pipeline"], answer: 1 },
-    { q: "40. A classic example of a physical barrier to effective communication is:", ar: "مثال كلاسيكي على العائق المادي للاتصال الفعال هو وجود جدار فاصل صلب أو مسافة جغرافية بعيدة.", options: ["Severe emotional sadness after an event", "A thick solid wall or a vast geographic distance separating two speakers", "Using highly advanced computer coding terminology", "Holding an implicit cultural stereotype against a group"], answer: 1 },
-    { q: "41. Emotional intelligence in communication fundamentally includes the capacity to:", ar: "الذكاء العاطفي يتضمن القدرة على التعرف على عواطفك وعواطف الآخرين وفهمها وإدارتها أثناء الاتصال.", options: ["Suppress all human feelings completely to remain cold and calculated", "Recognize, understand, manage, and constructively utilize emotions during interactions", "Win every argument by identifying the psychological weaknesses of others", "Deliver public speeches without needing any visual or audio aids"], answer: 1 },
-    { q: "42. The communication concept known as the 'Johari Window' maps out:", ar: "مفهوم 'نافذة جوهاري' هو أداة لتحليل ورسم الوعي بالذات وفهم العلاقات الشخصية ومدى معرفة الآخرين بنا.", options: ["The exact data transfer rates inside technical digital fiber channels", "Self-awareness and interpersonal relationships across open, blind, hidden, and unknown quadrants", "The mathematical frequency of noise occurrences during long lectures", "The layout flow of downward messages across an enterprise"], answer: 1 },
-    { q: "43. In the Johari Window, the Blind Area contains information that:", ar: "في نافذة جوهاري، تحتوي 'المنطقة العمياء' على معلومات يعرفها الآخرون عنك ولكنك لا تعرفها عن نفسك.", options: ["Is known to both you and the general public environment", "Is known to others but unknown to you yourself", "Is known to you but carefully hidden from all others", "Is completely unknown to both you and everyone else involved"], answer: 1 },
-    { q: "44. Conflict resolution via the 'Collaborative Style' focuses on:", ar: "أسلوب حل النزاعات بالتعاون (Collaborative Style) يركز على إيجاد حل يربح فيه الجميع (Win-Win) ويلبي احتياجات الكل.", options: ["Forcing one's own agenda aggressively until total compliance is reached", "Finding a true win-win solution that fully satisfies the needs of all parties", "Avoiding the topic completely and pretending no conflict exists at all", "Sacrificing your own personal needs entirely to satisfy the opponent"], answer: 1 },
-    { q: "45. Groupthink is a dangerous communication phenomenon characterized by:", ar: "ظاهرة 'تفكير الجماعة' (Groupthink) هي ظاهرة خطيرة تتميز بالسعي المفرط للتوافق والانسجام مما يلغي النقد البناء والأفكار المستقلة.", options: ["Highly creative and independent critical thinking among all team members", "The systematic suppression of dissenting views to maintain group harmony at the expense of realistic appraisal", "Continuous constructive debates that delay final operational projects", "An absolute breakdown where nobody speaks to anyone else in the room"], answer: 1 },
-    { q: "46. Intercultural competence requires a professional to demonstrate:", ar: "الكفاءة بين الثقافات تتطلب من المهني إظهار الوعي، المعرفة، والاحترام للقيم والاختلافات الثقافية المتنوعة.", options: ["Awareness, knowledge, and deep respect for diverse cultural values and communication differences", "A strict enforcement of their own local customs upon international visitors", "The usage of automated machine translation apps for every single sentence", "A complete avoidance of any cross-cultural professional interaction"], answer: 0 },
-    { q: "47. Feedback that is constructive should always be focused on:", ar: "التغذية الراجعة البناءة يجب أن تركز دائماً على السلوكيات المحددة القابلة للتغيير والتطوير، وليس على شخصية الفرد.", options: ["The personal character traits and stable identity flaws of the individual", "Specific, observable behaviors and actionable steps for future performance improvement", "Universal complaints without offering any clear descriptive example", "Publicly embarrassing the individual to enforce compliance metrics"], answer: 1 },
-    { q: "48. The primary characteristic of digital asynchronous communication is that:", ar: "الميزة الأساسية للاتصال الرقمي غير المتزامن (Asynchronous) هي أن المشاركين لا يتواصلون في نفس الوقت الفعلي (مثل البريد الإلكتروني).", options: ["Participants interact live in exact immediate real-time synchronization", "There is a distinct time delay between sending and receiving responses (e.g., email, forums)", "Non-verbal haptic touch cues are carried perfectly over networks", "It requires all individuals to be inside the exact same physical room"], answer: 1 },
-    { q: "49. Telehealth and telemedicine communication are uniquely challenging because they:", ar: "تحديات الاتصال في الرعاية الصحية عن بُعد تكمن في نقص أو غياب العديد من الإشارات غير اللفظية ولغة الجسد المباشرة.", options: ["Completely eliminate the need for privacy rules or medical consents", "Limit or entirely lack many immediate, organic non-verbal cues and direct physical touch dynamics", "Are strictly less efficient than traditional standard mail systems", "Cannot be performed using modern high-definition digital interfaces"], answer: 1 },
-    { q: "50. When communicating bad news to a medical patient, a professional should:", ar: "عند نقل أخبار سيئة أو مؤلمة للمريض، يجب على المهني تهيئة بيئة خاصة وهادئة، وإظهار التعاطف الصادق واستخدام لغة واضحة.", options: ["Deliver the information rapidly in a crowded hallway to avoid emotional scenes", "Ensure a private, quiet setting, show deep empathy, use clear simple terms, and allow time for questions", "Delegate the entire task to administrative clerks to maintain clinical distance", "Withhold the actual diagnostic details indefinitely to protect the patient's mood"], answer: 1 },
-    { q: "51. Paralanguage includes which specific vocal components of communication?", ar: "اللغة الموازية (Paralanguage) تشمل المكونات الصوتية المصاحبة للكلام مثل نبرة الصوت، السرعة، والطبقة، بعيداً عن الكلمات نفسها.", options: ["The literal dictionary definitions of the chosen vocabulary words", "Vocal pitch, tone of voice, speaking rate, volume, and modulation parameters", "The grammatical accuracy of written sentences and paragraphs", "The physical distance maintained between interacting bodies"], answer: 1 },
-    { q: "52. Eye contact in western communication contexts typically signals:", ar: "التواصل البصري (Eye contact) في سياقات الاتصال الغربية يشير عادةً إلى الاهتمام، الثقة، الصدق، والإنصات الجيد.", options: ["Aggression, deep disrespect, and a desire to challenge authority structures", "Attentiveness, confidence, honesty, and active engagement in the interaction", "A complete lack of understanding regarding the spoken topic", "A passive submissive stance intended to end the talk rapidly"], answer: 1 },
-    { q: "53. The term 'SBAR' in professional medical communication stands for:", ar: "الاختصار 'SBAR' المستخدم للتواصل الفعال والآمن بين الطواقم الطبية يرمز إلى: الوضع، الخلفية، التقييم، والتوصيات.", options: ["Systematic Baseline Assessment and Review", "Situation, Background, Assessment, and Recommendation", "Symptom Biostatistics Analysis and Reporting", "Standard Behavioral Action and Response"], answer: 1 },
-    { q: "54. SBAR is primarily implemented to ensure communication is:", ar: "يُطبق نموذج SBAR بشكل أساسي لضمان أن يكون الاتصال بين الممارسين الصحيين مهيكلاً، واضحاً، وموجزاً لحماية سلامة المرضى.", options: ["Long, descriptive, poetic, and highly creative", "Structured, clear, concise, and focused on maintaining absolute patient safety during handoffs", "Hidden from unauthorized electronic insurance databases", "Conducted exclusively by senior chief executive physicians"], answer: 1 },
-    { q: "55. Empathy differs fundamentally from Sympathy because Empathy involves:", ar: "يختلف التعاطف (Empathy) جوهرياً عن الشفقة (Sympathy) في أن التعاطف يتطلب مشاركة وفهم مشاعر الشخص الآخر وعيش تجربته من منظوره.", options: ["Feeling sorry for someone and offering shallow verbal comfort from a distance", "Experiencing and understanding another person's feelings from their internal perspective", "Agreeing completely with everything the other person says and does unconditionally", "Providing financial or material support during a time of personal challenge"], answer: 1 },
-    { q: "56. A major communication barrier during times of organizational change is resistance, often driven by:", ar: "العائق الأكبر للاتصال أثناء التغييرات التنظيمية هو المقاومة الناتجة غالباً عن الخوف من المجهول ونقص المعلومات الواضحة.", options: ["Having too much accurate information and perfect clarity from leaders", "Fear of the unknown, lack of trust, and perceived loss of personal control or status", "Extensive salary increases across all departments simultaneously", "Using simple, clear, and direct face-to-face team alignments"], answer: 1 },
-    { q: "57. Direct eye contact should be managed carefully because in certain Asian and Middle Eastern cultures it can be interpreted as:", ar: "يجب الانتباه والتوازن في التواصل البصري المباشر والمستمر، لأنه في بعض الثقافات الآسيوية والشرقية قد يُفسر كعلامة على التحدي أو عدم الاحترام.", options: ["A sign of perfect alignment and deep friendly agreement", "Confrontational, disrespectful, or a direct challenge to authority and elders", "A mandatory requirement to verify absolute technical truth", "An indication that the listener is planning to leave the room instantly"], answer: 1 },
-    { q: "58. In the transactional model of communication, the relationship between sender and receiver is:", ar: "في نموذج الاتصال التبادلي (Transactional Model)، يُعتبر الطرفان مرسلين ومستقبلين في نفس الوقت، ويتشاركان في بناء المعنى تفاعلياً.", options: ["Strictly linear, where one person transmits and the other only listens silently", "Simultaneous and highly dynamic, with both parties acting as senders and receivers creating shared meaning", "Completely static and unaffected by environmental or cultural factors", "Mediated exclusively by digital computer screens without personal contact"], answer: 1 },
-    { q: "59. The primary focus of 'Linguistic Relativism' (Sapir-Whorf Hypothesis) is that:", ar: "التركيز الأساسي لفرضية 'النسبية اللغوية' هو أن هيكل وطبيعة اللغة التي يتحدث بها الشخص تؤثر بشكل عميق على طريقة تفكيره وإدراكه للعالم.", options: ["All human languages share the exact same underlying biological syntax rules", "The structure of a language influences and shapes the way its speakers think and perceive the world", "Digital translation tools will eventually replace the need for human language learning", "Vocal volume is the most critical parameter in cross-cultural interactions"], answer: 1 },
-    { q: "60. The core purpose of utilizing validation techniques during a tense negotiation is to:", ar: "الهدف الأساسي من استخدام تقنيات التأكيد والاعتراف (Validation) أثناء المفاوضات المشحونة هو الاعتراف بمشاعر الطرف الآخر لجسر الخلافات وبناء أرضية مشتركة.", options: ["Prove definitively that the opposing party's facts are entirely incorrect", "Acknowledge the other party's feelings and perspective, lowering tension and building a bridge for agreement", "Force an immediate financial settlement without discussing underlying issues", "Demonstrate absolute intellectual dominance over the entire room"], answer: 1 }
-]
-};
-
-function startQuiz(sub) {
-    subject = sub;
-    current = 0;
-    answered = {};
-    isShowingFeedback = false;
-    
-    if(!bank[subject] || bank[subject].length === 0) {
-        alert("هذه المادة فارغة حالياً.");
-        return;
-    }
-    
-    document.getElementById("menu").classList.remove("active");
-    document.getElementById("quiz").classList.add("active");
-    showQuestion();
-}
-
-function showQuestion() {
-    isShowingFeedback = false;
-    const qData = bank[subject][current];
-    const total = bank[subject].length;
-    
-    document.getElementById("progressBadge").innerText = `Question ${current + 1} of ${total}`;
-    document.getElementById("question").innerText = qData.q;
-    document.getElementById("translation").innerText = qData.ar || "لا يوجد ترجمة متوفرة حالياً.";
-    
-    const optionsDiv = document.getElementById("options");
-    optionsDiv.innerHTML = "";
-    
-    document.getElementById("feedback").style.display = "none";
-    document.getElementById("feedback").className = "feedback";
-    
-    document.getElementById("backBtn").disabled = (current === 0);
-    document.getElementById("backBtn").style.opacity = (current === 0) ? "0.4" : "1";
-    
-    qData.options.forEach((opt, idx) => {
-        const btn = document.createElement("button");
-        btn.className = "option";
-        btn.innerText = opt;
-        
-        if (answered[current] !== undefined) {
-            if (idx === qData.answer) {
-                btn.classList.add("correct-flash");
-            } else if (idx === answered[current]) {
-                btn.classList.add("wrong-flash");
-            }
-            btn.disabled = true;
-        } else {
-            btn.onclick = () => selectOption(idx);
-        }
-        optionsDiv.appendChild(btn);
-    });
-    
-    if (answered[current] !== undefined) {
-        showFeedbackUI(answered[current] === qData.answer);
-    }
-}
-
-function selectOption(idx) {
-    if (isShowingFeedback || answered[current] !== undefined) return;
-    
-    const qData = bank[subject][current];
-    answered[current] = idx;
-    isShowingFeedback = true;
-    
-    const options = document.querySelectorAll(".option");
-    options.forEach(b => b.disabled = true);
-    
-    const isCorrect = (idx === qData.answer);
-    
-    if (isCorrect) {
-        options[idx].classList.add("correct-flash");
-        playCuteSound();
-    } else {
-        options[idx].classList.add("wrong-flash");
-        options[qData.answer].classList.add("correct-flash");
-    }
-    
-    showFeedbackUI(isCorrect);
-}
-
-function showFeedbackUI(isCorrect) {
-    const fb = document.getElementById("feedback");
-    fb.style.display = "block";
-    if (isCorrect) {
-        fb.innerText = "أحسنت! إجابتك صحيحة وممتازة ✨👏";
-        fb.className = "feedback correct-flash";
-        fb.style.color = "#065f46";
-    } else {
-        fb.innerText = "إجابة خاطئة، حاول التركيز والتعلم من الإجابة الصحيحة المحددة بالأخضر 💡";
-        fb.className = "feedback wrong-flash";
-        fb.style.color = "#9f1239";
-    }
-}
-
-function nextQuestion() {
-    if (current < bank[subject].length - 1) {
-        current++;
-        showQuestion();
-    } else {
-        alert("لقد وصلت إلى نهاية أسئلة هذه المادة بنجاح! 🎉");
-    }
-}
-
-function backQuestion() {
-    if (current > 0) {
-        current--;
-        showQuestion();
-    }
-}
-
-function goMenu() {
-    document.getElementById("quiz").classList.remove("active");
-    document.getElementById("menu").classList.add("active");
-}
+    renderQuestions();
 </script>
-
 </body>
 </html>
