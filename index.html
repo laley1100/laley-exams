@@ -2,267 +2,285 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>منصة الاختبارات الشاملة</title>
+    <title>منصة الاختبارات</title>
     <style>
-        body { font-family: sans-serif; background: #fdf2f8; padding: 20px; display: flex; justify-content: center; }
-        .container { background: white; width: 100%; max-width: 700px; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .menuBtn { display: block; width: 100%; padding: 15px; margin: 10px 0; background: #ec4899; color: white; border: none; border-radius: 10px; cursor: pointer; font-size: 18px; font-weight: bold; }
-        .option { display: block; padding: 12px; margin: 8px 0; background: #f3f4f6; border-radius: 8px; cursor: pointer; border: 1px solid #ddd; }
-        .screen { display: none; } .active { display: block; }
-    </style>
+    body { font-family: 'Segoe UI', sans-serif; background: #fdf2f8; display: flex; justify-content: center; padding: 20px; }
+    .container { background: white; width: 100%; max-width: 600px; padding: 25px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+    h1 { text-align: center; color: #db2777; }
+    /* خط السؤال الأساسي */
+    h3 { font-size: 16px; color: #1f2937; margin-bottom: 5px; }
+    /* خط الترجمة العربية */
+    .arabic-text { font-size: 13px; color: #6b7280; margin-bottom: 15px; display: block; }
+    .menu-btn { display: block; width: 100%; padding: 15px; margin: 10px 0; background: #db2777; color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; }
+    .option { display: block; width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; background: #f9f9f9; text-align: right; }
+    .correct { background: #d1fae5 !important; border-color: #10b981 !important; color: #065f46; }
+    .wrong { background: #fee2e2 !important; border-color: #ef4444 !important; color: #991b1b; }
+    .screen { display: none; } .active { display: block; }
+</style>
 </head>
 <body>
 
 <div id="menu" class="container screen active">
-    <h1>اختر المادة</h1>
-    <button class="menuBtn" onclick="show('ip')">الملكية الفكرية</button>
-    <button class="menuBtn" onclick="show('path')">Pathology</button>
-    <button class="menuBtn" onclick="show('cc')">Communication</button>
-    <button class="menuBtn" onclick="show('bio')">Biostatistics</button>
+    <h1>اختر المادة للبدء</h1>
+    <button class="menu-btn" onclick="start('bio')">Biostatistics (83)</button>
+    <button class="menu-btn" onclick="start('path')">Pathology (50)</button>
+    <button class="menu-btn" onclick="start('ip')">الملكية الفكرية (20)</button>
+    <button class="menu-btn" onclick="start('cc')">Communication (60)</button>
 </div>
 
 <div id="quiz" class="container screen">
-    <div id="qArea"></div>
-    <button class="menuBtn" style="background:#64748b" onclick="back()">العودة للقائمة</button>
+    <div id="quiz-content"></div>
+    <button class="menu-btn" style="background:#6b7280" onclick="location.reload()">العودة للقائمة</button>
 </div>
 
 <script>
-const db = {
-    ip: [
-    { q: "1. من خصائص العنصر المعنوي لحق المؤلف:", o: ["أ- عدم قابليته للتنازل عنه أو التعامل به", "ب- قابليته للتنازل عنه والتعامل به", "ج- يسقط بالتقادم", "د- قابليته للحجز"] },
-    { q: "2. حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان وهذا ما أُطلق عليه بموجب اتفاقية WIPO:", o: ["أ- المصنف أو المؤلف", "ب- المؤلف أو المبدع أو المبتكر", "ج- السلطة الأبوية", "د- الاستغلال والتصرف"] },
-    { q: "3. من أشكال التنازل عن العنصر المعنوي:", o: ["أ- البيع، الهبة، التبرع", "ب- المصنف أو المؤلف", "ج- التبرع وأخذ قيمته", "د- يسقط بالتقادم"] },
-    { q: "4. إذا تنازل أو باع الفرد المؤلف أو المنتج الخاص به هل ينتقل العنصر المعنوي؟", o: ["أ- لا يستتبع تصرف المؤلف في ملكية نسخته المادية من مصنفه تنازله عن أي من حقوق المؤلف", "ب- يستتبع تصرف المؤلف في ملكية نسخته المادية من مصنفه تنازله عن أي من حقوق المؤلف", "ج- يتصرف المؤلف في ملكية نسخته المادية من مصنفه", "د- البيع"] },
-    { q: "5. تنازل المؤلف عن حقوقه المالية أو أي جزء منها لا يستتبع ذلك:", o: ["أ- الحقوق المعنوية", "ب- الهبة", "ج- التبرع", "د- البيع"] },
-    { q: "6. الحقوق اللصيقة بشخصية الإنسان ليست حقوقًا مالية إنما هي:", o: ["أ- فرع من الحقوق العامة للأفراد", "ب- فرع من فروع المعرفة", "ج- البطلان المطلق للكافة", "د- الحق المالي وحق البيع"] },
-    { q: "7. الحق الذي يقبل الحجز هو:", o: ["أ- الحق المعنوي", "ب- الحق المالي وهو العنصر المادي للحق الفكري", "ج- الحق المعنوي والحق المالي معًا", "د- الحق المعنوي"] },
-    { q: "8. العنصر المادي لا يخرج إلى حيز الوجود إلا:", o: ["أ- بالحجز المسبق على الحق المعنوي", "ب- بالسقوط بالتقادم للحق المعنوي", "ج- بنشر المصنف بإذن من مالكه", "د- باطلًا"] },
-    { q: "9. الحق عند تقسيم الحقوق هو:", o: ["أ- سلطة واختصاص تمكن صاحبها من منفعة أو مصلحة", "ب- نسبة المصنف إلى الغير", "ج- عدم استعمال الاسم المستعار", "د- المساس بالمصنف"] },
-    { q: "10. يتمتع المؤلف بالحقوق المعنوية التالية:", o: ["أ- منع أي تحريف أو تشويه أو أي تعديل لمصنفه", "ب- ضرورة الإفصاح عن هويته أو أن لا يستعمل اسمًا مستعارًا", "ج- نسبة المصنف إلى نفسه بالطريقة غير المألوفة", "د- نسبة المصنف للغير"] },
-    { q: "11. للمؤلف وحده دون غيره الحق في:", o: ["أ- عدم إتاحة المصنف للجمهور لأول مرة من عدمه", "ب- له مطلق الحرية في إظهار مصنفه للكافة ونشره دون أي إلزام عليه يفرض في ذلك", "ج- إتاحة المصنف لغير الجمهور ضمن شروط قاسية", "د- ضرورة عدم الإفصاح"] },
-    { q: "12. للمؤلف اختيار وتحديد الطريقة والوسيلة التي يقوم فيها بإعلان مصنفه من خلال:", o: ["أ- النشر والطباعة أو التصوير", "ب- التسجيل الصوتي غير الواضح", "ج- المرئي أو غير البث الإذاعي", "د- للمؤلف وحده البث الإذاعي"] },
-    { q: "13. من حق المؤلف نسبة المصنف إلى نفسه بالطريقة المألوفة حيث يتم:", o: ["أ- تدوين اسم المؤلف على إنتاجه بالطريقة التي يراها مناسبة", "ب- يجوز لورثة المؤلف أن لا ينسبوا مصنف مورثهم إلى شخص آخر", "ج- الطلب من غير القضاء التنفيذ عن طريق التعويض", "د- الطلب من المؤلف التنفيذ دون غيره"] },
-    { q: "14. هل يجوز للمؤلف أن يمتنع عن نشر مصنفه وفقًا للاتفاق؟", o: ["أ- لا يجبر الدائن (شركة النشر) المؤلف أن يقبل تنفيذ العمل", "ب- يجوز للدائن (شركة النشر) أن يجبر المؤلف أن لا يقبل تنفيذ العمل من شخص آخر", "ج- لا يجوز للدائن أن يجبر المؤلف", "د- الطلب من المؤلف التنفيذ"] },
-    { q: "15. يحق للمؤلف أن يبقي الرابطة بينه وبين مؤلفه مجهولة بأن:", o: ["أ- أن ينشره دون ذكر اسمه عليه", "ب- نشره دون اسم مستعار معين ويجب تحديد الاسم", "ج- الابتعاد عن التدقيق على الاسم", "د- الترجمة للمصنف"] },
-    { q: "16. هل تعتبر الترجمة للمصنف تعديلًا للنص وبالتالي اعتداء؟", o: ["أ- المنطق القانوني يقول بأنه لا تعتبر الترجمة اعتداء إذا قام المترجم بالإشارة إلى مواطن التغيير أو الحذف بالنص", "ب- الترجمة اعتداء", "ج- ليس واجب أخذ الإذن من المؤلف للترجمة", "د- اعتداء يجيز للمؤلف عدم المساس بالمترجم"] },
-    { q: "17. إذا كان بالترجمة إساءة إلى سمعة المؤلف ومكانته فيعتبر ذلك:", o: ["أ- ليس اعتداء على حقوق المؤلف", "ب- اعتداء يجيز للمؤلف رفعه عن طريق القضاء", "ج- التغاضي عن ذلك", "د- نسبة المصنف للمترجم"] },
-    { q: "18. بموجب السلطة المعنوية من حق المؤلف أن:", o: ["أ- يمنع أي عمل يتعلق بمصنفه فيه إضرار بشرفه أو سمعته", "ب- ليس واجب أخذ الإذن من المؤلف", "ج- تداول المصنف وطباعته من غير إذن المؤلف", "د- التغاضي عن ذلك"] },
-    { q: "19. من حقوق المؤلف المعنوية ما يلي:", o: ["أ- حظر طرح مصنفه للتداول", "ب- عدم سحب مصنفه الذي تم تداوله", "ج- البيع", "د- لا يحظر"] },
-    { q: "20. إذا لم يكن للمؤلف ورثة تباشر الحقوق على المصنف من قبل:", o: ["أ- القاضي", "ب- الهبة للغير", "ج- البيع للغير", "د- وزارة الثقافة"] }
-],path: [
-    { q: "1. Approximately what percentage of body weight is water?", o: ["40%", "50%", "60% (Correct)", "70%"] },
-    { q: "2. Non-pitting edema occurs in which condition?", o: ["Cardiac", "Renal", "Nutritional", "Lymphatic (Correct)"] },
-    { q: "3. Which of the following is an example of physiological hyperemia?", o: ["Inflammation", "Skeletal muscles during exercise (Correct)", "Congestive heart failure", "Venous obstruction"] },
-    { q: "4. Which type of thrombus is most common in the human body?", o: ["Arterial", "Capillary", "Venous (Correct)", "Cardiac mural"] },
-    { q: "5. A thrombus that contains pyogenic bacteria is called:", o: ["Aseptic", "Red", "Septic (Correct)", "Mixed"] },
-    { q: "6. A patient with massive bleeding from a traumatic injury is most likely to develop which type of shock?", o: ["Cardiogenic", "Distributive", "Hypovolemic (Correct)", "Obstructive"] },
-    { q: "7. Which organ is most commonly involved in amyloidosis?", o: ["Liver", "Spleen", "Heart", "Kidney (Correct)"] },
-    { q: "8. Which of the following best defines a neoplasm?", o: ["Reversible increase in cell size", "Abnormal mass of cells with uncontrolled proliferation (Correct)", "Inflammatory cell collection", "Developmental abnormality"] },
-    { q: "9. Which of the following is a characteristic of benign tumors?", o: ["Metastasis", "Rapid growth", "Well-differentiated cells (Correct)", "Vascular invasion"] },
-    { q: "10. Which best describes local invasion?", o: ["Confined tumor", "Penetration of basement membrane and invasion (Correct)", "Blood spread", "Seeding"] },
-    { q: "11. A benign tumor in a solid organ is usually:", o: ["Hemorrhagic necrotic", "Well-defined and encapsulated (Correct)", "Irregular invasive", "Ulcerative"] },
-    { q: "12. Malignant tumor on body surface is usually:", o: ["Polypoid", "Cystic", "Ulcerative with necrotic base and everted edges (Correct)", "Encapsulated"] },
-    { q: "13. A benign tumor can harm the host when:", o: ["In the brain (Correct)", "<1 cm", "Encapsulated", "Expansile growth"] },
-    { q: "14. Metastasis is:", o: ["Local invasion", "Spread via blood or lymph to distant site (Correct)", "Benign transformation", "Compression growth"] },
-    { q: "15. Carcinoma vs sarcoma:", o: ["Faster growth", "Epithelial vs mesenchymal origin (Correct)", "No lymph spread", "Only in young"] },
-    { q: "16. Prognosis of malignant tumor depends on:", o: ["Blood type", "Tumor radiosensitivity (Correct)", "Hair color", "Benign nature"] },
-    { q: "17. Most common soft tissue sarcoma in adults:", o: ["Fibrosarcoma", "Leiomyosarcoma", "Liposarcoma (Correct)", "Angiosarcoma"] },
-    { q: "18. Uterine tumor with cigar-shaped nuclei and high mitoses:", o: ["Leiomyoma", "Leiomyosarcoma (Correct)", "Stromal sarcoma", "Undifferentiated sarcoma"] },
-    { q: "19. Colonic adenoma progression example:", o: ["Pituitary adenoma", "Adrenal adenoma", "Tubular adenoma → adenocarcinoma (Correct)", "Papilloma"] },
-    { q: "20. Gold standard for tumor diagnosis:", o: ["Liquid biopsy", "IHC", "Histopathology (H&E) (Correct)", "Flow cytometry"] },
-    { q: "21. Advantage of liquid biopsy:", o: ["High sensitivity", "Tissue architecture", "Non-invasive real-time monitoring (Correct)", "No equipment needed"] },
-    { q: "22. Most important factor in thrombus formation:", o: ["Blood flow slowing", "Blood composition change", "Endothelial damage (Correct)", "Fibrin increase"] },
-    { q: "23. Well-differentiated adenocarcinoma shows:", o: ["Keratin pearls", "Gland formation (Correct)", "Small blue cells", "Basaloid cells"] },
-    { q: "24. Squamous cell carcinoma shows:", o: ["Glands", "Signet ring cells", "Keratin cell nests (Correct)", "Mucin lakes"] },
-    { q: "25. Mucinous carcinoma shows:", o: ["Glands in mucin lakes (Correct)", "Keratin pearls", "Basaloid cells", "Fibrosis"] },
-    { q: "26. Poor prognosis sarcoma factor:", o: ["Superficial", "<5 cm", "Low grade", ">5 cm deep (Correct)"] },
-    { q: "27. Best IHC marker for rhabdomyosarcoma:", o: ["Desmin", "SMA", "Myogenin (Correct)", "CD31"] },
-    { q: "28. Prostate cancer marker:", o: ["CA-125", "CEA", "PSA (Correct)", "AFP"] },
-    { q: "29. Gangrene is:", o: ["Vessel inflammation", "Tissue necrosis with putrefaction (Correct)", "Heart enlargement", "Hypoxia only"] },
-    { q: "30. Lines of Zahn are:", o: ["RBC fibrin", "Platelet arrangement with flow (Correct)", "WBC bacteria", "Calcium deposits"] },
-    { q: "31. Chronic venous congestion cyanosis due to:", o: ["Oxygen increase", "Reduced hemoglobin increase (Correct)", "Low flow", "Arterial spasm"] },
-    { q: "32. Effect of chronic venous congestion:", o: ["Increased oxygenation", "Generalized edema (Correct)", "Reduced capillary pressure", "Increased arterial flow"] },
-    { q: "33. Venous thrombosis due to viscosity:", o: ["Leukemia (Correct)", "Mitral stenosis", "Atherosclerosis", "Aneurysm"] },
-    { q: "34. NOT fate of aseptic thrombi:", o: ["Fibrosis", "Calcification", "Septic emboli (Correct)", "Fragmentation"] },
-    { q: "35. Infarct is:", o: ["Hemorrhage", "Coagulative necrosis due ischemia (Correct)", "Infection", "Inflammation"] },
-    { q: "36. Brain infarct type:", o: ["Red", "Pale", "Liquefactive (Correct)", "Hemorrhagic"] },
-    { q: "37. Hypovolemic shock compensation:", o: ["Warm skin", "Cold clammy skin (Correct)", "Bradycardia", "Pulmonary edema"] },
-    { q: "38. Spinal cord injury shock:", o: ["Septic", "Anaphylactic", "Neurogenic (Correct)", "Cardiogenic"] },
-    { q: "39. Common spread in carcinomas:", o: ["Blood", "Transcoelomic", "Lymphatic (Correct)", "Direct only"] },
-    { q: "40. Chemical carcinogen:", o: ["UV", "Estrogen", "Aflatoxin (Correct)", "HPV"] },
-    { q: "41. Benign tumor definition:", o: ["Invasive", "Localized no metastasis (Correct)", "Anaplastic", "Always recurrent"] },
-    { q: "42. Papilloma is:", o: ["Adenoma", "Cyst", "Finger-like projections (Correct)", "Sarcoma"] },
-    { q: "43. Benign tumor gross feature:", o: ["Ill-defined", "Necrotic", "Encapsulated well-defined (Correct)", "Ulcerated"] },
-    { q: "44. Cystadenoma is:", o: ["Solid tumor", "Gland cystic tumor (Correct)", "Muscle tumor", "Bone tumor"] },
-    { q: "45. Benign microscopic feature:", o: ["Pleomorphism", "High mitosis", "Uniform nuclei (Correct)", "Necrosis"] },
-    { q: "46. Fibrous benign tumor:", o: ["Lipoma", "Fibroma (Correct)", "Chondroma", "Osteoma"] },
-    { q: "47. Lipoma is:", o: ["Fibrous tumor", "Fat tumor (Correct)", "Bone tumor", "Vascular tumor"] },
-    { q: "48. Leiomyoma is:", o: ["Muscle benign tumor (Correct)", "Cancer", "Nerve tumor", "Fat tumor"] },
-    { q: "49. Hamartoma is:", o: ["Cancer", "Developmental malformation (Correct)", "Infection", "Metastasis"] },
-    { q: "50. Malignant tumor cut section shows:", o: ["Uniform tissue", "Cystic only", "Hemorrhage and necrosis (Correct)", "Normal appearance"] }
-],
-    cc: [
-    { q: "1. Therapeutic communication is best defined as", o: ["A. Casual conversation between paramedic and patient", "B. A planned, deliberate, professional act using communication techniques (Correct)", "C. Giving medical instructions only", "D. Talking to calm the patient"] },
-    { q: "2. Shared understanding of information helps to", o: ["A. Achieve desired patient-care goals (Correct)", "B. Reduce documentation", "C. Save time only", "D. Limit patient interaction"] },
-    { q: "3. Using silence in communication allows the patient", o: ["A. Feel ignored", "B. Think and gain insight (Correct)", "C. Lose interest", "D. End the conversation"] },
-    { q: "4. Exploring is best described as", o: ["A. Changing the subject", "B. Delving further into a topic (Correct)", "C. Giving medical advice", "D. Summarizing data"] },
-    { q: "5. Clarification is used when the paramedic wants to", o: ["A. Check understanding (Correct)", "B. Challenge the patient", "C. Give instructions", "D. End communication"] },
-    { q: "6. Example of clarification is", o: ["A. “Why did you do that?”", "B. “Tell me everything again.”", "C. “What do you mean by ‘sicker than usual’?” (Correct)", "D. “You are wrong.”"] },
-    { q: "7. Reflecting focuses on", o: ["A. Only medical facts", "B. Client’s feelings and content (Correct)", "C. Paramedic’s opinion", "D. Documentation"] },
-    { q: "8. Functional-professional touch is used primarily for", o: ["A. Clinical care (Correct)", "B. Emotional bonding", "C. Social greetings", "D. Intimacy"] },
-    { q: "9. When explaining procedures, paramedics should consider", o: ["A. Only time constraints", "B. Documentation only", "C. Personal opinions", "D. Age and language barriers (Correct)"] },
-    { q: "10. Therapeutic impasses are best described as", o: ["A. Successful interactions", "B. Blocks in the paramedic-client relationship (Correct)", "C. Legal issues", "D. Communication goals"] },
-    { q: "11. Communication failures in clinical settings mainly lead to", o: ["A. Improved teamwork", "B. Faster discharge", "C. Adverse patient events (Correct)", "D. Reduced workload"] },
-    { q: "12. Communication is best described as", o: ["A. A one-way process", "B. A two-way process (Correct)", "C. A written process only", "D. A technological process"] },
-    { q: "13. Which factor can negatively affect patient handover", o: ["A. Noise and interruptions (Correct)", "B. Clear documentation", "C. Structured tools", "D. Team collaboration"] },
-    { q: "14. Patient handover refers to the transfer of", o: ["A. Medical equipment", "B. Responsibility and accountability of patient care (Correct)", "C. Hospital policies", "D. Financial records"] },
-    { q: "15. Which of the following is NOT a benefit of effective handover", o: ["A. Accurate information transfer", "B. Enhanced patient safety", "C. Increased workload (Correct)", "D. Faster prioritization of care"] },
-    { q: "16. During handover of critical patients, the recommended pause duration is", o: ["A. 5–10 seconds", "B. 20–30 seconds (Correct)", "C. 1–2 minutes", "D. No pause is required"] },
-    { q: "17. SBAR stands for", o: ["A. Signs, Background, Action, Response", "B. Situation, Background, Assessment, Recommendation (Correct)", "C. Symptoms, Baseline, Assessment, Report", "D. Status, Body, Airway, Response"] },
-    { q: "18. IMIST-AMBO includes all the following EXCEPT", o: ["A. Mechanism of injury", "B. Treatments and trends", "C. Allergies", "D. Financial status (Correct)"] },
-    { q: "19. One limitation of SBAR in paramedic-ED handover is that it", o: ["A. Is too complex", "B. Lacks prehospital-specific details (Correct)", "C. Is too long", "D. Is not structured"] },
-    { q: "20. Which tool emphasizes patient identification more strongly", o: ["A. SBAR", "B. ISBAR (Correct)", "C. SOAP", "D. ATMIST"] },
-    { q: "21. What should you avoid when communicating with a hard-of-hearing patient?", o: ["A. Using a paper and pen", "B. Shouting (Correct)", "C. Facing the patient while speaking", "D. Asking short questions"] },
-    { q: "22. How should a paramedic handle an overly talkative patient?", o: ["A. Allow the patient to speak without interruption for the entire interview", "B. Politely interrupt and focus the discussion on the most critical issues (Correct)", "C. Ignore the patient’s stories and move on", "D. Avoid asking further questions"] },
-    { q: "23. What is a common pitfall that paramedics should avoid during patient interviews?", o: ["A. Providing false reassurance (Correct)", "B. Using open-ended questions", "C. Empathizing with the patient", "D. Maintaining a calm demeanor"] },
-    { q: "24. What is a key component of building rapport with a child during an interview?", o: ["A. Ignoring the child and only speaking to the caregiver", "B. Using complex medical terms", "C. Getting down to the child's eye level and speaking calmly (Correct)", "D. Asking the child to leave the room"] },
-    { q: "25. Why is it important to maintain eye contact and use a calm voice tone with elderly patients?", o: ["A. To assert dominance", "B. To make them feel rushed", "C. To help them feel respected and understood (Correct)", "D. To simplify the interview process"] },
-    { q: "26. What should a paramedic do when interviewing a patient with low health literacy?", o: ["A. Use medical jargon to appear knowledgeable", "B. Avoid using written materials", "C. Speak slowly and use simple language (Correct)", "D. Skip the interview and proceed with treatment"] },
-    { q: "27. What is an effective strategy when interviewing a visually impaired patient?", o: ["A. Shouting to ensure they hear you", "B. Avoiding physical contact", "C. Explaining everything you are doing as you do it (Correct)", "D. Using sign language"] },
-    { q: "28. How should a paramedic handle a patient who is under the influence of drugs or alcohol?", o: ["A. Use confrontational language", "B. Ask simple and direct questions (Correct)", "C. Ignore the patient's statements", "D. Display scolding or disgust"] },
-    { q: "29. When dealing with an angry or hostile patient, what should a paramedic avoid doing?", o: ["A. Raising their voice to match the patient's tone (Correct)", "B. Restating the cause of the anger", "C. Offering a solution", "D. Empathizing with the patient"] },
-    { q: "30. When interviewing a hostile patient, the paramedic should", o: ["A. Stay calm and avoid responding to insults (Correct)", "B. Argue to prove authority", "C. Match the patient’s tone", "D. Interview the patient alone"] },
-    { q: "31. Why are communication systems crucial during emergency events?", o: ["A. To reduce paperwork", "B. To ensure scene safety and coordinate emergency personnel (Correct)", "C. To entertain responders", "D. To replace physical assessment"] },
-    { q: "32. Which phase of an EMS event involves detecting the need for emergency services?", o: ["A. Detection phase (Correct)", "B. Occurrence of the event", "C. Arrival and treatment", "D. Preparation for next response"] },
-    { q: "33. Which of the following best describes a base station radio?", o: ["A. Handheld and portable", "B. Vehicle-mounted", "C. Fixed location with powerful transmitter and high antenna (Correct)", "D. Used only in aircraft"] },
-    { q: "34. Mobile transceivers usually have an effective range of:", o: ["A. 1–3 miles", "B. 5–7 miles", "C. 10–15 miles (Correct)", "D. Over 50 miles"] },
-    { q: "35. Portable transceivers are mainly used when:", o: ["A. Dispatching calls", "B. Working away from the emergency vehicle (Correct)", "C. Communicating between hospitals", "D. Transmitting ECG only"] },
-    { q: "36. The main advantage of multiplex transmission in EMS is:", o: ["A. Shorter messages", "B. Better privacy", "C. Simultaneous transmission of voice and ECG (Correct)", "D. Lower cost"] },
-    { q: "37. Which is a role of an emergency medical dispatcher?", o: ["A. Provide on-scene medical direction to EMS", "B. Relay instructions from command physicians", "C. Provide pre-arrival instructions to the caller (Correct)", "D. Decide to which hospital the patient should be transferred"] },
-    { q: "38. The primary role of an Emergency Medical Dispatcher (EMD) is to:", o: ["A. Collect information, dispatch units, and give pre-arrival instructions (Correct)", "B. Provide hospital care", "C. Drive the ambulance", "D. Perform patient assessment"] },
-    { q: "39. Trunked radio systems are best described as:", o: ["A. Single-frequency systems", "B. Computer-controlled systems using multiple repeaters (Correct)", "C. Satellite-based systems", "D. Portable-only systems"] },
-    { q: "40. What is the principal reason for radio communication in EMS?", o: ["A. To entertain the team", "B. To facilitate communication between you and medical control (Correct)", "C. To monitor the weather", "D. To make personal calls"] },
-    { q: "41. In the paramedic-patient encounter, a successful patient interview is", o: ["A. Less important than physical assessment", "B. Only important in medical cases", "C. As important as physical assessment skills (Correct)", "D. Only used in non-emergency cases"] },
-    { q: "42. The interview is considered a contract between the patient and the examiner because it includes", o: ["A. Time, place, purpose, and confidentiality (Correct)", "B. Diagnosis and treatment only", "C. Physical examination steps", "D. Legal documentation only"] },
-    { q: "43. One major purpose of the patient interview is to", o: ["A. Replace the physical examination", "B. Establish a trusting relationship (Correct)", "C. Save time during care", "D. Avoid asking family members questions"] },
-    { q: "44. Observation, conversation, and exploration are used to assess", o: ["A. Pain severity", "B. Physical injuries", "C. Mental status (Correct)", "D. Medication compliance"] },
-    { q: "45. Which technique involves repeating the patient's words to encourage elaboration", o: ["A. Echoing (Correct)", "B. Summarization", "C. Validation", "D. Transition"] },
-    { q: "46. OLD CARTS is used to", o: ["A. Assess mental status", "B. Clarify patient emotions", "C. Describe symptom characteristics (Correct)", "D. Determine medication allergies"] },
-    { q: "47. Before starting an interview, the paramedic should first", o: ["A. Begin physical examination", "B. Take medications history", "C. Perform self-reflection (Correct)", "D. Call medical control"] },
-    { q: "48. Which of the following is an example of an open-ended question", o: ["A. \"Are you in pain\"?", "B. \"Does your chest hurt\"?", "C. \"How old are you\"?", "D. \"Can you tell me how this started\"? (Correct)"] },
-    { q: "49. Asking \"Why\" questions should generally be avoided because they", o: ["A. Waste time", "B. Confuse patients", "C. Can be viewed as accusations (Correct)", "D. Are too technical"] },
-    { q: "50. Patient interviews should be", o: ["A. Initiated early and continued throughout the encounter (Correct)", "B. Done after physical assessment", "C. Performed only once", "D. Avoided in trauma cases"] },
-    { q: "51. What does the word \"communicare\" mean?", o: ["A. To communicate", "B. To share (Correct)", "C. To talk", "D. To write"] },
-    { q: "52. Which of the following is NOT a type of communication?", o: ["A. Formal", "B. Social", "C. Therapeutic", "D. Grapevine (Correct)"] },
-    { q: "53. What is an example of formal communication?", o: ["A. Gossip", "B. Lectures (Correct)", "C. Phone texts", "D. Rumors"] },
-    { q: "54. Which of the following is an advantage of formal communication?", o: ["A. Quick relay of information", "B. Leakage of confidential information", "C. Orderly flow of information (Correct)", "D. Possibility of rumor"] },
-    { q: "55. What is a disadvantage of formal communication?", o: ["A. It is fast", "B. It is expensive (Correct)", "C. It maintains discipline", "D. It ensures answerability"] },
-    { q: "56. What is downward communication?", o: ["A. Information flowing from employees to higher management", "B. Information flowing from higher management to employees (Correct)", "C. Information flowing between peers", "D. Information flowing between different departments"] },
-    { q: "57. What is upward communication?", o: ["A. Information flowing from higher management to employees", "B. Information flowing from employees to higher management (Correct)", "C. Information flowing between peers", "D. Information flowing between different departments"] },
-    { q: "58. What is the purpose of horizontal communication?", o: ["A. To request support or coordinate activities (Correct)", "B. To spread rumors", "C. To inform employees about decisions", "D. To notify upper management of complaints"] },
-    { q: "59. What is diagonal communication?", o: ["A. Communication between employees of the same department", "B. Communication between employees of different departments at different levels (Correct)", "C. Communication between employees and customers", "D. Communication between managers and subordinates"] },
-    { q: "60. What is informal communication?", o: ["A. Communication that follows a prescribed path", "B. Communication that occurs outside the formal network (Correct)", "C. Communication that uses professional language", "D. Communication that is slow and orderly"] }
-],
-    bio: [
-        { q: "1. Hypothesis testing is used to:", o: ["A) Make decisions from data", "B) Predict future events", "C) Collect raw data", "D) Avoid statistical analysis"] },
-        { q: "2. The null hypothesis (H₀) usually states:", o: ["A) There is an effect", "B) No effect or no difference", "C) A strong relationship exists", "D) The sample is biased"] },
-        { q: "3. The alternative hypothesis (H₁) states:", o: ["A) No difference exists", "B) There is an effect or difference", "C) Data are invalid", "D) The test is inconclusive"] },
-        { q: "4. Common significance level (α) used in hypothesis testing:", o: ["A) 0.01", "B) 0.05", "C) 0.10", "D) 0.50"] },
-        { q: "5. A right-tailed test is used when:", o: ["A) Expecting decrease", "B) Expecting increase/improvement", "C) Testing any change", "D) No direction assumed"] },
-        { q: "6. A left-tailed test is used when:", o: ["A) Expecting increase", "B) Expecting decrease/reduction", "C) Testing any change", "D) No difference assumed"] },
-        { q: "7. A two-tailed test is used when:", o: ["A) Expecting only increase", "B) Expecting only decrease", "C) Checking for any difference", "D) No hypothesis stated"] },
-        { q: "8. Example of two-tailed hypothesis:", o: ["A) BP > baseline", "B) BP < baseline", "C) BP ≠ baseline", "D) BP = baseline"] },
-        { q: "9. In most studies, which test is preferred?", o: ["A) One-tailed", "B) Two-tailed", "C) No test", "D) Random test"] },
-        { q: "10. One-tailed tests are risky because:", o: ["A) They are less powerful", "B) They increase false rejection of H₀", "C) They require larger samples", "D) They cannot be used in medicine"] },
-        { q: "11. Example of parametric test:", o: ["A) Mann–Whitney U", "B) Wilcoxon signed-rank", "C) t-test", "D) Kruskal–Wallis"] },
-        { q: "12. ANOVA is used to compare:", o: ["A) Two groups", "B) Three or more groups", "C) One group only", "D) Paired samples"] },
-        { q: "13. Non-parametric tests assume:", o: ["A) Normal distribution", "B) No specific distribution", "C) Large sample size", "D) Interval data only"] },
-        { q: "14. Wilcoxon signed-rank test is alternative to:", o: ["A) Independent t-test", "B) Paired t-test", "C) ANOVA", "D) Pearson correlation"] },
-        { q: "15. Kruskal–Wallis test is alternative to:", o: ["A) ANOVA", "B) t-test", "C) Chi-square", "D) Pearson correlation"] },
-        { q: "16. Advantage of non-parametric tests:", o: ["A) Require normality", "B) Robust to outliers", "C) Always more precise", "D) Use mean values"] },
-        { q: "17. The Chi-square test is primarily used for:", o: ["A) Continuous data", "B) Comparing means", "C) Testing association between categorical variables", "D) Measuring correlation"] },
-        { q: "18. In a 2×2 contingency table, the expected frequency for each cell is calculated as:", o: ["A) (Row total × Column total) ÷ Grand total", "B) (Row total ÷ Column total) × Grand total", "C) (Observed ÷ Expected) × 100", "D) (Row + Column) ÷ Grand"] },
-        { q: "19. When should Fisher’s Exact Test be used instead of Chi-square?", o: ["A) When sample size is large", "B) When expected frequencies are all ≥ 5", "C) When expected frequencies in any cell are < 5", "D) When data are continuous"] },
-        { q: "20. The Chi-square test is most appropriate for:", o: ["A) Comparing two means", "B) Testing association between categorical variables", "C) Measuring correlation", "D) Predicting regression"] },
-        { q: "21. Which of the following is a categorical variable?", o: ["A) Blood pressure", "B) Cholesterol level", "C) Gender", "D) Height"] },
-        { q: "22. The Chi-square statistic formula is:", o: ["A) ∑(O−E)² / E", "B) ∑(E−O)² / E", "C) (O−E)² / O", "D) (O/E)²"] },
-        { q: "23. The Chi-square goodness-of-fit test is used to:", o: ["A) Test if two variables independent", "B) Test if observed distribution matches expected", "C) Compare two proportions", "D) Test correlation"] },
-        { q: "24. Fisher’s Exact Test is preferred when:", o: ["A) Large sample", "B) Frequencies ≥ 5", "C) Frequencies < 5 in 2×2 table", "D) Continuous data"] },
-        { q: "25. A t-test is used to:", o: ["A) Measure correlation", "B) Compare means", "C) Calculate variance only", "D) Classify data"] },
-        { q: "26. The null hypothesis (H₀) states:", o: ["A) There is a difference", "B) No difference exists", "C) Data is normal", "D) Data is independent"] },
-        { q: "27. The alternative hypothesis (H₁) suggests:", o: ["A) No change", "B) Equal means", "C) There is a difference", "D) No data"] },
-        { q: "28. One-sample t-test compares:", o: ["A) Two groups", "B) One group to a known value", "C) Three groups", "D) Variables"] },
-        { q: "29. Independent t-test is used for:", o: ["A) Same group before/after", "B) Two unrelated groups", "C) Multiple groups", "D) One variable"] },
-        { q: "30. Paired t-test is used when:", o: ["A) Groups independent", "B) Data categorical", "C) Same subjects measured twice", "D) No measurements"] },
-        { q: "31. Comparing smokers vs non-smokers requires:", o: ["A) Paired t-test", "B) One-sample t-test", "C) Independent t-test", "D) Sign test"] },
-        { q: "32. t-test cannot compare:", o: ["A) Two groups", "B) Three or more groups", "C) Means", "D) Continuous data"] },
-        { q: "33. Which test replaces t-test for 3+ groups?", o: ["A) Correlation", "B) ANOVA", "C) Regression", "D) Median test"] },
-        { q: "34. The sign test focuses on:", o: ["A) Exact values", "B) Direction (+ / −)", "C) Mean values", "D) Variance"] },
-        { q: "35. A typical confidence level used is:", o: ["A) 10%", "B) 50%", "C) 95%", "D) 5%"] },
-        { q: "36. ANOVA analyzes:", o: ["A) Only means", "B) Only medians", "C) Variance (between/within)", "D) Percentages"] },
-        { q: "37. The null hypothesis (H₀) in ANOVA states:", o: ["A) All means different", "B) At least one mean different", "C) All group means equal", "D) No data"] },
-        { q: "38. Two-way ANOVA is used to:", o: ["A) Test one factor only", "B) Test two factors and interaction", "C) Remove variables", "D) Calculate mean"] },
-        { q: "39. Factorial ANOVA includes:", o: ["A) One-way", "B) Two-way", "C) All ANOVA with multiple factors", "D) Three-way"] },
-        { q: "40. One-way ANOVA requires:", o: ["A) Two groups", "B) Three or more groups", "C) One group", "D) No groups"] },
-        { q: "41. ANOVA can be used to compare:", o: ["A) One drug effect", "B) Three drug types", "C) No treatments", "D) Only medians"] },
-        { q: "42. ANCOVA combines:", o: ["A) ANOVA and correlation", "B) ANOVA and regression", "C) Mean and median", "D) Variance only"] },
-        { q: "43. ANCOVA adjusts results based on:", o: ["A) Group size", "B) External variables (covariates)", "C) Means only", "D) Sample type"] },
-        { q: "44. The main advantage of ANCOVA is:", o: ["A) Simplicity", "B) Comparing two groups", "C) Providing a fair comparison by removing confounders", "D) Increasing error"] },
-        { q: "45. Correlation describes:", o: ["A) Cause-and-effect", "B) Relationship between variables", "C) Only differences", "D) Experimental results"] },
-        { q: "46. The correlation coefficient (r) ranges between:", o: ["A) 0 to 100", "B) −10 to +10", "C) −1.0 to +1.0", "D) 0 to 1"] },
-        { q: "47. Positive correlation means:", o: ["A) One increases, other decreases", "B) Opposite directions", "C) Same direction", "D) No relationship"] },
-        { q: "48. Negative correlation means:", o: ["A) Both increase", "B) One increases, one decreases", "C) No change", "D) Variables equal"] },
-        { q: "49. A correlation of 0.75 is:", o: ["A) Weak", "B) Moderate", "C) Strong", "D) Very weak"] },
-        { q: "50. A correlation of 0.10 is:", o: ["A) Very strong", "B) Weak or none", "C) Moderate", "D) Strong"] },
-        { q: "51. Which value indicates very strong correlation?", o: ["A) 0.25", "B) 0.45", "C) 0.85", "D) 0.10"] },
-        { q: "52. Phi coefficient (φ) is used when:", o: ["A) Continuous", "B) Both binary", "C) Ranked", "D) Normal"] },
-        { q: "53. Pearson correlation (r) is used when:", o: ["A) Ordinal", "B) Binary", "C) Continuous and normal", "D) Random"] },
-        { q: "54. Point-biserial correlation is used when:", o: ["A) Continuous", "B) Both binary", "C) One binary and one continuous", "D) Ranked"] },
-        { q: "55. Goal of medical bioinformatics:", o: ["A) Replace doctors", "B) Use computational tools for disease understanding", "C) Store records only", "D) Eliminate lab testing"] },
-        { q: "56. Machine learning in bioinformatics:", o: ["A) Analyze X-ray", "B) Replace DNA machines", "C) Store records", "D) Manufacture drugs"] },
-        { q: "57. Personalized medicine is based on:", o: ["A) Lifestyle", "B) Genetic makeup", "C) Experience", "D) Resources"] },
-        { q: "58. AI helps drug discovery by:", o: ["A) Analyzing millions of compounds", "B) Manufacturing drugs", "C) Eliminating trials", "D) Replacing pharmacists"] },
-        { q: "59. Why is bioinformatics important?", o: ["A) Reduces doctors", "B) Analyze massive data for diagnosis/treatment", "C) Eliminates history", "D) Psychology focus"] },
-        { q: "60. Common data type in bioinformatics:", o: ["A) DNA/RNA sequences", "B) Weather", "C) Traffic", "D) Economic"] },
-        { q: "61. AI in medical imaging:", o: ["A) Detecting tumors", "B) Replace radiologists", "C) Buildings", "D) Billing"] },
-        { q: "62. ML models predict diseases by analyzing:", o: ["A) Food", "B) Genetic, clinical, lifestyle", "C) Budgets", "D) Handwriting"] },
-        { q: "63. AI limitation:", o: ["A) Requires high-quality data", "B) Eliminates doctors", "C) Perfect accuracy", "D) Never inherits bias"] },
-        { q: "64. Challenge in bioinformatics:", o: ["A) No diseases", "B) Large data", "C) Few computers", "D) No analysis"] },
-        { q: "65. Why are genes difficult to study?", o: ["A) Small", "B) Change daily", "C) Complex", "D) Not important"] },
-        { q: "66. Why protect patient data?", o: ["A) Reduce usage", "B) Cheap", "C) Private/sensitive", "D) Share public"] },
-        { q: "67. Challenge of Medical Bioinformatics:", o: ["A) Too many specialists", "B) Lack of specialists", "C) No data", "D) No diseases"] },
-        { q: "68. Errors in bioinformatics:", o: ["A) Faster recovery", "B) Correct diagnosis", "C) Wrong diagnosis/treatment", "D) No effect"] },
-        { q: "69. Personalized medicine based on:", o: ["A) Age", "B) Random", "C) Genes and condition", "D) Doctor preference"] },
-        { q: "70. Bioinformatics helps drug development by:", o: ["A) Increasing cost", "B) Reducing time/cost", "C) Avoiding research", "D) Animals"] },
-        { q: "71. Targeted cancer therapy based on:", o: ["A) Symptoms", "B) Mutations", "C) Age", "D) Diet"] },
-        { q: "72. Bioinformatics helps doctors:", o: ["A) Delay treatment", "B) Same drug for all", "C) Choose right drug/dose", "D) Avoid diagnosis"] },
-        { q: "73. Bioinformatics improves diagnosis by:", o: ["A) Ignoring data", "B) Using biomarkers and AI", "C) Manual methods", "D) Removing lab"] },
-        { q: "74. Biomarker is:", o: ["A) Drug", "B) Measurable indicator of disease", "C) Machine", "D) Symptom"] },
-        { q: "75. Protect genetic data because:", o: ["A) Unimportant", "B) Temporary", "C) Sensitive/personal", "D) Changes daily"] },
-        { q: "76. Genetic discrimination:", o: ["A) Data deleted", "B) Employers use genetic risk unfairly", "C) Data hidden", "D) Refuse treatment"] },
-        { q: "77. Informed consent:", o: ["A) Signing without reading", "B) Full understanding of use", "C) Doctor decides", "D) No permission"] },
-        { q: "78. Genetic data affects family because:", o: ["A) Private", "B) Shared genetically", "C) Unrelated", "D) Temporary"] },
-        { q: "79. Psychological impact of genetic testing:", o: ["A) Happiness", "B) Anxiety/stress", "C) No effect", "D) Memory loss"] },
-        { q: "80. Data ownership concerns:", o: ["A) Weather", "B) Who controls genetic data", "C) Machine speed", "D) Virus"] },
-        { q: "81. Bias in AI:", o: ["A) Equal outcomes", "B) Perfect results", "C) Inequality in healthcare", "D) Faster drugs"] },
-        { q: "82. CRISPR concerns:", o: ["A) Faster computers", "B) Designer babies", "C) Data storage", "D) Internet speed"] },
-        { q: "83. Genetic data security risk:", o: ["A) Deletion", "B) Hacking and breaches", "C) Slow analysis", "D) Lack of genes"] }
-    ]
-};
+// سأضع الأسئلة هنا في الأجزاء القادمة
+const data = {bio: [
+        {q: "1. Hypothesis testing is used to:", ar: "اختبار الفرضيات يستخدم لـ:", opt: ["Make decisions from data", "Predict future events", "Collect raw data", "Avoid statistical analysis"], ans: 0},
+        {q: "2. The null hypothesis (H₀) usually states:", ar: "الفرضية الصفرية (H₀) عادة تنص على:", opt: ["There is an effect", "No effect or no difference", "A strong relationship exists", "The sample is biased"], ans: 1},
+        {q: "3. The alternative hypothesis (H₁) states:", ar: "الفرضية البديلة (H₁) تنص على:", opt: ["No difference exists", "There is an effect or difference", "Data are invalid", "The test is inconclusive"], ans: 1},
+        {q: "4. Common significance level (α) used in hypothesis testing:", ar: "مستوى المعنوية (α) الشائع الاستخدام:", opt: ["0.01", "0.05", "0.10", "0.50"], ans: 1},
+        {q: "5. A right-tailed test is used when:", ar: "يستخدم الاختبار أحادي الطرف الأيمن عندما:", opt: ["Expecting decrease", "Expecting increase", "Testing any change", "No direction assumed"], ans: 1},
+        {q: "6. A left-tailed test is used when:", ar: "يستخدم الاختبار أحادي الطرف الأيسر عندما:", opt: ["Expecting increase", "Expecting decrease", "Testing any change", "No difference assumed"], ans: 1},
+        {q: "7. A two-tailed test is used when:", ar: "يستخدم الاختبار ثنائي الطرف عندما:", opt: ["Expecting only increase", "Expecting only decrease", "Checking for any difference", "No hypothesis stated"], ans: 2},
+        {q: "8. Example of two-tailed hypothesis:", ar: "مثال على فرضية ثنائية الطرف:", opt: ["BP > baseline", "BP < baseline", "BP ≠ baseline", "BP = baseline"], ans: 2},
+        {q: "9. In most studies, which test is preferred?", ar: "في معظم الدراسات، أي اختبار يفضل؟", opt: ["One-tailed", "Two-tailed", "No test", "Random test"], ans: 1},
+        {q: "10. One-tailed tests are risky because:", ar: "الاختبار أحادي الطرف مخاطرة لأن:", opt: ["They are less powerful", "They increase false rejection of H₀", "They require larger samples", "They cannot be used"], ans: 1},
+        {q: "11. Example of parametric test:", ar: "مثال على اختبار معلمي:", opt: ["Mann–Whitney U", "Wilcoxon signed-rank", "t-test", "Kruskal–Wallis"], ans: 2},
+        {q: "12. ANOVA is used to compare:", ar: "اختبار ANOVA يستخدم لمقارنة:", opt: ["Two groups", "Three or more groups", "One group only", "Paired samples"], ans: 1},
+        {q: "13. Non-parametric tests assume:", ar: "الاختبارات غير المعلمية تفترض:", opt: ["Normal distribution", "No specific distribution", "Large sample size", "Interval data only"], ans: 1},
+        {q: "14. Wilcoxon signed-rank test is alternative to:", ar: "اختبار Wilcoxon بديل لـ:", opt: ["Independent t-test", "Paired t-test", "ANOVA", "Pearson correlation"], ans: 1},
+        {q: "15. Kruskal–Wallis test is alternative to:", ar: "اختبار Kruskal–Wallis بديل لـ:", opt: ["ANOVA", "t-test", "Chi-square", "Pearson correlation"], ans: 0},
+        {q: "16. Advantage of non-parametric tests:", ar: "ميزة الاختبارات غير المعلمية:", opt: ["Require normality", "Robust to outliers", "Always more precise", "Use mean values"], ans: 1},
+        {q: "17. The Chi-square test is primarily used for:", ar: "اختبار مربع كاي يستخدم بشكل أساسي لـ:", opt: ["Continuous data", "Comparing means", "Association between categorical variables", "Correlation"], ans: 2},
+        {q: "18. In a 2×2 contingency table, expected frequency is:", ar: "في جدول 2×2، التكرار المتوقع هو:", opt: ["(Row total × Col total) / Grand total", "(Row / Col) × Total", "(Obs / Exp) × 100", "(Row + Col) / Total"], ans: 0},
+        {q: "19. When should Fisher’s Exact Test be used?", ar: "متى يستخدم اختبار فيشر الدقيق؟", opt: ["Large sample size", "Expected frequencies ≥ 5", "Expected frequencies < 5", "Continuous data"], ans: 2},
+        {q: "20. The Chi-square test is most appropriate for:", ar: "اختبار مربع كاي هو الأنسب لـ:", opt: ["Comparing two means", "Association between categorical variables", "Correlation", "Regression"], ans: 1},
+        {q: "21. Which of the following is a categorical variable?", ar: "أي مما يلي متغير تصنيفي (فئوي)؟", opt: ["Blood pressure", "Cholesterol level", "Gender", "Height"], ans: 2},
+        {q: "22. The Chi-square statistic formula is:", ar: "صيغة اختبار مربع كاي هي:", opt: ["∑(O−E)² / E", "∑(E−O)² / E", "(O−E)² / O", "(O/E)²"], ans: 0},
+        {q: "23. The Chi-square goodness-of-fit test is used to:", ar: "اختبار جودة المطابقة (مربع كاي) يستخدم لـ:", opt: ["Test independence", "Match observed to expected", "Compare proportions", "Test correlation"], ans: 1},
+        {q: "24. Fisher’s Exact Test is preferred when:", ar: "يفضل اختبار فيشر الدقيق عندما:", opt: ["Sample size is large", "Expected frequencies ≥ 5", "Expected frequencies < 5", "Data are continuous"], ans: 2},
+        {q: "25. A t-test is used to:", ar: "اختبار t يستخدم لـ:", opt: ["Measure correlation", "Compare means", "Calculate variance", "Classify data"], ans: 1},
+        {q: "26. The null hypothesis (H₀) states:", ar: "الفرضية الصفرية (H₀) تنص على:", opt: ["There is a difference", "No difference exists", "Data is normal", "Data is independent"], ans: 1},
+        {q: "27. The alternative hypothesis (H₁) suggests:", ar: "الفرضية البديلة (H₁) تقترح:", opt: ["No change", "Equal means", "There is a difference", "No data"], ans: 2},
+        {q: "28. One-sample t-test compares:", ar: "اختبار t لعينة واحدة يقارن:", opt: ["Two groups", "One group to a known value", "Three groups", "Variables"], ans: 1},
+        {q: "29. Independent t-test is used for:", ar: "اختبار t المستقل يستخدم لـ:", opt: ["Same group before/after", "Two unrelated groups", "Multiple groups", "One variable only"], ans: 1},
+        {q: "30. Paired t-test is used when:", ar: "اختبار t المزدوج يستخدم عندما:", opt: ["Groups are independent", "Data is categorical", "Same subjects measured twice", "No measurements"], ans: 2},
+        {q: "31. Comparing smokers vs non-smokers requires:", ar: "مقارنة المدخنين بغير المدخنين تتطلب:", opt: ["Paired t-test", "One-sample t-test", "Independent t-test", "Sign test"], ans: 2},
+        {q: "32. t-test cannot compare:", ar: "اختبار t لا يستطيع مقارنة:", opt: ["Two groups", "Three or more groups", "Means", "Continuous data"], ans: 1},
+        {q: "33. Which test replaces t-test for 3+ groups?", ar: "أي اختبار يستبدل t-test لـ 3 مجموعات فأكثر؟", opt: ["Correlation", "ANOVA", "Regression", "Median test"], ans: 1},
+        {q: "34. The sign test focuses on:", ar: "اختبار الإشارة (Sign test) يركز على:", opt: ["Exact values", "Direction (+ / −)", "Mean values", "Variance"], ans: 1},
+        {q: "35. A typical confidence level used is:", ar: "مستوى الثقة النموذجي المستخدم:", opt: ["10%", "50%", "95%", "5%"], ans: 2},
+        {q: "36. ANOVA analyzes:", ar: "تحليل التباين (ANOVA) يحلل:", opt: ["Only means", "Only medians", "Variance (between/within)", "Percentages"], ans: 2},
+        {q: "37. The null hypothesis (H₀) in ANOVA states:", ar: "الفرضية الصفرية في ANOVA تنص على:", opt: ["All means are different", "At least one mean different", "All group means are equal", "No data exists"], ans: 2},
+        {q: "38. Two-way ANOVA is used to:", ar: "تحليل التباين ثنائي الاتجاه يستخدم لـ:", opt: ["Test one factor only", "Test two factors and interaction", "Remove variables", "Calculate mean"], ans: 1},
+        {q: "39. Factorial ANOVA includes:", ar: "تحليل التباين العاملي يشمل:", opt: ["Only one-way", "Only two-way", "Multiple factors", "Only three-way"], ans: 2},
+        {q: "40. One-way ANOVA requires:", ar: "تحليل التباين أحادي الاتجاه يتطلب:", opt: ["Two groups", "Three or more groups", "One group", "No groups"], ans: 1},
+        {q: "41. ANOVA can be used to compare:", ar: "ANOVA يمكن استخدامه لمقارنة:", opt: ["One drug effect", "Three drug types", "No treatments", "Only medians"], ans: 1},
+        {q: "42. ANCOVA combines:", ar: "ANCOVA يجمع بين:", opt: ["ANOVA and correlation", "ANOVA and regression", "Mean and median", "Variance only"], ans: 1}
+    ],
+              // (تكملة مصفوفة bio)
+        {q: "43. ANCOVA adjusts results based on:", ar: "ANCOVA يعدل النتائج بناءً على:", opt: ["Group size", "External variables (covariates)", "Means only", "Sample type"], ans: 1},
+        {q: "44. The main advantage of ANCOVA is:", ar: "الميزة الرئيسية لـ ANCOVA هي:", opt: ["Simplicity", "Comparing two groups only", "Fair comparison by removing confounders", "Increasing error"], ans: 2},
+        {q: "45. Correlation describes:", ar: "الارتباط يصف:", opt: ["Cause-and-effect", "Relationship between variables", "Differences between groups", "Experimental results"], ans: 1},
+        {q: "46. The value of correlation coefficient (r) ranges between:", ar: "قيمة معامل الارتباط (r) تتراوح بين:", opt: ["0 to 100", "−10 to +10", "−1.0 to +1.0", "0 to 1"], ans: 2},
+        {q: "47. Positive correlation means:", ar: "الارتباط الموجب يعني:", opt: ["Variables move opposite", "Variables move same direction", "No relationship", "One increases, other decreases"], ans: 1},
+        {q: "48. Negative correlation means:", ar: "الارتباط السالب يعني:", opt: ["Both variables increase", "One increases while other decreases", "No change", "Variables equal"], ans: 1},
+        {q: "49. A correlation of 0.75 is considered:", ar: "ارتباط قيمته 0.75 يعتبر:", opt: ["Weak", "Moderate", "Strong", "Very weak"], ans: 2},
+        {q: "50. A correlation of 0.10 is:", ar: "ارتباط قيمته 0.10 يعتبر:", opt: ["Very strong", "Weak or none", "Moderate", "Strong"], ans: 1},
+        {q: "51. Which value indicates very strong correlation?", ar: "أي قيمة تشير لارتباط قوي جداً؟", opt: ["0.25", "0.45", "0.85", "0.10"], ans: 2},
+        {q: "52. Phi coefficient (φ) is used when:", ar: "معامل فاي (φ) يستخدم عندما:", opt: ["Both continuous", "Both binary", "Ranked", "Normal"], ans: 1},
+        {q: "53. Pearson correlation (r) is used when:", ar: "ارتباط بيرسون (r) يستخدم عندما:", opt: ["Ordinal only", "Binary only", "Continuous and normal", "Random"], ans: 2},
+        {q: "54. Point-biserial correlation is used when:", ar: "ارتباط Point-biserial يستخدم عندما:", opt: ["Both continuous", "Both binary", "One binary and one continuous", "Ranked"], ans: 2},
+        {q: "55. Goal of medical bioinformatics:", ar: "هدف المعلوماتية الحيوية الطبية:", opt: ["Replace doctors", "Improve diagnosis/treatment using computational tools", "Store records only", "Eliminate lab tests"], ans: 1},
+        {q: "56. Machine learning in bioinformatics used to:", ar: "تعلم الآلة في المعلوماتية الحيوية يستخدم لـ:", opt: ["Analyze medical images", "Replace DNA machines", "Store health records", "Manufacture drugs"], ans: 0},
+        {q: "57. Personalized medicine is based on:", ar: "الطب الشخصي يعتمد على:", opt: ["Lifestyle only", "Patient genetic makeup", "Doctor experience", "Hospital resources"], ans: 1},
+        {q: "58. AI helps drug discovery by:", ar: "الذكاء الاصطناعي يساعد في اكتشاف الأدوية بـ:", opt: ["Analyzing chemical compounds", "Manufacturing drugs", "Eliminating trials", "Replacing pharmacists"], ans: 0},
+        {q: "59. Why is bioinformatics important?", ar: "لماذا المعلوماتية الحيوية مهمة؟", opt: ["Reduces doctors", "Analyzes massive data for diagnosis/treatment", "Eliminates patient history", "Focuses on psychology"], ans: 1},
+        {q: "60. Common data type in bioinformatics:", ar: "نوع بيانات شائع في المعلوماتية الحيوية:", opt: ["DNA/RNA sequences", "Weather patterns", "Traffic flow", "Economic stats"], ans: 0},
+        {q: "61. AI assists medical imaging by:", ar: "الذكاء الاصطناعي يساعد في التصوير الطبي بـ:", opt: ["Detecting tumors in scans", "Replacing radiologists", "Designing buildings", "Billing"], ans: 0},
+        {q: "62. ML models predict diseases by analyzing:", ar: "نماذج ML تتنبأ بالأمراض بتحليل:", opt: ["Favorite food", "Genetic/clinical/lifestyle data", "Budgets", "Handwriting"], ans: 1},
+        {q: "63. Limitation of AI in medicine:", ar: "قيد من قيود الذكاء الاصطناعي في الطب:", opt: ["Requires high-quality data", "Eliminates doctors", "Guarantees accuracy", "Never inherits bias"], ans: 0},
+        {q: "64. A major challenge in medical bioinformatics:", ar: "تحدٍ رئيسي في المعلوماتية الحيوية:", opt: ["Lack of diseases", "Large amount of data", "Too few computers", "No need for analysis"], ans: 1},
+        {q: "65. Why is understanding genes difficult?", ar: "لماذا فهم الجينات صعب؟", opt: ["Too small", "Change daily", "Very complex", "Not important"], ans: 2},
+        {q: "66. Why must patient data be protected?", ar: "لماذا يجب حماية بيانات المريض؟", opt: ["Reduce computer usage", "It is cheap", "It is private and sensitive", "To share publicly"], ans: 2},
+        {q: "67. One challenge of Medical Bioinformatics:", ar: "تحدٍ من تحديات المعلوماتية الحيوية:", opt: ["Too many specialists", "Lack of specialists", "No data", "No diseases"], ans: 1},
+        {q: "68. Errors in bioinformatics analysis lead to:", ar: "الأخطاء في التحليل قد تؤدي لـ:", opt: ["Faster recovery", "Correct diagnosis", "Wrong diagnosis/treatment", "No effect"], ans: 2},
+        {q: "69. Personalized medicine is based on:", ar: "الطب الشخصي يعتمد على:", opt: ["Age only", "Random selection", "Genes and condition", "Doctor preference"], ans: 2},
+        {q: "70. Bioinformatics helps develop new drugs by:", ar: "المعلوماتية الحيوية تطور الأدوية بـ:", opt: ["Increasing cost", "Reducing time and cost", "Avoiding research", "Using animals"], ans: 1},
+        {q: "71. Targeted cancer therapy is based on:", ar: "العلاج السرطاني الموجه يعتمد على:", opt: ["Symptoms only", "Genetic mutations", "Age", "Diet"], ans: 1},
+        {q: "72. Bioinformatics helps doctors to:", ar: "المعلوماتية الحيوية تساعد الأطباء في:", opt: ["Delay treatment", "Give same drug to all", "Choose right drug and dose", "Avoid diagnosis"], ans: 2},
+        {q: "73. Bioinformatics improves diagnosis by:", ar: "المعلوماتية الحيوية تحسن التشخيص بـ:", opt: ["Ignoring data", "Using biomarkers and AI", "Manual methods only", "Removing lab tests"], ans: 1},
+        {q: "74. A biomarker is:", ar: "الواسم الحيوي (Biomarker) هو:", opt: ["Type of drug", "Measurable indicator of disease", "Machine", "Symptom"], ans: 1},
+        {q: "75. Genetic data should be protected because:", ar: "البيانات الجينية يجب حمايتها لأنها:", opt: ["Unimportant", "Temporary", "Sensitive and personal", "Changes daily"], ans: 2},
+        {q: "76. Genetic discrimination may occur when:", ar: "التمييز الجيني قد يحدث عندما:", opt: ["Data is deleted", "Employers use genetic risk unfairly", "Data is hidden", "Patients refuse treatment"], ans: 1},
+        {q: "77. Informed consent means:", ar: "الموافقة المستنيرة تعني:", opt: ["Signing without reading", "Full understanding of data use", "Doctor decides alone", "No permission needed"], ans: 1},
+        {q: "78. Genetic data affects family members because:", ar: "البيانات الجينية تؤثر على العائلة لأنها:", opt: ["Private only", "Shared genetically", "Unrelated", "Temporary"], ans: 1},
+        {q: "79. Psychological impact of genetic testing:", ar: "التأثير النفسي للاختبار الجيني:", opt: ["Happiness only", "Anxiety or stress", "No effect", "Memory loss"], ans: 1},
+        {q: "80. Data ownership concerns relate to:", ar: "مخاوف ملكية البيانات تتعلق بـ:", opt: ["Weather changes", "Who controls genetic data", "Machine speed", "Virus infections"], ans: 1},
+        {q: "81. Bias in AI can cause:", ar: "التحيز في الذكاء الاصطناعي قد يسبب:", opt: ["Equal outcomes", "Perfect results", "Inequality in healthcare", "Faster drugs"], ans: 2},
+        {q: "82. CRISPR raises concerns about:", ar: "تقنية CRISPR تثير مخاوف بشأن:", opt: ["Faster computers", "Designer babies", "Data storage", "Internet speed"], ans: 1},
+        {q: "83. Genetic data security risk includes:", ar: "مخاطر أمن البيانات الجينية تشمل:", opt: ["Data deletion", "Hacking and data breaches", "Slow analysis", "Lack of genes"], ans: 1}
+    ],
+              path: [
+        {q: "1. What is the approximate proportion of body weight that is water?", ar: "ما هي النسبة التقريبية لوزن الجسم التي يشكلها الماء؟", opt: ["40%", "50%", "60%", "70%"], ans: 2},
+        {q: "2. In which condition does non-pitting edema occur?", ar: "في أي حالة يحدث الوذمة غير القابلة للانطباع؟", opt: ["Cardiac edema", "Renal edema", "Nutritional edema", "Lymphedema"], ans: 3},
+        {q: "3. Which of the following is an example of physiological hyperemia?", ar: "أي مما يلي مثال على الاحتقان الفسيولوجي؟", opt: ["Acute inflammation", "Muscle during exercise", "Heart failure", "Venous obstruction"], ans: 1},
+        {q: "4. Which type of thrombus is most common in the human body?", ar: "أي نوع من الخثرات هو الأكثر شيوعاً في جسم الإنسان؟", opt: ["Arterial", "Capillary", "Venous", "Cardiac"], ans: 2},
+        {q: "5. A thrombus containing pus-forming bacteria is called:", ar: "الخثرة التي تحتوي على بكتيريا مسببة للقيح تسمى:", opt: ["Sterile", "Red", "Septic", "Mixed"], ans: 2},
+        {q: "6. A patient with severe bleeding due to injury will likely have:", ar: "مريض يعاني من نزيف حاد بسبب إصابة، ما نوع الصدمة المتوقع؟", opt: ["Cardiogenic", "Distributive", "Hypovolemic", "Obstructive"], ans: 2},
+        {q: "7. Which organ is most frequently affected by amyloidosis?", ar: "أي عضو هو الأكثر عرضة للإصابة بداء النشواني؟", opt: ["Liver", "Spleen", "Heart", "Kidneys"], ans: 3},
+        {q: "8. Which of the following best defines a neoplasm?", ar: "أي مما يلي يعرف الورم بشكل أفضل؟", opt: ["Reversible cell swelling", "Abnormal mass with uncoordinated growth", "Inflammatory cell collection", "Developmental deformity"], ans: 1},
+        {q: "9. Which of the following is a characteristic of benign tumors?", ar: "أي مما يلي من خصائص الأورام الحميدة؟", opt: ["Metastasis", "Rapid growth", "Well-differentiated cells", "Vascular invasion"], ans: 2},
+        {q: "10. Which describes local invasion best?", ar: "ما الذي يصف الغزو الموضعي بشكل أفضل؟", opt: ["Confined tumor", "Penetrating basement membrane", "Blood spread to liver", "Seeding in cavities"], ans: 1},
+        {q: "11. A benign tumor in a solid organ is usually:", ar: "الورم الحميد في عضو صلب عادة يكون:", opt: ["Bleeding and necrotic", "Well-circumscribed and encapsulated", "Irregular and invasive", "Ulcerated"], ans: 1},
+        {q: "12. A malignant tumor on a body surface is usually:", ar: "الورم الخبيث على سطح الجسم عادة يكون:", opt: ["Polypoid", "Cystic", "Ulcerated with heaped-up edges", "Encapsulated"], ans: 2},
+        {q: "13. When can a benign tumor harm the host?", ar: "متى يمكن للورم الحميد أن يضر المضيف؟", opt: ["If it is in the brain", "If it is < 1 cm", "If it is encapsulated", "If it grows expansively"], ans: 0},
+        {q: "14. Metastasis is:", ar: "الانتشار هو:", opt: ["Local invasion", "Spread to distant sites via blood/lymph", "Benign transformation", "Growth by pressure"], ans: 1},
+        {q: "15. Difference between carcinoma and sarcoma:", ar: "الفرق بين السرطانة والساركوما:", opt: ["Growth speed", "Epithelial vs. Mesenchymal origin", "No lymphatic spread", "Affects only young"], ans: 1},
+        {q: "16. Prognosis of malignant tumor depends on:", ar: "يعتمد إنذار الورم الخبيث على:", opt: ["Blood type", "Tumor stage/grade", "Hair color", "Benign nature"], ans: 1},
+        {q: "17. Most common soft tissue sarcoma in adults:", ar: "أكثر أنواع ساركوما الأنسجة الرخوة شيوعاً لدى البالغين:", opt: ["Fibrosarcoma", "Leiomyosarcoma", "Liposarcoma", "Angiosarcoma"], ans: 2},
+        {q: "18. Uterine tumor with cigar-shaped nuclei and increased mitosis:", ar: "ورم رحمي بنوى تشبه السيجار وارتفاع في الانقسامات:", opt: ["Leiomyoma", "Leiomyosarcoma", "Stromal sarcoma", "Undifferentiated sarcoma"], ans: 1},
+        {q: "19. Example of colonic tumor development:", ar: "مثال على تطور الورم الغدي في القولون:", opt: ["Pituitary adenoma", "Adrenal adenoma", "Tubular adenoma to carcinoma", "Papilloma"], ans: 2},
+        {q: "20. Gold standard for tumor diagnosis:", ar: "المعيار الذهبي لتشخيص الورم:", opt: ["Liquid biopsy", "Immunohistochemistry", "Histopathological exam (H&E)", "Flow cytometry"], ans: 2},
+        {q: "21. Advantage of liquid biopsy:", ar: "ميزة الخزعة السائلة:", opt: ["High sensitivity", "Shows structure", "Non-invasive real-time monitoring", "No equipment needed"], ans: 2},
+        {q: "22. Most important factor in thrombosis (Virchow's triad):", ar: "أهم عامل في تكوين الخثرة:", opt: ["Stasis", "Hypercoagulability", "Endothelial injury", "Fibrin increase"], ans: 2},
+        {q: "23. Well-differentiated adenocarcinoma shows:", ar: "السرطانة الغدية المتمايزة جيداً تظهر:", opt: ["Keratin pearls", "Gland formation", "Small blue cells", "Basal cells"], ans: 1},
+        {q: "24. Squamous cell carcinoma shows:", ar: "السرطانة حرشفية الخلايا تظهر:", opt: ["Glands", "Signet ring cells", "Keratin nests", "Mucin pools"], ans: 2},
+        {q: "25. Mucinous carcinoma shows:", ar: "السرطانة المخاطية تظهر:", opt: ["Glands in mucin pools", "Keratin pearls", "Basal cells", "Fibrosis"], ans: 0},
+        {q: "26. Poor prognostic factor for sarcoma:", ar: "عامل سوء إنذار للساركوما:", opt: ["Superficial", "Less than 5 cm", "Low grade", "Deep and > 5 cm"], ans: 3},
+        {q: "27. Best immune marker for skeletal muscle sarcoma:", ar: "أفضل واسم مناعي لساركوما العضلات المخططة:", opt: ["Desmin", "SMA", "Myogenin", "CD31"], ans: 2},
+        {q: "28. Marker for prostate cancer:", ar: "واسم سرطان البروستاتا:", opt: ["CA-125", "CEA", "PSA", "AFP"], ans: 2},
+        {q: "29. Gangrene is:", ar: "الغرغرينا هي:", opt: ["Vasculitis", "Necrosis with putrefaction", "Heart enlargement", "Hypoxia only"], ans: 1},
+        {q: "30. Lines of Zahn are:", ar: "خطوط زان هي:", opt: ["Fibrin and RBCs", "Platelet layers with flow", "Bacteria and WBCs", "Calcium deposits"], ans: 1},
+        {q: "31. Cyanosis in chronic venous congestion is due to:", ar: "الزرقة في الاحتقان الوريدي المزمن بسبب:", opt: ["High oxygen", "Increased reduced hemoglobin", "Low flow", "Arterial spasm"], ans: 1},
+        {q: "32. Effect of chronic venous congestion:", ar: "تأثير الاحتقان الوريدي المزمن:", opt: ["High oxygenation", "General edema", "Decreased capillary pressure", "Increased flow"], ans: 1},
+        {q: "33. Venous thrombosis due to viscosity:", ar: "التخثر الوريدي بسبب اللزوجة:", opt: ["Leukemia", "Mitral stenosis", "Atherosclerosis", "Aneurysm"], ans: 0},
+        {q: "34. Not a fate of sterile thrombi:", ar: "ليس من مصائر الخثرات المعقمة:", opt: ["Fibrosis", "Calcification", "Septic emboli", "Fragmentation"], ans: 2},
+        {q: "35. An infarct is:", ar: "الاحتشاء هو:", opt: ["Hemorrhage", "Ischemic necrosis", "Infection", "Inflammation"], ans: 1},
+        {q: "36. Type of brain infarct:", ar: "نوع احتشاء الدماغ:", opt: ["Red", "Pale", "Liquefactive", "Hemorrhagic"], ans: 2},
+        {q: "37. Compensation in hypovolemic shock:", ar: "تعويض صدمة نقص حجم الدم:", opt: ["Warm skin", "Cold and clammy skin", "Bradycardia", "Pulmonary edema"], ans: 1},
+        {q: "38. Spinal cord injury shock:", ar: "صدمة إصابة الحبل الشوكي:", opt: ["Septic", "Anaphylactic", "Neurogenic", "Cardiogenic"], ans: 2},
+        {q: "39. Common spread in carcinomas:", ar: "الانتشار الشائع في السرطانات:", opt: ["Blood", "Cavities", "Lymphatic", "Direct only"], ans: 2},
+        {q: "40. Chemical carcinogen:", ar: "مسرطن كيميائي:", opt: ["UV rays", "Estrogen", "Aflatoxin", "HPV virus"], ans: 2},
+        {q: "41. Definition of benign tumor:", ar: "تعريف الورم الحميد:", opt: ["Invasive", "Localized, non-spreading", "Undifferentiated", "Always recurrent"], ans: 1},
+        {q: "42. Papilloma is:", ar: "الورم الحليمي هو:", opt: ["Adenoma", "Cyst", "Finger-like projections", "Sarcoma"], ans: 2},
+        {q: "43. Gross feature of benign tumor:", ar: "الميزة العيانية للورم الحميد:", opt: ["Indefinite", "Necrotic", "Encapsulated and well-circumscribed", "Ulcerated"], ans: 2},
+        {q: "44. Cystadenoma is:", ar: "الورم الغدي الكيسي هو:", opt: ["Solid tumor", "Glandular cystic tumor", "Myoma", "Osteoma"], ans: 1},
+        {q: "45. Microscopic feature of benign tumor:", ar: "ميزة مجهرية للورم الحميد:", opt: ["Pleomorphism", "Many mitoses", "Regular nuclei", "Necrosis"], ans: 2},
+        {q: "46. Benign fibrous tumor:", ar: "ورم ليفي حميد:", opt: ["Lipoma", "Fibroma", "Chondroma", "Osteoma"], ans: 1},
+        {q: "47. Lipoma is:", ar: "الورم الدهني هو:", opt: ["Fibroma", "Lipoma", "Osteoma", "Angioma"], ans: 1},
+        {q: "48. Leiomyoma is:", ar: "الورم العضلي الأملس هو:", opt: ["Benign muscle tumor", "Cancer", "Neuroma", "Lipoma"], ans: 0},
+        {q: "49. Hamartoma is:", ar: "الورم الهرتومي هو:", opt: ["Cancer", "Developmental deformity", "Infection", "Metastasis"], ans: 1},
+        {q: "50. Section of malignant tumor shows:", ar: "مقطع الورم الخبيث يظهر:", opt: ["Regular tissue", "Cystic only", "Hemorrhage and necrosis", "Normal appearance"], ans: 2}
+    ], ip: [
+        {q: "1- من خصائص العنصر المعنوي لحق المؤلف:", opt: ["أ- عدم قابليته للتنازل عنه أو التعامل به", "ب- قابليته للتنازل عنه والتعامل به", "ج- يسقط بالتقادم", "د- قابليته للحجز"], ans: 0},
+        {q: "2- حق المؤلف يعتبر حقًا لصيقًا بشخصية الإنسان وهذا ما أُطلق عليه بموجب اتفاقية WIPO:", opt: ["أ- المصنف أو المؤلف", "ب- المؤلف أو المبدع أو المبتكر", "ج- السلطة الأبوية", "د- الاستغلال والتصرف"], ans: 1},
+        {q: "3- من أشكال التنازل عن العنصر المعنوي:", opt: ["أ- البيع، الهبة، التبرع", "ب- المصنف أو المؤلف", "ج- التبرع وأخذ قيمته", "د- يسقط بالتقادم"], ans: 1},
+        {q: "4- إذا تنازل أو باع الفرد المؤلف أو المنتج الخاص به هل ينتقل العنصر المعنوي؟", opt: ["أ- لا يستتبع تصرف المؤلف في ملكية نسخته المادية من مصنفه تنازله عن أي من حقوق المؤلف", "ب- يستتبع تصرف المؤلف في ملكية نسخته المادية من مصنفه تنازله عن أي من حقوق المؤلف", "ج- يتصرف المؤلف في ملكية نسخته المادية من مصنفه", "د- البيع"], ans: 0},
+        {q: "5- تنازل المؤلف عن حقوقه المالية أو أي جزء منها لا يستتبع ذلك:", opt: ["أ- الحقوق المعنوية", "ب- الهبة", "ج- التبرع", "د- البيع"], ans: 0},
+        {q: "6- الحقوق اللصيقة بشخصية الإنسان ليست حقوقًا مالية إنما هي:", opt: ["أ- فرع من الحقوق العامة للأفراد", "ب- فرع من فروع المعرفة", "ج- البطلان المطلق للكافة", "د- الحق المالي وحق البيع"], ans: 0},
+        {q: "7- الحق الذي يقبل الحجز هو:", opt: ["أ- الحق المعنوي", "ب- الحق المالي وهو العنصر المادي للحق الفكري", "ج- الحق المعنوي والحق المالي معًا", "د- الحق المعنوي"], ans: 1},
+        {q: "8- العنصر المادي لا يخرج إلى حيز الوجود إلا:", opt: ["أ- بالحجز المسبق على الحق المعنوي", "ب- بالسقوط بالتقادم للحق المعنوي", "ج- بنشر المصنف بإذن من مالكه", "د- باطلًا"], ans: 2},
+        {q: "9- الحق عند تقسيم الحقوق هو:", opt: ["أ- سلطة واختصاص تمكن صاحبها من منفعة أو مصلحة", "ب- نسبة المصنف إلى الغير", "ج- عدم استعمال الاسم المستعار", "د- المساس بالمصنف"], ans: 0},
+        {q: "10- يتمتع المؤلف بالحقوق المعنوية التالية:", opt: ["أ- منع أي تحريف أو تشويه أو أي تعديل لمصنفه", "ب- ضرورة الإفصاح عن هويته أو أن لا يستعمل اسمًا مستعارًا", "ج- نسبة المصنف إلى نفسه بالطريقة غير المألوفة", "د- نسبة المصنف للغير"], ans: 0},
+        {q: "11- للمؤلف وحده دون غيره الحق في:", opt: ["أ- عدم إتاحة المصنف للجمهور لأول مرة من عدمه", "ب- له مطلق الحرية في إظهار مصنفه للكافة ونشره دون أي إلزام عليه يفرض في ذلك", "ج- إتاحة المصنف لغير الجمهور ضمن شروط قاسية", "د- ضرورة عدم الإفصاح"], ans: 0},
+        {q: "12- للمؤلف اختيار وتحديد الطريقة والوسيلة التي يقوم فيها بإعلان مصنفه من خلال:", opt: ["أ- النشر والطباعة أو التصوير", "ب- التسجيل الصوتي غير الواضح", "ج- المرئي أو غير البث الإذاعي", "د- للمؤلف وحده البث الإذاعي"], ans: 0},
+        {q: "13- من حق المؤلف نسبة المصنف إلى نفسه بالطريقة المألوفة حيث يتم:", opt: ["أ- تدوين اسم المؤلف على إنتاجه بالطريقة التي يراها مناسبة", "ب- يجوز لورثة المؤلف أن لا ينسبوا مصنف مورثهم إلى شخص آخر", "ج- الطلب من غير القضاء التنفيذ عن طريق التعويض", "د- الطلب من المؤلف التنفيذ دون غيره"], ans: 0},
+        {q: "14- هل يجوز للمؤلف أن يمتنع عن نشر مصنفه وفقًا للاتفاق؟", opt: ["أ- لا يجبر الدائن (شركة النشر) المؤلف أن يقبل تنفيذ العمل", "ب- يجوز للدائن (شركة النشر) أن يجبر المؤلف أن لا يقبل تنفيذ العمل من شخص آخر", "ج- لا يجوز للدائن أن يجبر المؤلف", "د- الطلب من المؤلف التنفيذ"], ans: 0},
+        {q: "15- يحق للمؤلف أن يبقي الرابطة بينه وبين مؤلفه مجهولة بأن:", opt: ["أ- أن ينشره دون ذكر اسمه عليه", "ب- نشره دون اسم مستعار معين ويجب تحديد الاسم", "ج- الابتعاد عن التدقيق على الاسم", "د- الترجمة للمصنف"], ans: 0},
+        {q: "16- هل تعتبر الترجمة للمصنف تعديلًا للنص وبالتالي اعتداء؟", opt: ["أ- المنطق القانوني يقول بأنه لا تعتبر الترجمة اعتداء إذا قام المترجم بالإشارة إلى مواطن التغيير أو الحذف بالنص", "ب- الترجمة اعتداء", "ج- ليس واجب أخذ الإذن من المؤلف للترجمة", "د- اعتداء يجيز للمؤلف عدم المساس بالمترجم"], ans: 0},
+        {q: "17- إذا كان بالترجمة إساءة إلى سمعة المؤلف ومكانته فيعتبر ذلك:", opt: ["أ- ليس اعتداء على حقوق المؤلف", "ب- اعتداء يجيز للمؤلف رفعه عن طريق القضاء", "ج- التغاضي عن ذلك", "د- نسبة المصنف للمترجم"], ans: 1},
+        {q: "18- بموجب السلطة المعنوية من حق المؤلف أن:", opt: ["أ- يمنع أي عمل يتعلق بمصنفه فيه إضرار بشرفه أو سمعته", "ب- ليس واجب أخذ الإذن من المؤلف", "ج- تداول المصنف وطباعته من غير إذن المؤلف", "د- التغاضي عن ذلك"], ans: 0},
+        {q: "19- من حقوق المؤلف المعنوية ما يلي:", opt: ["أ- حظر طرح مصنفه للتداول", "ب- عدم سحب مصنفه الذي تم تداوله", "ج- البيع", "د- لا يحظر"], ans: 0},
+        {q: "20- إذا لم يكن للمؤلف ورثة تباشر الحقوق على المصنف من قبل:", opt: ["أ- القاضي", "ب- الهبة للغير", "ج- البيع للغير", "د- وزارة الثقافة"], ans: 3}
+    ], com: [
+        {q: "1. Therapeutic communication is best defined as:", ar: "التواصل العلاجي يُعرف بأفضل شكل كـ:", opt: ["Casual conversation", "A planned, deliberate, professional act", "Giving medical instructions only", "Talking to calm the patient"], ans: 1},
+        {q: "2. Shared understanding of information helps to:", ar: "الفهم المشترك للمعلومات يساعد على:", opt: ["Achieve desired patient-care goals", "Reduce documentation", "Save time only", "Limit patient interaction"], ans: 0},
+        {q: "3. Using silence in communication allows the patient:", ar: "استخدام الصمت في التواصل يسمح للمريض بـ:", opt: ["Feel ignored", "Think and gain insight", "Lose interest", "End the conversation"], ans: 1},
+        {q: "4. Exploring is best described as:", ar: "الاستكشاف (Exploring) يُوصف بأفضل شكل كـ:", opt: ["Changing the subject", "Delving further into a topic", "Giving medical advice", "Summarizing data"], ans: 1},
+        {q: "5. Clarification is used when the paramedic wants to:", ar: "التوضيح (Clarification) يُستخدم عندما يريد المسعف:", opt: ["Check understanding", "Challenge the patient", "Give instructions", "End communication"], ans: 0},
+        {q: "6. Example of clarification is:", ar: "مثال على التوضيح:", opt: ["Why did you do that?", "Tell me everything again", "What do you mean by ‘sicker than usual’?", "You are wrong"], ans: 2},
+        {q: "7. Reflecting focuses on:", ar: "الانعكاس (Reflecting) يركز على:", opt: ["Only medical facts", "Client’s feelings and content", "Paramedic’s opinion", "Documentation"], ans: 1},
+        {q: "8. Functional-professional touch is used primarily for:", ar: "اللمس المهني الوظيفي يُستخدم بشكل أساسي لـ:", opt: ["Clinical care", "Emotional bonding", "Social greetings", "Intimacy"], ans: 0},
+        {q: "9. When explaining procedures, paramedics should consider:", ar: "عند شرح الإجراءات، يجب على المسعفين مراعاة:", opt: ["Only time", "Documentation only", "Personal opinions", "Age and language barriers"], ans: 3},
+        {q: "10. Therapeutic impasses are best described as:", ar: "الطرق المسدودة العلاجية تُوصف كـ:", opt: ["Successful interactions", "Blocks in the relationship", "Legal issues", "Communication goals"], ans: 1},
+        {q: "11. Communication failures in clinical settings mainly lead to:", ar: "فشل التواصل في الإعدادات السريرية يؤدي بشكل أساسي إلى:", opt: ["Improved teamwork", "Faster discharge", "Adverse patient events", "Reduced workload"], ans: 2},
+        {q: "12. Communication is best described as:", ar: "التواصل يُوصف كـ:", opt: ["A one-way process", "A two-way process", "A written process only", "A technological process"], ans: 1},
+        {q: "13. Which factor can negatively affect patient handover:", ar: "أي عامل يمكن أن يؤثر سلباً على تسليم المريض:", opt: ["Noise and interruptions", "Clear documentation", "Structured tools", "Team collaboration"], ans: 0},
+        {q: "14. Patient handover refers to the transfer of:", ar: "تسليم المريض يشير إلى نقل:", opt: ["Medical equipment", "Responsibility and accountability", "Hospital policies", "Financial records"], ans: 1},
+        {q: "15. Which of the following is NOT a benefit of effective handover:", ar: "أي مما يلي ليس من فوائد التسليم الفعال:", opt: ["Accurate info transfer", "Enhanced safety", "Increased workload", "Faster care priority"], ans: 2},
+        {q: "16. During handover of critical patients, the recommended pause duration is:", ar: "أثناء تسليم المرضى الحرجين، مدة التوقف الموصى بها هي:", opt: ["5–10 seconds", "20–30 seconds", "1–2 minutes", "No pause required"], ans: 1},
+        {q: "17. SBAR stands for:", ar: "SBAR تعني:", opt: ["Signs, Background, Action, Response", "Situation, Background, Assessment, Recommendation", "Symptoms, Baseline, Assessment, Report", "Status, Body, Airway, Response"], ans: 1},
+        {q: "18. IMIST-AMBO includes all the following EXCEPT:", ar: "IMIST-AMBO تشمل كل ما يلي باستثناء:", opt: ["Mechanism of injury", "Treatments and trends", "Allergies", "Financial status"], ans: 3},
+        {q: "19. One limitation of SBAR in paramedic-ED handover is that it:", ar: "أحد قيود SBAR في تسليم المريض هو أنه:", opt: ["Is too complex", "Lacks prehospital-specific details", "Is too long", "Is not structured"], ans: 1},
+        {q: "20. Which tool emphasizes patient identification more strongly:", ar: "أي أداة تؤكد على تعريف المريض بقوة أكبر:", opt: ["SBAR", "ISBAR", "SOAP", "ATMIST"], ans: 1},
+        {q: "21. What should you avoid when communicating with a hard-of-hearing patient:", ar: "ما الذي يجب تجنبه عند التواصل مع مريض ضعيف السمع:", opt: ["Paper and pen", "Shouting", "Facing the patient", "Short questions"], ans: 1},
+        {q: "22. How should a paramedic handle an overly talkative patient:", ar: "كيف يتعامل المسعف مع مريض كثير الكلام:", opt: ["Allow to speak entirely", "Politely interrupt and focus", "Ignore stories", "Avoid questions"], ans: 1},
+        {q: "23. Common pitfall to avoid during patient interviews:", ar: "خطأ شائع يجب تجنبه أثناء مقابلات المرضى:", opt: ["False reassurance", "Open-ended questions", "Empathizing", "Calm demeanor"], ans: 0},
+        {q: "24. Key component of building rapport with a child:", ar: "عنصر أساسي لبناء الألفة مع طفل:", opt: ["Ignoring child/speak to caregiver", "Medical terms", "Eye level and calm", "Ask child to leave"], ans: 2},
+        {q: "25. Why maintain eye contact and calm tone with elderly:", ar: "لماذا الحفاظ على تواصل بصري ونبرة هادئة مع كبار السن:", opt: ["Assert dominance", "Make them feel rushed", "Help them feel respected/understood", "Simplify process"], ans: 2},
+        {q: "26. What to do with patient with low health literacy:", ar: "ماذا تفعل مع مريض ذو معرفة صحية منخفضة:", opt: ["Use jargon", "Avoid written materials", "Speak slowly/simple language", "Skip interview"], ans: 2},
+        {q: "27. Effective strategy when interviewing a visually impaired patient:", ar: "استراتيجية فعالة عند مقابلة مريض ضعيف البصر:", opt: ["Shouting", "Avoiding touch", "Explaining everything you do", "Sign language"], ans: 2},
+        {q: "28. Handling patient under influence of drugs or alcohol:", ar: "كيفية التعامل مع مريض تحت تأثير المخدرات أو الكحول:", opt: ["Confrontational language", "Simple and direct questions", "Ignore statements", "Scolding/disgust"], ans: 1},
+        {q: "29. When dealing with angry/hostile patient, avoid:", ar: "عند التعامل مع مريض غاضب، تجنب:", opt: ["Raising your voice", "Restating cause of anger", "Offering a solution", "Empathizing"], ans: 0},
+        {q: "30. When interviewing a hostile patient, the paramedic should:", ar: "عند مقابلة مريض عدائي، يجب على المسعف:", opt: ["Stay calm/ignore insults", "Argue to prove authority", "Match tone", "Interview alone"], ans: 0},
+        {q: "31. Why are communication systems crucial during emergency events:", ar: "لماذا أنظمة التواصل حاسمة أثناء الطوارئ:", opt: ["Reduce paperwork", "Ensure scene safety/coordinate personnel", "Entertain responders", "Replace assessment"], ans: 1},
+        {q: "32. Which phase involves detecting the need for emergency services:", ar: "أي مرحلة تتضمن كشف الحاجة لخدمات الطوارئ:", opt: ["Detection phase", "Occurrence", "Arrival/treatment", "Preparation"], ans: 0},
+        {q: "33. Base station radio is described as:", ar: "محطة الراديو الأساسية توصف بـ:", opt: ["Handheld/portable", "Vehicle-mounted", "Fixed location/high antenna", "Used in aircraft"], ans: 2},
+        {q: "34. Mobile transceivers effective range:", ar: "النطاق الفعال لأجهزة الإرسال والاستقبال المتنقلة:", opt: ["1–3 miles", "5–7 miles", "10–15 miles", "Over 50 miles"], ans: 2},
+        {q: "35. Portable transceivers are mainly used when:", ar: "أجهزة الإرسال المحمولة تستخدم بشكل أساسي عند:", opt: ["Dispatching", "Working away from vehicle", "Hospital communication", "ECG transmission"], ans: 1},
+        {q: "36. Main advantage of multiplex transmission in EMS:", ar: "الميزة الرئيسية للإرسال المتعدد في EMS:", opt: ["Shorter messages", "Better privacy", "Simultaneous voice and ECG", "Lower cost"], ans: 2},
+        {q: "37. Role of an emergency medical dispatcher:", ar: "دور مرسل الطوارئ الطبية:", opt: ["On-scene medical direction", "Relay physician instructions", "Pre-arrival instructions", "Decide hospital destination"], ans: 2},
+        {q: "38. Primary role of Emergency Medical Dispatcher (EMD):", ar: "الدور الأساسي لمرسل الطوارئ (EMD):", opt: ["Collect info/dispatch/pre-arrival instructions", "Provide hospital care", "Drive ambulance", "Patient assessment"], ans: 0},
+        {q: "39. Trunked radio systems are:", ar: "أنظمة الراديو المجمعة (Trunked):", opt: ["Single-frequency", "Computer-controlled/multiple repeaters", "Satellite-based", "Portable-only"], ans: 1},
+        {q: "40. Principal reason for radio communication in EMS:", ar: "السبب الرئيسي للتواصل اللاسلكي في EMS:", opt: ["Entertain team", "Communicate with medical control", "Monitor weather", "Personal calls"], ans: 1},
+        {q: "41. Successful patient interview is:", ar: "المقابلة الناجحة للمريض هي:", opt: ["Less important than physical", "Important in medical cases only", "As important as physical assessment", "Non-emergency only"], ans: 2},
+        {q: "42. The interview is a contract because it includes:", ar: "المقابلة عقد لأنها تتضمن:", opt: ["Time, place, purpose, confidentiality", "Diagnosis/treatment only", "Physical exam steps", "Legal documentation only"], ans: 0},
+        {q: "43. Major purpose of the patient interview:", ar: "هدف رئيسي من مقابلة المريض:", opt: ["Replace physical exam", "Establish trusting relationship", "Save time", "Avoid family questions"], ans: 1},
+        {q: "44. Observation, conversation, and exploration are used to assess:", ar: "الملاحظة والمحادثة والاستكشاف تستخدم لتقييم:", opt: ["Pain severity", "Physical injuries", "Mental status", "Medication compliance"], ans: 2},
+        {q: "45. Technique involving repeating patient's words:", ar: "تقنية تتضمن تكرار كلمات المريض:", opt: ["Echoing", "Summarization", "Validation", "Transition"], ans: 0},
+        {q: "46. OLD CARTS is used to:", ar: "OLD CARTS يُستخدم لـ:", opt: ["Assess mental status", "Clarify emotions", "Describe symptom characteristics", "Determine allergies"], ans: 2},
+        {q: "47. Before starting an interview, the paramedic should:", ar: "قبل بدء المقابلة، يجب على المسعف:", opt: ["Start physical exam", "Take medication history", "Perform self-reflection", "Call medical control"], ans: 2},
+        {q: "48. Example of an open-ended question:", ar: "مثال على سؤال مفتوح:", opt: ["Are you in pain?", "Does your chest hurt?", "How old are you?", "Tell me how this started"], ans: 3},
+        {q: "49. Asking 'Why' questions should be avoided because:", ar: "طرح أسئلة 'لماذا' يجب تجنبها لأنها:", opt: ["Waste time", "Confuse patients", "Viewed as accusations", "Too technical"], ans: 2},
+        {q: "50. Patient interviews should be:", ar: "مقابلات المرضى يجب أن:", opt: ["Initiated early/continued", "Done after physical", "Performed once", "Avoided in trauma"], ans: 0},
+        {q: "51. What does 'communicare' mean:", ar: "ماذا تعني كلمة 'communicare':", opt: ["Communicate", "Share", "Talk", "Write"], ans: 1},
+        {q: "52. NOT a type of communication:", ar: "ليس نوعاً من التواصل:", opt: ["Formal", "Social", "Therapeutic", "Grapevine"], ans: 3},
+        {q: "53. Example of formal communication:", ar: "مثال على التواصل الرسمي:", opt: ["Gossip", "Lectures", "Phone texts", "Rumors"], ans: 1},
+        {q: "54. Advantage of formal communication:", ar: "ميزة التواصل الرسمي:", opt: ["Quick relay", "Leakage of info", "Orderly flow", "Possibility of rumor"], ans: 2},
+        {q: "55. Disadvantage of formal communication:", ar: "عيب التواصل الرسمي:", opt: ["Fast", "Expensive", "Maintains discipline", "Ensures answerability"], ans: 1},
+        {q: "56. What is downward communication:", ar: "ما هو التواصل التنازلي:", opt: ["Employees to management", "Management to employees", "Between peers", "Between departments"], ans: 1},
+        {q: "57. What is upward communication:", ar: "ما هو التواصل التصاعدي:", opt: ["Management to employees", "Employees to management", "Between peers", "Between departments"], ans: 1},
+        {q: "58. Purpose of horizontal communication:", ar: "هدف التواصل الأفقي:", opt: ["Request support/coordinate", "Spread rumors", "Inform about decisions", "Notify complaints"], ans: 0},
+        {q: "59. What is diagonal communication:", ar: "ما هو التواصل القطري:", opt: ["Same department", "Different departments/levels", "Employees/customers", "Managers/subordinates"], ans: 1},
+        {q: "60. What is informal communication:", ar: "ما هو التواصل غير الرسمي:", opt: ["Prescribed path", "Outside formal network", "Professional language", "Slow/orderly"], ans: 1}
+    ], };
 
-function show(sub) {
+let currentSub = "", idx = 0, wrongAnswers = [];
+function start(sub) { 
+    currentSub = sub; idx = 0; wrongAnswers = [];
     document.getElementById('menu').style.display = 'none';
-    document.getElementById('quiz').style.display = 'block';
-    let area = document.getElementById('qArea');
-    area.innerHTML = "";
-    db[sub].forEach((item, i) => {
-        area.innerHTML += `<h3>${i+1}. ${item.q}</h3>`;
-        item.o.forEach(opt => area.innerHTML += `<div class='option'>${opt}</div>`);
+    document.getElementById('quiz').className = 'container screen active';
+   function render() {
+    let q = data[currentSub][idx];
+    let html = `<h3>${q.q}</h3><span class="arabic-text">${q.ar}</span>`; // عرض السؤال والترجمة
+    q.opt.forEach((o, i) => { 
+        html += `<button class="option" onclick="check(this, ${i}, ${q.ans})">${o}</button>`; 
     });
+    document.getElementById('quiz-content').innerHTML = html;
 }
-function back() {
-    document.getElementById('quiz').style.display = 'none';
-    document.getElementById('menu').style.display = 'block';
+}
+function check(btn, sel, corr, qText) {
+    if(sel === corr) btn.className = 'option correct';
+    else { btn.className = 'option wrong'; wrongAnswers.push(qText); }
+    setTimeout(() => {
+        if(idx < data[currentSub].length - 1) { idx++; render(); }
+        else {
+            let res = wrongAnswers.length === 0 ? "أحسنتِ! لا توجد أخطاء." : "الأخطاء: <ul>" + wrongAnswers.map(w => `<li>${w}</li>`).join('') + "</ul>";
+            document.getElementById('quiz-content').innerHTML = `<h2>انتهت المادة 🎉</h2>${res}`;
+        }
+    }, 500);
 }
 </script>
 </body>
