@@ -249,23 +249,72 @@ ip: [
             { q: "20. إذا لم يكن للمؤلف ورثة تباشر الحقوق على المصنف من قبل:", ar: "في حال عدم وجود ورثة:", options: ["القاضي", "الهبة للغير", "البيع للغير", "وزارة الثقافة"], answer: 3 }
         ]
     };
-function start(cat) {
-        document.getElementById('menu').style.display = 'none';
-        document.getElementById('quiz').style.display = 'block';
-        let q = bank[cat][0];
-        document.getElementById('q-text').innerText = q.q;
-        let optDiv = document.getElementById('options');
-        q.options.forEach((o, i) => {
-            let btn = document.createElement('div');
-            btn.className = 'option';
-            btn.innerText = o;
-            btn.onclick = () => {
-                btn.className = (i === q.answer) ? 'option correct' : 'option wrong';
-            };
-            optDiv.appendChild(btn);
-        });
-    }
-</script>
+<script>
 
-</body>
-</html>
+let current = 0;
+let score = 0;
+let questions = [];
+
+function start(cat) {
+    questions = bank[cat];
+    current = 0;
+    score = 0;
+
+    document.getElementById('menu').style.display = 'none';
+    document.getElementById('quiz').style.display = 'block';
+
+    showQuestion();
+}
+
+function showQuestion() {
+    let q = questions[current];
+
+    document.getElementById('q-text').innerText = q.q;
+
+    let optDiv = document.getElementById('options');
+    optDiv.innerHTML = ""; // مهم جداً
+
+    q.options.forEach((o, i) => {
+        let btn = document.createElement('div');
+        btn.className = 'option';
+        btn.innerText = o;
+
+        btn.onclick = () => checkAnswer(i, btn);
+
+        optDiv.appendChild(btn);
+    });
+}
+
+function checkAnswer(i, btn) {
+    let correct = questions[current].answer;
+    let all = document.querySelectorAll('.option');
+
+    all.forEach((b, index) => {
+        b.onclick = null;
+
+        if (index === correct) b.classList.add('correct');
+        else if (index === i) b.classList.add('wrong');
+    });
+
+    if (i === correct) score++;
+
+    setTimeout(() => {
+        current++;
+
+        if (current < questions.length) {
+            showQuestion();
+        } else {
+            showResult();
+        }
+    }, 800);
+}
+
+function showResult() {
+    document.getElementById('quiz').innerHTML = `
+        <h2>خلصتي الاختبار 🎉</h2>
+        <p>درجتك: ${score} / ${questions.length}</p>
+        <button onclick="location.reload()">إعادة</button>
+    `;
+}
+
+</script>
