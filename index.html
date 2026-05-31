@@ -38,8 +38,9 @@
     </div>
 </div>
 <script>
-   const bank = {
-    bio: [
+   <script>
+    const bank = {
+        bio: [
     { q: "1. Hypothesis testing is used to:", ar: "اختبار الفرضيات يُستخدم لـ:", options: ["Make decisions from data", "Predict future events", "Collect raw data", "Avoid statistical analysis"], answer: 0 },
     { q: "2. The null hypothesis (H₀) usually states:", ar: "الفرضية الصفرية (H₀) تنص عادةً على:", options: ["There is an effect", "No effect or no difference", "A strong relationship exists", "The sample is biased"], answer: 1 },
     { q: "3. The alternative hypothesis (H₁) states:", ar: "الفرضية البديلة (H₁) تنص على:", options: ["No difference exists", "There is an effect or difference", "Data are invalid", "The test is inconclusive"], answer: 1 },
@@ -259,57 +260,43 @@ ip: [
             { q: "18. بموجب السلطة المعنوية من حق المؤلف أن:", ar: "حق المؤلف في حماية سمعته:", options: ["يمنع أي عمل فيه إضرار بشرفه أو سمعته", "ليس واجباً أخذ الإذن", "تداول المصنف دون إذن", "التغاضي عن ذلك"], answer: 0 },
             { q: "19. من حقوق المؤلف المعنوية ما يلي:", ar: "من الحقوق المعنوية:", options: ["حظر طرح مصنفه للتداول", "عدم سحب مصنفه المتداول", "البيع", "لا يحظر"], answer: 0 },
             { q: "20. إذا لم يكن للمؤلف ورثة تباشر الحقوق على المصنف من قبل:", ar: "في حال عدم وجود ورثة:", options: ["القاضي", "الهبة للغير", "البيع للغير", "وزارة الثقافة"], answer: 3 }
-        ],
+        ]
     };
-let currentSub = "", currentIdx = 0, userAnswers = {};
+let currentCategory = "";
+    let qIndex = 0;
 
-    function start(sub) {
-        currentSub = sub; currentIdx = 0; userAnswers = {};
+    function start(cat) {
+        if (!bank[cat] || bank[cat].length === 0) { alert("المادة فارغة"); return; }
+        currentCategory = cat; qIndex = 0;
         document.getElementById('menu').classList.add('hidden');
         document.getElementById('quiz').classList.remove('hidden');
-        render();
+        showQuestion();
     }
 
-    function render() {
-        const q = bank[currentSub][currentIdx];
-        document.getElementById('q-title').innerText = q.q;
-        document.getElementById('q-count').innerText = `سؤال ${currentIdx + 1} من ${bank[currentSub].length}`;
-        const container = document.getElementById('options-container');
+    function showQuestion() {
+        let q = bank[currentCategory][qIndex];
+        document.getElementById('q-title').innerText = q.q + "\n" + q.ar;
+        let container = document.getElementById('options-container');
         container.innerHTML = "";
-        
         q.options.forEach((opt, i) => {
-            const div = document.createElement('div');
-            div.className = 'option' + (userAnswers[currentIdx] === i ? (i === q.answer ? ' correct' : ' wrong') : '');
-            div.innerText = opt;
-            div.onclick = () => { userAnswers[currentIdx] = i; render(); };
-            container.appendChild(div);
+            container.innerHTML += `<div class="option" onclick="check(${i})">${opt}</div>`;
         });
+        document.getElementById('q-count').innerText = (qIndex + 1) + " / " + bank[currentCategory].length;
+    }
+
+    function check(i) {
+        let q = bank[currentCategory][qIndex];
+        let options = document.querySelectorAll('.option');
+        options.forEach(opt => opt.style.pointerEvents = "none");
+        if (i === q.answer) options[i].classList.add('correct');
+        else { options[i].classList.add('wrong'); options[q.answer].classList.add('correct'); }
     }
 
     function changeQ(dir) {
-        if (currentIdx + dir >= 0 && currentIdx + dir < bank[currentSub].length) {
-            currentIdx += dir; render();
-        }
-    }
-
-    function showResults() {
-        let html = `<h3>نتائج مراجعتك</h3>`;
-        let hasErrors = false;
-        
-        bank[currentSub].forEach((q, i) => {
-            if (userAnswers[i] !== q.answer) {
-                hasErrors = true;
-                html += `<div style="border-bottom:1px solid #ccc; margin:10px 0; padding:10px;">
-                    <p><strong>س:</strong> ${q.q}</p>
-                    <p style="color:#991b1b;">❌ إجابتك: ${q.options[userAnswers[i]] || 'لم تجاوبي'}</p>
-                    <p style="color:#22c55e;">✅ الإجابة الصحيحة: ${q.options[q.answer]}</p>
-                </div>`;
-            }
-        });
-
-        if (!hasErrors) html += `<p>ممتازة! لا توجد أخطاء 🎉</p>`;
-        html += `<button onclick="location.reload()">العودة للرئيسية 🏠</button>`;
-        document.getElementById('quiz').innerHTML = html;
+        qIndex += dir;
+        if (qIndex < 0) qIndex = 0;
+        if (qIndex >= bank[currentCategory].length) qIndex = bank[currentCategory].length - 1;
+        showQuestion();
     }
 </script>
 </body>
