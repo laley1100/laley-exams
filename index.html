@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منصة الامتحانات 🤍</title>
     <style>
-        /* التنسيق الجمالي */
         body { 
             font-family: 'Segoe UI', Tahoma, sans-serif; 
             background: linear-gradient(135deg, #fff2f6 0%, #f3e8ff 100%); 
@@ -97,7 +96,40 @@
     const bank = {
         bio: [
             { q: "1. Hypothesis testing is used to:", ar: "يُستخدم اختبار الفرضيات لاتخاذ قرارات مبنية على البيانات.", options: ["Make decisions from data", "Predict future events", "Collect raw data", "Avoid statistical analysis"], answer: 0 },
-            // (تابع باقي الأسئلة كما هي)
+            { q: "2. The null hypothesis (H₀) usually states:", ar: "الفرضية الصفرية تعني عدم وجود تأثير أو فرق.", options: ["There is an effect", "No effect or no difference", "A strong relationship exists", "The sample is biased"], answer: 1 },
+            { q: "3. The alternative hypothesis (H₁) states:", ar: "الفرضية البديلة (H₁) تشير إلى وجود تأثير أو فرق.", options: ["No difference exists", "There is an effect or difference", "Data are invalid", "The test is inconclusive"], answer: 1 },
+            { q: "4. Common significance level (α) used in hypothesis testing:", ar: "مستوى المعنوية الشائع (α) هو:", options: ["0.01", "0.05", "0.10", "0.50"], answer: 1 },
+            { q: "5. A right-tailed test is used when:", ar: "يستخدم الاختبار ذو الطرف الأيمن عند توقع زيادة:", options: ["Expecting decrease", "Expecting increase/improvement", "Testing any change", "No direction assumed"], answer: 1 },
+            { q: "6. A left-tailed test is used when:", ar: "يستخدم الاختبار ذو الطرف الأيسر عند توقع انخفاض:", options: ["Expecting increase", "Expecting decrease/reduction", "Testing any change", "No difference assumed"], answer: 1 },
+            { q: "7. A two-tailed test is used when:", ar: "يستخدم الاختبار ذو الطرفين للتحقق من أي اختلاف:", options: ["Expecting only increase", "Expecting only decrease", "Checking for any difference", "No hypothesis stated"], answer: 2 },
+            { q: "8. Example of two-tailed hypothesis:", ar: "مثال على فرضية ذات طرفين:", options: ["BP > baseline", "BP < baseline", "BP ≠ baseline", "BP = baseline"], answer: 2 },
+            { q: "9. In most studies, which test is preferred?", ar: "يفضل الاختبار ذو الطرفين في معظم الدراسات:", options: ["One-tailed", "Two-tailed", "No test", "Random test"], answer: 1 },
+            { q: "10. One-tailed tests are risky because:", ar: "تزيد من احتمالية الرفض الخاطئ للفرضية الصفرية:", options: ["They are less powerful", "They increase false rejection of H₀", "They require larger samples", "They cannot be used"], answer: 1 },
+            { q: "11. Example of parametric test:", ar: "مثال على اختبار معلمي:", options: ["Mann–Whitney U", "Wilcoxon signed-rank", "t-test", "Kruskal–Wallis"], answer: 2 },
+            { q: "12. ANOVA is used to compare:", ar: "يُستخدم ANOVA لمقارنة المتوسطات لأكثر من مجموعتين:", options: ["Two groups", "Three or more groups", "One group only", "Paired samples"], answer: 1 },
+            { q: "13. Non-parametric tests assume:", ar: "الاختبارات غير المعلمية تفترض:", options: ["Normal distribution", "No specific distribution", "Large sample size", "Interval data only"], answer: 1 },
+            { q: "14. Wilcoxon signed-rank test is alternative to:", ar: "بديل لاختبار t للعينات المرتبطة:", options: ["Independent t-test", "Paired t-test", "ANOVA", "Pearson correlation"], answer: 1 },
+            { q: "15. Kruskal–Wallis test is alternative to:", ar: "بديل لاختبار ANOVA:", options: ["ANOVA", "t-test", "Chi-square", "Pearson correlation"], answer: 0 },
+            { q: "16. Advantage of non-parametric tests:", ar: "من مزاياها أنها قوية في التعامل مع القيم المتطرفة:", options: ["Require normality", "Robust to outliers", "Always more precise", "Use mean values"], answer: 1 },
+            { q: "17. The Chi-square test is primarily used for:", ar: "يُستخدم لاختبار الارتباط بين المتغيرات الفئوية:", options: ["Continuous data", "Comparing means", "Testing association between categorical variables", "Measuring correlation"], answer: 2 },
+            { q: "18. In a 2×2 contingency table, expected frequency is:", ar: "طريقة حساب التكرار المتوقع في جدول 2x2:", options: ["(Row total × Column total) ÷ Grand total", "(Row total ÷ Column total) × Grand total", "(O ÷ E) × 100", "(Row + Column) ÷ Grand total"], answer: 0 },
+            { q: "19. When should Fisher’s Exact Test be used?", ar: "يستخدم عندما تكون التكرارات المتوقعة < 5:", options: ["Sample size is large", "Expected frequencies ≥ 5", "Expected frequencies < 5", "Data are continuous"], answer: 2 },
+            { q: "20. The Chi-square test is most appropriate for:", ar: "مناسب لفحص العلاقات بين المتغيرات الفئوية:", options: ["Comparing two means", "Testing association between categorical variables", "Measuring correlation", "Predicting regression"], answer: 1 },
+            { q: "21. Which of the following is a categorical variable?", ar: "متغير فئوي:", options: ["Blood pressure", "Cholesterol level", "Gender", "Height"], answer: 2 },
+            { q: "22. The Chi-square statistic formula is:", ar: "صيغة كاي تربيع:", options: ["∑(O−E)² / E", "∑(E−O)² / E", "(O−E)² / O", "(O/E)²"], answer: 0 },
+            { q: "23. The Chi-square goodness-of-fit test is used to:", ar: "لمعرفة مدى تطابق التوزيع الملاحظ مع المتوقع:", options: ["Test if variables are independent", "Test if observed matches expected distribution", "Compare two proportions", "Test correlation"], answer: 1 },
+            { q: "24. Fisher’s Exact Test is preferred when:", ar: "في الجداول الصغيرة إذا قل التكرار عن 5:", options: ["Sample size is large", "Expected frequencies ≥ 5", "Expected frequencies < 5", "Data are continuous"], answer: 2 },
+            { q: "25. A t-test is used to:", ar: "لمقارنة المتوسطات:", options: ["Measure correlation", "Compare means", "Calculate variance", "Classify data"], answer: 1 },
+            { q: "26. The null hypothesis (H₀) states:", ar: "لا يوجد فرق أو علاقة:", options: ["There is a difference", "No difference exists", "Data is normal", "Data is independent"], answer: 1 },
+            { q: "27. The alternative hypothesis (H₁) suggests:", ar: "يوجد فرق حقيقي:", options: ["No change", "Equal means", "There is a difference", "No data"], answer: 2 },
+            { q: "28. One-sample t-test compares:", ar: "متوسط العينة بقيمة معلومة:", options: ["Two groups", "One group to a known value", "Three groups", "Variables"], answer: 1 },
+            { q: "29. Independent t-test is used for:", ar: "لمجموعتين غير مرتبطتين:", options: ["Same group before/after", "Two unrelated groups", "Multiple groups", "One variable"], answer: 1 },
+            { q: "30. Paired t-test is used when:", ar: "قياس نفس الأشخاص مرتين:", options: ["Groups are independent", "Data is categorical", "Same subjects are measured twice", "No measurements"], answer: 2 },
+            { q: "31. Comparing smokers vs non-smokers requires:", ar: "تحتاج لاختبار t للعينات المستقلة:", options: ["Paired t-test", "One-sample t-test", "Independent t-test", "Sign test"], answer: 2 },
+            { q: "32. t-test cannot compare:", ar: "لا يقارن 3 مجموعات:", options: ["Two groups", "Three or more groups", "Means", "Continuous data"], answer: 1 },
+            { q: "33. Which test replaces t-test for 3+ groups?", ar: "الاختبار البديل هو ANOVA:", options: ["Correlation", "ANOVA", "Regression", "Median test"], answer: 1 },
+            { q: "34. The sign test focuses on:", ar: "يركز على اتجاه التغيير فقط:", options: ["Exact values", "Direction (+ / −)", "Mean values", "Variance"], answer: 1 },
+            { q: "35. A typical confidence level used is:", ar: "مستوى الثقة النموذجي 95٪:", options: ["10%", "50%", "95%", "5%"], answer: 2 }
         ],
         cc: [
             { q: "1. Communication is defined as:", ar: "يُعرّف التواصل بأنه:", options: ["Sending messages", "Exchanging information", "Speaking only", "Writing"], answer: 1 },
@@ -143,7 +175,7 @@
             currentIdx++; 
             render(); 
         } else {
-            alert("لقد انتهيت من جميع الأسئلة!");
+            alert("لقد انتهيت من جميع الأسئلة!"); // تنبيه عند الانتهاء من الأسئلة
         }
     }
 </script>
