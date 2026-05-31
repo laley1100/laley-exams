@@ -15,6 +15,9 @@
         .wrong { background: #ffe4e6 !important; border-color: #fb7185 !important; color: #991b1b; }
         h3 { color: #1f2937; text-align: left; direction: ltr; margin-bottom: 5px; }
         .arabic-text { font-size: 14px; color: #d97706; text-align: right; margin-bottom: 15px; display: block; font-weight: 600; }
+        .wrong-icon { color: #991b1b; font-size: 24px; display: block; margin-bottom: 10px; }
+        .home-btn { margin-top: 20px; padding: 12px 25px; background: #6b21a8; color: white; border: none; border-radius: 15px; cursor: pointer; font-size: 16px; }
+        .wrong-list { text-align: right; margin-top: 20px; padding: 15px; background: #fff; border-radius: 15px; border: 1px solid #fecdd3; }
     </style>
 </head>
 <body>
@@ -31,7 +34,7 @@
 
 <div id="quiz" class="container screen">
     <div id="quiz-content"></div>
-    <button onclick="nextQ()" style="margin-top: 20px; padding: 10px 20px;">السؤال التالي ➡️</button>
+    <button id="nextBtn" onclick="nextQ()" style="margin-top: 20px; padding: 10px 20px;">السؤال التالي ➡️</button>
 </div>
 
 <script>
@@ -258,13 +261,13 @@ ip: [
             { q: "20. إذا لم يكن للمؤلف ورثة تباشر الحقوق على المصنف من قبل:", ar: "في حال عدم وجود ورثة:", options: ["القاضي", "الهبة للغير", "البيع للغير", "وزارة الثقافة"], answer: 3 }
         ]
     };
-
-    let currentSub = "", currentIdx = 0;
+let currentSub = "", currentIdx = 0, wrongQuestions = [];
 
     function startQuiz(sub) {
-        currentSub = sub; currentIdx = 0;
+        currentSub = sub; currentIdx = 0; wrongQuestions = [];
         document.getElementById('menu').style.display = 'none';
         document.getElementById('quiz').style.display = 'block';
+        document.getElementById('nextBtn').style.display = 'inline-block';
         render();
     }
 
@@ -280,13 +283,38 @@ ip: [
     function check(el, s, c) {
         let options = el.parentNode.querySelectorAll('.option');
         options.forEach(o => o.style.pointerEvents = 'none');
-        if(s === c) { el.classList.add('correct'); }
-        else { el.classList.add('wrong'); options[c].classList.add('correct'); }
+        if(s === c) {
+            el.classList.add('correct');
+        } else {
+            el.classList.add('wrong');
+            options[c].classList.add('correct');
+            wrongQuestions.push(bank[currentSub][currentIdx]);
+            let errorMsg = document.createElement('div');
+            errorMsg.innerHTML = '<span class="wrong-icon">💔 خطأ!</span>';
+            el.parentNode.insertBefore(errorMsg, el);
+        }
     }
 
     function nextQ() {
-        if(currentIdx < bank[currentSub].length - 1) { currentIdx++; render(); }
-        else { alert("انتهت الأسئلة!"); location.reload(); }
+        if(currentIdx < bank[currentSub].length - 1) {
+            currentIdx++; render();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        document.getElementById('nextBtn').style.display = 'none';
+        let html = `<h3>انتهت الأسئلة!</h3>`;
+        if(wrongQuestions.length > 0) {
+            html += `<div class="wrong-list"><p>الأسئلة التي أخطأتِ فيها:</p><ul>`;
+            wrongQuestions.forEach(q => { html += `<li>${q.q}</li>`; });
+            html += `</ul></div>`;
+        } else {
+            html += `<p>أحسنتِ! لا توجد أخطاء. 🎉</p>`;
+        }
+        html += `<br><button class="home-btn" onclick="location.reload()">العودة للرئيسية 🏠</button>`;
+        document.getElementById('quiz-content').innerHTML = html;
     }
 </script>
 </body>
