@@ -5,15 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EXAM PLATFORM 🤍</title>
     <style>
-        /* التنسيق الجمالي الذي اخترتِه */
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: linear-gradient(135deg, #fff2f6 0%, #f3e8ff 100%); min-height: 100vh; display: flex; justify-content: center; align-items: center; margin: 0; padding: 20px; }
         .container { background: rgba(255, 250, 245, 0.95); width: 100%; max-width: 700px; padding: 30px; border-radius: 32px; box-shadow: 0 20px 40px rgba(244, 63, 94, 0.05); text-align: center; }
         .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .menuBtn { background: #f3e8ff; color: #6b21a8; padding: 20px; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; }
         .screen { display: none; } .active { display: block; }
         .option { display: block; width: 90%; margin: 10px auto; padding: 15px; background: #fff7ed; border: 1px solid #ffedd5; border-radius: 16px; cursor: pointer; text-align: right; }
-    .correct { background: #d1fae5 !important; border-color: #10b981 !important; color: #065f46; }
-    .wrong { background: #ffe4e6 !important; border-color: #fb7185 !important; color: #991b1b; }        .wrong-flash { background: #ffe4e6 !important; border-color: #fb7185 !important; }
+        .correct { background: #d1fae5 !important; border-color: #10b981 !important; color: #065f46; }
+        .wrong { background: #ffe4e6 !important; border-color: #fb7185 !important; color: #991b1b; }
         h3 { color: #1f2937; text-align: left; direction: ltr; margin-bottom: 5px; }
         .arabic-text { font-size: 14px; color: #d97706; text-align: right; margin-bottom: 15px; display: block; font-weight: 600; }
     </style>
@@ -32,7 +31,7 @@
 
 <div id="quiz" class="container screen">
     <div id="quiz-content"></div>
-    <button onclick="nextQ()">السؤال التالي ➡️</button>
+    <button onclick="nextQ()" style="margin-top: 20px; padding: 10px 20px;">السؤال التالي ➡️</button>
 </div>
 
 <script>
@@ -259,10 +258,11 @@ ip:[
     { q: "20- إذا لم يكن للمؤلف ورثة تباشر الحقوق على المصنف من قبل:", ar: "", options: ["أ- القاضي", "ب- الهبة للغير", "ج- البيع للغير", "د- وزارة الثقافة"], answer: 3 }
 ]
    };
-    let currentSub = "", currentIdx = 0;
-function startQuiz(sub) {
+   let currentSub = "", currentIdx = 0;
+
+    function startQuiz(sub) {
         currentSub = sub; currentIdx = 0;
-        document.getElementById('menu').style.display = 'none'; // تعديل بسيط لضمان الإخفاء
+        document.getElementById('menu').style.display = 'none';
         document.getElementById('quiz').style.display = 'block';
         render();
     }
@@ -279,21 +279,14 @@ function startQuiz(sub) {
     function check(el, s, c) {
         let options = el.parentNode.querySelectorAll('.option');
         options.forEach(o => o.style.pointerEvents = 'none');
-        if(s === c) {
-            el.classList.add('correct');
-        } else {
-            el.classList.add('wrong');
-            options[c].classList.add('correct');
-        }
+        if(s === c) { el.classList.add('correct'); }
+        else { el.classList.add('wrong'); options[c].classList.add('correct'); }
     }
 
     function nextQ() {
-        if(currentIdx < bank[currentSub].length - 1) { 
-            currentIdx++; 
-            render(); 
-        } else {
-            alert("انتهت الأسئلة!");
-            location.reload();
-        }
+        if(currentIdx < bank[currentSub].length - 1) { currentIdx++; render(); }
+        else { alert("انتهت الأسئلة!"); location.reload(); }
     }
-</script>         
+</script>
+</body>
+</html>
