@@ -12,8 +12,9 @@
         .menuBtn { background: #f3e8ff; color: #6b21a8; padding: 20px; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; }
         .screen { display: none; } .active { display: block; }
         .option { display: block; width: 90%; margin: 10px auto; padding: 15px; background: #fff7ed; border: 1px solid #ffedd5; border-radius: 16px; cursor: pointer; text-align: right; }
-        .correct-flash { background: #d1fae5 !important; border-color: #10b981 !important; }
-        .wrong-flash { background: #ffe4e6 !important; border-color: #fb7185 !important; }
+```css
+    .correct { background: #d1fae5 !important; border-color: #10b981 !important; color: #065f46; }
+    .wrong { background: #ffe4e6 !important; border-color: #fb7185 !important; color: #991b1b; }        .wrong-flash { background: #ffe4e6 !important; border-color: #fb7185 !important; }
         h3 { color: #1f2937; text-align: left; direction: ltr; margin-bottom: 5px; }
         .arabic-text { font-size: 14px; color: #d97706; text-align: right; margin-bottom: 15px; display: block; font-weight: 600; }
     </style>
@@ -277,8 +278,18 @@ ip:[
         document.getElementById('quiz-content').innerHTML = html;
     }
 
+    ```javascript
     function check(el, s, c) {
-        if(s === c) el.classList.add('correct-flash');
+        let options = el.parentNode.querySelectorAll('.option');
+        options.forEach(o => o.style.pointerEvents = 'none'); // لمنع التكرار
+
+        if(s === c) {
+            el.classList.add('correct'); // يضيف اللون الأخضر
+        } else {
+            el.classList.add('wrong'); // يضيف اللون الأحمر
+            options[c].classList.add('correct'); // يحدد لكِ الإجابة الصحيحة بالخلفية الخضراء
+        }
+    }
         else el.classList.add('wrong-flash');
     }
 
