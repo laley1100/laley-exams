@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
-<title>Exam platform</title>
+<title>Exam Platform</title>
 
 <style>
 body{
@@ -15,6 +15,7 @@ body{
 /* العنوان */
 h1{
     margin-top:20px;
+    font-weight:bold;
 }
 
 /* الصندوق */
@@ -60,10 +61,6 @@ h1{
     cursor:pointer;
 }
 
-.option.selected{
-    background:#c7d2fe;
-}
-
 /* أزرار */
 .controls button{
     margin:10px;
@@ -82,16 +79,18 @@ h1{
 
 <body>
 
-<h1>🚀 اقزام بلاتفورم</h1>
+<h1>Exam Platform 🤍</h1>
 
 <div class="container">
 
+<div id="subject-title"></div>
+
 <!-- الصفحة الرئيسية -->
 <div id="menu">
-    <h2>اختاري المادة</h2>
+    <h2>Choose Subject</h2>
 
     <div class="cards">
-        <div class="card" onclick="start('ip')">📚 ملكية فكرية</div>
+        <div class="card" onclick="start('ip')">📚 Intellectual Property</div>
         <div class="card" onclick="start('path')">🧬 Pathology</div>
         <div class="card" onclick="start('cc')">💬 Communication</div>
         <div class="card" onclick="start('bio')">📊 Biostatistics</div>
@@ -104,9 +103,9 @@ h1{
     <div id="options"></div>
 
     <div class="controls">
-        <button class="prev" onclick="prevQ()">⬅️ السابق</button>
-        <button class="next" onclick="nextQ()">التالي ➡️</button>
-        <button class="home" onclick="goHome()">🏠 الرئيسية</button>
+        <button class="prev" onclick="prevQ()">⬅️ Prev</button>
+        <button class="next" onclick="nextQ()">Next ➡️</button>
+        <button class="home" onclick="goHome()">🏠 Home</button>
     </div>
 </div>
 
@@ -348,6 +347,16 @@ function start(cat){
     document.getElementById("menu").style.display="none";
     document.getElementById("quiz").style.display="block";
 
+    const names = {
+        bio: "Biostatistics",
+        path: "Pathology",
+        cc: "Communication",
+        ip: "Intellectual Property"
+    };
+
+    document.getElementById("subject-title").innerText =
+        names[cat];
+
     showQuestion();
 }
 
@@ -365,13 +374,27 @@ function showQuestion(){
         div.className="option";
         div.innerText=o;
 
-        if(answers[current]===i){
-            div.classList.add("selected");
-        }
-
         div.onclick=()=>{
+
             answers[current]=i;
-            showQuestion();
+
+            let resultBox = document.createElement("div");
+
+            if(i === q.answer){
+                resultBox.innerHTML = "💚 Correct";
+                resultBox.style.color = "green";
+            } else {
+                resultBox.innerHTML =
+                    "💔 Wrong <br> Correct Answer: " +
+                    q.options[q.answer];
+                resultBox.style.color = "red";
+            }
+
+            box.appendChild(resultBox);
+
+            setTimeout(()=>{
+                nextQ();
+            }, 1200);
         };
 
         box.appendChild(div);
@@ -382,7 +405,7 @@ function nextQ(){
     if(current < questions.length-1){
         current++;
         showQuestion();
-    }else{
+    } else {
         showResult();
     }
 }
@@ -404,29 +427,28 @@ function showResult(){
 
         if(user===correct){
             score++;
-            review+=`<p style="color:green">✅ ${q.q}</p>`;
-        }else{
+            review+=`<p style="color:green">💚 ${q.q}</p>`;
+        } else {
             review+=`<p style="color:red">
-            ❌ ${q.q}<br>
-            إجابتك: ${q.options[user]||"لم تختاري"}<br>
-            الصحيح: ${q.options[correct]}
+            💔 ${q.q}<br>
+            Your Answer: ${q.options[user]||"Not answered"}<br>
+            Correct: ${q.options[correct]}
             </p>`;
         }
     });
 
     document.getElementById("quiz").innerHTML=`
-        <h2>🎉 خلصتي الاختبار</h2>
-        <h3>درجتك: ${score} / ${questions.length}</h3>
-        <div style="text-align:right">${review}</div>
+        <h2>Finished 🎉</h2>
+        <h3>Your Score: ${score} / ${questions.length}</h3>
+        <div style="text-align:left">${review}</div>
         <br>
-        <button onclick="location.reload()">🏠 رجوع للرئيسية</button>
+        <button onclick="location.reload()">Home</button>
     `;
 }
 
 function goHome(){
     location.reload();
 }
-
 </script>
 
 </body>
