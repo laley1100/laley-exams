@@ -12,7 +12,6 @@
         .menuBtn { background: #f3e8ff; color: #6b21a8; padding: 20px; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; }
         .screen { display: none; } .active { display: block; }
         .option { display: block; width: 90%; margin: 10px auto; padding: 15px; background: #fff7ed; border: 1px solid #ffedd5; border-radius: 16px; cursor: pointer; text-align: right; }
-```css
     .correct { background: #d1fae5 !important; border-color: #10b981 !important; color: #065f46; }
     .wrong { background: #ffe4e6 !important; border-color: #fb7185 !important; color: #991b1b; }        .wrong-flash { background: #ffe4e6 !important; border-color: #fb7185 !important; }
         h3 { color: #1f2937; text-align: left; direction: ltr; margin-bottom: 5px; }
@@ -278,7 +277,6 @@ ip:[
         document.getElementById('quiz-content').innerHTML = html;
     }
 
-    ```javascript
     function check(el, s, c) {
         let options = el.parentNode.querySelectorAll('.option');
         options.forEach(o => o.style.pointerEvents = 'none'); // لمنع التكرار
