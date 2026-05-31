@@ -1,168 +1,147 @@
 <!DOCTYPE html>
-<html lang="en" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <title>Exam Platform</title>
 
 <style>
 body{
-    font-family: Arial, sans-serif;
+    font-family: Arial;
     margin:0;
-    background: linear-gradient(135deg,#ffd6e7,#d9ccff);
+    background: linear-gradient(135deg,#ffd6e8,#d8c7ff);
     overflow-x:hidden;
-    color:#3b3b3b;
 }
 
-/* ⭐ نجوم خفيفة بالخلفية */
+/* نجوم خفيفة بالخلفية */
 body::before{
     content:"";
     position:fixed;
-    top:0;
-    left:0;
     width:100%;
     height:100%;
-    background-image:
-    radial-gradient(#ffffff 1px, transparent 1px),
-    radial-gradient(#ffffff 1px, transparent 1px);
-    background-size:60px 60px, 90px 90px;
-    background-position:0 0, 30px 30px;
-    opacity:0.25;
+    background-image: radial-gradient(white 1px, transparent 1px);
+    background-size:40px 40px;
+    opacity:0.3;
     pointer-events:none;
 }
 
-/* HEADER */
-.header{
-    background: linear-gradient(135deg,#ffb6d9,#c7a6ff);
-    padding:25px;
+/* العنوان */
+h1{
     text-align:center;
-    color:white;
+    margin-top:20px;
+    color:#5a3d7a;
+    letter-spacing:1px;
 }
 
-.header h1{
-    margin:0;
-    font-size:28px;
-}
-
-/* CONTAINER */
+/* الصندوق */
 .container{
     width:85%;
-    margin:auto;
-    margin-top:30px;
+    margin:20px auto;
+    background:white;
+    padding:20px;
+    border-radius:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.1);
 }
 
-/* MENU */
+/* كروت */
 .cards{
     display:flex;
     flex-wrap:wrap;
     justify-content:center;
-    gap:20px;
+    gap:15px;
 }
 
 .card{
-    width:180px;
+    width:170px;
     padding:20px;
-    background:#fff;
+    background:#f7e6ff;
     border-radius:18px;
     cursor:pointer;
     transition:0.3s;
-    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+    font-weight:bold;
+    color:#5a3d7a;
 }
 
 .card:hover{
+    background:#c084fc;
+    color:white;
     transform:scale(1.05);
-    background:#fff5fb;
 }
 
-/* QUIZ ANIMATION */
-#q-text, #options, #feedback{
-    animation: fadeSlide 0.35s ease-in-out;
+/* السؤال */
+#q-text{
+    font-size:18px;
+    color:#333;
+    animation:fade 0.3s ease-in-out;
 }
 
-@keyframes fadeSlide{
-    from{
-        opacity:0;
-        transform:translateY(10px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+@keyframes fade{
+    from{opacity:0; transform:translateX(20px);}
+    to{opacity:1; transform:translateX(0);}
 }
 
-/* OPTIONS */
+/* الخيارات */
 .option{
     padding:12px;
-    margin:10px 0;
+    margin:10px;
+    border:1px solid #ddd;
     border-radius:12px;
     cursor:pointer;
-    background:#fff;
-    border:1px solid #f3e6ff;
     transition:0.2s;
 }
 
 .option:hover{
-    background:#fdf2ff;
+    background:#f3e8ff;
 }
 
 .option.selected{
-    background:#e9d8ff;
+    background:#d8b4fe;
 }
 
-/* FEEDBACK */
-#feedback{
-    margin-top:10px;
+/* التصحيح */
+.correct{
+    color:green;
     font-weight:bold;
 }
 
-/* BUTTONS */
-.controls button{
-    padding:10px 16px;
+.wrong{
+    color:red;
+    font-weight:bold;
+}
+
+/* أزرار */
+.controls{
+    margin-top:15px;
+}
+
+.btn{
+    padding:10px 18px;
     margin:5px;
     border:none;
     border-radius:10px;
     cursor:pointer;
+    transition:0.3s;
     font-weight:bold;
 }
 
-.next{background:#c7a6ff;color:white;}
-.prev{background:#ffb6d9;color:white;}
-.home{background:#ff7fbf;color:white;}
+.next{background:#a78bfa;color:white;}
+.back{background:#fbbf24;color:black;}
+.home{background:#f472b6;color:white;}
 
-/* RESULT */
-.result{
-    background:#fff;
-    padding:20px;
-    border-radius:18px;
-}
-
-/* ⭐ نجوم متحركة خفيفة */
-.star{
-    position:fixed;
-    width:3px;
-    height:3px;
-    background:white;
-    border-radius:50%;
-    opacity:0.6;
-    animation: twinkle 2s infinite alternate;
-}
-
-@keyframes twinkle{
-    from{opacity:0.2; transform:scale(0.8);}
-    to{opacity:0.8; transform:scale(1.2);}
+.btn:hover{
+    transform:scale(1.05);
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-    <h1>EXAM PLATFORM</h1>
-</div>
+<h1>Exam Platform</h1>
 
 <div class="container">
 
+<!-- MENU -->
 <div id="menu">
-    <h2>Choose Subject</h2>
+    <h2>Select Subject</h2>
 
     <div class="cards">
         <div class="card" onclick="start('ip')">ملكية فكرية</div>
@@ -172,26 +151,22 @@ body::before{
     </div>
 </div>
 
-<div id="quiz">
+<!-- QUIZ -->
+<div id="quiz" style="display:none;">
     <h3 id="q-text"></h3>
-    <div id="options"></div>
     <div id="feedback"></div>
+    <div id="options"></div>
 
     <div class="controls">
-        <button class="prev" onclick="prevQ()">Previous</button>
-        <button class="next" onclick="nextQ()">Next</button>
-        <button class="home" onclick="goHome()">Home</button>
+        <button class="btn back" onclick="prevQ()">Back</button>
+        <button class="btn next" onclick="nextQ()">Next</button>
+        <button class="btn home" onclick="goHome()">Home</button>
     </div>
 </div>
 
 </div>
 
 <script>
-
-let current = 0;
-let questions = [];
-let answers = [];
-let currentSubject = "";
 
     const bank = {
         bio: [
@@ -416,24 +391,15 @@ ip: [
             { q: "20. إذا لم يكن للمؤلف ورثة تباشر الحقوق على المصنف من قبل:", ar: "في حال عدم وجود ورثة:", options: ["القاضي", "الهبة للغير", "البيع للغير", "وزارة الثقافة"], answer: 3 }
         ]
     };
- function createStars(){
-    for(let i=0;i<25;i++){
-        let star = document.createElement("div");
-        star.className = "star";
-        star.style.top = Math.random()*100 + "%";
-        star.style.left = Math.random()*100 + "%";
-        star.style.animationDuration = (1 + Math.random()*2) + "s";
-        document.body.appendChild(star);
-    }
-}
-createStars();
+let current=0;
+let questions=[];
+let answers=[];
+let locked=false;
 
-/* START */
 function start(cat){
-    currentSubject = cat;
-    questions = bank[cat];
-    current = 0;
-    answers = new Array(questions.length).fill(null);
+    questions=bank[cat];
+    current=0;
+    answers=new Array(questions.length).fill(null);
 
     document.getElementById("menu").style.display="none";
     document.getElementById("quiz").style.display="block";
@@ -441,98 +407,106 @@ function start(cat){
     showQuestion();
 }
 
-/* QUESTION */
 function showQuestion(){
-    let q = questions[current];
+    locked=false;
 
-    let text = q.q;
-    if(currentSubject !== "ip"){
-        text += "<br><small>" + q.ar + "</small>";
-    }
+    let q=questions[current];
 
-    document.getElementById("q-text").innerHTML = text;
+    document.getElementById("q-text").innerHTML =
+        q.q + "<br><small>"+(q.ar ? q.ar : "")+"</small>";
 
-    let box = document.getElementById("options");
-    box.innerHTML = "";
+    let box=document.getElementById("options");
+    let fb=document.getElementById("feedback");
 
-    document.getElementById("feedback").innerHTML = "";
+    box.innerHTML="";
+    fb.innerHTML="";
 
     q.options.forEach((o,i)=>{
-        let div = document.createElement("div");
-        div.className = "option";
-        div.innerText = o;
+        let div=document.createElement("div");
+        div.className="option";
+        div.innerText=o;
 
-        div.onclick = ()=>{
-            answers[current] = i;
-            showQuestion();
-            showFeedback(i);
-        };
+        if(answers[current]===i){
+            div.classList.add("selected");
+        }
 
+        div.onclick=()=>selectAnswer(i);
         box.appendChild(div);
     });
 }
 
-/* FEEDBACK */
-function showFeedback(selected){
-    let q = questions[current];
-    let fb = document.getElementById("feedback");
+function selectAnswer(i){
+    if(locked) return;
 
-    if(selected === q.answer){
-        fb.style.color = "#9b59b6";
-        fb.innerHTML = "Correct ✔";
-    } else {
-        fb.style.color = "#e91e63";
-        fb.innerHTML = "Wrong ❌ Correct: " + q.options[q.answer];
+    let q=questions[current];
+    answers[current]=i;
+    locked=true;
+
+    let fb=document.getElementById("feedback");
+
+    if(i===q.answer){
+        fb.innerHTML=`<div class="correct">✔ Correct</div>`;
+    }else{
+        fb.innerHTML=`
+        <div class="wrong">❌ Wrong 💔</div>
+        <div>Correct Answer: ${q.options[q.answer]}</div>
+        `;
+
+        // ما يخلي المستخدم ينتقل بدون ما يشوف التصحيح
     }
+
+    document.querySelectorAll(".option")[i].classList.add("selected");
 }
 
-/* NEXT */
 function nextQ(){
-    if(current < questions.length - 1){
+    if(!locked){
+        alert("Please answer first");
+        return;
+    }
+
+    if(current<questions.length-1){
         current++;
         showQuestion();
-    } else {
+    }else{
         showResult();
     }
 }
 
-/* PREV */
 function prevQ(){
-    if(current > 0){
+    if(current>0){
         current--;
         showQuestion();
     }
 }
 
-/* RESULT */
 function showResult(){
-    let score = 0;
-    let wrong = "";
+    let score=0;
+    let wrongList="";
 
     questions.forEach((q,i)=>{
-        if(answers[i] === q.answer){
+        if(answers[i]===q.answer){
             score++;
-        } else {
-            wrong += `<p>${q.q}<br>Correct: ${q.options[q.answer]}</p><hr>`;
+        }else{
+            wrongList+=`
+            <p style="color:red">
+            ❌ ${q.q}<br>
+            Correct: ${q.options[q.answer]}
+            </p>`;
         }
     });
 
-    document.getElementById("quiz").innerHTML = `
-        <div class="result">
-            <h2>Done 💖</h2>
-            <h3>Score: ${score}/${questions.length}</h3>
-            ${wrong || "Perfect 💕"}
-            <br><br>
-            <button onclick="location.reload()">Home</button>
-        </div>
+    document.getElementById("quiz").innerHTML=`
+        <h2>Final Result</h2>
+        <h3>${score} / ${questions.length}</h3>
+        <h3>Wrong Answers Only:</h3>
+        ${wrongList || "<p>All Correct 🎉</p>"}
+        <button onclick="location.reload()">Home</button>
     `;
 }
 
-/* HOME */
 function goHome(){
     location.reload();
 }
-
 </script>
 
 </body>
