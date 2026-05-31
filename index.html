@@ -265,8 +265,12 @@ let currentCategory = "";
     let qIndex = 0;
 
     function start(cat) {
-        if (!bank[cat] || bank[cat].length === 0) { alert("المادة فارغة"); return; }
-        currentCategory = cat; qIndex = 0;
+        if (!bank[cat] || bank[cat].length === 0) {
+            alert("عذراً، هذه المادة فارغة حالياً!");
+            return;
+        }
+        currentCategory = cat;
+        qIndex = 0;
         document.getElementById('menu').classList.add('hidden');
         document.getElementById('quiz').classList.remove('hidden');
         showQuestion();
@@ -287,8 +291,12 @@ let currentCategory = "";
         let q = bank[currentCategory][qIndex];
         let options = document.querySelectorAll('.option');
         options.forEach(opt => opt.style.pointerEvents = "none");
-        if (i === q.answer) options[i].classList.add('correct');
-        else { options[i].classList.add('wrong'); options[q.answer].classList.add('correct'); }
+        if (i === q.answer) {
+            options[i].classList.add('correct');
+        } else {
+            options[i].classList.add('wrong');
+            options[q.answer].classList.add('correct');
+        }
     }
 
     function changeQ(dir) {
