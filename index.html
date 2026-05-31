@@ -12,7 +12,7 @@ body{
     overflow-x:hidden;
 }
 
-/* نجوم خفيفة بالخلفية */
+/* خلفية نجوم */
 body::before{
     content:"";
     position:fixed;
@@ -20,7 +20,7 @@ body::before{
     height:100%;
     background-image: radial-gradient(white 1px, transparent 1px);
     background-size:40px 40px;
-    opacity:0.3;
+    opacity:0.25;
     pointer-events:none;
 }
 
@@ -29,12 +29,12 @@ h1{
     text-align:center;
     margin-top:20px;
     color:#5a3d7a;
-    letter-spacing:1px;
 }
 
-/* الصندوق */
+/* صندوق */
 .container{
-    width:85%;
+    width:90%;
+    max-width:1000px;
     margin:20px auto;
     background:white;
     padding:20px;
@@ -42,7 +42,7 @@ h1{
     box-shadow:0 10px 25px rgba(0,0,0,0.1);
 }
 
-/* كروت */
+/* كروت المواد */
 .cards{
     display:flex;
     flex-wrap:wrap;
@@ -59,6 +59,7 @@ h1{
     transition:0.3s;
     font-weight:bold;
     color:#5a3d7a;
+    text-align:center;
 }
 
 .card:hover{
@@ -71,12 +72,6 @@ h1{
 #q-text{
     font-size:18px;
     color:#333;
-    animation:fade 0.3s ease-in-out;
-}
-
-@keyframes fade{
-    from{opacity:0; transform:translateX(20px);}
-    to{opacity:1; transform:translateX(0);}
 }
 
 /* الخيارات */
@@ -98,44 +93,44 @@ h1{
 }
 
 /* التصحيح */
-.correct{
-    color:green;
-    font-weight:bold;
-}
+.correct{color:green;font-weight:bold;}
+.wrong{color:red;font-weight:bold;}
 
-.wrong{
-    color:red;
-    font-weight:bold;
-}
-
-/* أزرار */
+/* الأزرار */
 .controls{
-    margin-top:15px;
+    display:flex;
+    justify-content:center;   /* 👈 في النص */
+    gap:10px;
+    margin-top:20px;
+    flex-wrap:wrap;
 }
 
 .btn{
     padding:10px 18px;
-    margin:5px;
     border:none;
     border-radius:10px;
     cursor:pointer;
-    transition:0.3s;
     font-weight:bold;
+    transition:0.3s;
 }
 
 .next{background:#a78bfa;color:white;}
 .back{background:#fbbf24;color:black;}
 .home{background:#f472b6;color:white;}
 
-.btn:hover{
-    transform:scale(1.05);
+.btn:hover{transform:scale(1.05);}
+
+/* موبايل */
+@media(max-width:768px){
+    .card{width:100%;}
+    .container{width:95%;}
 }
 </style>
 </head>
 
 <body>
 
-<h1>Exam Platform</h1>
+<h1>Exam Platform 🤍</h1>
 
 <div class="container">
 
@@ -144,7 +139,7 @@ h1{
     <h2>Select Subject</h2>
 
     <div class="cards">
-        <div class="card" onclick="start('ip')">🤍ملكية فكرية</div>
+        <div class="card" onclick="start('ip')">🤍 Intellectual Property</div>
         <div class="card" onclick="start('path')">Pathology</div>
         <div class="card" onclick="start('cc')">Communication</div>
         <div class="card" onclick="start('bio')">Biostatistics</div>
@@ -168,6 +163,19 @@ h1{
 
 <script>
 
+const clickSound = new Audio("https://actions.google.com/sounds/v1/cartoon/pop.ogg");
+const correctSound = new Audio("https://actions.google.com/sounds/v1/alarms/soft_bell.ogg");
+
+/* تشغيل صوت ناعم */
+function playClick(){
+    clickSound.currentTime = 0;
+    clickSound.play();
+}
+
+function playCorrect(){
+    correctSound.currentTime = 0;
+    correctSound.play();
+}
     const bank = {
         bio: [
     { q: "1. Hypothesis testing is used to:", ar: "اختبار الفرضيات يُستخدم لـ:", options: ["Make decisions from data", "Predict future events", "Collect raw data", "Avoid statistical analysis"], answer: 0 },
@@ -397,6 +405,8 @@ let answers=[];
 let locked=false;
 
 function start(cat){
+    playClick(); // 👈 صوت عند اختيار المادة
+
     questions=bank[cat];
     current=0;
     answers=new Array(questions.length).fill(null);
@@ -413,7 +423,7 @@ function showQuestion(){
     let q=questions[current];
 
     document.getElementById("q-text").innerHTML =
-        q.q + "<br><small>"+(q.ar ? q.ar : "")+"</small>";
+        q.q + "<br><small>"+(q.ar || "")+"</small>";
 
     let box=document.getElementById("options");
     let fb=document.getElementById("feedback");
@@ -445,14 +455,13 @@ function selectAnswer(i){
     let fb=document.getElementById("feedback");
 
     if(i===q.answer){
-        fb.innerHTML=`<div class="correct">✔ Correct</div>`;
+        fb.innerHTML=`<div class="correct">✔ Correct 🤍</div>`;
+        playCorrect(); // 👈 صوت عند الصح
     }else{
         fb.innerHTML=`
         <div class="wrong">❌ Wrong 💔</div>
-        <div>Correct Answer: ${q.options[q.answer]}</div>
+        <div>Correct Answer: <b>${q.options[q.answer]}</b></div>
         `;
-
-        // ما يخلي المستخدم ينتقل بدون ما يشوف التصحيح
     }
 
     document.querySelectorAll(".option")[i].classList.add("selected");
@@ -488,25 +497,36 @@ function showResult(){
             score++;
         }else{
             wrongList+=`
-            <p style="color:red">
-            ❌ ${q.q}<br>
-            Correct: ${q.options[q.answer]}
-            </p>`;
+            <div style="margin-bottom:15px;color:#d00">
+                ❌ <b>${q.q}</b><br>
+                Your Answer: ${q.options[answers[i]] || "Not answered"}<br>
+                Correct Answer: <b style="color:green">${q.options[q.answer]}</b><br>
+
+                <small>Options:</small>
+                <ul>
+                    ${q.options.map((op,idx)=>
+                        `<li style="color:${idx===q.answer?'green':'#333'}">${op}</li>`
+                    ).join("")}
+                </ul>
+            </div>`;
         }
     });
 
     document.getElementById("quiz").innerHTML=`
-        <h2>Final Result</h2>
+        <h2>Final Result 🤍</h2>
         <h3>${score} / ${questions.length}</h3>
-        <h3>Wrong Answers Only:</h3>
-        ${wrongList || "<p>All Correct 🎉</p>"}
-        <button onclick="location.reload()">Home</button>
+
+        <h3>Wrong Answers Review:</h3>
+        ${wrongList || "<p>All Correct 🎉🤍</p>"}
+
+        <button class="btn home" onclick="location.reload()">Home</button>
     `;
 }
 
 function goHome(){
     location.reload();
 }
+
 </script>
 
 </body>
