@@ -39,6 +39,12 @@ h1{
     cursor:pointer;
     text-align:center;
     font-weight:bold;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:scale(1.05);
+    background:rgba(255,255,255,0.4);
 }
 
 #q-text{
@@ -60,24 +66,43 @@ h1{
     margin:8px;
     border-radius:14px;
     background:rgba(255,255,255,0.25);
+    backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,0.3);
     cursor:pointer;
+    transition:0.2s;
     text-align:right;
 }
+
+.option:hover{background:rgba(255,255,255,0.4);}
+.option.selected{background:#d8b4fe;}
 
 .correct{color:green;font-weight:bold;}
 .wrong{color:red;font-weight:bold;}
 
 .controls{
-    text-align:center;
+    display:flex;
+    justify-content:center;
+    gap:10px;
     margin-top:20px;
+    flex-wrap:wrap;
 }
 
-button{
-    padding:10px 15px;
-    margin:5px;
+.btn{
+    padding:10px 18px;
     border:none;
     border-radius:10px;
     cursor:pointer;
+    font-weight:bold;
+}
+
+.next{background:#a78bfa;color:white;}
+.back{background:#fbbf24;}
+.home{background:#f472b6;color:white;}
+
+.btn:hover{transform:scale(1.05);}
+
+@media(max-width:768px){
+    .card{width:100%;}
 }
 </style>
 </head>
@@ -90,8 +115,12 @@ button{
 
 <div id="menu">
     <h2 style="text-align:center">اختاري المادة</h2>
+
     <div class="cards">
-        <div class="card" onclick="start()">ابدأ</div>
+        <div class="card" onclick="start('ip')">🤍 ملكية فكرية</div>
+        <div class="card" onclick="start('path')">Pathology</div>
+        <div class="card" onclick="start('cc')">Communication</div>
+        <div class="card" onclick="start('bio')">Biostatistics</div>
     </div>
 </div>
 
@@ -101,13 +130,28 @@ button{
     <div id="options"></div>
 
     <div class="controls">
-        <button onclick="nextQ()">التالي</button>
+        <button class="btn back" onclick="prevQ()">رجوع</button>
+        <button class="btn next" onclick="nextQ()">التالي</button>
+        <button class="btn home" onclick="goHome()">الرئيسية</button>
     </div>
 </div>
 
 </div>
 
 <script>
+
+const clickSound = new Audio("https://actions.google.com/sounds/v1/cartoon/pop.ogg");
+const correctSound = new Audio("https://actions.google.com/sounds/v1/alarms/soft_bell.ogg");
+
+function playClick(){
+    clickSound.currentTime=0;
+    clickSound.play().catch(()=>{});
+}
+
+function playCorrect(){
+    correctSound.currentTime=0;
+    correctSound.play().catch(()=>{});
+}
 
     const bank = {
         bio: [
@@ -332,13 +376,18 @@ ip: [
             { q: "20. إذا لم يكن للمؤلف ورثة تباشر الحقوق على المصنف من قبل:", ar: "في حال عدم وجود ورثة:", options: ["القاضي", "الهبة للغير", "البيع للغير", "وزارة الثقافة"], answer: 3 }
         ]
     };
+
 let current=0;
+let questions=[];
 let answers=[];
 let locked=false;
 
-function start(){
+function start(cat){
+    playClick();
+
+    questions=bank[cat];
     current=0;
-    answers=new Array(bank.length).fill(null);
+    answers=new Array(questions.length).fill(null);
 
     document.getElementById("menu").style.display="none";
     document.getElementById("quiz").style.display="block";
@@ -349,8 +398,10 @@ function start(){
 function showQuestion(){
     locked=false;
 
-    let q=bank[current];
-    document.getElementById("q-text").innerHTML = q.q;
+    let q=questions[current];
+
+    document.getElementById("q-text").innerHTML =
+        q.q + "<br><small>"+(q.ar||"")+"</small>";
 
     let box=document.getElementById("options");
     let fb=document.getElementById("feedback");
@@ -363,6 +414,10 @@ function showQuestion(){
         div.className="option";
         div.innerText=o;
 
+        if(answers[current]===i){
+            div.classList.add("selected");
+        }
+
         div.onclick=()=>selectAnswer(i);
         box.appendChild(div);
     });
@@ -371,26 +426,34 @@ function showQuestion(){
 function selectAnswer(i){
     if(locked) return;
 
-    let q=bank[current];
+    playClick();
+
+    let q=questions[current];
     answers[current]=i;
     locked=true;
 
     let fb=document.getElementById("feedback");
 
     if(i===q.answer){
-        fb.innerHTML=`<div class="correct">✔ صح</div>`;
+        fb.innerHTML=`<div class="correct">✔ صح 🤍</div>`;
+        playCorrect();
     }else{
-        fb.innerHTML=`<div class="wrong">❌ غلط</div>`;
+        fb.innerHTML=`
+        <div class="wrong">❌ غلط 💔</div>
+        <div>الإجابة الصحيحة: <b>${q.options[q.answer]}</b></div>
+        `;
     }
+
+    document.querySelectorAll(".option")[i].classList.add("selected");
 }
 
 function nextQ(){
-    if(!locked){
-        alert("جاوبي أول");
+    if(answers[current] === null){
+        alert("جاوبي أول 😅");
         return;
     }
 
-    if(current<bank.length-1){
+    if(current<questions.length-1){
         current++;
         showQuestion();
     }else{
@@ -398,33 +461,73 @@ function nextQ(){
     }
 }
 
+function prevQ(){
+    if(current>0){
+        current--;
+        showQuestion();
+    }
+}
+
+/* ✅ التعديل الأساسي هنا */
 function showResult(){
+
     let score=0;
-    let review="";
+    let wrongList="";
 
-    bank.forEach((q,i)=>{
-        if(answers[i]===q.answer) score++;
+    questions.forEach((q,i)=>{
 
-        review+=`<div style="margin:20px 0;background:#fff;padding:10px;border-radius:10px">`;
-        review+=`<b>${q.q}</b><br><br>`;
+        if(answers[i] === q.answer){
+            score++;
+        }else{
 
-        q.options.forEach((opt,index)=>{
-            let style="";
+            wrongList += `
+            <div style="margin:20px 0;padding:15px;border-radius:12px;background:rgba(255,255,255,0.3)">
+                
+                ❌ <b>${q.q}</b><br><br>
 
-            if(index===q.answer) style="color:green;font-weight:bold;";
-            if(index===answers[i] && index!==q.answer) style="color:red;font-weight:bold;";
+                <b>الخيارات:</b>
+                <ol>
+                    ${q.options.map((opt,idx)=>{
+                        let style="";
 
-            review+=`<div style="${style}">- ${opt}</div>`;
-        });
+                        if(idx === q.answer){
+                            style="color:green;font-weight:bold;";
+                        }
 
-        review+=`</div>`;
+                        if(idx === answers[i] && answers[i] !== q.answer){
+                            style="color:red;font-weight:bold;text-decoration:line-through;";
+                        }
+
+                        return `<li style="${style}">${opt}</li>`;
+                    }).join("")}
+                </ol>
+
+                ✔ الإجابة الصحيحة: <b style="color:green">${q.options[q.answer]}</b><br>
+
+                ❌ إجابتك: <b style="color:red">
+                    ${answers[i] !== null ? q.options[answers[i]] : "ما جاوبتي"}
+                </b>
+
+            </div>
+            `;
+        }
     });
 
-    document.getElementById("quiz").innerHTML=`
-        <h2 style="text-align:center">النتيجة</h2>
-        <h3 style="text-align:center">${score} / ${bank.length}</h3>
-        ${review}
+    document.getElementById("quiz").innerHTML = `
+        <h2 style="text-align:center">النتيجة 🤍</h2>
+        <h3 style="text-align:center">${score} / ${questions.length}</h3>
+
+        <h3>الأخطاء:</h3>
+        ${wrongList || "<p>فل مارك 🎉🤍</p>"}
+
+        <div style="text-align:center">
+            <button class="btn home" onclick="location.reload()">الرئيسية</button>
+        </div>
     `;
+}
+
+function goHome(){
+    location.reload();
 }
 
 </script>
