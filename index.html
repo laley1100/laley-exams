@@ -7,30 +7,42 @@
 <style>
 body {
     font-family: sans-serif;
+    background: linear-gradient(135deg,#ffe4ec,#e0c3fc);
     text-align: center;
-    background: #fdf2f8;
-    padding: 20px;
 }
 
 .container {
     background: white;
-    max-width: 600px;
+    max-width: 700px;
     margin: auto;
+    margin-top: 30px;
     padding: 20px;
     border-radius: 20px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 .option {
-    padding: 15px;
-    margin: 10px;
+    padding: 12px;
+    margin: 8px;
     border: 1px solid #ccc;
     cursor: pointer;
     border-radius: 10px;
 }
 
-.correct { background: green; color: white; }
-.wrong { background: red; color: white; }
+.option.selected { background:#dbeafe; }
+.correct { background: green; color:white; }
+.wrong { background: red; color:white; }
+
+.controls button{
+    margin:10px;
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.next{ background:#22c55e; color:white;}
+.prev{ background:#f59e0b; color:white;}
+.home{ background:#ef4444; color:white;}
 </style>
 </head>
 
@@ -39,17 +51,22 @@ body {
 <div class="container">
 
 <div id="menu">
-    <h2>اختاري المادة</h2>
-
-    <button onclick="start('ip')">ملكية فكرية</button>
-    <button onclick="start('path')">Pathology</button>
-    <button onclick="start('cc')">Communication</button>
-    <button onclick="start('bio')">Biostatistics</button>
+<h2>اختاري المادة</h2>
+<button onclick="start('ip')">ملكية فكرية</button>
+<button onclick="start('path')">Pathology</button>
+<button onclick="start('cc')">Communication</button>
+<button onclick="start('bio')">Biostatistics</button>
 </div>
 
 <div id="quiz" style="display:none;">
-    <h3 id="q-text"></h3>
-    <div id="options"></div>
+<h3 id="q-text"></h3>
+<div id="options"></div>
+
+<div class="controls">
+<button class="prev" onclick="prevQ()">السابق</button>
+<button class="next" onclick="nextQ()">التالي</button>
+<button class="home" onclick="goHome()">🏠 الرئيسية</button>
+</div>
 </div>
 
 </div>
@@ -278,75 +295,77 @@ ip: [
             { q: "20. إذا لم يكن للمؤلف ورثة تباشر الحقوق على المصنف من قبل:", ar: "في حال عدم وجود ورثة:", options: ["القاضي", "الهبة للغير", "البيع للغير", "وزارة الثقافة"], answer: 3 }
         ]
     };
-let current = 0;
-let score = 0;
-let questions = [];
+    <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>Exam Portal</title>
 
-function start(cat) {
-    questions = bank[cat];
-    current = 0;
-    score = 0;
-
-    document.getElementById('menu').style.display = 'none';
-    document.getElementById('quiz').style.display = 'block';
-
-    showQuestion();
+<style>
+body {
+    font-family: sans-serif;
+    background: linear-gradient(135deg,#ffe4ec,#e0c3fc);
+    text-align: center;
 }
 
-function showQuestion() {
-    let q = questions[current];
-
-    // 🔥 عرض عربي + إنجليزي
-    document.getElementById('q-text').innerHTML =
-        q.q + "<br><small>" + q.ar + "</small>";
-
-    let optDiv = document.getElementById('options');
-    optDiv.innerHTML = "";
-
-    q.options.forEach((o, i) => {
-        let btn = document.createElement('div');
-        btn.className = 'option';
-        btn.innerText = o;
-
-        btn.onclick = () => checkAnswer(i, btn);
-
-        optDiv.appendChild(btn);
-    });
+.container {
+    background: white;
+    max-width: 700px;
+    margin: auto;
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 20px;
 }
 
-function checkAnswer(i, btn) {
-    let correct = questions[current].answer;
-    let all = document.querySelectorAll('.option');
-
-    all.forEach((b, index) => {
-        b.onclick = null;
-
-        if (index === correct) b.classList.add('correct');
-        else if (index === i) b.classList.add('wrong');
-    });
-
-    if (i === correct) score++;
-
-    setTimeout(() => {
-        current++;
-
-        if (current < questions.length) {
-            showQuestion();
-        } else {
-            showResult();
-        }
-    }, 800);
+.option {
+    padding: 12px;
+    margin: 8px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    border-radius: 10px;
 }
 
-function showResult() {
-    document.getElementById('quiz').innerHTML = `
-        <h2>خلصتي الاختبار 🎉</h2>
-        <p>درجتك: ${score} / ${questions.length}</p>
-        <button onclick="location.reload()">إعادة</button>
-    `;
+.option.selected { background:#dbeafe; }
+.correct { background: green; color:white; }
+.wrong { background: red; color:white; }
+
+.controls button{
+    margin:10px;
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
 }
 
-</script>
+.next{ background:#22c55e; color:white;}
+.prev{ background:#f59e0b; color:white;}
+.home{ background:#ef4444; color:white;}
+</style>
+</head>
 
-</body>
-</html>
+<body>
+
+<div class="container">
+
+<div id="menu">
+<h2>اختاري المادة</h2>
+<button onclick="start('ip')">ملكية فكرية</button>
+<button onclick="start('path')">Pathology</button>
+<button onclick="start('cc')">Communication</button>
+<button onclick="start('bio')">Biostatistics</button>
+</div>
+
+<div id="quiz" style="display:none;">
+<h3 id="q-text"></h3>
+<div id="options"></div>
+
+<div class="controls">
+<button class="prev" onclick="prevQ()">السابق</button>
+<button class="next" onclick="nextQ()">التالي</button>
+<button class="home" onclick="goHome()">🏠 الرئيسية</button>
+</div>
+</div>
+
+</div>
+
+<script>
