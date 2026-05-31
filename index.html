@@ -10,7 +10,7 @@
         .option:hover { border-color: #d8b4fe; }
         .correct { background: #dcfce7 !important; border-color: #22c55e !important; color: #065f46; }
         .wrong { background: #fee2e2 !important; border-color: #ef4444 !important; color: #991b1b; }
-        .nav-btns { display: flex; justify-content: space-between; margin-top: 20px; }
+        .nav-btns { display: flex; justify-content: space-between; margin-top: 20px; align-items: center; }
         button { padding: 10px 20px; border-radius: 10px; border: none; cursor: pointer; background: #a855f7; color: white; }
         .hidden { display: none; }
     </style>
@@ -34,11 +34,10 @@
             <span id="q-count"></span>
             <button onclick="changeQ(1)">التالي</button>
         </div>
-        <button style="width:100%; margin-top:20px; background:#ef4444;" onclick="showResults()">إنهاء الاختبار وعرض الأخطاء</button>
+        <button style="width:100%; margin-top:20px; background:#ef4444;" onclick="location.reload()">إنهاء الاختبار</button>
     </div>
 </div>
 <script>
-   <script>
     const bank = {
         bio: [
     { q: "1. Hypothesis testing is used to:", ar: "اختبار الفرضيات يُستخدم لـ:", options: ["Make decisions from data", "Predict future events", "Collect raw data", "Avoid statistical analysis"], answer: 0 },
