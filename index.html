@@ -260,11 +260,10 @@ ip:[
 ]
    };
     let currentSub = "", currentIdx = 0;
-
-    function startQuiz(sub) {
+function startQuiz(sub) {
         currentSub = sub; currentIdx = 0;
-        document.getElementById('menu').classList.remove('active');
-        document.getElementById('quiz').classList.add('active');
+        document.getElementById('menu').style.display = 'none'; // تعديل بسيط لضمان الإخفاء
+        document.getElementById('quiz').style.display = 'block';
         render();
     }
 
@@ -279,21 +278,22 @@ ip:[
 
     function check(el, s, c) {
         let options = el.parentNode.querySelectorAll('.option');
-        options.forEach(o => o.style.pointerEvents = 'none'); // لمنع التكرار
-
+        options.forEach(o => o.style.pointerEvents = 'none');
         if(s === c) {
-            el.classList.add('correct'); // يضيف اللون الأخضر
+            el.classList.add('correct');
         } else {
-            el.classList.add('wrong'); // يضيف اللون الأحمر
-            options[c].classList.add('correct'); // يحدد لكِ الإجابة الصحيحة بالخلفية الخضراء
+            el.classList.add('wrong');
+            options[c].classList.add('correct');
         }
-    }
-        else el.classList.add('wrong-flash');
     }
 
     function nextQ() {
-        if(currentIdx < bank[currentSub].length - 1) { currentIdx++; render(); }
+        if(currentIdx < bank[currentSub].length - 1) { 
+            currentIdx++; 
+            render(); 
+        } else {
+            alert("انتهت الأسئلة!");
+            location.reload();
+        }
     }
-</script>
-</body>
-</html>               
+</script>         
