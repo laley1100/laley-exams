@@ -76,8 +76,8 @@ h1{
 .option:hover{background:rgba(255,255,255,0.4);}
 .option.selected{background:#d8b4fe;}
 
-.correct{color:#16a34a;font-weight:bold;}
-.wrong{color:#dc2626;font-weight:bold;}
+.correct{color:green;font-weight:bold;}
+.wrong{color:red;font-weight:bold;}
 
 .controls{
     display:flex;
@@ -100,6 +100,28 @@ h1{
 .home{background:#f472b6;color:white;}
 
 .btn:hover{transform:scale(1.05);}
+
+.review{
+    margin-top:25px;
+    padding:15px;
+    background:#fff;
+    border-radius:15px;
+}
+
+.review-item{
+    margin-bottom:15px;
+    padding:10px;
+    border-bottom:1px solid #ddd;
+}
+
+.review-item span{
+    display:block;
+    margin-top:5px;
+}
+
+@media(max-width:768px){
+    .card{width:100%;}
+}
 </style>
 </head>
 
@@ -110,9 +132,13 @@ h1{
 <div class="container">
 
 <div id="menu">
-    <h2 style="text-align:center">اختار المادة</h2>
+    <h2 style="text-align:center">اختارالمادة</h2>
+
     <div class="cards">
-        <div class="card" onclick="start('test')">ابدأ الاختبار</div>
+        <div class="card" onclick="start('ip')">🤍 ملكية فكرية</div>
+        <div class="card" onclick="start('path')">Pathology</div>
+        <div class="card" onclick="start('cc')">Communication</div>
+        <div class="card" onclick="start('bio')">Biostatistics</div>
     </div>
 </div>
 
@@ -126,15 +152,17 @@ h1{
         <button class="btn next" onclick="nextQ()">التالي</button>
         <button class="btn home" onclick="goHome()">الرئيسية</button>
     </div>
-
-    <!-- 🔥 هنا عرض النتائج -->
-    <div id="resultBox"></div>
-
 </div>
 
 </div>
 
 <script>
+
+const clickSound = new Audio("https://actions.google.com/sounds/v1/cartoon/pop.ogg");
+const correctSound = new Audio("https://actions.google.com/sounds/v1/alarms/soft_bell.ogg");
+
+function playClick(){ clickSound.currentTime=0; clickSound.play().catch(()=>{}); }
+function playCorrect(){ correctSound.currentTime=0; correctSound.play().catch(()=>{}); }
 
 
     const bank = {
@@ -360,12 +388,13 @@ ip: [
             { q: "20. إذا لم يكن للمؤلف ورثة تباشر الحقوق على المصنف من قبل:", ar: "في حال عدم وجود ورثة:", options: ["القاضي", "الهبة للغير", "البيع للغير", "وزارة الثقافة"], answer: 3 }
         ]
     };
-let current=0;
+     let current=0;
 let questions=[];
 let answers=[];
 let locked=false;
 
 function start(cat){
+    playClick();
     questions=bank[cat];
     current=0;
     answers=new Array(questions.length).fill(null);
@@ -381,14 +410,14 @@ function showQuestion(){
 
     let q=questions[current];
 
-    document.getElementById("q-text").innerHTML = q.q;
+    document.getElementById("q-text").innerHTML =
+        q.q + "<br><small>"+(q.ar||"")+"</small>";
 
     let box=document.getElementById("options");
     let fb=document.getElementById("feedback");
 
     box.innerHTML="";
     fb.innerHTML="";
-    document.getElementById("resultBox").innerHTML="";
 
     q.options.forEach((o,i)=>{
         let div=document.createElement("div");
@@ -407,24 +436,28 @@ function showQuestion(){
 function selectAnswer(i){
     if(locked) return;
 
+    playClick();
+
     let q=questions[current];
     answers[current]=i;
     locked=true;
 
     let fb=document.getElementById("feedback");
+    let optionsDivs = document.querySelectorAll(".option");
+
+    optionsDivs.forEach(opt => opt.classList.remove("selected"));
 
     if(i===q.answer){
         fb.innerHTML=`<div class="correct">✔ صح 🤍</div>`;
+        playCorrect();
+        optionsDivs[i].style.background = "#bbf7d0";
     }else{
-        fb.innerHTML=`<div class="wrong">❌ غلط 💔</div>`;
-    }
-
-    let allOptions=document.querySelectorAll(".option");
-
-    allOptions[q.answer].style.background="#dcfce7";
-
-    if(i !== q.answer){
-        allOptions[i].style.background="#fee2e2";
+        fb.innerHTML=`
+        <div class="wrong">❌ غلط 💔</div>
+        <div>الإجابة الصحيحة: <b>${q.options[q.answer]}</b></div>
+        `;
+        optionsDivs[i].style.background = "#fecaca";
+        optionsDivs[q.answer].style.background = "#bbf7d0";
     }
 }
 
@@ -450,43 +483,34 @@ function prevQ(){
 }
 
 function showResult(){
-
     let score=0;
     let wrongList="";
 
     questions.forEach((q,i)=>{
-
         if(answers[i] === q.answer){
             score++;
         }else{
-
             wrongList += `
-            <div style="margin:15px 0;padding:15px;border-radius:12px;background:#ffffff66">
-                ❌ <b>${q.q}</b><br><br>
-
-                <ol>
-                    ${q.options.map((opt,idx)=>{
-                        if(idx === q.answer){
-                            return `<li style="color:green;font-weight:bold">${opt} ✔</li>`;
-                        }
-                        if(idx === answers[i]){
-                            return `<li style="color:red;text-decoration:line-through">${opt}</li>`;
-                        }
-                        return `<li>${opt}</li>`;
-                    }).join("")}
-                </ol>
-            </div>
-            `;
+            <div class="review-item">
+                <b>${q.q}</b>
+                <span class="wrong">إجابتك: ${q.options[answers[i]]}</span>
+                <span class="correct">الصحيح: ${q.options[q.answer]}</span>
+            </div>`;
         }
     });
 
-    document.getElementById("q-text").innerHTML="النتيجة 🤍";
-    document.getElementById("feedback").innerHTML=`<h3>${score} / ${questions.length}</h3>`;
-    document.getElementById("options").innerHTML="";
+    document.getElementById("quiz").innerHTML = `
+        <h2 style="text-align:center">النتيجة 🤍</h2>
+        <h3 style="text-align:center">${score} / ${questions.length}</h3>
 
-    document.getElementById("resultBox").innerHTML = `
-        <h3>أخطائك:</h3>
-        ${wrongList || "<p>فل مارك 🎉</p>"}
+        <div class="review">
+            <h3>📌 أخطائك:</h3>
+            ${wrongList || "<p>ما شاء الله ما عندك أخطاء 😍</p>"}
+        </div>
+
+        <div style="text-align:center;margin-top:15px">
+            <button class="btn home" onclick="location.reload()">الرئيسية</button>
+        </div>
     `;
 }
 
