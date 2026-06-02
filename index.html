@@ -71,57 +71,13 @@ h1{
     cursor:pointer;
     transition:0.2s;
     text-align:right;
-    position:relative;
-    overflow:hidden;
 }
 
 .option:hover{background:rgba(255,255,255,0.4);}
+.option.selected{background:#d8b4fe;}
 
-/* ✨ تأثير اللمعة */
-.option::after{
-    content:"";
-    position:absolute;
-    top:0;
-    left:-100%;
-    width:100%;
-    height:100%;
-    background:linear-gradient(120deg,transparent,rgba(255,255,255,0.6),transparent);
-    transition:0.5s;
-}
-
-.option:active::after{
-    left:100%;
-}
-
-/* ✨ صح */
-.correct-glow{
-    background:#bbf7d0 !important;
-    box-shadow:0 0 15px #4ade80, 0 0 30px #4ade80;
-    animation:pop 0.3s ease;
-}
-
-/* ✨ غلط */
-.wrong-glow{
-    background:#fecaca !important;
-    box-shadow:0 0 15px #f87171, 0 0 30px #f87171;
-    animation:shake 0.3s ease;
-}
-
-@keyframes pop{
-    0%{transform:scale(0.9);}
-    100%{transform:scale(1);}
-}
-
-@keyframes shake{
-    0%{transform:translateX(0);}
-    25%{transform:translateX(-5px);}
-    50%{transform:translateX(5px);}
-    75%{transform:translateX(-5px);}
-    100%{transform:translateX(0);}
-}
-
-.correct{color:green;font-weight:bold;}
-.wrong{color:red;font-weight:bold;}
+.correct{color:#16a34a;font-weight:bold;}
+.wrong{color:#dc2626;font-weight:bold;}
 
 .controls{
     display:flex;
@@ -144,10 +100,6 @@ h1{
 .home{background:#f472b6;color:white;}
 
 .btn:hover{transform:scale(1.05);}
-
-@media(max-width:768px){
-    .card{width:100%;}
-}
 </style>
 </head>
 
@@ -158,13 +110,10 @@ h1{
 <div class="container">
 
 <div id="menu">
-    <h2 style="text-align:center">اختارالمادة</h2>
+    <h2 style="text-align:center">اختار المادة</h2>
 
     <div class="cards">
-        <div class="card" onclick="start('ip')">🤍 ملكية فكرية</div>
-        <div class="card" onclick="start('path')">Pathology</div>
-        <div class="card" onclick="start('cc')">Communication</div>
-        <div class="card" onclick="start('bio')">Biostatistics</div>
+        <div class="card" onclick="start('test')">ابدأ الاختبار</div>
     </div>
 </div>
 
@@ -420,15 +369,12 @@ ip: [
             { q: "20. إذا لم يكن للمؤلف ورثة تباشر الحقوق على المصنف من قبل:", ar: "في حال عدم وجود ورثة:", options: ["القاضي", "الهبة للغير", "البيع للغير", "وزارة الثقافة"], answer: 3 }
         ]
     };
-
 let current=0;
 let questions=[];
 let answers=[];
 let locked=false;
 
 function start(cat){
-    playClick();
-
     questions=bank[cat];
     current=0;
     answers=new Array(questions.length).fill(null);
@@ -444,8 +390,7 @@ function showQuestion(){
 
     let q=questions[current];
 
-    document.getElementById("q-text").innerHTML =
-        q.q + "<br><small>"+(q.ar||"")+"</small>";
+    document.getElementById("q-text").innerHTML = q.q;
 
     let box=document.getElementById("options");
     let fb=document.getElementById("feedback");
@@ -458,6 +403,10 @@ function showQuestion(){
         div.className="option";
         div.innerText=o;
 
+        if(answers[current]===i){
+            div.classList.add("selected");
+        }
+
         div.onclick=()=>selectAnswer(i);
         box.appendChild(div);
     });
@@ -466,28 +415,29 @@ function showQuestion(){
 function selectAnswer(i){
     if(locked) return;
 
-    playClick();
-
     let q=questions[current];
     answers[current]=i;
     locked=true;
 
     let fb=document.getElementById("feedback");
-    let optionsDivs = document.querySelectorAll(".option");
 
     if(i===q.answer){
         fb.innerHTML=`<div class="correct">✔ صح 🤍</div>`;
-        playCorrect();
-
-        optionsDivs[i].classList.add("correct-glow");
     }else{
         fb.innerHTML=`
         <div class="wrong">❌ غلط 💔</div>
         <div>الإجابة الصحيحة: <b>${q.options[q.answer]}</b></div>
         `;
+    }
 
-        optionsDivs[i].classList.add("wrong-glow");
-        optionsDivs[q.answer].classList.add("correct-glow");
+    let allOptions = document.querySelectorAll(".option");
+
+    // ✅ تلوين الصح أخضر
+    allOptions[q.answer].style.background="#dcfce7";
+
+    // ❌ لو غلط → لون اختيارك أحمر
+    if(i !== q.answer){
+        allOptions[i].style.background="#fee2e2";
     }
 }
 
@@ -513,11 +463,46 @@ function prevQ(){
 }
 
 function showResult(){
+
     let score=0;
+    let wrongList="";
 
     questions.forEach((q,i)=>{
+
         if(answers[i] === q.answer){
             score++;
+        }else{
+
+            wrongList += `
+            <div style="margin:20px 0;padding:15px;border-radius:12px;background:rgba(255,255,255,0.3)">
+                
+                ❌ <b>${q.q}</b><br><br>
+
+                <b>الخيارات:</b>
+                <ol>
+                    ${q.options.map((opt,idx)=>{
+                        let style="";
+
+                        if(idx === q.answer){
+                            style="color:#16a34a;font-weight:bold;background:#dcfce7;padding:5px;border-radius:6px;";
+                        }
+
+                        if(idx === answers[i] && answers[i] !== q.answer){
+                            style="color:#dc2626;font-weight:bold;text-decoration:line-through;background:#fee2e2;padding:5px;border-radius:6px;";
+                        }
+
+                        return `<li style="${style}">${opt}</li>`;
+                    }).join("")}
+                </ol>
+
+                ✔ الإجابة الصحيحة: <b style="color:#16a34a">${q.options[q.answer]}</b><br>
+
+                ❌ إجابتك: <b style="color:#dc2626">
+                    ${answers[i] !== null ? q.options[answers[i]] : "ما جاوبتي"}
+                </b>
+
+            </div>
+            `;
         }
     });
 
@@ -525,7 +510,10 @@ function showResult(){
         <h2 style="text-align:center">النتيجة 🤍</h2>
         <h3 style="text-align:center">${score} / ${questions.length}</h3>
 
-        <div style="text-align:center">
+        <h3>الأخطاء:</h3>
+        ${wrongList || "<p style='text-align:center'>فل مارك 🎉🤍</p>"}
+
+        <div style="text-align:center;margin-top:20px">
             <button class="btn home" onclick="location.reload()">الرئيسية</button>
         </div>
     `;
