@@ -126,6 +126,10 @@ h1{
         <button class="btn next" onclick="nextQ()">التالي</button>
         <button class="btn home" onclick="goHome()">الرئيسية</button>
     </div>
+
+    <!-- 🔥 هنا عرض النتائج -->
+    <div id="resultBox"></div>
+
 </div>
 
 </div>
@@ -384,6 +388,7 @@ function showQuestion(){
 
     box.innerHTML="";
     fb.innerHTML="";
+    document.getElementById("resultBox").innerHTML="";
 
     q.options.forEach((o,i)=>{
         let div=document.createElement("div");
@@ -449,9 +454,7 @@ function showResult(){
     let score=0;
     let wrongList="";
 
-    for(let i=0;i<questions.length;i++){
-
-        let q=questions[i];
+    questions.forEach((q,i)=>{
 
         if(answers[i] === q.answer){
             score++;
@@ -459,35 +462,31 @@ function showResult(){
 
             wrongList += `
             <div style="margin:15px 0;padding:15px;border-radius:12px;background:#ffffff66">
-                <b>❌ ${q.q}</b><br><br>
+                ❌ <b>${q.q}</b><br><br>
 
                 <ol>
-                ${q.options.map((opt,idx)=>{
-                    if(idx === q.answer){
-                        return `<li style="color:green;font-weight:bold">${opt} ✔</li>`;
-                    }
-                    if(idx === answers[i]){
-                        return `<li style="color:red;text-decoration:line-through">${opt}</li>`;
-                    }
-                    return `<li>${opt}</li>`;
-                }).join("")}
+                    ${q.options.map((opt,idx)=>{
+                        if(idx === q.answer){
+                            return `<li style="color:green;font-weight:bold">${opt} ✔</li>`;
+                        }
+                        if(idx === answers[i]){
+                            return `<li style="color:red;text-decoration:line-through">${opt}</li>`;
+                        }
+                        return `<li>${opt}</li>`;
+                    }).join("")}
                 </ol>
-
             </div>
             `;
         }
-    }
+    });
 
-    document.getElementById("quiz").innerHTML = `
-        <h2 style="text-align:center">النتيجة 🤍</h2>
-        <h3 style="text-align:center">${score} / ${questions.length}</h3>
+    document.getElementById("q-text").innerHTML="النتيجة 🤍";
+    document.getElementById("feedback").innerHTML=`<h3>${score} / ${questions.length}</h3>`;
+    document.getElementById("options").innerHTML="";
 
+    document.getElementById("resultBox").innerHTML = `
         <h3>أخطائك:</h3>
-        ${wrongList || "<p style='text-align:center'>فل مارك 🎉</p>"}
-
-        <div style="text-align:center;margin-top:20px">
-            <button class="btn home" onclick="goHome()">الرئيسية</button>
-        </div>
+        ${wrongList || "<p>فل مارك 🎉</p>"}
     `;
 }
 
