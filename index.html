@@ -114,7 +114,7 @@ h1{
 <div class="container">
 
 <div id="menu">
-    <h2 style="text-align:center">اختاري المادة</h2>
+    <h2 style="text-align:center">اختارالمادة</h2>
 
     <div class="cards">
         <div class="card" onclick="start('ip')">🤍 ملكية فكرية</div>
@@ -377,160 +377,262 @@ ip: [
         ]
     };
 
+
+
 let current=0;
+
 let questions=[];
+
 let answers=[];
+
 let locked=false;
 
+
+
 function start(cat){
+
     playClick();
+
+
 
     questions=bank[cat];
+
     current=0;
+
     answers=new Array(questions.length).fill(null);
 
+
+
     document.getElementById("menu").style.display="none";
+
     document.getElementById("quiz").style.display="block";
 
+
+
     showQuestion();
+
 }
 
+
+
 function showQuestion(){
+
     locked=false;
+
+
 
     let q=questions[current];
 
+
+
     document.getElementById("q-text").innerHTML =
+
         q.q + "<br><small>"+(q.ar||"")+"</small>";
 
+
+
     let box=document.getElementById("options");
+
     let fb=document.getElementById("feedback");
 
+
+
     box.innerHTML="";
+
     fb.innerHTML="";
 
+
+
     q.options.forEach((o,i)=>{
+
         let div=document.createElement("div");
+
         div.className="option";
+
         div.innerText=o;
 
+
+
+        div.style.background=""; // مهم
+
+
+
         if(answers[current]===i){
+
             div.classList.add("selected");
+
         }
 
+
+
         div.onclick=()=>selectAnswer(i);
+
         box.appendChild(div);
+
     });
+
 }
 
+
+
 function selectAnswer(i){
+
     if(locked) return;
+
+
 
     playClick();
 
+
+
     let q=questions[current];
+
     answers[current]=i;
+
     locked=true;
+
+
 
     let fb=document.getElementById("feedback");
 
+    let optionsDivs = document.querySelectorAll(".option");
+
+
+
+    optionsDivs.forEach(opt => {
+
+        opt.classList.remove("selected");
+
+    });
+
+
+
     if(i===q.answer){
+
         fb.innerHTML=`<div class="correct">✔ صح 🤍</div>`;
+
         playCorrect();
+
+
+
+        optionsDivs[i].style.background = "#bbf7d0";
+
     }else{
+
         fb.innerHTML=`
+
         <div class="wrong">❌ غلط 💔</div>
+
         <div>الإجابة الصحيحة: <b>${q.options[q.answer]}</b></div>
+
         `;
+
+
+
+        optionsDivs[i].style.background = "#fecaca";
+
+        optionsDivs[q.answer].style.background = "#bbf7d0";
+
     }
 
-    document.querySelectorAll(".option")[i].classList.add("selected");
 }
+
+
 
 function nextQ(){
+
     if(answers[current] === null){
+
         alert("جاوبي أول 😅");
+
         return;
+
     }
+
+
 
     if(current<questions.length-1){
+
         current++;
+
         showQuestion();
+
     }else{
+
         showResult();
+
     }
+
 }
+
+
 
 function prevQ(){
+
     if(current>0){
+
         current--;
+
         showQuestion();
+
     }
+
 }
 
-/* ✅ التعديل الأساسي هنا */
+
+
 function showResult(){
 
     let score=0;
-    let wrongList="";
+
+
 
     questions.forEach((q,i)=>{
 
         if(answers[i] === q.answer){
+
             score++;
-        }else{
 
-            wrongList += `
-            <div style="margin:20px 0;padding:15px;border-radius:12px;background:rgba(255,255,255,0.3)">
-                
-                ❌ <b>${q.q}</b><br><br>
-
-                <b>الخيارات:</b>
-                <ol>
-                    ${q.options.map((opt,idx)=>{
-                        let style="";
-
-                        if(idx === q.answer){
-                            style="color:green;font-weight:bold;";
-                        }
-
-                        if(idx === answers[i] && answers[i] !== q.answer){
-                            style="color:red;font-weight:bold;text-decoration:line-through;";
-                        }
-
-                        return `<li style="${style}">${opt}</li>`;
-                    }).join("")}
-                </ol>
-
-                ✔ الإجابة الصحيحة: <b style="color:green">${q.options[q.answer]}</b><br>
-
-                ❌ إجابتك: <b style="color:red">
-                    ${answers[i] !== null ? q.options[answers[i]] : "ما جاوبتي"}
-                </b>
-
-            </div>
-            `;
         }
+
     });
 
+
+
     document.getElementById("quiz").innerHTML = `
+
         <h2 style="text-align:center">النتيجة 🤍</h2>
+
         <h3 style="text-align:center">${score} / ${questions.length}</h3>
 
-        <h3>الأخطاء:</h3>
-        ${wrongList || "<p>فل مارك 🎉🤍</p>"}
+
 
         <div style="text-align:center">
+
             <button class="btn home" onclick="location.reload()">الرئيسية</button>
+
         </div>
+
     `;
+
 }
 
+
+
 function goHome(){
+
     location.reload();
+
 }
+
+
 
 </script>
 
+
+
 </body>
+
 </html>
+
+
