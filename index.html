@@ -119,8 +119,9 @@ h1{
     <div class="cards">
         <div class="card" onclick="start('ip')">🤍 ملكية فكرية</div>
         <div class="card" onclick="start('path')">Pathology</div>
-        <div class="card" onclick="start('cc')">Communication</div>
+        <div class="card" onclick="start('cc')">Communication 🤍</div>
         <div class="card" onclick="start('bio')">Biostatistics</div>
+        <div class="card" onclick="start('health')">🩺 السلامة الصحية</div>
     </div>
 </div>
 
@@ -152,7 +153,82 @@ function playCorrect(){
     correctSound.currentTime=0;
     correctSound.play().catch(()=>{});
 }
+
     const bank = {
+        const health = [
+    { q: "1. What is the FIRST priority at any rescue scene?", ar: "ما هي الأولوية الأولى في أي موقع إنقاذ؟", options: ["Begin patient treatment", "Move the patient immediately", "Ensure scene safety", "Call the hospital"], answer: 2 },
+    { q: "2. During vehicle extrication, the paramedic should FIRST:", ar: "أثناء إخراج المصاب من السيارة، يجب على المسعف أولاً:", options: ["Remove the windshield", "Stabilize the vehicle", "Apply traction splints", "Remove all passengers"], answer: 1 },
+    { q: "3. In a confined space rescue, the greatest immediate danger is often:", ar: "في الإنقاذ داخل الأماكن الضيقة، الخطر الأكبر هو:", options: ["Loud noise", "Darkness", "Toxic atmosphere", "Heat exhaustion"], answer: 2 },
+    { q: "4. What is the safest method for approaching a vehicle involved in an electrical hazard?", ar: "ما هي الطريقة الأكثر أماناً للاقتراب من سيارة بها خطر كهربائي؟", options: ["Walk normally toward the car", "Run quickly to the patient", "Wait until power is disconnected", "Touch the car with gloves first"], answer: 2 },
+    { q: "5. Which rescue technique is MOST appropriate for a patient with suspected spinal injury in water?", ar: "أي تقنية إنقاذ هي الأنسب لمريض مشتبه بإصابته في العمود الفقري داخل الماء؟", options: ["Rapid drag", "Head splint technique", "Firefighter carry", "Heimlich maneuver"], answer: 1 },
+    { q: "6. A patient trapped in a car after a collision is considered:", ar: "المريض المحتجز في سيارة بعد تصادم يعتبر:", options: ["Entrapped", "Confined", "Isolated", "Immobilized"], answer: 0 },
+    { q: "7. What is the main purpose of vehicle stabilization during rescue?", ar: "ما هو الغرض الرئيسي من تثبيت المركبة أثناء الإنقاذ؟", options: ["Improve visibility", "Prevent vehicle movement", "Reduce fuel use", "Help police investigation"], answer: 1 },
+    { q: "8. The extrication phase involves:", ar: "مرحلة الإخراج تتضمن:", options: ["Removing the patient safely from entrapment", "Declaring the scene safe", "Cleaning equipment", "Performing triage only"], answer: 0 },
+    { q: "9. In which rescue phase is patient medical care first initiated?", ar: "في أي مرحلة من الإنقاذ تبدأ الرعاية الطبية للمريض؟", options: ["Size-up", "Stabilization", "Access and patient contact", "Recovery"], answer: 2 },
+    { q: "10. Which rescue phase occurs AFTER extrication?", ar: "أي مرحلة إنقاذ تحدث بعد الإخراج؟", options: ["Scene survey", "Hazard control", "Transfer and transport", "Dispatch"], answer: 2 },
+    { q: "11. During which phase are additional resources requested if needed?", ar: "في أي مرحلة يتم طلب موارد إضافية إذا لزم الأمر؟", options: ["Size-up", "Recovery", "Debriefing", "Rehabilitation"], answer: 0 },
+    { q: "12. In technical rescue incidents, atmospheric monitoring is especially important during:", ar: "في حوادث الإنقاذ الفني، تعتبر مراقبة الغلاف الجوي مهمة خاصة أثناء:", options: ["Confined space access", "Patient transport", "Documentation", "Recovery only"], answer: 0 },
+    { q: "13. Which principle is commonly taught in water rescue?", ar: "أي مبدأ يُدرس عادة في الإنقاذ المائي؟", options: ["Swim-Dive-Carry", "Reach-Throw-Row-Go", "Jump-Pull-Lift", "Wade-Run-Dive"], answer: 1 },
+    { q: "14. The safest rescue method is usually:", ar: "الطريقة الأكثر أماناً للإنقاذ هي عادةً:", options: ["Swimming to the victim", "Diving underwater", "Reaching from shore", "Direct contact rescue"], answer: 2 },
+    { q: "15. A drowning victim who is still conscious may:", ar: "ضحية الغرق التي لا تزال واعية قد:", options: ["Quietly wave for help", "Instinctively struggle and grab rescuers", "Float calmly", "Always call loudly for help"], answer: 1 },
+    { q: "16. Hypothermia is MOST likely in:", ar: "انخفاض درجة حرارة الجسم (Hypothermia) يكون أكثر احتمالاً في:", options: ["Warm shallow water", "Cold water immersion", "Dry environments", "Indoor swimming pools only"], answer: 1 },
+    { q: "17. Which PPE is ESSENTIAL for swift water rescuers?", ar: "ما هي معدات الوقاية الشخصية (PPE) الأساسية لمنقذي المياه السريعة؟", options: ["Surgical gown", "Turnout gear", "Personal flotation device (PFD)", "Face shield only"], answer: 2 },
+    { q: "18. What is the MOST appropriate initial treatment for a drowning victim with no pulse?", ar: "ما هو العلاج الأولي الأنسب لضحية غرق لا يوجد لديها نبض؟", options: ["Heimlich maneuver", "Immediate defibrillation only", "CPR with rescue breaths", "Recovery position"], answer: 2 },
+    { q: "19. What does 'reach rescue' involve?", ar: "ماذا يتضمن 'Reach rescue'؟", options: ["Swimming to the victim", "Using an object to extend reach from safety", "Helicopter rescue", "Diving underwater"], answer: 1 },
+    { q: "20. The MOST dangerous rescue attempt is:", ar: "محاولة الإنقاذ الأكثر خطورة هي:", options: ["Properly equipped entry", "Untrained spontaneous entry by rescuers", "Ventilating the area", "Calling specialized teams"], answer: 1 },
+    { q: "21. Which of the following represents vertical transmission?", ar: "أي مما يلي يمثل الانتقال الرأسي؟", options: ["HIV passed through breast milk", "Tuberculosis through droplets", "Cholera through contaminated water", "Influenza via coughing"], answer: 0 },
+    { q: "22. The most common symptoms of influenza include all EXCEPT:", ar: "تشمل الأعراض الأكثر شيوعاً للإنفلونزا كل ما يلي باستثناء:", options: ["Chills", "Fever", "Muscle pains", "Jaundice"], answer: 3 },
+    { q: "23. TB is transmitted through:", ar: "ينتقل مرض السل (TB) عبر:", options: ["Blood", "Airborne droplets", "Fecal-oral route", "Contaminated water"], answer: 1 },
+    { q: "24. A swelling after the Mantoux test indicates:", ar: "التورم بعد اختبار مانتوكس يشير إلى:", options: ["Recent influenza exposure", "Exposure to tuberculosis", "Viral meningitis", "Malaria infection"], answer: 1 },
+    { q: "25. Which disease is transmitted by a biological vector?", ar: "أي مرض ينتقل بواسطة ناقل بيولوجي؟", options: ["Cholera", "Pinworm", "Malaria", "COVID-19"], answer: 2 },
+    { q: "26. The post-exposure 'verification phase' should be initiated within:", ar: "يجب بدء 'مرحلة التحقق' بعد التعرض خلال:", options: ["6 hours", "48 hours", "7 days", "12 hours"], answer: 0 },
+    { q: "27. Suspected disease for fever 39°C, neck stiffness, purplish rash?", ar: "مرض مشتبه به في حالة حمى 39 درجة، تصلب الرقبة، وطفح أرجواني؟", options: ["Cholera", "Ebloa", "Meningitis", "COVID-19"], answer: 2 },
+    { q: "28. Transporting COVID-19 patient, appropriate action:", ar: "عند نقل مريض COVID-19، الإجراء المناسب هو:", options: ["Allow family", "Leave windows open", "Isolate driver and keep pass-through door closed", "Use only surgical masks"], answer: 2 },
+    { q: "29. Malaria case (fever, chills, mosquitoes). Which statement is TRUE?", ar: "حالة ملاريا (حمى، قشعريرة، ناموس). أي عبارة صحيحة؟", options: ["Mechanical vector", "Biological vector transmission", "Airborne", "Common-vehicle"], answer: 1 },
+    { q: "30. Diagnosis for fever, chills, body aches, runny nose, severe headache?", ar: "تشخيص حمى، قشعريرة، آلام الجسم، سيلان الأنف، صداع شديد؟", options: ["Hepatitis B", "Influenza", "Meningitis", "Ebola"], answer: 1 },
+    { q: "31. Paramedic stuck by needle. First phase?", ar: "مسعف وخزته إبرة. ما هي المرحلة الأولى؟", options: ["Documentation phase", "Counseling phase", "Notification phase", "Verification phase"], answer: 2 },
+    { q: "32. Chronic cough, night sweats, weight loss, hemoptysis. Important PPE?", ar: "سعال مزمن، تعرق ليلي، فقدان وزن، نفث دم. ما هي معدات الوقاية المهمة؟", options: ["Surgical mask", "Gloves only", "N95 respirator", "Face shield only"], answer: 2 },
+    { q: "33. If separated from your team during retreat, you should:", ar: "إذا انفصلت عن فريقك أثناء التراجع، يجب عليك:", options: ["Return immediately to danger area", "Move to predetermined safe location and communicate", "Stop and wait silently", "Ignore radio contact"], answer: 1 },
+    { q: "34. During retreat, patient care should:", ar: "أثناء التراجع، يجب أن تكون رعاية المريض:", options: ["Continue only if scene remains reasonably safe", "Always continue regardless of danger", "Stop permanently", "Be transferred to bystanders"], answer: 0 },
+    { q: "35. The PRIMARY reason for retreating from a scene is to:", ar: "السبب الرئيسي للتراجع من الموقع هو:", options: ["Avoid paperwork", "Protect responder safety", "Reduce transport time", "Preserve equipment"], answer: 1 },
+    { q: "36. A paramedic should retreat from a scene when:", ar: "يجب على المسعف التراجع من الموقع عندما:", options: ["A patient refuses transport", "The environment becomes unsafe or threatening", "Family members are crying", "Treatment is delayed"], answer: 1 },
+    { q: "37. What is the role of warning devices (cones, flares, lights)?", ar: "ما هو دور أجهزة التحذير (أقماع، مشاعل، أضواء)؟", options: ["Treat patients", "Control traffic and increase scene visibility", "Replace police", "Move patients"], answer: 1 },
+    { q: "38. If violent individuals are present at a highway scene, paramedics should:", ar: "إذا وجد أفراد عنيفون في موقع حادث، يجب على المسعفين:", options: ["Engage them", "Withdraw and wait for law enforcement", "Continue treatment only", "Ignore them"], answer: 1 },
+    { q: "39. Which is a key principle of evasive strategy?", ar: "ما هو المبدأ الرئيسي لاستراتيجية المراوغة؟", options: ["Stay and negotiate always", "Avoid confrontation and disengage early", "Use force first", "Ignore surroundings"], answer: 1 },
+    { q: "40. Distraction techniques in EMS are used mainly to:", ar: "تستخدم تقنيات التشتيت في الطوارئ بشكل رئيسي لـ:", options: ["Gain control of suspect", "Protect patient belongings", "Support safe retreat or repositioning", "Replace communication"], answer: 2 },
+    { q: "41. Which is an example of a safe distraction strategy?", ar: "أي مما يلي مثال على استراتيجية تشتيت آمنة؟", options: ["Engaging in physical fight", "Verbal diversion to redirect attention while retreating", "Ignoring threat completely", "Taking photos of suspect"], answer: 1 },
+    { q: "42. The BEST use of distraction in EMS is:", ar: "أفضل استخدام للتشتيت في الطوارئ هو:", options: ["To confront aggressor", "To create time and space for safe withdrawal", "To restrain patient", "To delay police arrival"], answer: 1 },
+    { q: "43. Which behavior helps preserve trace evidence?", ar: "أي سلوك يساعد في الحفاظ على الأدلة الأثرية؟", options: ["Using clean gloves and minimizing contact", "Touching everything for inspection", "Moving all objects aside", "Walking randomly through the scene"], answer: 0 },
+    { q: "44. Blood patterns at a scene are important because they:", ar: "أنماط الدم في الموقع مهمة لأنها:", options: ["Help identify paramedics", "Provide clues about injury mechanism", "Are irrelevant to EMS", "Are only hospital responsibility"], answer: 1 },
+    { q: "45. The GOLDEN RULE at a crime scene is:", ar: "القاعدة الذهبية في مسرح الجريمة هي:", options: ["Save evidence first", "Save patient first, preserve evidence when possible", "Leave immediately", "Wait for police before treatment"], answer: 1 },
+    { q: "46. If a scene becomes unsafe, paramedics should:", ar: "إذا أصبح الموقع غير آمن، يجب على المسعفين:", options: ["Continue treatment at all costs", "Retreat to a safe area immediately", "Wait for patient consent", "Ignore the threat"], answer: 1 },
+    { q: "47. Self-defense in EMS context mainly refers to:", ar: "الدفاع عن النفس في سياق الطوارئ يشير بشكل أساسي إلى:", options: ["Fighting attackers", "Avoiding, escaping, and protecting oneself from harm", "Arresting suspects", "Using weapons"], answer: 1 },
+    { q: "48. In cover and concealment strategy, paramedics should prioritize:", ar: "في استراتيجية التغطية والاختفاء، يجب أن يعطي المسعفون الأولوية لـ:", options: ["Equipment retrieval", "Personal safety and team safety", "Completing documentation", "Patient transport before safety"], answer: 1 },
+    { q: "49. A safe retreat route should ideally:", ar: "مسار التراجع الآمن يجب أن يكون بشكل مثالي:", options: ["Be the longest path available", "Be pre-identified and clear of hazards when possible", "Pass through crowded areas", "Avoid communication with team"], answer: 1 },
+    { q: "50. In tactical EMS principles, retreat decisions are based primarily on:", ar: "في مبادئ الطوارئ التكتيكية، تعتمد قرارات التراجع بشكل أساسي على:", options: ["Patient age", "Scene threat level and risk assessment", "Family requests", "Transport time only"], answer: 1 },
+    { q: "51. What is the correct first action upon arrival at an MVA scene?", ar: "ما هو الإجراء الأول الصحيح عند الوصول لموقع حادث سيارات؟", options: ["Enter the vehicle immediately", "Perform a rapid patient assessment", "Conduct a 360° scene survey", "Start IV access"], answer: 2 },
+    { q: "52. A major hazard at an MVA scene includes:", ar: "الخطر الرئيسي في موقع حادث سيارات يشمل:", options: ["Clean environment", "Air conditioning systems", "Fuel leakage and fire risk", "Patient clothing"], answer: 2 },
+    { q: "53. Purpose of the Hazmat Awareness level?", ar: "الغرض من مستوى التوعية بالمواد الخطرة هو:", options: ["To take control of incidents", "To recognize presence of hazards and initiate safe response", "To perform specialized decon", "To neutralize chemical spills"], answer: 1 },
+    { q: "54. First action at a suspected hazardous materials incident?", ar: "الإجراء الأول عند حادث مواد خطرة مشتبه به؟", options: ["Approach the patient immediately", "Call for additional units", "Stop and assess the scene for potential hazards", "Begin decontamination"], answer: 2 },
+    { q: "55. The term 'MSDS' or 'SDS' stands for:", ar: "مصطلح MSDS أو SDS يعني:", options: ["Material Safety Data Sheet / Safety Data Sheet", "Medical Safety Documentation Sheet", "Material Security Data System", "Mandatory Safety Deployment Sheet"], answer: 0 },
+    { q: "56. Which color on a placard indicates a flammable gas?", ar: "أي لون في اللوحة يشير إلى غاز قابل للاشتعال؟", options: ["Red", "Yellow", "Blue", "Green"], answer: 0 },
+    { q: "57. If exposed to a chemical, initial step in patient care?", ar: "في حال التعرض لمادة كيميائية، الخطوة الأولية في رعاية المريض؟", options: ["Administration of antidotes", "Immediate transport", "Removal of contaminated clothing and irrigation", "Isolation of the patient"], answer: 2 },
+    { q: "58. What does the 'ERG' (Emergency Response Guidebook) primarily help paramedics do?", ar: "دليل ERG يساعد المسعفين بشكل أساسي على:", options: ["Identify hazardous materials and provide initial isolation distances", "Provide definitive treatment", "Replace PPE requirements", "Guide air evacuation"], answer: 0 },
+    { q: "59. Unintended movement of hazardous material through air, water, or soil?", ar: "الحركة غير المقصودة لمادة خطرة عبر الهواء أو الماء أو التربة؟", options: ["Containment", "Decontamination", "Contamination", "Exposure"], answer: 2 },
+    { q: "60. Chemical placard number '3' indicates:", ar: "رقم اللوحة الكيميائية '3' يشير إلى:", options: ["Flammable liquid", "Toxic gas", "Explosive", "Corrosive substance"], answer: 0 },
+    { q: "61. Orange color on Hazmat placard indicates:", ar: "اللون البرتقالي على لوحة المواد الخطرة يشير إلى:", options: ["Explosives", "Flammable gas", "Radioactive material", "Corrosive substances"], answer: 0 },
+    { q: "62. The term 'exposure' refers to:", ar: "مصطلح 'التعرض' (exposure) يشير إلى:", options: ["Contamination of equipment", "Contact with hazardous materials that may cause harm", "Movement of hazardous material", "Reporting"], answer: 1 },
+    { q: "63. Strong chemical odor, first action?", ar: "رائحة كيميائية قوية، ما هو الإجراء الأول؟", options: ["Approach the container", "Retreat to a safe distance and call for Hazmat", "Attempt to neutralize the chemical", "Begin patient treatment immediately"], answer: 1 },
+    { q: "64. 'Secondary contamination' refers to:", ar: "التلوث الثانوي (Secondary contamination) يشير إلى:", options: ["Contamination after decontamination", "Contamination from contact with contaminated patient/object", "Contamination inside body", "Environment only"], answer: 1 },
+    { q: "65. Overturned tanker truck with unknown liquid, first measure?", ar: "ناقلة مقلوبة تحتوي على سائل مجهول، ما هو الإجراء الأول؟", options: ["Approach to rescue", "Establish isolation distances according to the ERG", "Wait for evaporation", "Use water to wash spill"], answer: 1 },
+    { q: "66. Ammonia gas exposure, first treatment step?", ar: "التعرض لغاز الأمونيا، ما هي الخطوة العلاجية الأولى؟", options: ["Administer IV fluids", "Move the patient to fresh air", "Apply antibiotic ointment", "Wrap the patient"], answer: 1 },
+    { q: "67. Main difference between HAZMAT awareness and operations training?", ar: "الفرق الرئيسي بين التوعية بالمواد الخطرة والعمليات هو:", options: ["Awareness focuses on recognizing; operations on safe intervention", "Awareness includes patient care", "Awareness allows entry into Hot Zone", "There is no difference"], answer: 0 },
+    { q: "68. When should a paramedic remove contaminated clothing?", ar: "متى يجب على المسعف إزالة الملابس الملوثة؟", options: ["Only after decontamination", "Immediately at the scene, before any PPE", "After moving to Cold Zone", "Only if visibly wet"], answer: 1 },
+    { q: "69. Chemical burns from strong acids:", ar: "حروق كيميائية من أحماض قوية:", options: ["Penetrate deeply/water irrigation is critical", "Can be neutralized with soap", "Rarely require attention", "Affect skin surface only"], answer: 0 },
+    { q: "70. Hot Zone is defined as:", ar: "المنطقة الساخنة (Hot Zone) تُعرف بأنها:", options: ["Decontamination area", "Contamination present, requires full PPE", "Outside perimeter", "Command post"], answer: 1 },
+    { q: "71. Acidic chemical splash treatment:", ar: "علاج رذاذ المادة الكيميائية الحمضية:", options: ["Apply ointment", "Flush with water", "Neutralize with base", "Cover with dry cloth"], answer: 1 },
+    { q: "72. Zone for command, staging, support:", ar: "المنطقة المخصصة للقيادة والدعم هي:", options: ["Hot Zone", "Warm Zone", "Cold Zone", "Decontamination Zone"], answer: 2 }
+];
         bio: [
     { q: "1. Hypothesis testing is used to:", ar: "اختبار الفرضيات يُستخدم لـ:", options: ["Make decisions from data", "Predict future events", "Collect raw data", "Avoid statistical analysis"], answer: 0 },
     { q: "2. The null hypothesis (H₀) usually states:", ar: "الفرضية الصفرية (H₀) تنص عادةً على:", options: ["There is an effect", "No effect or no difference", "A strong relationship exists", "The sample is biased"], answer: 1 },
@@ -437,14 +513,12 @@ function selectAnswer(i){
     if(i === q.answer){
         fb.innerHTML=`<div class="correct">✔ صح 🤍</div>`;
         playCorrect();
-
         options[i].style.background="#86efac";
     }else{
         fb.innerHTML=`
         <div class="wrong">❌ غلط 💔</div>
         <div>الإجابة الصحيحة: <b>${q.options[q.answer]}</b></div>
         `;
-
         options[i].style.background="#fca5a5";
         options[q.answer].style.background="#86efac";
     }
@@ -536,4 +610,3 @@ function goHome(){
 
 </body>
 </html>
-
