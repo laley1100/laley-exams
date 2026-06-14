@@ -367,7 +367,9 @@ function playCorrect(){
     { q: "50. Malignant tumor cut section shows:", ar: "مقطع الورم الخبيث:", options: ["Uniform tissue", "Cystic only", "Hemorrhage and necrosis", "Normal appearance"], answer: 2 }
 ],
 cc: [
-   { q: "1) Therapeutic communication is best defined as", ar: "التواصل العلاجي يُعرّف بأنه", options: ["Casual conversation between paramedic and patient", "A planned, deliberate, professional act using communication techniques", "Giving medical instructions only", "Talking to calm the patient"], answer: 1 },
+    const questions = [
+
+{ q: "1) Therapeutic communication is best defined as", ar: "التواصل العلاجي يُعرّف بأنه", options: ["Casual conversation between paramedic and patient", "A planned, deliberate, professional act using communication techniques", "Giving medical instructions only", "Talking to calm the patient"], answer: 1 },
 
 { q: "2) Shared understanding of information helps to", ar: "الفهم المشترك للمعلومات يساعد على", options: ["Achieve desired patient-care goals", "Reduce documentation", "Save time only", "Limit patient interaction"], answer: 0 },
 
@@ -406,6 +408,7 @@ cc: [
 { q: "19) One limitation of SBAR in paramedic-ED handover is that it", ar: "أحد قيود SBAR في تسليم ما قبل المستشفى هو أنه", options: ["Is too complex", "Lacks prehospital-specific details", "Is too long", "Is not structured"], answer: 1 },
 
 { q: "20) Which tool emphasizes patient identification more strongly", ar: "أي أداة تركز على تعريف المريض بشكل أقوى", options: ["SBAR", "ISBAR", "SOAP", "ATMIST"], answer: 1 },
+
 { q: "21) What should you avoid when communicating with a hard-of-hearing patient?", ar: "ما الذي يجب عليك تجنبه عند التواصل مع مريض ضعيف السمع؟", options: ["Using a paper and pen", "Shouting", "Facing the patient while speaking", "Asking short questions"], answer: 1 },
 
 { q: "22) How should a paramedic handle an overly talkative patient?", ar: "كيف يجب على المسعف التعامل مع مريض كثير الكلام؟", options: ["Allow the patient to speak without interruption for the entire interview", "Politely interrupt and focus the discussion on the most critical issues", "Ignore the patient's stories and move on", "Avoid asking further questions"], answer: 1 },
@@ -423,8 +426,10 @@ cc: [
 { q: "28) How should a paramedic handle a patient who is under the influence of drugs or alcohol?", ar: "كيف يجب على المسعف التعامل مع مريض تحت تأثير المخدرات أو الكحول؟", options: ["Use confrontational language", "Ask simple and direct questions", "Ignore the patient's statements", "Display scolding or disgust"], answer: 1 },
 
 { q: "29) When dealing with an angry or hostile patient, what should a paramedic avoid doing?", ar: "عند التعامل مع مريض غاضب أو عدائي، ما الذي يجب على المسعف تجنبه؟", options: ["Raising their voice to match the patient's tone", "Restating the cause of the anger", "Offering a solution", "Empathizing with the patient"], answer: 0 },
+
 { q: "30) When interviewing a hostile patient, the paramedic should", ar: "عند مقابلة مريض عدائي، يجب على المسعف:", options: ["Stay calm and avoid responding to insults", "Argue to prove authority", "Match the patient's tone", "Interview the patient alone"], answer: 0 },
-{ q: "31) Why are communication systems crucial during emergency events?", ar: "لماذا أنظمة التواصل مهمة أثناء الطوارئ؟", options: ["To reduce paperwork", "To ensure scene safety and coordinate emergency personnel", "To entertain responders", "To replace physical assessment"], answer: 1 },
+        { q: "31) Why are communication systems crucial during emergency events?", ar: "لماذا أنظمة التواصل مهمة أثناء الطوارئ؟", options: ["To reduce paperwork", "To ensure scene safety and coordinate emergency personnel", "To entertain responders", "To replace physical assessment"], answer: 1 },
+
 { q: "32) Which phase of an EMS event involves detecting the need for emergency services?", ar: "أي مرحلة من حدث الإسعاف تتضمن اكتشاف الحاجة للخدمة؟", options: ["Detection phase", "Occurrence of the event", "Arrival and treatment", "Preparation for next response"], answer: 0 },
 
 { q: "33) Which of the following best describes a base station radio?", ar: "أي مما يلي يصف محطة الراديو الثابتة؟", options: ["Handheld and portable", "Vehicle-mounted", "Fixed location with powerful transmitter and high antenna", "Used only in aircraft"], answer: 2 },
@@ -442,6 +447,7 @@ cc: [
 { q: "39) Trunked radio systems are best described as:", ar: "أنظمة الراديو المترابطة تُعرّف بأنها:", options: ["Single-frequency systems", "Computer-controlled systems using multiple repeaters", "Satellite-based systems", "Portable-only systems"], answer: 1 },
 
 { q: "40) What is the principal reason for radio communication in EMS?", ar: "ما السبب الرئيسي لاستخدام الراديو في الإسعاف؟", options: ["To entertain the team", "To facilitate communication between you and medical control", "To monitor the weather", "To make personal calls"], answer: 1 },
+
 { q: "41) In the paramedic-patient encounter, a successful patient interview is", ar: "في لقاء المسعف بالمريض، المقابلة الناجحة تعتبر", options: ["Less important than physical assessment", "Only important in medical cases", "As important as physical assessment skills", "Only used in non-emergency cases"], answer: 2 },
 
 { q: "42) The interview is considered a contract between the patient and the examiner because it includes", ar: "تُعتبر المقابلة عقدًا بين المريض والمُقيّم لأنها تشمل", options: ["Time, place, purpose, and confidentiality", "Diagnosis and treatment only", "Physical examination steps", "Legal documentation only"], answer: 0 },
@@ -461,6 +467,7 @@ cc: [
 { q: "49) Asking “Why” questions should generally be avoided because they", ar: "يجب تجنب أسئلة 'لماذا' لأنها", options: ["Waste time", "Confuse patients", "Can be viewed as accusations", "Are too technical"], answer: 2 },
 
 { q: "50) Patient interviews should be", ar: "مقابلات المرضى يجب أن تكون", options: ["Initiated early and continued throughout the encounter", "Done after physical assessment", "Performed only once", "Avoided in trauma cases"], answer: 0 },
+
 { q: "51) What does the word \"communicare\" mean?", ar: "ماذا تعني كلمة communicare؟", options: ["To communicate", "To share", "To talk", "To write"], answer: 1 },
 
 { q: "52) Which of the following is NOT a type of communication?", ar: "أي مما يلي ليس نوعًا من أنواع التواصل؟", options: ["Formal", "Social", "Therapeutic", "Grapevine"], answer: 3 },
@@ -479,26 +486,8 @@ cc: [
 
 { q: "59) What is diagonal communication?", ar: "ما هو التواصل القطري؟", options: ["Communication between employees of the same department", "Communication between employees of different departments at different levels", "Communication between employees and customers", "Communication between managers and subordinates"], answer: 1 },
 
-{ q: "60) What is informal communication?", ar: "ما هو التواصل غير الرسمي؟", options: ["Communication that follows a prescribed path", "Communication that occurs outside the formal network", "Communication that uses professional language", "Communication that is slow and orderly"], answer: 1 },
-{ q: “51) What does the word “communicare” mean?”, ar: “ماذا تعني كلمة communicare؟”, options: [“To communicate”, “To share”, “To talk”, “To write”], answer: 1 },
+{ q: "60) What is informal communication?", ar: "ما هو التواصل غير الرسمي؟", options: ["Communication that follows a prescribed path", "Communication that occurs outside the formal network", "Communication that uses professional language", "Communication that is slow and orderly"], answer: 1 }
 
-{ q: “52) Which of the following is NOT a type of communication?”, ar: “أي مما يلي ليس نوعًا من أنواع التواصل؟”, options: [“Formal”, “Social”, “Therapeutic”, “Grapevine”], answer: 3 },
-
-{ q: “53) What is an example of formal communication?”, ar: “ما هو مثال على التواصل الرسمي؟”, options: [“Gossip”, “Lectures”, “Phone texts”, “Rumors”], answer: 1 },
-
-{ q: “54) Which of the following is an advantage of formal communication?”, ar: “أي مما يلي يُعد من مزايا التواصل الرسمي؟”, options: [“Quick relay of information”, “Leakage of confidential information”, “Orderly flow of information”, “Possibility of rumor”], answer: 2 },
-
-{ q: “55) What is a disadvantage of formal communication?”, ar: “ما هو عيب التواصل الرسمي؟”, options: [“It is fast”, “It is expensive”, “It maintains discipline”, “It ensures answerability”], answer: 1 },
-
-{ q: “56) What is downward communication?”, ar: “ما هو التواصل النازل؟”, options: [“Information flowing from employees to higher management”, “Information flowing from higher management to employees”, “Information flowing between peers”, “Information flowing between different departments”], answer: 1 },
-
-{ q: “57) What is upward communication?”, ar: “ما هو التواصل الصاعد؟”, options: [“Information flowing from higher management to employees”, “Information flowing from employees to higher management”, “Information flowing between peers”, “Information flowing between different departments”], answer: 1 },
-
-{ q: “58) What is the purpose of horizontal communication?”, ar: “ما هو هدف التواصل الأفقي؟”, options: [“To request support or coordinate activities”, “To spread rumors”, “To inform employees about decisions”, “To notify upper management of complaints”], answer: 0 },
-
-{ q: “59) What is diagonal communication?”, ar: “ما هو التواصل القطري؟”, options: [“Communication between employees of the same department”, “Communication between employees of different departments at different levels”, “Communication between employees and customers”, “Communication between managers and subordinates”], answer: 1 },
-
-{ q: “60) What is informal communication?”, ar: “ما هو التواصل غير الرسمي؟”, options: [“Communication that follows a prescribed path”, “Communication that occurs outside the formal network”, “Communication that uses professional language”, “Communication that is slow and orderly”], answer: 1 }
 ], 
 ip: [
             { q: "1. من خصائص العنصر المعنوي لحق المؤلف:", ar: "من خصائص العنصر المعنوي لحق المؤلف:", options: ["عدم قابليته للتنازل عنه أو التعامل به", "قابليته للتنازل عنه والتعامل به", "يسقط بالتقادم", "قابليته للحجز"], answer: 0 },
